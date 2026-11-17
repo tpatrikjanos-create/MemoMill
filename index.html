@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memo – jegyzetek és SRS</title>
+<style>
+:root{--bg:#1f1f24;--side:#19191e;--panel:#27272e;--hover:#2e2e37;--sel:#3a3a48;--text:#ececf1;--muted:#8e8e99;--line:#37373f;--accent:#5b6cf6;--ok:#4cc38a;--bad:#f0605d}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14.5px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px}
+button:hover:not(:disabled){border-color:#55555f}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.danger{color:var(--bad)}
+button.ghost{border-color:transparent;background:none;padding:6px 10px}
+button.ghost:hover:not(:disabled){background:var(--hover)}
+input[type=text],input[type=password],input[type=date],input[type=number],select,textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#1b1b20;color:var(--text)}
+#app{display:flex;width:100%;height:100%}
+#side{width:250px;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px 8px;gap:2px;flex-shrink:0;min-height:0}
+.ws{display:flex;align-items:center;gap:8px;padding:6px 10px 14px;font-weight:700;font-size:15px}
+.navi{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px}
+.navi:hover{background:var(--hover)}
+.navi.on{background:var(--sel)}
+.badge{font-size:12px;background:var(--hover);color:var(--muted);border-radius:999px;padding:1px 8px;min-width:24px;text-align:center}
+.sec{font-size:12px;color:var(--muted);padding:16px 10px 6px}
+#tree{overflow-y:auto;flex:1;min-height:0}
+.node{padding:5px 8px;border-radius:6px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;user-select:none}
+.node:hover{background:var(--hover)}
+.node.cur{background:var(--sel)}
+.node .tg{display:inline-block;width:14px;color:var(--muted)}
+#sideFoot{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:4px}
+#main{flex:1;display:flex;flex-direction:column;min-width:0}
+#top{display:flex;align-items:center;gap:6px;height:46px;padding:0 14px;border-bottom:1px solid var(--line);flex-shrink:0;min-width:0}
+#crumbs{display:flex;align-items:center;gap:2px;flex-wrap:wrap;font-size:13.5px;min-width:0;overflow:hidden}
+#crumbs button{padding:3px 6px;font-size:13.5px}
+#files{flex:1;display:flex;flex-direction:column;min-height:0}
+#head{padding:26px 32px 6px}
+#curTitle{font-size:28px;font-weight:700;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+#bar{display:flex;gap:8px;flex-wrap:wrap}
+#summary{font-size:12.5px;color:var(--muted);padding:12px 32px 10px;border-bottom:1px solid var(--line)}
+#rows{flex:1;overflow:auto;padding:6px 20px 20px}
+.row{display:grid;grid-template-columns:26px 1fr 110px 110px;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer}
+.row:hover{background:var(--hover)}
+.row.sel{background:var(--sel)}
+.row.head{cursor:default;color:var(--muted);font-size:12px;padding:6px 12px}
+.row.head:hover{background:none}
+.row .m{color:var(--muted);font-size:12.5px;text-align:right}
+#noteView{flex:1;display:flex;flex-direction:column;padding:24px 32px;gap:12px;min-height:0;overflow:auto}
+#noteName{font-size:28px;font-weight:700;border:0;background:transparent;outline:none;padding:4px 0;width:100%}
+#noteActions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#noteText{flex:1;min-height:280px;resize:none;font-size:16px;line-height:1.65;padding:14px;background:var(--panel);border-color:var(--line)}
+.help{font-size:12.5px;color:var(--muted);line-height:1.6}
+.stats{font-size:12.5px;color:var(--muted)}
+#chatPanel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+#chatLog{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+.msg{padding:8px 12px;border-radius:12px;max-width:85%;white-space:normal;line-height:1.5}
+.msg.user{margin-left:auto;background:var(--accent);color:#fff}
+.msg.assistant{background:var(--hover)}
+.msg.error{color:var(--bad);font-size:13px}
+#chatForm{display:flex;gap:8px}
+#chatInput{flex:1;min-width:0}
+#reviewView{flex:1;display:flex;flex-direction:column;align-items:center;padding:24px;gap:16px;overflow:auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;width:min(760px,100%)}
+.row-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.big{font-size:22px;line-height:1.5;text-align:center;padding:12px}
+#revType{width:100%;font-size:17px;padding:10px;margin-bottom:10px}
+#revGrades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+button.g{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px;border-radius:12px}
+button.g small{color:var(--muted);font-size:12px}
+button.g1{color:var(--bad)}
+button.g3{border-color:var(--accent)}
+button.g4{color:var(--ok)}
+.ok{color:var(--ok)}
+.bad{color:var(--bad)}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+#learn{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column}
+#learnTop{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--side);border-bottom:1px solid var(--line)}
+#learnBody{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:20px;overflow:auto}
+#lArea{max-width:760px;width:100%;text-align:center}
+#lBtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.blank{border:0;border-bottom:2px solid var(--line);text-align:center;background:transparent;outline:none;font-size:inherit;margin:0 2px;padding:0 4px}
+.blank.ok{border-color:var(--ok)}
+.blank.bad{border-color:var(--bad)}
+.tok{display:inline-block;padding:7px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel);margin:3px;cursor:pointer;user-select:none}
+#scr{min-height:56px;border-bottom:2px dashed var(--line);padding:6px;margin-bottom:12px;text-align:left}
+#pool{text-align:center}
+dialog{border:0;border-radius:14px;padding:20px 22px;width:min(480px,92vw);box-shadow:0 12px 40px rgba(0,0,0,.5);background:var(--panel);color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h3{margin:0 0 8px}
+dialog label{display:flex;flex-direction:column;gap:5px;margin:10px 0;font-size:13px;color:var(--muted)}
+dialog input,dialog select{font-size:15px;color:var(--text)}
+dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#e6e6ea;color:#111;padding:10px 16px;border-radius:10px;transition:transform .25s;font-size:14px;z-index:99}
+#toast.show{transform:translateX(-50%) translateY(0)}
+@media (max-width:760px){
+  #app{flex-direction:column}
+  #side{width:auto;flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--line);padding:8px}
+  .ws{padding:4px 8px}
+  .sec,#tree,#sideFoot{display:none}
+  #head{padding:18px 16px 6px}
+  #summary{padding:10px 16px}
+  #noteView{padding:16px}
+  #reviewView{padding:14px}
+  .row{grid-template-columns:24px 1fr 80px}
+  .row .m:last-child{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <div class="ws">◆ Memo</div>
+    <button class="navi" id="newQuick">+ Létrehozás</button>
+    <button class="navi" id="tabReview"><span>Mai ismétlések</span><span class="badge" id="dueBadge">0</span></button>
+    <button class="navi" id="tabFiles">Fájlok</button>
+    <div class="sec">Mappák</div>
+    <div id="tree"></div>
+    <div id="sideFoot">
+      <div class="small muted" id="syncState" style="padding:4px 10px">Szinkron: —</div>
+      <button class="navi" id="settingsBtn">⚙ Beállítások</button>
+    </div>
+  </aside>
+
+  <div id="main">
+    <div id="top">
+      <button class="ghost" id="backBtn" title="Vissza">‹</button>
+      <div id="crumbs"></div>
+    </div>
+
+    <section id="files" hidden>
+      <div id="head">
+        <h1 id="curTitle"></h1>
+        <div id="bar">
+          <button class="primary" data-act="newNote">+ Dokumentum</button>
+          <button data-act="newFolder">+ Mappa</button>
+          <button data-act="open" disabled>Megnyitás</button>
+          <button data-act="rename" disabled>Átnevezés</button>
+          <button data-act="move" disabled>Áthelyezés</button>
+          <button data-act="del" class="danger" disabled>Törlés</button>
+        </div>
+      </div>
+      <div id="summary"></div>
+      <div id="rows"></div>
+    </section>
+
+    <section id="noteView" hidden>
+      <input id="noteName" type="text" placeholder="Dokumentum neve">
+      <div id="noteActions">
+        <button class="primary" id="nLearn">Tanulás</button>
+        <button id="nReview">Ismétlés ebből</button>
+        <button id="nExam">Vizsga</button>
+        <button id="nChat">AI segéd</button>
+        <span class="stats" id="examInfo"></span>
+      </div>
+      <div class="stats" id="noteStats"></div>
+      <textarea id="noteText" placeholder="Írj ide. Minden sor egy tanulási egység."></textarea>
+      <div class="help">
+        Szintaxis, egy sorban:<br>
+        <b>kérdés &gt;&gt; válasz</b> – csak előre<br>
+        <b>kérdés &lt;&lt; válasz</b> – csak vissza (a jobb oldal jön először)<br>
+        <b>kérdés &lt;&gt; válasz</b> – mindkét irány<br>
+        <b>{{kitakart rész}}</b> – cloze kártya (minden kitakart rész külön kártya)
+      </div>
+      <div id="chatPanel" hidden>
+        <div class="row-between" style="margin:0">
+          <b>AI segéd – csak ebből a dokumentumból</b>
+          <button class="ghost small" id="chatClear">Törlés</button>
+        </div>
+        <div id="chatLog"></div>
+        <form id="chatForm">
+          <input id="chatInput" type="text" placeholder="Kérdezz a dokumentumról…" autocomplete="off">
+          <button class="primary" type="submit">Küldés</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="reviewView" hidden>
+      <div class="panel" id="settings">
+        <div class="row-between" style="flex-wrap:wrap;justify-content:flex-start;gap:18px">
+          <label>Új kártya naponta <input type="number" id="setNew" min="1" max="200" style="width:80px"></label>
+          <label><input type="checkbox" id="setTyping"> Gépelés kártyáknál</label>
+          <label>Kívánt megjegyzési arány
+            <select id="setRet">
+              <option value="0.8">80%</option>
+              <option value="0.85">85%</option>
+              <option value="0.9">90%</option>
+              <option value="0.95">95%</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="panel" id="revIdle"></div>
+      <div class="panel" id="revSession" hidden>
+        <div class="row-between"><span id="revProg" class="muted"></span><button class="ghost" id="revExit">Kilépés</button></div>
+        <div id="revFront" class="big"></div>
+        <div id="revTypeBox" hidden>
+          <textarea id="revType" rows="3" placeholder="Írd be a választ…"></textarea>
+          <button class="primary" id="revCheck">Ellenőrzés</button>
+        </div>
+        <button class="primary" id="revShowBtn">Megmutat</button>
+        <div id="revBack" class="big" hidden></div>
+        <div id="revGrades" hidden></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="learn" hidden>
+  <div id="learnTop">
+    <span id="learnInfo"></span>
+    <span style="flex:1"></span>
+    <button class="ghost" id="lSpeak">🔊 Hallgatás</button>
+    <button class="ghost" id="lClose">Bezárás ✕</button>
+  </div>
+  <div id="learnBody">
+    <div id="lArea" class="big"></div>
+    <div id="lBtns"></div>
+  </div>
+</div>
+
+<dialog id="dlg"></dialog>
+<div id="toast"></div>
+
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {getDatabase, ref, set, onValue} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+/* ===== Beállítandó: a Firebase web-config (Project settings → Your apps) ===== */
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyCoFDPJTYgGnGKz38NvF7nr9voJ3szjy3M',
+  authDomain: 'memomill-b2546.firebaseapp.com',
+  databaseURL: 'https://memomill-b2546-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'memomill-b2546',
+  storageBucket: 'memomill-b2546.firebasestorage.app',
+  messagingSenderId: '448568442801',
+  appId: '1:448568442801:web:2cd52c1af9db6c63e38790'
+};
+const CONFIG_OK = !String(FIREBASE_CONFIG.databaseURL).includes('ITT_A_RTDB');
+
+const KEY = 'memo-v1';
+const API_KEY = 'memo-api-key';
+const SYNC_KEY = 'memo-sync-key';
+const DAY = 86400000;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+const fmtD = t => new Date(t).toLocaleDateString('hu-HU');
+const dayKey = ts => { const d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+const examTs = s => new Date(s + 'T23:59:59').getTime();
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const hid = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return 'c' + (h >>> 0).toString(36); };
+const norm = s => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, '').replace(/\s+/g, ' ').trim();
+function lev(a, b) {
+  const m = a.length, n = b.length;
+  let p = Array.from({length: n + 1}, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const c = [i];
+    for (let j = 1; j <= n; j++) c[j] = Math.min(p[j] + 1, c[j-1] + 1, p[j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    p = c;
+  }
+  return p[n];
+}
+const sim = (a, b) => { const x = norm(a), y = norm(b); if (!x && !y) return 1; return 1 - lev(x, y) / Math.max(x.length, y.length, 1); };
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+
+/* ===== FSRS-5 (alapparaméterekkel) ===== */
+const W = [0.4872,1.4003,3.7145,13.8206,5.1618,1.2298,0.8975,0.031,1.6474,0.1367,1.0461,2.1072,0.0793,0.3246,1.587,0.2272,2.8755];
+const F = 19/81, C = -0.5;
+const retr = (t, s) => Math.pow(1 + F * t / s, C);
+const D0 = g => clamp(W[4] - W[5] * (g - 3), 1, 10);
+
+function review(st, g, now, ret, cap = Infinity) {
+  let s, d;
+  if (!st) {
+    s = W[g-1];
+    d = D0(g);
+  } else {
+    const R = retr((now - st.last) / DAY, st.s);
+    d = clamp(W[7] * D0(4) + (1 - W[7]) * (st.d - W[6] * (g - 3)), 1, 10);
+    if (g === 1) s = W[11] * Math.pow(st.d, -W[12]) * (Math.pow(st.s + 1, W[13]) - 1) * Math.exp((1 - R) * W[14]);
+    else s = st.s * (Math.exp(W[8]) * (11 - st.d) * Math.pow(st.s, -W[9]) * (Math.exp((1 - R) * W[10]) - 1) * (g === 2 ? W[15] : 1) * (g === 4 ? W[16] : 1) + 1);
+    s = Math.max(0.1, s);
+  }
+  let days = Math.max(1, Math.round(s * (81/19) * (Math.pow(ret, -2) - 1)));
+  days = Math.max(1, Math.min(days, cap));
+  const ms = g === 1 ? 10 * 60000 : days * DAY;
+  return {
+    s, d, last: now, due: now + ms,
+    reps: (st ? st.reps : 0) + 1,
+    lapses: (st ? st.lapses : 0) + (st && g === 1 ? 1 : 0)
+  };
+}
+const fmtIvl = ms => ms < 3600000 ? Math.max(1, Math.round(ms / 60000)) + ' p' : ms < DAY ? Math.round(ms / 3600000) + ' ó' : Math.round(ms / DAY) + ' nap';
+
+/* ===== adatok ===== */
+const SAMPLE = `A Duna Magyarország második leghosszabb folyója.
+Magyarország fővárosa >> Budapest
+Budapest a {{Duna}} partján fekszik.
+Pécs <> Dél-Magyarország egyik legnagyobb városa`;
+
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY));
+    if (d && Array.isArray(d.items)) {
+      d.settings = {newPerDay: 10, typing: false, retention: 0.9, ...(d.settings || {})};
+      d.tomb = d.tomb || {};
+      return d;
+    }
+  } catch (e) {}
+  const fid = uid();
+  return {
+    items: [
+      {id: fid, type: 'folder', name: 'Példa', parentId: null, mod: Date.now()},
+      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, cards: {}, progress: {}, exam: null, daily: null, mod: Date.now()}
+    ],
+    tomb: {},
+    settings: {newPerDay: 10, typing: false, retention: 0.9}
+  };
+}
+let db = load();
+const ui = {view: 'files', cur: null, sel: null, open: new Set(), noteId: null};
+let rq = null;
+let ls = null;
+let chatOpen = false;
+let chatBusy = false;
+
+function saveLocal() {
+  try { localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch (e) { toast('Nem sikerült menteni (tele a tárhely?)'); }
+}
+function persist() { saveLocal(); if (!applyingRemote) schedulePush(); }
+
+const byId = id => db.items.find(i => i.id === id) || null;
+const kids = pid => db.items.filter(i => i.parentId === pid).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu'));
+function descIds(id) { const out = [id]; kids(id).forEach(k => out.push(...descIds(k.id))); return out; }
+function crumbs(id) { const p = []; let c = id ? byId(id) : null; while (c) { p.unshift(c); c = c.parentId ? byId(c.parentId) : null; } return p; }
+const makeNote = (name, parentId) => ({id: uid(), type: 'note', name, parentId, text: '', cards: {}, progress: {}, exam: null, daily: null, mod: Date.now()});
+const makeFolder = (name, parentId) => ({id: uid(), type: 'folder', name, parentId, mod: Date.now()});
+
+/* ===== kártyák a szövegből ===== */
+function makeCards(note) {
+  const out = [];
+  (note.text || '').split('\n').forEach(raw => {
+    const line = raw.trim();
+    if (!line) return;
+    const clozes = [...line.matchAll(/\{\{(.+?)\}\}/g)];
+    if (clozes.length) {
+      clozes.forEach((m, ci) => {
+        let k = -1;
+        const front = line.replace(/\{\{(.+?)\}\}/g, (_, t) => { k++; return k === ci ? '[…]' : t; });
+        out.push({id: hid(note.id + '|c|' + line + '|' + ci), front, back: m[1], kind: 'cloze'});
+      });
+      return;
+    }
+    const m = line.match(/^(.*?)\s*(>>|<<|<>)\s*(.*)$/);
+    if (m && m[1] && m[3]) {
+      const [, L, op, R] = m;
+      if (op !== '<<') out.push({id: hid(note.id + '|f|' + line), front: L, back: R, kind: 'fwd'});
+      if (op !== '>>') out.push({id: hid(note.id + '|b|' + line), front: R, back: L, kind: 'bwd'});
+    }
+  });
+  return out;
+}
+
+/* ===== vizsga és napi limit ===== */
+function newLimit(note, now) {
+  const ex = note.exam;
+  if (ex && ex.mode === 'kvota' && now < ex.ts) {
+    const days = Math.max(1, Math.ceil((ex.ts - now) / DAY));
+    const rem = makeCards(note).filter(c => !note.cards[c.id]).length;
+    return Math.ceil(rem / days);
+  }
+  return db.settings.newPerDay;
+}
+function capFor(note, now) {
+  const ex = note.exam;
+  if (ex && ex.mode === 'cel' && now < ex.ts) return Math.max(1, Math.floor((ex.ts - now) / DAY));
+  return Infinity;
+}
+function buildQueue(now, noteId) {
+  const today = dayKey(now), out = [];
+  db.items.forEach(note => {
+    if (note.type !== 'note' || (noteId && note.id !== noteId)) return;
+    const introduced = note.daily && note.daily.date === today ? note.daily.newCount : 0;
+    let room = Math.max(0, newLimit(note, now) - introduced);
+    makeCards(note).forEach(c => {
+      const st = note.cards[c.id];
+      if (!st) { if (room > 0) { out.push({...c, noteId: note.id, isNew: true}); room--; } }
+      else if (st.due <= now) out.push({...c, noteId: note.id, isNew: false});
+    });
+  });
+  return out.sort((a, b) => (a.isNew ? 1 : 0) - (b.isNew ? 1 : 0));
+}
+
+/* ===== segédek ===== */
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function diffHtml(exp, typed) {
+  const e = exp.split(/\s+/).filter(Boolean), t = (typed || '').split(/\s+/).filter(Boolean);
+  const parts = e.map((w, i) => {
+    const ok = t[i] !== undefined && norm(t[i]) === norm(w);
+    return `<span class="${ok ? 'ok' : 'bad'}">${esc(w)}</span>`;
+  }).join(' ');
+  const pct = Math.round(sim(exp, typed || '') * 100);
+  return `<div>${parts}</div><div class="muted small">Pontosság: ${pct}%${typed ? ' · Te írtad: ' + esc(typed) : ''}</div>`;
+}
+function speak(t) {
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(t);
+    u.lang = 'hu-HU';
+    speechSynthesis.speak(u);
+  } catch (e) { toast('A felolvasás nem érhető el'); }
+}
+
+/* ===== párbeszédablak ===== */
+function dialog({title, msg, fields = [], actions}) {
+  return new Promise(resolve => {
+    const d = $('#dlg');
+    d.innerHTML = '';
+    const h = document.createElement('h3');
+    h.textContent = title;
+    d.appendChild(h);
+    if (msg) { const p = document.createElement('p'); p.textContent = msg; d.appendChild(p); }
+    const inputs = {};
+    fields.forEach(f => {
+      const lb = document.createElement('label');
+      lb.textContent = f.label;
+      let el;
+      if (f.options) {
+        el = document.createElement('select');
+        f.options.forEach(([v, t]) => el.appendChild(new Option(t, v)));
+        el.value = f.value ?? f.options[0][0];
+      } else {
+        el = document.createElement('input');
+        el.type = f.type || 'text';
+        el.value = f.value ?? '';
+      }
+      lb.appendChild(el);
+      d.appendChild(lb);
+      inputs[f.name] = el;
+    });
+    const row = document.createElement('div');
+    row.className = 'actions';
+    let done = false;
+    const finish = v => { if (done) return; done = true; d.close(); resolve(v); };
+    actions.forEach(a => {
+      const b = document.createElement('button');
+      b.textContent = a.label;
+      if (a.primary) b.className = 'primary';
+      if (a.danger) b.className = 'danger';
+      b.onclick = () => {
+        const vals = {};
+        Object.entries(inputs).forEach(([k, el]) => vals[k] = String(el.value).trim());
+        finish(a.key == null ? null : {key: a.key, values: vals});
+      };
+      row.appendChild(b);
+    });
+    d.appendChild(row);
+    d.oncancel = e => { e.preventDefault(); finish(null); };
+    d.onkeydown = e => {
+      if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+        const i = actions.findIndex(a => a.primary);
+        if (i >= 0) { e.preventDefault(); row.children[i].click(); }
+      }
+    };
+    d.showModal();
+    const first = d.querySelector('input,select');
+    if (first) first.focus();
+  });
+}
+async function askName(title, value = '') {
+  const r = await dialog({title, fields: [{name: 'name', label: 'Név', value}], actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
+  return r && r.values.name ? r.values.name : null;
+}
+async function askConfirm(msg) {
+  const r = await dialog({title: 'Biztosan törlöd?', msg, actions: [{label: 'Törlés', key: 'ok', danger: true}, {label: 'Mégse', key: null}]});
+  return !!r;
+}
+
+/* ===== szinkron (Firebase Realtime Database) ===== */
+let rtdb = null, syncTimer = null, applyingRemote = false, firstSnap = true;
+function syncKey() {
+  let k = localStorage.getItem(SYNC_KEY);
+  if (!k) { k = uid() + uid(); localStorage.setItem(SYNC_KEY, k); }
+  return k;
+}
+function setSyncState(t) { const el = $('#syncState'); if (el) el.textContent = 'Szinkron: ' + t; }
+function schedulePush() {
+  if (!rtdb) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(pushNow, 1200);
+}
+function pushNow() {
+  if (!rtdb) return;
+  set(ref(rtdb, 'memo/' + syncKey()), {updated: Date.now(), items: db.items, tomb: db.tomb})
+    .then(() => setSyncState('kész'))
+    .catch(e => setSyncState('hiba (' + e.message + ')'));
+}
+function mergeRemote(r) {
+  if (!r) return false;
+  let changed = false;
+  const rt = r.tomb || {};
+  Object.entries(rt).forEach(([id, ts]) => {
+    if (!db.tomb[id] || db.tomb[id] < ts) { db.tomb[id] = ts; changed = true; }
+  });
+  const local = new Map(db.items.map(i => [i.id, i]));
+  (Array.isArray(r.items) ? r.items : []).forEach(ri => {
+    if (!ri || !ri.id) return;
+    const li = local.get(ri.id);
+    if (li) {
+      if ((ri.mod || 0) > (li.mod || 0)) { Object.assign(li, ri); changed = true; }
+    } else {
+      db.items.push(ri); changed = true;
+    }
+  });
+  const before = db.items.length;
+  db.items = db.items.filter(i => !(db.tomb[i.id] && db.tomb[i.id] >= (i.mod || 0)));
+  if (db.items.length !== before) changed = true;
+  return changed;
+}
+function initSync() {
+  if (!CONFIG_OK) { setSyncState('nincs beállítva (Firebase-config)'); return; }
+  try {
+    const app = initializeApp(FIREBASE_CONFIG);
+    rtdb = getDatabase(app);
+    onValue(ref(rtdb, 'memo/' + syncKey()), snap => {
+      applyingRemote = true;
+      const changed = mergeRemote(snap.val());
+      if (changed) { saveLocal(); render(); }
+      applyingRemote = false;
+      setSyncState('kész');
+      if (firstSnap || !snap.exists()) { firstSnap = false; schedulePush(); }
+    }, err => setSyncState('hiba (' + err.message + ')'));
+  } catch (e) {
+    setSyncState('hiba (' + e.message + ')');
+  }
+}
+
+/* ===== fájlnézet ===== */
+function goFolder(id) {
+  ui.view = 'files';
+  ui.cur = id;
+  crumbs(id).forEach(c => ui.open.add(c.id));
+  ui.sel = null;
+  render();
+}
+function openItem(id) {
+  const it = byId(id);
+  if (!it) return;
+  if (it.type === 'folder') return goFolder(id);
+  ui.noteId = id;
+  ui.view = 'note';
+  render();
+}
+function renderTree() {
+  const rows = [];
+  const walk = (pid, depth) => {
+    kids(pid).filter(i => i.type === 'folder').forEach(f => {
+      const open = ui.open.has(f.id);
+      const has = kids(f.id).some(k => k.type === 'folder');
+      rows.push(`<div class="node ${ui.cur === f.id ? 'cur' : ''}" style="padding-left:${6 + depth * 14}px" data-folder="${f.id}"><span class="tg" data-toggle="${f.id}">${has ? (open ? '▾' : '▸') : '·'}</span>📁 ${esc(f.name)}</div>`);
+      if (open) walk(f.id, depth + 1);
+    });
+  };
+  rows.push(`<div class="node ${ui.cur === null ? 'cur' : ''}" data-folder="root">🏠 Minden mappa</div>`);
+  walk(null, 1);
+  $('#tree').innerHTML = rows.join('');
+}
+function renderPane() {
+  const path = crumbs(ui.cur);
+  const cur = ui.cur ? byId(ui.cur) : null;
+  $('#crumbs').innerHTML = '<button class="ghost" data-go="root">Minden mappa</button>' +
+    path.map(p => ` <span class="muted">›</span> <button class="ghost" data-go="${p.id}">${esc(p.name)}</button>`).join('');
+  $('#curTitle').textContent = '📁 ' + (cur ? cur.name : 'Minden mappa');
+  if (ui.sel && !byId(ui.sel)) ui.sel = null;
+  document.querySelectorAll('#bar [data-act]').forEach(b => {
+    if (b.dataset.act === 'newFolder' || b.dataset.act === 'newNote') return;
+    b.disabled = !ui.sel;
+  });
+  const list = kids(ui.cur);
+  const nf = list.filter(i => i.type === 'folder').length;
+  $('#summary').textContent = `${nf} mappa • ${list.length - nf} dokumentum`;
+  const now = Date.now();
+  const head = '<div class="row head"><span></span><span>Név</span><span class="m">Kártyák (esedékes / össz)</span><span class="m">Módosítva</span></div>';
+  const body = list.map(i => {
+    let cards = '', date = '';
+    if (i.type === 'note') {
+      const cs = makeCards(i);
+      const due = cs.filter(c => { const s = i.cards[c.id]; return !s || s.due <= now; }).length;
+      cards = `${due} / ${cs.length}`;
+      date = fmtD(i.mod);
+    }
+    return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"><span>${i.type === 'folder' ? '📁' : '📄'}</span><span>${esc(i.name)}</span><span class="m">${cards}</span><span class="m">${date}</span></div>`;
+  }).join('');
+  $('#rows').innerHTML = list.length ? head + body : '<p class="muted" style="padding:20px">Ez a mappa üres. Hozz létre mappát vagy dokumentumot.</p>';
+}
+
+/* ===== dokumentumnézet ===== */
+function updateNoteStats() {
+  const n = byId(ui.noteId);
+  if (!n) return;
+  const lines = n.text.split('\n').filter(l => l.trim()).length;
+  const cards = makeCards(n);
+  const newC = cards.filter(c => !n.cards[c.id]).length;
+  let ex = 'Nincs vizsga beállítva';
+  if (n.exam) {
+    const left = Math.ceil((n.exam.ts - Date.now()) / DAY);
+    ex = `Vizsga: ${n.exam.date} · ${n.exam.mode === 'cel' ? 'célzott' : 'kvóta'} · ${left > 0 ? left + ' nap múlva' : 'lejárt'}`;
+  }
+  $('#noteStats').textContent = `${lines} sor · ${cards.length} kártya (${newC} új)`;
+  $('#examInfo').textContent = ex;
+}
+function renderNote() {
+  const n = byId(ui.noteId);
+  if (!n) { ui.view = 'files'; return render(); }
+  $('#crumbs').innerHTML = [...crumbs(n.parentId), n].map(p => `<span class="muted">${esc(p.name)}</span>`).join(' <span class="muted">›</span> ');
+  const nm = $('#noteName');
+  if (document.activeElement !== nm) nm.value = n.name;
+  const ta = $('#noteText');
+  if (document.activeElement !== ta && ta.value !== n.text) ta.value = n.text;
+  $('#chatPanel').hidden = !chatOpen;
+  if (chatOpen) renderChat();
+  updateNoteStats();
+}
+
+/* ===== AI segéd (csak a dokumentum szövegére) ===== */
+const chatKey = id => 'memo-chat-' + id;
+function loadChat(id) { try { return JSON.parse(localStorage.getItem(chatKey(id))) || []; } catch (e) { return []; } }
+function saveChat(id, msgs) { try { localStorage.setItem(chatKey(id), JSON.stringify(msgs.slice(-30))); } catch (e) {} }
+function renderChat() {
+  const n = byId(ui.noteId);
+  if (!n) return;
+  const msgs = loadChat(n.id);
+  $('#chatLog').innerHTML = msgs.length
+    ? msgs.map(m => `<div class="msg ${m.role}">${esc(m.content).replace(/\n/g, '<br>')}</div>`).join('')
+    : '<p class="muted small">Kérdezz a dokumentumról. A válasz csak a szöveg alapján készül.</p>';
+  $('#chatLog').scrollTop = $('#chatLog').scrollHeight;
+}
+async function sendChat(text) {
+  const n = byId(ui.noteId);
+  if (!n || chatBusy) return;
+  const key = localStorage.getItem(API_KEY);
+  if (!key) return toast('Adj meg API-kulcsot a Beállításokban');
+  const msgs = loadChat(n.id);
+  msgs.push({role: 'user', content: text});
+  chatBusy = true;
+  saveChat(n.id, msgs);
+  renderChat();
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-5-5',
+        max_tokens: 1024,
+        system: 'Csak az alábbi dokumentum tartalma alapján válaszolj magyarul. Ha a válasz nincs benne a dokumentumban, mondd ki egyértelműen, hogy nincs benne, és ne egészítsd ki külső tudással.\n\n<dokumentum>\n' + n.text + '\n</dokumentum>',
+        messages: msgs.filter(m => m.role !== 'error').map(m => ({role: m.role, content: m.content}))
+      })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const reply = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('\n') || '(üres válasz)';
+    msgs.push({role: 'assistant', content: reply});
+  } catch (e) {
+    msgs.push({role: 'error', content: 'Hiba: ' + e.message + ' (ellenőrizd az API-kulcsot és a kapcsolatot)'});
+  }
+  chatBusy = false;
+  saveChat(n.id, msgs);
+  renderChat();
+}
+
+/* ===== ismétlés ===== */
+function startReview(noteId) {
+  const items = buildQueue(Date.now(), noteId);
+  ui.view = 'review';
+  if (!items.length) { rq = null; toast('Nincs ismétlendő kártya'); return render(); }
+  rq = {items, total: items.length, done: 0, shown: false, typed: '', lastId: null};
+  render();
+}
+function renderReviewPanel() {
+  if (rq) return renderSession();
+  $('#revSession').hidden = true;
+  $('#revIdle').hidden = false;
+  const n = buildQueue(Date.now(), null).length;
+  $('#revIdle').innerHTML = n
+    ? `<p>Mai ismétlendő: <b>${n}</b> kártya.</p><button class="primary" id="revGo">Indítás</button>`
+    : '<p class="muted">Mára nincs ismétlendő kártya. Szép munka.</p>';
+}
+function renderSession() {
+  if (!rq) return renderReviewPanel();
+  const c = rq.items[0];
+  if (!c) { rq = null; return renderReviewPanel(); }
+  const note = byId(c.noteId);
+  if (!note) { rq.items.shift(); return renderSession(); }
+  $('#revIdle').hidden = true;
+  $('#revSession').hidden = false;
+  const typing = db.settings.typing;
+  if (!rq.shown && rq.lastId !== c.id) { $('#revType').value = ''; rq.lastId = c.id; }
+  $('#revProg').textContent = `${rq.done}/${rq.total} · hátra: ${rq.items.length}`;
+  $('#revFront').textContent = c.front;
+  $('#revTypeBox').hidden = !(typing && !rq.shown);
+  $('#revShowBtn').hidden = typing || rq.shown;
+  $('#revBack').hidden = !rq.shown;
+  $('#revGrades').hidden = !rq.shown;
+  if (rq.shown) {
+    $('#revBack').innerHTML = typing ? diffHtml(c.back, rq.typed) : esc(c.back);
+    const now = Date.now(), cap = capFor(note, now), st = note.cards[c.id];
+    $('#revGrades').innerHTML = [[1, 'Újra'], [2, 'Nehéz'], [3, 'Jó'], [4, 'Könnyű']].map(([g, l]) =>
+      `<button class="g g${g}" data-g="${g}">${l}<small>${fmtIvl(review(st, g, now, db.settings.retention, cap).due - now)}</small></button>`).join('');
+  }
+}
+function showBack() {
+  if (!rq) return;
+  rq.typed = $('#revType').value;
+  rq.shown = true;
+  renderSession();
+}
+function grade(g) {
+  if (!rq || !rq.shown) return;
+  const c = rq.items.shift();
+  const note = byId(c.noteId);
+  if (note) {
+    const now = Date.now();
+    const wasNew = !note.cards[c.id];
+    note.cards[c.id] = review(note.cards[c.id], g, now, db.settings.retention, capFor(note, now));
+    note.mod = now;
+    if (wasNew) {
+      const today = dayKey(now);
+      const cnt = note.daily && note.daily.date === today ? note.daily.newCount : 0;
+      note.daily = {date: today, newCount: cnt + 1};
+    }
+    persist();
+  }
+  if (g === 1) rq.items.push(c); else rq.done++;
+  rq.shown = false;
+  rq.typed = '';
+  rq.lastId = null;
+  if (!rq.items.length) { rq = null; toast('Kész a mai ismétlés'); return render(); }
+  renderSession();
+}
+
+/* ===== tanuló mód ===== */
+const STAGES = ['Megmutatás', 'Kezdőbetűk', 'Hiányzó szavak', 'Választás', 'Sorrend', 'Gépelés'];
+const learnText = raw => raw.replace(/\{\{(.+?)\}\}/g, '$1').replace(/\s*(>>|<<|<>)\s*/g, ' - ');
+function learnLines(n) {
+  return n.text.split('\n').map(l => l.trim()).filter(Boolean).map(raw => {
+    const id = hid('L' + raw);
+    return {id, raw, text: learnText(raw), stage: n.progress[id] || 0};
+  });
+}
+function startLearn(noteId) {
+  const n = byId(noteId);
+  if (!n) return;
+  const lines = learnLines(n);
+  const queue = lines.filter(l => l.stage < 6).map(l => ({...l}));
+  if (!queue.length) return toast('Ezt a jegyzetet már megtanultad. Ismételd a napi listán.');
+  ls = {noteId, queue, total: lines.length, done: lines.filter(l => l.stage >= 6).length, pool: lines.map(l => l.text), cur: ''};
+  $('#learn').hidden = false;
+  nextLearn();
+}
+function setBtns(arr) {
+  const box = $('#lBtns');
+  box.innerHTML = '';
+  arr.forEach(([label, cls, fn]) => {
+    const b = document.createElement('button');
+    b.textContent = label;
+    if (cls) b.className = cls;
+    b.onclick = fn;
+    box.appendChild(b);
+  });
+}
+function nextLearn() {
+  if (!ls) return;
+  if (!ls.queue.length) return closeLearn(true);
+  renderLearn(ls.queue.shift());
+}
+function passLearn(item) {
+  const n = byId(ls.noteId);
+  const ns = item.stage + 1;
+  if (n) { n.progress[item.id] = ns; n.mod = Date.now(); persist(); }
+  if (ns < 6) ls.queue.push({...item, stage: ns}); else ls.done++;
+  nextLearn();
+}
+function failLearn(item) {
+  ls.queue.push(item);
+  nextLearn();
+}
+function closeLearn(finished) {
+  const wasFinished = finished === true;
+  ls = null;
+  $('#learn').hidden = true;
+  render();
+  if (wasFinished) toast('Kész a mai tanulás');
+}
+function renderLearn(item) {
+  ls.cur = item.text;
+  const area = $('#lArea');
+  area.onclick = null;
+  area.innerHTML = '';
+  const words = item.text.split(' ');
+  $('#learnInfo').textContent = `${ls.done}/${ls.total} kész · ${STAGES[item.stage]}`;
+  const pass = () => passLearn(item);
+  const fail = () => failLearn(item);
+  const reveal = () => { area.innerHTML = esc(item.text); };
+  const wrong = () => area.insertAdjacentHTML('beforeend', `<p class="bad">Helyes: ${esc(item.text)}</p>`);
+
+  switch (item.stage) {
+    case 0:
+      area.innerHTML = '<p class="muted">Olvasd el, majd nézd meg a szöveget.</p>';
+      setBtns([['Megmutat', 'primary', () => { reveal(); setBtns([['Megjegyeztem', 'primary', pass]]); }]]);
+      break;
+    case 1:
+      area.innerHTML = words.map(w => esc((w[0] || '') + '…')).join(' ');
+      setBtns([['Megmutat', 'primary', () => { reveal(); setBtns([['Sikerült', 'primary', pass], ['Nem sikerült', '', fail]]); }]]);
+      break;
+    case 2: {
+      const idx = new Set();
+      words.forEach((w, i) => { if (norm(w).length > 3 && Math.random() < 0.4) idx.add(i); });
+      if (!idx.size) idx.add(Math.floor(Math.random() * words.length));
+      area.innerHTML = words.map((w, i) => idx.has(i)
+        ? `<input class="blank" data-i="${i}" autocomplete="off" style="width:${Math.max(3, norm(w).length)}ch">`
+        : esc(w)).join(' ');
+      setBtns([['Ellenőrzés', 'primary', () => {
+        let ok = true;
+        area.querySelectorAll('.blank').forEach(inp => {
+          const good = norm(inp.value) === norm(words[inp.dataset.i]);
+          if (!good) ok = false;
+          inp.classList.add(good ? 'ok' : 'bad');
+        });
+        if (ok) return pass();
+        wrong();
+        setBtns([['Tovább', 'primary', fail]]);
+      }]]);
+      break;
+    }
+    case 3: {
+      const others = shuffle([...new Set(ls.pool.filter(t => t !== item.text))]);
+      const opts = [item.text, ...others.slice(0, 3)];
+      if (opts.length < 4) {
+        [words.slice().reverse().join(' '), [...words.slice(1), words[0]].join(' ')].forEach(v => {
+          if (!opts.includes(v) && opts.length < 4) opts.push(v);
+        });
+      }
+      area.innerHTML = '<p class="muted">Melyik a helyes szöveg?</p>';
+      setBtns(shuffle(opts).map(o => [o, '', () => {
+        if (o === item.text) return pass();
+        wrong();
+        setBtns([['Tovább', 'primary', fail]]);
+      }]));
+      break;
+    }
+    case 4: {
+      const toks = shuffle(words.map(w => ({w})));
+      const picked = [];
+      area.innerHTML = '<div id="scr"></div><div id="pool"></div>';
+      const draw = () => {
+        $('#scr').innerHTML = picked.map(k => `<span class="tok" data-back="${k}">${esc(toks[k].w)}</span>`).join('');
+        $('#pool').innerHTML = toks.map((t, k) => picked.includes(k) ? '' : `<span class="tok" data-pick="${k}">${esc(t.w)}</span>`).join('');
+      };
+      area.onclick = e => {
+        const p = e.target.closest('[data-pick]'), b = e.target.closest('[data-back]');
+        if (p) { picked.push(+p.dataset.pick); draw(); }
+        else if (b) { picked.splice(picked.indexOf(+b.dataset.back), 1); draw(); }
+      };
+      draw();
+      setBtns([['Ellenőrzés', 'primary', () => {
+        const order = picked.map(k => toks[k].w).join(' ');
+        if (picked.length === toks.length && norm(order) === norm(item.text)) return pass();
+        wrong();
+        setBtns([['Tovább', 'primary', fail]]);
+      }]]);
+      break;
+    }
+    case 5:
+      area.innerHTML = '<textarea id="lType" rows="3" placeholder="Írd be fejből…" style="width:100%;font-size:18px;padding:10px"></textarea><div id="lDiff"></div>';
+      setBtns([['Ellenőrzés', 'primary', () => {
+        const typed = $('#lType').value;
+        $('#lDiff').innerHTML = diffHtml(item.text, typed);
+        if (sim(item.text, typed) >= 0.9) setBtns([['Tovább', 'primary', pass]]);
+        else setBtns([['Tovább (később újra)', '', fail]]);
+      }]]);
+      setTimeout(() => { const t = $('#lType'); if (t) t.focus(); }, 0);
+      break;
+  }
+}
+
+/* ===== render és kezelők ===== */
+function render() {
+  const due = buildQueue(Date.now(), null).length;
+  $('#dueBadge').textContent = due;
+  $('#tabReview').classList.toggle('on', ui.view === 'review');
+  $('#tabFiles').classList.toggle('on', ui.view === 'files' || ui.view === 'note');
+  $('#files').hidden = ui.view !== 'files';
+  $('#noteView').hidden = ui.view !== 'note';
+  $('#reviewView').hidden = ui.view !== 'review';
+  renderTree();
+  if (ui.view === 'files') renderPane();
+  if (ui.view === 'note') renderNote();
+  if (ui.view === 'review') {
+    $('#crumbs').innerHTML = '<span class="muted">Mai ismétlések</span>';
+    renderReviewPanel();
+  }
+}
+
+$('#tabFiles').onclick = () => { goFolder(ui.cur); };
+$('#tabReview').onclick = () => { ui.view = 'review'; render(); };
+$('#newQuick').onclick = () => {
+  ui.view = 'files';
+  render();
+  document.querySelector('#bar [data-act="newNote"]').click();
+};
+$('#backBtn').onclick = () => {
+  if (ui.view === 'note') { const n = byId(ui.noteId); ui.view = 'files'; ui.cur = n ? n.parentId : null; return render(); }
+  if (ui.view === 'review') { ui.view = 'files'; return render(); }
+  if (ui.cur) { const p = byId(ui.cur); return goFolder(p ? p.parentId : null); }
+};
+
+$('#tree').onclick = e => {
+  const t = e.target.closest('[data-toggle]');
+  if (t) {
+    const id = t.dataset.toggle;
+    ui.open.has(id) ? ui.open.delete(id) : ui.open.add(id);
+    e.stopPropagation();
+    return render();
+  }
+  const n = e.target.closest('[data-folder]');
+  if (!n) return;
+  goFolder(n.dataset.folder === 'root' ? null : n.dataset.folder);
+};
+$('#crumbs').onclick = e => {
+  const b = e.target.closest('[data-go]');
+  if (!b || ui.view !== 'files') return;
+  goFolder(b.dataset.go === 'root' ? null : b.dataset.go);
+};
+$('#rows').onclick = e => {
+  const r = e.target.closest('[data-id]');
+  if (!r) return;
+  const id = r.dataset.id;
+  if (ui.sel === id) return openItem(id);
+  ui.sel = id;
+  renderPane();
+};
+$('#bar').onclick = async e => {
+  const b = e.target.closest('[data-act]');
+  if (!b || b.disabled) return;
+  const act = b.dataset.act;
+  if (act === 'newFolder') {
+    const name = await askName('Új mappa neve');
+    if (!name) return;
+    db.items.push(makeFolder(name, ui.cur));
+    ui.open.add(ui.cur); persist(); return render();
+  }
+  if (act === 'newNote') {
+    const name = await askName('Új dokumentum neve');
+    if (!name) return;
+    const n = makeNote(name, ui.cur);
+    db.items.push(n); persist();
+    return openItem(n.id);
+  }
+  const it = byId(ui.sel);
+  if (!it) return;
+  if (act === 'open') return openItem(it.id);
+  if (act === 'rename') {
+    const name = await askName('Átnevezés', it.name);
+    if (name) { it.name = name; it.mod = Date.now(); persist(); render(); }
+    return;
+  }
+  if (act === 'move') {
+    const ex = new Set(descIds(it.id));
+    const opts = [['root', 'Minden mappa']];
+    const flat = (pid, d) => kids(pid).filter(f => f.type === 'folder' && !ex.has(f.id)).forEach(f => {
+      opts.push([f.id, '· '.repeat(d) + '📁 ' + f.name]);
+      flat(f.id, d + 1);
+    });
+    flat(null, 0);
+    const r = await dialog({
+      title: 'Áthelyezés',
+      fields: [{name: 'to', label: 'Cél mappa', options: opts, value: it.parentId || 'root'}],
+      actions: [{label: 'Áthelyezés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]
+    });
+    if (r) { it.parentId = r.values.to === 'root' ? null : r.values.to; it.mod = Date.now(); persist(); render(); }
+    return;
+  }
+  if (act === 'del') {
+    const ok = await askConfirm(`„${it.name}” törlése${it.type === 'folder' ? ' a tartalmával együtt' : ''}?`);
+    if (!ok) return;
+    const ids = descIds(it.id);
+    const now = Date.now();
+    ids.forEach(id => { db.tomb[id] = now; });
+    db.items = db.items.filter(i => !ids.includes(i.id));
+    if (ids.includes(ui.cur)) ui.cur = null;
+    ui.sel = null; persist(); render();
+  }
+};
+
+$('#noteName').oninput = e => { const n = byId(ui.noteId); if (!n) return; n.name = e.target.value; n.mod = Date.now(); persist(); };
+$('#noteText').oninput = e => {
+  const n = byId(ui.noteId); if (!n) return;
+  n.text = e.target.value; n.mod = Date.now(); persist(); updateNoteStats();
+};
+$('#nLearn').onclick = () => startLearn(ui.noteId);
+$('#nReview').onclick = () => startReview(ui.noteId);
+$('#nChat').onclick = () => { chatOpen = !chatOpen; $('#chatPanel').hidden = !chatOpen; if (chatOpen) renderChat(); };
+$('#chatClear').onclick = () => { if (ui.noteId) { saveChat(ui.noteId, []); renderChat(); } };
+$('#chatForm').onsubmit = e => {
+  e.preventDefault();
+  const t = $('#chatInput').value.trim();
+  if (!t) return;
+  $('#chatInput').value = '';
+  sendChat(t);
+};
+$('#nExam').onclick = async () => {
+  const n = byId(ui.noteId); if (!n) return;
+  const r = await dialog({
+    title: 'Vizsga beállítása',
+    fields: [
+      {name: 'date', label: 'Vizsga dátuma', type: 'date', value: n.exam ? n.exam.date : ''},
+      {name: 'mode', label: 'Ütemezés', options: [['kvota', 'Kvóta: egyenletes napi új kártya'], ['cel', 'Célzott: ismétlés a vizsga előtt']], value: n.exam ? n.exam.mode : 'kvota'}
+    ],
+    actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Vizsga törlése', key: 'clear', danger: true}, {label: 'Mégse', key: null}]
+  });
+  if (!r) return;
+  if (r.key === 'clear') n.exam = null;
+  else {
+    if (!r.values.date) return toast('Adj meg dátumot');
+    n.exam = {date: r.values.date, ts: examTs(r.values.date), mode: r.values.mode};
+  }
+  n.mod = Date.now(); persist(); updateNoteStats();
+};
+
+$('#settingsBtn').onclick = async () => {
+  const r = await dialog({
+    title: 'Beállítások',
+    fields: [
+      {name: 'apiKey', label: 'Anthropic API-kulcs (csak ebben a böngészőben tárolódik)', type: 'password', value: localStorage.getItem(API_KEY) || ''},
+      {name: 'syncKey', label: 'Szinkronkulcs (másik eszközön ezt add meg)', value: syncKey()}
+    ],
+    actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]
+  });
+  if (!r) return;
+  localStorage.setItem(API_KEY, r.values.apiKey);
+  if (r.values.syncKey && r.values.syncKey !== syncKey()) {
+    localStorage.setItem(SYNC_KEY, r.values.syncKey);
+    return location.reload();
+  }
+  toast('Mentve');
+};
+
+$('#lSpeak').onclick = () => speak(ls ? ls.cur : '');
+$('#lClose').onclick = () => closeLearn(false);
+
+$('#revIdle').onclick = e => { if (e.target.id === 'revGo') startReview(null); };
+$('#revExit').onclick = () => { rq = null; render(); };
+$('#revShowBtn').onclick = showBack;
+$('#revCheck').onclick = showBack;
+$('#revGrades').onclick = e => { const b = e.target.closest('[data-g]'); if (b) grade(+b.dataset.g); };
+document.addEventListener('keydown', e => {
+  if (!rq || ui.view !== 'review' || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+  if (!rq.shown && e.key === ' ') { e.preventDefault(); showBack(); }
+  else if (rq.shown && ['1', '2', '3', '4'].includes(e.key)) grade(+e.key);
+});
+
+function syncSettings() {
+  $('#setNew').value = db.settings.newPerDay;
+  $('#setTyping').checked = db.settings.typing;
+  $('#setRet').value = String(db.settings.retention);
+}
+$('#setNew').onchange = e => { db.settings.newPerDay = Math.max(1, parseInt(e.target.value, 10) || 10); saveLocal(); render(); };
+$('#setTyping').onchange = e => { db.settings.typing = e.target.checked; saveLocal(); render(); };
+$('#setRet').onchange = e => { db.settings.retention = parseFloat(e.target.value); saveLocal(); render(); };
+
+syncKey();
+syncSettings();
+initSync();
+if (!CONFIG_OK) setSyncState('nincs beállítva (Firebase-config)');
+goFolder(null);
+</script>
+</body>
+</html>
