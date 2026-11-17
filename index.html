@@ -401,12 +401,30 @@ function load() {
   };
 }
 let db = load();
+fixDb();
 const ui = {view: 'files', cur: null, sel: null, open: new Set(), noteId: null};
 let rq = null;
 let ls = null;
 let chatOpen = false;
 let chatBusy = false;
 
+/* A Firebase nem tárol üres mezőket (null, {}, ''), ezért visszaolvasás után pótoljuk őket. */
+function fixItem(i) {
+  if (i.parentId === undefined) i.parentId = null;
+  if (typeof i.name !== 'string') i.name = '';
+  if (i.type === 'note') {
+    if (typeof i.text !== 'string') i.text = '';
+    if (!i.cards || typeof i.cards !== 'object') i.cards = {};
+    if (!i.progress || typeof i.progress !== 'object') i.progress = {};
+    if (i.exam === undefined) i.exam = null;
+    if (i.daily === undefined) i.daily = null;
+  }
+  return i;
+}
+function fixDb() {
+  db.items = (Array.isArray(db.items) ? db.items : Object.values(db.items || {})).filter(i => i && i.id).map(fixItem);
+  db.tomb = db.tomb || {};
+}
 function saveLocal() {
   try { localStorage.setItem(KEY, JSON.stringify(db)); }
   catch (e) { toast('Nem sikerült menteni (tele a tárhely?)'); }
@@ -593,7 +611,7 @@ function mergeRemote(r) {
     if (!db.tomb[id] || db.tomb[id] < ts) { db.tomb[id] = ts; changed = true; }
   });
   const local = new Map(db.items.map(i => [i.id, i]));
-  (Array.isArray(r.items) ? r.items : []).forEach(ri => {
+  (Array.isArray(r.items) ? r.items : Object.values(r.items || {})).forEach(ri => {
     if (!ri || !ri.id) return;
     const li = local.get(ri.id);
     if (li) {
@@ -605,6 +623,7 @@ function mergeRemote(r) {
   const before = db.items.length;
   db.items = db.items.filter(i => !(db.tomb[i.id] && db.tomb[i.id] >= (i.mod || 0)));
   if (db.items.length !== before) changed = true;
+  fixDb();
   return changed;
 }
 async function initSync() {
