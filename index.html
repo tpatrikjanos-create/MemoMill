@@ -3,24 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Memo – jegyzetek és SRS</title>
+<title>MemoMill – jegyzetek és tanulás</title>
+<meta name="theme-color" content="#0f1712">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
-:root{--bg:#1f1f24;--side:#19191e;--panel:#27272e;--hover:#2e2e37;--sel:#3a3a48;--text:#ececf1;--muted:#8e8e99;--line:#37373f;--accent:#5b6cf6;--ok:#4cc38a;--bad:#f0605d}
+:root{--bg:#0f1712;--side:#122019;--panel:#17261e;--hover:#1d3026;--sel:#244032;--text:#e9f5ee;--muted:#8fa597;--line:#26372d;--accent:#22e858;--accent-2:#0fb544;--accent-ink:#04140a;--ok:#7fd49a;--bad:#ef7a6a;--glow:rgba(34,232,88,.35);--serif:"Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif}
+html,body{height:100%}
 [hidden]{display:none!important}
 *{box-sizing:border-box}
-body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:14.5px}
+body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1200px 600px at 80% -10%,rgba(34,232,88,.07),transparent 60%),var(--bg);color:var(--text);font-size:14.5px;-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 14px}
 button:hover:not(:disabled){border-color:#55555f}
 button:disabled{opacity:.4;cursor:default}
-button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.primary{background:linear-gradient(180deg,#5cff8a,var(--accent-2));border-color:transparent;color:var(--accent-ink);font-weight:600;box-shadow:0 2px 14px -4px var(--glow)}
+button.primary:hover:not(:disabled){filter:brightness(1.06);border-color:transparent}
 button.danger{color:var(--bad)}
 button.ghost{border-color:transparent;background:none;padding:6px 10px}
 button.ghost:hover:not(:disabled){background:var(--hover)}
 input[type=text],input[type=password],input[type=date],input[type=number],select,textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#1b1b20;color:var(--text)}
 #app{display:flex;width:100%;height:100%}
 #side{width:250px;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px 8px;gap:2px;flex-shrink:0;min-height:0}
-.ws{display:flex;align-items:center;gap:8px;padding:6px 10px 14px;font-weight:700;font-size:15px}
+.ws{display:flex;align-items:center;gap:10px;padding:8px 10px 16px;font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:.2px}
+.ws svg{width:30px;height:30px;flex-shrink:0;filter:drop-shadow(0 2px 6px var(--glow))}
+.ws small{display:block;font-family:system-ui,sans-serif;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:.4px}
 .navi{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px}
 .navi:hover{background:var(--hover)}
 .navi.on{background:var(--sel)}
@@ -108,12 +117,82 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
   .row{grid-template-columns:24px 1fr 80px}
   .row .m:last-child{display:none}
 }
+
+/* ===== MemoMill megjelenés: finomhangolás ===== */
+#curTitle,#noteName,.big,#revFront{font-family:var(--serif);letter-spacing:.2px}
+#curTitle{font-size:30px}
+#noteName{font-size:30px}
+button,.navi,.row,.node{transition:background .18s ease,border-color .18s ease,transform .12s ease,filter .18s ease,color .18s ease}
+button:active:not(:disabled){transform:scale(.97)}
+.navi.on{background:linear-gradient(90deg,rgba(34,232,88,.22),transparent);box-shadow:inset 3px 0 0 var(--accent)}
+.navi:hover{background:var(--hover)}
+.row{border:1px solid transparent}
+.row.sel{background:var(--sel);border-color:rgba(34,232,88,.35)}
+.row:hover{transform:translateX(2px)}
+.badge{background:linear-gradient(180deg,#5cff8a,var(--accent-2));color:var(--accent-ink);font-weight:700;box-shadow:0 0 12px -2px var(--glow)}
+.sec{letter-spacing:.8px;text-transform:uppercase;font-size:11px}
+#top{background:rgba(18,32,25,.6);backdrop-filter:blur(8px)}
+#summary{letter-spacing:.2px}
+#noteText{border-radius:14px;background:linear-gradient(180deg,rgba(23,38,30,.9),rgba(30,25,20,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 12px 40px -24px #000}
+#noteText:focus,#noteName:focus,input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,232,88,.18)}
+#chatPanel{border-radius:16px;background:linear-gradient(180deg,var(--panel),#142319)}
+.msg.user{background:linear-gradient(180deg,#5cff8a,var(--accent-2));color:var(--accent-ink);font-weight:500}
+.msg{animation:rise .3s ease both}
+
+/* kártya: nagy, meleg keretes, lágy fénnyel */
+.panel{border-radius:20px;background:linear-gradient(180deg,rgba(23,38,30,.96),rgba(30,25,20,.96));box-shadow:0 20px 60px -30px #000,inset 0 1px 0 rgba(255,255,255,.04);animation:rise .4s ease both}
+#revSession .big{min-height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px}
+#revFront{font-size:26px;line-height:1.45}
+#revBack{font-size:21px;color:#e6f7ec;border-top:1px dashed var(--line);margin-top:16px;padding-top:20px;animation:rise .35s ease both}
+#revProg{font-variant-numeric:tabular-nums;letter-spacing:.3px}
+#revGrades{gap:10px}
+button.g{border-radius:16px;padding:12px 8px;background:linear-gradient(180deg,var(--panel),#142319);font-weight:600;font-size:15px}
+button.g:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 20px -10px var(--glow)}
+button.g small{font-weight:400;font-variant-numeric:tabular-nums}
+button.g1{color:var(--bad);border-color:rgba(232,112,95,.35)}
+button.g2{color:#e9b57a;border-color:rgba(233,181,122,.35)}
+button.g3{color:var(--accent);border-color:rgba(34,232,88,.6);box-shadow:0 0 18px -8px var(--glow)}
+button.g4{color:var(--ok);border-color:rgba(127,196,142,.45)}
+#revShowBtn{padding:12px 28px;font-size:15px;margin:10px auto 0;display:block}
+#revIdle p{font-size:17px;text-align:center}
+#revIdle .primary{display:block;margin:12px auto 0;padding:12px 32px;font-size:15px}
+.stats,.help{font-variant-numeric:tabular-nums}
+.help{background:rgba(255,255,255,.02);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+dialog{border-radius:20px;background:linear-gradient(180deg,var(--panel),#142319);border:1px solid var(--line)}
+#toast{background:linear-gradient(180deg,#d8f5e2,#b5e8c9);color:#04140a;border-radius:999px;padding:10px 20px;font-weight:600;box-shadow:0 10px 30px -10px #000}
+
+/* tanuló mód: teljes képernyős, lágy háttér */
+#learn{background:radial-gradient(900px 500px at 50% -10%,rgba(34,232,88,.12),transparent 60%),var(--bg)}
+#learnTop{background:rgba(18,32,25,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+#learnInfo{font-variant-numeric:tabular-nums;color:var(--muted);letter-spacing:.3px}
+#lArea{font-family:var(--serif);font-size:24px;line-height:1.5;animation:rise .35s ease both}
+.blank{border-bottom-color:rgba(34,232,88,.5)}
+.blank:focus{border-bottom-color:var(--accent)}
+.tok{border-radius:12px;background:linear-gradient(180deg,var(--panel),#142319);transition:transform .12s ease}
+.tok:hover{transform:translateY(-2px);border-color:rgba(34,232,88,.5)}
+#scr{border-bottom:2px dashed rgba(34,232,88,.35);border-radius:12px}
+
+.muted{opacity:.9}
+.ok{text-shadow:0 0 14px rgba(127,196,142,.35)}
+
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media (max-width:760px){
+  #curTitle,#noteName{font-size:24px}
+  #revFront{font-size:22px}
+  #lArea{font-size:20px}
+}
 </style>
 </head>
 <body>
 <div id="app">
   <aside id="side">
-    <div class="ws">◆ Memo</div>
+    <div class="ws">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3dff6e"/><stop offset=".5" stop-color="#14d64a"/><stop offset="1" stop-color="#07a336"/></linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#lg)"/><g transform="translate(256 256)"><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#fff"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#e3ffe9" transform="rotate(90)"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#fff" transform="rotate(180)"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#e3ffe9" transform="rotate(270)"/><circle r="26" fill="#053d18"/><circle r="9" fill="#22e858"/></g></svg>
+      <div>MemoMill<small>tanulj, amíg megőrlöd</small></div>
+    </div>
     <button class="navi" id="newQuick">+ Létrehozás</button>
     <button class="navi" id="tabReview"><span>Mai ismétlések</span><span class="badge" id="dueBadge">0</span></button>
     <button class="navi" id="tabFiles">Fájlok</button>
@@ -226,8 +305,8 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
 <div id="toast"></div>
 
 <script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import {getDatabase, ref, set, onValue} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+/* A Firebase csak a szinkronhoz töltődik be, így net nélkül is elindul az app. */
+let fb = null;
 
 /* ===== Beállítandó: a Firebase web-config (Project settings → Your apps) ===== */
 const FIREBASE_CONFIG = {
@@ -502,7 +581,7 @@ function schedulePush() {
 }
 function pushNow() {
   if (!rtdb) return;
-  set(ref(rtdb, 'memo/' + syncKey()), {updated: Date.now(), items: db.items, tomb: db.tomb})
+  fb.set(fb.ref(rtdb, 'memo/' + syncKey()), {updated: Date.now(), items: db.items, tomb: db.tomb})
     .then(() => setSyncState('kész'))
     .catch(e => setSyncState('hiba (' + e.message + ')'));
 }
@@ -528,12 +607,18 @@ function mergeRemote(r) {
   if (db.items.length !== before) changed = true;
   return changed;
 }
-function initSync() {
+async function initSync() {
   if (!CONFIG_OK) { setSyncState('nincs beállítva (Firebase-config)'); return; }
   try {
-    const app = initializeApp(FIREBASE_CONFIG);
-    rtdb = getDatabase(app);
-    onValue(ref(rtdb, 'memo/' + syncKey()), snap => {
+    setSyncState('kapcsolódás…');
+    const [a, d] = await Promise.all([
+      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js')
+    ]);
+    fb = {ref: d.ref, set: d.set};
+    const app = a.initializeApp(FIREBASE_CONFIG);
+    rtdb = d.getDatabase(app);
+    d.onValue(fb.ref(rtdb, 'memo/' + syncKey()), snap => {
       applyingRemote = true;
       const changed = mergeRemote(snap.val());
       if (changed) { saveLocal(); render(); }
@@ -542,7 +627,7 @@ function initSync() {
       if (firstSnap || !snap.exists()) { firstSnap = false; schedulePush(); }
     }, err => setSyncState('hiba (' + err.message + ')'));
   } catch (e) {
-    setSyncState('hiba (' + e.message + ')');
+    setSyncState('offline – csak helyben ment');
   }
 }
 
