@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lock_desc">A MemoMill ezzel figyeli, melyik app kerül előtérbe, hogy a kijelölt appokat (például TikTok) csak a napi ismétlés után engedje megnyitni. Mást nem olvas és nem küld el.</string>
+</resources>

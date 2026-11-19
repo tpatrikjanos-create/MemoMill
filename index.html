@@ -836,7 +836,22 @@ function syncKey() {
 }
 const base = () => 'memo/' + syncKey() + '/v2';
 function setSyncState(t) { const el = $('#syncState'); if (el) el.textContent = 'Szinkron: ' + t; }
-function persist() { saveSoon(); reindex(); if (!applyingRemote) schedulePush(); }
+function persist() { saveSoon(); reindex(); if (!applyingRemote) schedulePush(); reportAndroid(); }
+/* Android-app híd: napi percek és kártyák az alkalmazászárhoz */
+const AND = window.MemoMillAndroid || null;
+let andT = null;
+function reportAndroid() {
+  if (!AND) return;
+  clearTimeout(andT);
+  andT = setTimeout(() => {
+    try {
+      AND.reportStatus(window.memoMillStatus());
+      const cards = [];
+      notes().forEach(n => { const S = db.srs[n.id] || {}; makeCards(n).forEach(c => { if (S[c.id] && c.back.length <= 80) cards.push({front: c.front, back: c.back}); }); });
+      AND.reportCards(JSON.stringify(shuffle(cards).slice(0, 60)));
+    } catch (e) {}
+  }, 700);
+}
 function schedulePush() { if (!rtdb) return; clearTimeout(syncTimer); syncTimer = setTimeout(pushNow, 1200); }
 const clean = o => JSON.parse(JSON.stringify(o));
 function pushNow() {
@@ -935,7 +950,7 @@ async function initSync() {
       applyingRemote = true;
       const changed = mergeRemote(snap.val(), firstSnap);
       applyingRemote = false;
-      if (changed) { saveLocal(); if (!ls) render(); }
+      if (changed) { saveLocal(); reportAndroid(); if (!ls) render(); }
       setSyncState('kész');
       firstSnap = false;
       schedulePush();
@@ -1799,9 +1814,10 @@ async function openSettings() {
       {name: 'apiKey', label: 'Anthropic API-kulcs (csak ezen az eszközön tárolódik)', type: 'password', value: localStorage.getItem(API_KEY) || ''},
       {name: 'syncKey', label: 'Szinkronkulcs (a másik eszközön ugyanezt add meg)', value: syncKey()}
     ],
-    actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mentés fájlba', key: 'export'}, {label: 'Visszatöltés fájlból', key: 'import'}, {label: 'Mégse', key: null}]
+    actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mentés fájlba', key: 'export'}, {label: 'Visszatöltés fájlból', key: 'import'}, ...(AND ? [{label: 'Alkalmazászár', key: 'lock'}] : []), {label: 'Mégse', key: null}]
   });
   if (!r) return;
+  if (r.key === 'lock') { try { AND.openLockSettings(); } catch (e) {} return; }
   if (r.key === 'export') return exportData();
   if (r.key === 'import') return $('#importFile').click();
   const v = r.values, num = (x, d, lo) => { const k = parseInt(x, 10); return isNaN(k) ? d : Math.max(lo, k); };
@@ -1852,14 +1868,25 @@ document.addEventListener('keydown', e => {
 });
 
 /* Android-alkalmazásból hívható: a napi ismétlési percek (az alkalmazászárhoz) */
-window.memoMillStatus = () => JSON.stringify({todaySec: dayStat(dayKey(Date.now())).sec, goalMin: db.settings.goalMin, due: buildQueue(Date.now(), null).length});
-window.memoMillQuickCard = () => { const q = buildQueue(Date.now(), null).filter(c => c.kind !== 'doc'); const c = q[0] || leeches()[0]; return c ? JSON.stringify({front: c.front, back: c.back}) : ''; };
+window.memoMillStatus = () => JSON.stringify({day: dayKey(Date.now()), todaySec: dayStat(dayKey(Date.now())).sec, goalMin: db.settings.goalMin, due: buildQueue(Date.now(), null).length});
+window.memoMillOpenReview = () => { if (ls) closeLearn(); startReview(null); };
+/* Android Vissza gomb: true, ha az app kezelte */
+window.memoMillBack = () => {
+  const d = $('#dlg');
+  if (d.open) { d.dispatchEvent(new Event('cancel', {cancelable: true})); return true; }
+  if (ls) { closeLearn(); return true; }
+  if (ui.view === 'review' && rq && !rq.finished) { $('#revExit').click(); return true; }
+  if (ui.view === 'note' || (ui.view === 'files' && ui.cur)) { $('#backBtn').click(); return true; }
+  if (ui.view !== 'home') { if (rq && rq.finished) rq = null; show('home'); return true; }
+  return false;
+};
 
 fixDb();
 purgeTrash();
 syncKey();
 initSync();
 if (location.hash === '#review') startReview(null); else render();
+reportAndroid();
 </script>
 </body>
 </html>
