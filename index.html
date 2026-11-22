@@ -9,126 +9,179 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a1124;--side:#0d1630;--panel:#121d3b;--panel2:#0f1833;--hover:#182649;--sel:#1f3160;--text:#e9eefb;--muted:#8d9bbd;--line:#22305a;--accent:#4f8cff;--accent-2:#2457d6;--accent-ink:#fff;--ok:#6fd3a0;--bad:#ff7f7f;--warn:#f2b866;--glow:rgba(79,140,255,.35);--serif:"Iowan Old Style","Palatino Linotype",Georgia,"Times New Roman",serif;--tabh:64px}
+:root{--bg:#0a1124;--side:#0a1226;--panel:#0f1830;--hover:#141f3d;--sel:#1a2748;--text:#efe8d8;--muted:#8d97b5;--dim:#5f6a8c;--line:#26304f;--brass:#c9a35a;--brass2:#e2c585;--ivory:#efe8d8;--paper:#f3ecdd;--ink:#1a2240;--ink2:#5a6280;--ok:#7fb38a;--bad:#e07b6e;--warn:#dba85c;--serif:"Cormorant Garamond","Iowan Old Style","Palatino Linotype",Georgia,serif;--num:"Fraunces",Georgia,serif;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--tabh:62px}
 html,body{height:100%}
 [hidden]{display:none!important}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(1200px 600px at 80% -10%,rgba(79,140,255,.08),transparent 60%),var(--bg);color:var(--text);font-size:14.5px;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14.5px;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 15px;transition:background .18s,border-color .18s,transform .12s,filter .18s,color .18s}
-button:hover:not(:disabled){border-color:#3a4c80}
+button{cursor:pointer;border:1px solid var(--line);background:transparent;border-radius:4px;padding:8px 14px;transition:background .18s,border-color .18s,transform .12s,color .18s}
+button:hover:not(:disabled){border-color:var(--brass)}
 button:active:not(:disabled){transform:scale(.97)}
 button:disabled{opacity:.4;cursor:default}
-button.primary{background:linear-gradient(180deg,#8ab6ff,var(--accent-2));border-color:transparent;color:var(--accent-ink);font-weight:600;box-shadow:0 2px 14px -4px var(--glow)}
-button.primary:hover:not(:disabled){filter:brightness(1.07);border-color:transparent}
+button.primary{background:var(--ivory);border-color:var(--ivory);color:var(--bg);font-weight:600;letter-spacing:.6px}
+button.primary:hover:not(:disabled){background:#fff;border-color:#fff}
 button.danger{color:var(--bad)}
 button.ghost{border-color:transparent;background:none;padding:6px 10px}
-button.ghost:hover:not(:disabled){background:var(--hover)}
-button.xl{padding:14px 30px;font-size:16px}
-input[type=text],input[type=password],input[type=date],input[type=number],input[type=search],select,textarea{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#0b1430;color:var(--text)}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,140,255,.18)}
+button.ghost:hover:not(:disabled){background:var(--hover);border-color:transparent}
+button.xl{padding:13px 28px;font-size:14px;text-transform:uppercase;letter-spacing:1.4px}
+input[type=text],input[type=password],input[type=date],input[type=number],input[type=search],select,textarea{border:1px solid var(--line);border-radius:4px;padding:9px 11px;background:#0c152d;color:var(--text)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(201,163,90,.15)}
 .ico{width:18px;height:18px;flex-shrink:0;vertical-align:-4px}
 .ok{color:var(--ok)}.bad{color:var(--bad)}.muted{color:var(--muted)}.small{font-size:12.5px}
-h3{margin:0 0 12px;font-size:13px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lb,h3{display:block;margin:0 0 10px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--brass);font-weight:500}
+.rule{height:1px;background:var(--line);margin:14px 0}
+.serif{font-family:var(--serif)}
+.num{font-family:var(--num);font-weight:600;font-variant-numeric:lining-nums tabular-nums}
 
 /* elrendezés */
 #app{display:flex;width:100%;height:100%}
-#side{width:248px;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:12px 8px;gap:2px;flex-shrink:0;min-height:0}
-.ws{display:flex;align-items:center;gap:10px;padding:8px 10px 16px;font-family:var(--serif);font-weight:700;font-size:19px}
-.ws svg{width:32px;height:32px;flex-shrink:0;filter:drop-shadow(0 2px 6px var(--glow))}
-.ws small{display:block;font-family:system-ui,sans-serif;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:.4px}
-.navi{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:9px 10px}
+#side{width:236px;background:var(--side);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 10px;gap:1px;flex-shrink:0;min-height:0}
+.ws{display:flex;align-items:center;gap:10px;padding:2px 8px 22px}
+.ws svg{width:30px;height:30px;flex-shrink:0}
+.ws b{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:.2px}
+.ws .blades{transform-box:fill-box;transform-origin:center;animation:spin var(--spd,10s) linear infinite}
+.ws.idle .blades{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+.navi{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:0;border-left:1px solid transparent;border-radius:0;padding:9px 12px;color:var(--muted)}
 .navi .lbl{flex:1}
-.navi:hover{background:var(--hover)}
-.navi.on{background:linear-gradient(90deg,rgba(79,140,255,.22),transparent);box-shadow:inset 3px 0 0 var(--accent)}
-.badge{font-size:12px;background:linear-gradient(180deg,#8ab6ff,var(--accent-2));color:#fff;font-weight:700;border-radius:999px;padding:1px 8px;min-width:24px;text-align:center}
+.navi:hover{background:var(--hover);color:var(--text)}
+.navi.on{color:var(--text);border-left-color:var(--brass);background:linear-gradient(90deg,rgba(201,163,90,.09),transparent)}
+.badge{font-size:11px;background:var(--brass);color:var(--bg);font-weight:600;border-radius:3px;padding:1px 7px;min-width:22px;text-align:center}
 .badge.zero{background:var(--hover);color:var(--muted)}
-.sec{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:16px 10px 6px}
+.sec{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--brass);padding:22px 12px 6px}
 #tree{overflow-y:auto;flex:1;min-height:0}
-.node{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;user-select:none}
-.node:hover{background:var(--hover)}
-.node.cur{background:var(--sel)}
-.node .tg{display:inline-block;width:14px;color:var(--muted);text-align:center}
+.node{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:3px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;user-select:none;color:var(--muted);font-size:13.5px}
+.node:hover{background:var(--hover);color:var(--text)}
+.node.cur{background:var(--sel);color:var(--text)}
+.node .tg{display:inline-block;width:14px;text-align:center}
 #sideFoot{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:2px}
 #main{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
-#top{display:flex;align-items:center;gap:6px;height:50px;padding:0 12px;border-bottom:1px solid var(--line);flex-shrink:0;min-width:0;background:rgba(13,22,48,.6);backdrop-filter:blur(8px)}
-#crumbs{display:flex;align-items:center;gap:2px;flex-wrap:nowrap;font-size:13.5px;min-width:0;overflow:hidden;flex:1;white-space:nowrap}
-#crumbs button{padding:3px 6px;font-size:13.5px}
-#pomoPill{font-variant-numeric:tabular-nums;font-size:13px;padding:5px 12px}
+#top{display:flex;align-items:center;gap:6px;height:50px;padding:0 14px;border-bottom:1px solid var(--line);flex-shrink:0;min-width:0}
+#crumbs{display:flex;align-items:center;gap:2px;flex-wrap:nowrap;font-size:13px;min-width:0;overflow:hidden;flex:1;white-space:nowrap;color:var(--muted)}
+#crumbs button{padding:3px 6px;font-size:13px}
+#topBrand{display:none;font-family:var(--serif);font-size:21px;font-weight:600}
+#pomoPill{font-variant-numeric:tabular-nums;font-size:13px;padding:5px 12px;border-color:var(--line)}
 #pomoPill.brk{color:var(--ok)}
-#filesTrash{display:none}
-@media (max-width:760px){#filesTrash{display:inline-flex;align-items:center;gap:4px}}
 #gearTop{display:none}
 .view{flex:1;min-height:0;overflow:auto}
-.wrap{max-width:900px;margin:0 auto;padding:24px 28px 40px;display:flex;flex-direction:column;gap:16px}
-.panel{background:linear-gradient(180deg,rgba(20,31,62,.96),rgba(14,22,46,.96));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 20px 60px -30px #000,inset 0 1px 0 rgba(255,255,255,.04);animation:rise .4s ease both}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 32px 48px;display:flex;flex-direction:column;gap:22px}
+.panel{border-top:1px solid var(--line);padding-top:16px;animation:rise .4s ease both}
+.box{border:1px solid var(--line);border-radius:6px;padding:18px;background:var(--panel)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
 .row-between{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.h1{font-family:var(--serif);font-size:32px;margin:0;letter-spacing:.2px}
+.h1{font-family:var(--serif);font-size:36px;font-weight:600;margin:0;line-height:1.1}
+.sub{font-family:var(--serif);font-style:italic;font-size:18px;color:#b8b2a2;margin:4px 0 0}
 
-/* Ma */
-.hero{display:flex;align-items:center;gap:20px;padding:6px 4px}
-.mill{width:84px;height:84px;flex-shrink:0;filter:drop-shadow(0 8px 24px var(--glow))}
-.mill .blades{transform-box:fill-box;transform-origin:center;animation:spin var(--spd,8s) linear infinite}
-.mill.idle .blades{animation-play-state:paused}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* kezdőoldal */
+.hgrid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:40px}
+.greet{font-family:var(--serif);font-size:38px;font-weight:600;margin:6px 0 0;line-height:1.1}
+.bigRow{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.bignum{font-family:var(--num);font-weight:600;font-size:112px;line-height:.9;letter-spacing:-4px;font-variant-numeric:lining-nums}
+.bigTxt{font-family:var(--serif);font-style:italic;font-size:21px;color:#b8b2a2;padding-bottom:10px;line-height:1.25}
+.cta{width:100%;margin-top:18px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpis .lb{font-size:10px;margin-bottom:4px}
+.kpis b{font-family:var(--num);font-weight:600;font-size:28px;font-variant-numeric:lining-nums}
+.kpis b.pos{color:var(--ok)}.kpis b.neg{color:var(--bad)}
+.paper{background:var(--paper);color:var(--ink);border-radius:4px;padding:16px 18px;box-shadow:0 18px 40px -28px #000}
+.paper .pl{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#8a6d32}
+.paper .pn{font-family:var(--serif);font-size:23px;font-weight:600;margin:2px 0 10px;line-height:1.15}
+.paper .pm{font-size:12.5px;color:var(--ink2);display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.paper button{border-color:#c8bfa8;color:var(--ink)}
+.paper button.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.paper.click{cursor:pointer;transition:transform .2s}
+.paper.click:hover{transform:translateY(-2px)}
+.mini{display:flex;align-items:center;gap:4px;margin-bottom:10px}
+.mini i{width:11px;height:11px;border-radius:50%;background:var(--ink);flex-shrink:0;display:inline-block}
+.mini i.c{background:transparent;border:2px solid #b8862f;width:13px;height:13px}
+.mini i.l{background:#d6ccb4}
+.mini s{flex:1;max-width:22px;height:1px;background:#1a2240}
+.mini s.l{background:#cfc5ad}
+.mini svg{width:16px;height:16px;color:#a69c84}
+.hearts{display:inline-flex;gap:2px;vertical-align:middle}
+.hearts svg{width:16px;height:16px}
+.hearts .on{color:#c0473c}.hearts .off{color:#cfc5ad}
+.dl{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.dl:hover .dn{color:var(--brass2)}
+.dl .dn{font-family:var(--serif);font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.dl .dv{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.dl .dv.b{color:var(--brass)}
+.exam{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;padding:12px 0;border-bottom:1px solid var(--line)}
+.exam .ed{font-family:var(--num);font-size:30px;font-weight:600;line-height:1}
+.exam .ed small{display:block;font-family:var(--sans);font-size:11px;font-weight:400;color:var(--muted);letter-spacing:1px;margin-top:4px}
+.exam .et{font-family:var(--serif);font-size:19px}
+.exam .em{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.6}
+.track{position:relative;height:4px;background:var(--hover);margin:8px 0 2px}
+.track i{position:absolute;left:0;top:0;bottom:0;background:var(--brass)}
+.track b{position:absolute;top:-4px;width:2px;height:12px;background:var(--ivory)}
 .ringBox{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-.ring{width:132px;height:132px;flex-shrink:0;position:relative}
+.ring{width:118px;height:118px;flex-shrink:0;position:relative}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring circle{fill:none;stroke-width:11}
+.ring circle{fill:none;stroke-width:6}
 .ring .trk{stroke:var(--hover)}
-.ring .arc{stroke:url(#ringGrad);stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)}
+.ring .arc{stroke:var(--brass);stroke-linecap:butt;transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)}
 .ring .txt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.ring .txt b{font-size:30px;font-variant-numeric:tabular-nums}
-.ring .txt span{font-size:12px;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.chip{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px;font-variant-numeric:tabular-nums}
-.chip b{font-size:15px}
-.streak{font-family:var(--serif);font-size:40px;line-height:1;margin-bottom:12px}
-.streak small{font-family:system-ui;font-size:13px;color:var(--muted)}
+.ring .txt b{font-family:var(--num);font-size:30px;font-variant-numeric:lining-nums}
+.ring .txt span{font-size:11px;color:var(--muted)}
 #heat{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;grid-auto-columns:1fr;gap:3px}
-#heat i{display:block;aspect-ratio:1;border-radius:3px;background:var(--hover)}
-#heat i.l1{background:#1d3b7a}#heat i.l2{background:#2d5bc0}#heat i.l3{background:#4f8cff}#heat i.l4{background:#9cc2ff}
-#heat i.today{outline:1.5px solid #fff;outline-offset:-1px}
-.li{display:flex;align-items:center;gap:12px;padding:10px 4px;border-top:1px solid var(--line)}
+#heat i{display:block;aspect-ratio:1;background:var(--hover)}
+#heat i.l1{background:#4a3f2a}#heat i.l2{background:#7a6334}#heat i.l3{background:#b08a45}#heat i.l4{background:#e2c585}
+#heat i.today{outline:1.5px solid var(--ivory);outline-offset:-1px}
+.pomoT{font-family:var(--num);font-size:46px;font-weight:600;font-variant-numeric:lining-nums tabular-nums;line-height:1.1}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
 .li:first-of-type{border-top:0}
 .li .nm{flex:1;min-width:0}
 .li .nm div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bar{height:6px;background:var(--hover);border-radius:999px;overflow:hidden;margin-top:6px}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,#4f8cff,#9cc2ff);border-radius:999px;transition:width .5s}
-.pomoT{font-family:var(--serif);font-size:44px;font-variant-numeric:tabular-nums;line-height:1.1}
-.btns{display:flex;gap:8px;flex-wrap:wrap}
 
-/* fájlok */
-#fHead{padding:24px 28px 6px}
-#curTitle{font-family:var(--serif);font-size:30px;font-weight:700;margin:0 0 14px;display:flex;align-items:center;gap:10px}
-#bar{display:flex;gap:8px;flex-wrap:wrap}
-#summary{font-size:12.5px;color:var(--muted);padding:12px 28px 10px;border-bottom:1px solid var(--line)}
-#rows{padding:6px 16px 30px}
-.row{display:grid;grid-template-columns:28px 1fr 96px 96px 36px;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;border:1px solid transparent;user-select:none}
+/* jegyzetek */
+#fHead{padding:26px 32px 8px}
+#curTitle{font-family:var(--serif);font-size:34px;font-weight:600;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+#bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#fSearch{flex:1;min-width:160px;max-width:320px;margin-left:auto}
+#summary{font-size:12px;color:var(--muted);padding:12px 32px 10px;border-bottom:1px solid var(--line)}
+#rows{padding:6px 20px 30px}
+.row{display:grid;grid-template-columns:26px 1fr 110px 96px 34px;align-items:center;gap:10px;padding:10px 12px;border-radius:3px;cursor:pointer;border:1px solid transparent;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;border-bottom-color:var(--line)}
 .row:hover{background:var(--hover)}
-.row.sel{background:var(--sel);border-color:rgba(79,140,255,.35)}
-.row.head{cursor:default;color:var(--muted);font-size:12px;padding:6px 12px}
+.row.sel{background:var(--sel);border-color:rgba(201,163,90,.45)}
+.row.head{cursor:default;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:6px 12px}
 .row.head:hover{background:none}
 .row .m{color:var(--muted);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
 .row .nm{min-width:0}
-.row .nm>div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row .bar{max-width:180px}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
-.dot.aktiv{background:var(--accent)}.dot.nincs{background:var(--muted)}.dot.szunet{background:var(--warn)}
+.row .nm>div:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--serif);font-size:18px}
+.row.dragging{opacity:.4}
+.dropok{background:rgba(201,163,90,.16)!important;border-color:var(--brass)!important;box-shadow:inset 0 0 0 1px var(--brass)}
+#ghost{position:fixed;z-index:120;pointer-events:none;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;padding:8px 14px;border-radius:4px;box-shadow:0 14px 30px -10px #000;transform:translate(-50%,-130%);white-space:nowrap}
+.pbar{height:3px;background:var(--hover);margin-top:6px;max-width:200px}
+.pbar i{display:block;height:100%;background:var(--brass);transition:width .5s}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot.aktiv{background:var(--brass)}.dot.nincs{background:var(--dim)}.dot.szunet{background:var(--bad)}
 .more{padding:4px 8px;border:0;background:none;color:var(--muted)}
+.hit{padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--line)}
+.hit:hover{background:var(--hover)}
+.hit b{font-family:var(--serif);font-size:18px;font-weight:600}
+.hit mark{background:rgba(201,163,90,.35);color:#fff;padding:0 2px}
 
 /* dokumentum */
-#noteWrap{gap:12px}
-#noteName{font-family:var(--serif);font-size:30px;font-weight:700;border:0;background:transparent;outline:none;box-shadow:none;padding:4px 0;width:100%}
+#noteWrap{gap:14px}
+#noteName{font-family:var(--serif);font-size:36px;font-weight:600;border:0;background:transparent;outline:none;box-shadow:none;padding:4px 0;width:100%}
 #noteActions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-#noteText{min-height:320px;resize:vertical;font-size:16px;line-height:1.65;padding:14px;border-radius:14px;background:linear-gradient(180deg,rgba(20,31,62,.9),rgba(14,22,46,.9))}
-.help{font-size:12.5px;color:var(--muted);line-height:1.6;background:rgba(255,255,255,.02);border:1px dashed var(--line);border-radius:12px;padding:12px 14px}
+#noteText{min-height:340px;resize:vertical;font-size:16px;line-height:1.7;padding:16px 18px;background:#0c152d}
+.help{font-size:12.5px;color:var(--muted);line-height:1.7;border-top:1px solid var(--line);padding-top:12px}
 .stats{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+#errText{font-size:17px;line-height:2;white-space:pre-wrap}
+#errText .e1{background:rgba(219,168,92,.22);border-bottom:2px solid var(--warn)}
+#errText .e2{background:rgba(224,123,110,.25);border-bottom:2px solid #e0896e}
+#errText .e3{background:rgba(224,90,80,.45);border-bottom:2px solid #ff5a4e;color:#fff}
+.legend span{display:inline-block;padding:0 6px;margin-right:6px;font-size:12px}
 #chatLog{max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;margin:8px 0}
-.msg{padding:9px 13px;border-radius:14px;max-width:88%;line-height:1.5;animation:rise .3s ease both;white-space:pre-wrap}
-.msg.user{margin-left:auto;background:linear-gradient(180deg,#8ab6ff,var(--accent-2));color:#fff}
+.msg{padding:9px 13px;border-radius:6px;max-width:88%;line-height:1.55;animation:rise .3s ease both;white-space:pre-wrap}
+.msg.user{margin-left:auto;background:var(--ivory);color:var(--bg)}
 .msg.assistant{background:var(--hover)}
 .msg.error{color:var(--bad);font-size:13px}
 #chatForm{display:flex;gap:8px}
@@ -136,156 +189,207 @@ h3{margin:0 0 12px;font-size:13px;letter-spacing:.8px;text-transform:uppercase;c
 
 /* ismétlés */
 #revWrap{max-width:720px}
-.prog{height:5px;background:var(--hover);border-radius:999px;overflow:hidden}
-.prog i{display:block;height:100%;background:linear-gradient(90deg,#4f8cff,#9cc2ff);transition:width .4s}
+.prog{height:3px;background:var(--hover);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--brass);transition:width .4s}
 #cardWrap{position:relative;touch-action:pan-y;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .3s}
 .card3d{display:grid;perspective:1400px}
-.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .55s cubic-bezier(.2,.8,.2,1);min-height:260px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;text-align:center;padding:30px 22px;border-radius:24px;border:1px solid var(--line);background:linear-gradient(160deg,#16244a,#0f1833);box-shadow:0 30px 70px -35px #000,inset 0 1px 0 rgba(255,255,255,.05)}
-.face.back{transform:rotateY(180deg);background:linear-gradient(160deg,#1a2c5a,#111c3c)}
+.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .55s cubic-bezier(.2,.8,.2,1);min-height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;text-align:center;padding:34px 26px;border-radius:6px;background:var(--paper);color:var(--ink);box-shadow:0 30px 70px -35px #000}
+.face.back{transform:rotateY(180deg)}
 .card3d.noanim .face{transition:none}
 .card3d.flip .front{transform:rotateY(-180deg)}
 .card3d.flip .back{transform:rotateY(0)}
-.kind{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
-.q{font-family:var(--serif);font-size:26px;line-height:1.4;overflow-wrap:anywhere}
-.a{font-family:var(--serif);font-size:24px;line-height:1.45;color:#e6eeff;overflow-wrap:anywhere}
-.qs{font-size:14px;color:var(--muted)}
-.face textarea{width:100%;font-size:17px;min-height:90px}
-.tapHint{font-size:12px;color:var(--muted)}
-.swl{position:absolute;top:18px;font-weight:800;font-size:15px;letter-spacing:1px;padding:4px 12px;border-radius:10px;border:2px solid;opacity:0;transition:opacity .1s;pointer-events:none;z-index:2}
-.swl.l{left:18px;color:var(--bad);transform:rotate(-10deg)}
-.swl.r{right:18px;color:var(--ok);transform:rotate(10deg)}
-.swl.u{left:50%;transform:translateX(-50%);color:#9cc2ff}
-#grades{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-button.g{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 6px;border-radius:16px;font-weight:600;background:linear-gradient(180deg,var(--panel),#101a35)}
-button.g small{font-weight:400;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
-button.g1{color:var(--bad);border-color:rgba(255,127,127,.35)}
-button.g2{color:var(--warn);border-color:rgba(242,184,102,.35)}
-button.g3{color:#9cc2ff;border-color:rgba(79,140,255,.6)}
-button.g4{color:var(--ok);border-color:rgba(111,211,160,.45)}
-.diff span{display:inline-block;margin:1px 2px;padding:0 2px;border-radius:4px}
-.diff .ok{color:var(--ok)}
-.diff .bad{color:var(--bad);text-decoration:line-through}
-.diff .miss{color:var(--warn);border-bottom:2px dashed var(--warn)}
-.sumBig{font-family:var(--serif);font-size:44px;text-align:center;margin:6px 0}
+.kind{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:#8a6d32}
+.q{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.a{font-family:var(--serif);font-size:27px;line-height:1.35;overflow-wrap:anywhere}
+.qs{font-size:13.5px;color:var(--ink2)}
+.face textarea{width:100%;font-size:17px;min-height:90px;background:#fffaf0;color:var(--ink);border-color:#d6ccb4}
+.face button{border-color:#c8bfa8;color:var(--ink)}
+.face button.primary{background:var(--ink);color:var(--paper)}
+.tapHint{font-size:12px;color:var(--ink2)}
+.swl{position:absolute;top:18px;font-weight:700;font-size:14px;letter-spacing:1.5px;padding:4px 12px;border-radius:3px;border:2px solid;opacity:0;transition:opacity .1s;pointer-events:none;z-index:2}
+.swl.l{left:18px;color:#c0473c;transform:rotate(-10deg)}
+.swl.r{right:18px;color:#3f8a55;transform:rotate(10deg)}
+#grades{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button.g{display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 6px;font-weight:600;font-size:15px;letter-spacing:.4px}
+button.g small{font-weight:400;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums;letter-spacing:0}
+button.g1{color:var(--bad);border-color:rgba(224,123,110,.5)}
+button.g3{color:var(--ok);border-color:rgba(127,179,138,.55)}
+.diff span{display:inline-block;margin:1px 2px;padding:0 2px}
+.diff .ok{color:#3f7a4f}
+.diff .bad{color:#b2382d;text-decoration:line-through}
+.diff .miss{color:#9a6a1c;border-bottom:2px dashed #c98f2c}
+.sumBig{font-family:var(--num);font-size:84px;font-weight:600;text-align:center;line-height:1;margin:6px 0}
 .sumGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
-.sumGrid div{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}
-.sumGrid b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.sumGrid div{border-top:1px solid var(--line);padding:12px}
+.sumGrid b{display:block;font-family:var(--num);font-size:26px;font-variant-numeric:lining-nums}
 
-/* tanulás */
-#learn{position:fixed;inset:0;z-index:20;background:radial-gradient(900px 500px at 50% -10%,rgba(79,140,255,.13),transparent 60%),var(--bg);display:flex;flex-direction:column}
-#learnTop{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);background:rgba(13,22,48,.75);backdrop-filter:blur(8px)}
+/* tanulás: lista és térkép */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+#pathMap{display:flex;flex-direction:column;align-items:center;padding:8px 0 40px}
+.phase{display:flex;align-items:center;gap:14px;width:100%;max-width:520px;margin:26px 0 8px}
+.phase:first-child{margin-top:0}
+.phase span{font-family:var(--num);font-size:13px;color:var(--brass);letter-spacing:2px}
+.phase b{font-family:var(--serif);font-size:24px;font-weight:600}
+.phase i{flex:1;height:1px;background:var(--line)}
+.pnode{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;padding:0;margin:10px 0;position:relative;transform:translateX(var(--x,0))}
+.pnode:hover:not(:disabled){border:0}
+.pnode .disc{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--num);font-size:26px;font-weight:600;transition:transform .2s}
+.pnode:hover .disc{transform:scale(1.06)}
+.pnode .disc svg{width:28px;height:28px}
+.pnode.done .disc{background:var(--ivory);color:var(--bg)}
+.pnode.cur .disc{background:var(--bg);color:var(--brass2);border:3px solid var(--brass);animation:pulse 2s ease-in-out infinite}
+.pnode.lock .disc{background:var(--hover);color:var(--dim);border:1px solid var(--line)}
+.pnode .nl{font-size:12.5px;color:var(--muted);letter-spacing:.5px}
+.pnode.cur .nl{color:var(--brass2);font-weight:600}
+.pnode .st{font-size:13px;letter-spacing:2px;color:var(--brass);height:16px}
+.pnode .st .o{color:var(--line)}
+.pnode .hearts{margin-top:2px}
+.pnode .hearts .off{color:var(--line)}
+.pnode.justUnlocked .disc{animation:unlock .9s cubic-bezier(.2,1.4,.4,1) both,pulse 2s 1s ease-in-out infinite}
+.pnode.justLocked .disc{animation:relock .7s ease both}
+.pnode.trophy .disc{width:88px;height:88px;font-size:34px}
+.pnode.trophy.done .disc{background:var(--brass);color:var(--bg)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,163,90,.45)}50%{box-shadow:0 0 0 12px rgba(201,163,90,0)}}
+@keyframes unlock{0%{transform:scale(.4) rotate(-30deg);opacity:0}60%{transform:scale(1.18) rotate(6deg);opacity:1}100%{transform:none}}
+@keyframes relock{0%{transform:translateY(-30px);opacity:0}50%{transform:translateY(4px);opacity:1}70%{transform:translateX(-6px)}85%{transform:translateX(6px)}100%{transform:none}}
+
+/* tanulás: gyakorlás */
+#learn{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;flex-direction:column}
+#learnTop{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line)}
 #lInfo{flex:1;min-width:0;display:flex;flex-direction:column}
-#lInfo b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#lStepBar{display:flex;gap:4px;padding:10px 14px 0;max-width:760px;width:100%;margin:0 auto}
-#lStepBar i{flex:1;height:5px;border-radius:999px;background:var(--hover)}
-#lStepBar i.done{background:var(--accent)}
-#lStepBar i.cur{background:#9cc2ff;box-shadow:0 0 10px var(--glow)}
-#lBody{flex:1;overflow:auto;padding:22px 18px 30px}
-#lText{max-width:760px;margin:0 auto;font-family:var(--serif);font-size:23px;line-height:1.9;overflow-wrap:anywhere}
-#lText .t{position:relative;border-radius:5px;padding:0 1px;transition:color .15s,background .15s}
-#lText .t.fade{color:rgba(233,238,251,.28)}
-#lText .t.cur{background:rgba(79,140,255,.18);box-shadow:inset 0 -2px 0 var(--accent)}
-#lText .t.ok{color:var(--text)}
-#lText .t.bad{color:var(--bad);text-decoration:underline wavy rgba(255,127,127,.6)}
+#lInfo b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--serif);font-size:19px;font-weight:600}
+#lHearts{display:flex;gap:4px}
+#lHearts svg{width:24px;height:24px;color:#c0473c;transition:transform .3s,opacity .3s}
+#lHearts svg.off{color:var(--line)}
+#lHearts svg.lost{animation:hbreak .8s ease both}
+@keyframes hbreak{0%{transform:scale(1)}30%{transform:scale(1.5);color:#ff6a5c}100%{transform:scale(1);color:var(--line)}}
+#lProg{height:3px;background:var(--hover)}
+#lProg i{display:block;height:100%;background:var(--brass);transition:width .3s}
+#lWarn{position:absolute;left:50%;top:64px;transform:translate(-50%,-20px);opacity:0;pointer-events:none;background:var(--warn);color:#2a1a04;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:4px;transition:all .3s;z-index:3;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+#lWarn.show{opacity:1;transform:translate(-50%,0)}
+#lBody{flex:1;overflow:auto;padding:24px 16px 34px}
+#lPaper{max-width:860px;margin:0 auto;background:var(--paper);color:var(--ink);border-radius:6px;padding:28px 34px;box-shadow:0 30px 60px -40px #000}
+#lText{font-family:var(--sans);font-size:19px;font-weight:600;line-height:2.05;overflow-wrap:anywhere}
+#lText .t{position:relative;padding:0 1px;transition:color .15s,background .15s}
+#lText .t.fade{color:#b4ab95}
+#lText .t.cur{box-shadow:inset 0 -2px 0 var(--brass)}
+#lText .t.cur:empty::after{content:'';display:inline-block;width:2px;height:1em;background:var(--brass);vertical-align:-.1em;animation:blink 1s steps(2) infinite}
+#lText .t.ok{color:var(--ink)}
+#lText .t.bad{color:#b2382d;text-decoration:underline wavy rgba(178,56,45,.5)}
+#lText .t.typo{color:var(--ink);text-decoration:underline dotted #c98f2c;text-underline-offset:4px}
 #lText .t.pop{animation:pop .25s ease}
-#lText .bl{display:inline-block;border-bottom:2px solid rgba(141,155,189,.45);height:1.1em;vertical-align:-0.15em}
-#lText .t.cur .bl{border-color:var(--accent)}
-#lText .first{color:rgba(233,238,251,.5)}
-#lFoot{border-top:1px solid var(--line);padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:rgba(13,22,48,.8);backdrop-filter:blur(8px)}
-#lFootIn{max-width:760px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
-#lIn{flex:1;min-width:180px;font-size:18px;padding:12px 14px;border-radius:14px}
+#lText .hid{color:transparent}
+#lText .f1{color:#a59c86}
+#lText .t.weak{}
+#lText .para{display:block;margin-bottom:.4em}
+@keyframes blink{50%{opacity:0}}
+#lFoot{border-top:1px solid var(--line);padding:12px 14px calc(12px + env(safe-area-inset-bottom))}
+#lFootIn{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+#lIn{flex:1;min-width:180px;font-size:18px;padding:12px 14px}
 #lHint{width:100%;text-align:center;font-size:12.5px;color:var(--muted)}
-.result{text-align:center;max-width:520px;margin:30px auto;display:flex;flex-direction:column;gap:14px;align-items:center}
-.result .big{font-size:64px;line-height:1}
+#lFlash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,17,36,.86);opacity:0;pointer-events:none;transition:opacity .25s;z-index:5}
+#lFlash.show{opacity:1;pointer-events:auto}
+#lFlash .fx{text-align:center;transform:scale(.9);transition:transform .35s cubic-bezier(.2,1.4,.4,1)}
+#lFlash.show .fx{transform:none}
+#lFlash .fi{font-size:64px;line-height:1}
+#lFlash .fi svg{width:72px;height:72px}
+#lFlash .ft{font-family:var(--serif);font-size:30px;font-weight:600;margin-top:10px}
+#lFlash .fs{color:var(--muted);margin-top:6px}
+.result{text-align:center;max-width:540px;margin:10px auto;display:flex;flex-direction:column;gap:12px;align-items:center}
+.result .big{font-size:68px;line-height:1}
+.result .big svg{width:76px;height:76px}
+.result .rt{font-family:var(--serif);font-size:30px;font-weight:600}
+.result .stars{font-size:34px;letter-spacing:6px;color:var(--brass)}
+.result .stars .o{color:#d6ccb4}
 .shake{animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @keyframes pop{50%{transform:scale(1.12)}}
 
-/* kereső, kuka */
-#qBox{width:100%;font-size:17px;padding:12px 16px;border-radius:14px}
-.hit{padding:10px 12px;border-radius:12px;cursor:pointer}
-.hit:hover{background:var(--hover)}
-.hit mark{background:rgba(79,140,255,.35);color:#fff;border-radius:3px;padding:0 2px}
-
 /* párbeszéd, toast, konfetti */
-dialog{border:1px solid var(--line);border-radius:20px;padding:20px 22px;width:min(520px,94vw);max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);background:linear-gradient(180deg,var(--panel),#101a35);color:var(--text)}
-dialog::backdrop{background:rgba(3,7,18,.6);backdrop-filter:blur(2px)}
-dialog h3{color:var(--text);text-transform:none;letter-spacing:0;font-size:18px}
+dialog{border:1px solid var(--line);border-radius:6px;padding:22px 24px;width:min(540px,94vw);max-height:88vh;overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);background:var(--panel);color:var(--text)}
+dialog::backdrop{background:rgba(3,7,18,.65)}
+dialog h3{color:var(--text);text-transform:none;letter-spacing:0;font-size:26px;font-family:var(--serif);font-weight:600}
 dialog label{display:flex;flex-direction:column;gap:5px;margin:10px 0;font-size:13px;color:var(--muted)}
 dialog label.cb{flex-direction:row;align-items:center;gap:10px;color:var(--text);font-size:14px}
 dialog input,dialog select{font-size:15px}
-dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
-.pick{display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:10px;border:1px solid var(--line);margin:6px 0;cursor:pointer}
+dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.pick{display:flex;gap:10px;align-items:flex-start;padding:8px;border:1px solid var(--line);margin:6px 0;cursor:pointer;border-radius:4px}
 .pick input{margin-top:3px}
-#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(160px);background:linear-gradient(180deg,#dbe7ff,#b7ceff);color:#0a1124;border-radius:999px;padding:10px 12px 10px 20px;font-weight:600;box-shadow:0 10px 30px -10px #000;transition:transform .3s;z-index:99;display:flex;align-items:center;gap:10px;max-width:92vw}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(160px);background:var(--ivory);color:var(--bg);border-radius:4px;padding:10px 12px 10px 18px;font-weight:600;box-shadow:0 10px 30px -10px #000;transition:transform .3s;z-index:130;display:flex;align-items:center;gap:10px;max-width:92vw}
 #toast.show{transform:translateX(-50%) translateY(0)}
-#toast button{background:#0a1124;color:#fff;border:0;padding:6px 12px;font-size:13px}
-#toast:not(.act){padding-right:20px}
-.conf{position:fixed;width:9px;height:14px;border-radius:2px;z-index:100;pointer-events:none;animation:conf 1.3s cubic-bezier(.1,.7,.3,1) forwards}
+#toast button{background:var(--bg);color:var(--ivory);border:0;padding:6px 12px;font-size:13px}
+#toast:not(.act){padding-right:18px}
+.conf{position:fixed;width:8px;height:13px;z-index:140;pointer-events:none;animation:conf 1.3s cubic-bezier(.1,.7,.3,1) forwards}
 @keyframes conf{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* telefon: alsó fülsor */
 @media (max-width:760px){
-  #side{position:fixed;left:0;right:0;bottom:0;width:auto;height:calc(var(--tabh) + env(safe-area-inset-bottom));flex-direction:row;padding:4px 4px env(safe-area-inset-bottom);border-right:0;border-top:1px solid var(--line);z-index:15;background:rgba(13,22,48,.92);backdrop-filter:blur(12px);gap:0}
-  .ws,.sec,#tree,#sideFoot,#newQuick,#tabTrash{display:none}
-  .navi{flex-direction:column;gap:3px;justify-content:center;font-size:11px;padding:6px 2px;position:relative}
+  #side{position:fixed;left:0;right:0;bottom:0;width:auto;height:calc(var(--tabh) + env(safe-area-inset-bottom));flex-direction:row;padding:2px 4px env(safe-area-inset-bottom);border-right:0;border-top:1px solid var(--line);z-index:15;background:rgba(10,17,36,.97);gap:0}
+  .ws,.sec,#tree,#sideFoot{display:none}
+  .navi{flex-direction:column;gap:3px;justify-content:center;font-size:10.5px;padding:6px 2px;position:relative;border-left:0;border-top:2px solid transparent}
   .navi .lbl{flex:none}
-  .navi .ico{width:22px;height:22px}
-  .navi.on{box-shadow:none;background:none;color:#9cc2ff}
-  .navi .badge{position:absolute;top:2px;left:calc(50% + 6px);font-size:10px;padding:0 6px;min-width:18px}
+  .navi .ico{width:21px;height:21px}
+  .navi.on{background:none;border-top-color:var(--brass)}
+  .navi .badge{position:absolute;top:3px;left:calc(50% + 6px);font-size:9.5px;padding:0 5px;min-width:16px}
   #main{padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
   #gearTop{display:inline-flex}
+  #top.home #crumbs,#top.home #backBtn{display:none}
+  #top.home #topBrand{display:block;flex:1}
   #bar button:disabled{display:none}
-  .wrap{padding:16px 14px 30px}
-  .grid2{grid-template-columns:1fr}
-  #fHead{padding:16px 14px 6px}
-  #summary{padding:10px 14px}
+  #fSearch{max-width:none;order:-1;flex-basis:100%;margin:0}
+  .wrap{padding:18px 16px 30px;gap:18px}
+  .grid2,.hgrid{grid-template-columns:minmax(0,1fr);gap:22px}
+  #fHead{padding:18px 16px 6px}
+  #summary{padding:10px 16px}
   #rows{padding:6px 6px 30px}
-  .row{grid-template-columns:26px 1fr 64px 36px}
+  .row{grid-template-columns:24px 1fr 60px 34px}
   .row .m.d{display:none}
-  .h1{font-size:28px}
-  .mill{width:68px;height:68px}
-  .q{font-size:22px}.a{font-size:21px}
-  #lText{font-size:20px}
-  #curTitle,#noteName{font-size:24px}
+  .h1,.greet{font-size:30px}
+  .bignum{font-size:96px}
+  .q{font-size:24px}.a{font-size:22px}
+  #lText{font-size:17px}
+  #lPaper{padding:20px 18px}
+  #curTitle,#noteName{font-size:28px}
 }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9cc2ff"/><stop offset="1" stop-color="#2457d6"/></linearGradient>
-    <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a6fe0"/><stop offset=".5" stop-color="#1f45a8"/><stop offset="1" stop-color="#0b1f5c"/></linearGradient>
-    <g id="blades"><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#fff"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#dce8ff" transform="rotate(90)"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#fff" transform="rotate(180)"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#dce8ff" transform="rotate(270)"/></g>
-    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-    <symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 3h10.5A2.5 2.5 0 0 1 21 5.5V17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-    <symbol id="i-folderF" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#4f8cff" fill-opacity=".85"/></symbol>
-    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="#dce8ff" fill-opacity=".9"/><path d="M14 3v5h5" fill="#9cc2ff"/><path d="M8 13h8M8 16.5h6" stroke="#1f3160" stroke-width="1.6" stroke-linecap="round"/></symbol>
-    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
-    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <g id="blades"><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#efe8d8"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#dce8ff" transform="rotate(90)"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#efe8d8" transform="rotate(180)"/><path d="M0 0 L0 -150 Q0 -168 18 -168 L86 -168 Q104 -168 104 -150 L104 -30 Z" fill="#dce8ff" transform="rotate(270)"/></g>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cards" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 3h10.5A2.5 2.5 0 0 1 21 5.5V17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-notes" viewBox="0 0 24 24"><path d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M14 3v5h5 M8.5 13h7M8.5 16.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-path" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-folderF" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="#c9a35a" fill-opacity=".9"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="#f3ecdd"/><path d="M14 3v5h5" fill="#d6ccb4"/><path d="M8 13h8M8 16.5h6" stroke="#1a2240" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5S3.5 15.2 3.5 9.2A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.5 2.8c0 6-8.5 11.3-8.5 11.3z" fill="currentColor"/></symbol>
+    <symbol id="i-heartx" viewBox="0 0 24 24"><path d="M12 20.5S3.5 15.2 3.5 9.2A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.5 2.8c0 6-8.5 11.3-8.5 11.3z" fill="currentColor"/><path d="M12 6.4l-1.6 4 2.6 2-2 3.4" stroke="#0a1124" stroke-width="1.6" fill="none" stroke-linejoin="round"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0z M7 6H4v1.5A3.5 3.5 0 0 0 7.5 11 M17 6h3v1.5A3.5 3.5 0 0 1 16.5 11 M12 14v3.5 M8.5 20.5h7 M9.5 17.5h5v3h-5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
 
 <div id="app">
   <aside id="side">
-    <div class="ws">
-      <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="url(#lg)"/><g transform="translate(256 256)"><use href="#blades"/><circle r="26" fill="#061233"/><circle r="9" fill="#8ab6ff"/></g></svg>
-      <div>MemoMill<small>tanulj, amíg megőrlöd</small></div>
+    <div class="ws" id="brand">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#13204a"/><g transform="translate(256 256)"><g class="blades"><use href="#blades"/></g><circle r="26" fill="#0a1124"/><circle r="10" fill="#c9a35a"/></g></svg>
+      <b>MemoMill</b>
     </div>
-    <button class="navi" id="tabHome"><svg class="ico"><use href="#i-home"/></svg><span class="lbl">Ma</span></button>
+    <button class="navi" id="tabHome"><svg class="ico"><use href="#i-home"/></svg><span class="lbl">Kezdőoldal</span></button>
+    <button class="navi" id="tabNotes"><svg class="ico"><use href="#i-notes"/></svg><span class="lbl">Jegyzetek</span></button>
     <button class="navi" id="tabReview"><svg class="ico"><use href="#i-cards"/></svg><span class="lbl">Ismétlés</span><span class="badge" id="dueBadge">0</span></button>
-    <button class="navi" id="tabFiles"><svg class="ico"><use href="#i-folder"/></svg><span class="lbl">Fájlok</span></button>
-    <button class="navi" id="tabSearch"><svg class="ico"><use href="#i-search"/></svg><span class="lbl">Keresés</span></button>
-    <button class="navi" id="tabTrash"><svg class="ico"><use href="#i-trash"/></svg><span class="lbl">Kuka</span></button>
+    <button class="navi" id="tabLearn"><svg class="ico"><use href="#i-path"/></svg><span class="lbl">Tanulás</span><span class="badge zero" id="learnBadge">0</span></button>
     <div class="sec">Mappák</div>
     <div id="tree"></div>
     <div id="sideFoot">
-      <div class="small muted" id="syncState" style="padding:4px 10px">Szinkron: —</div>
+      <div class="small muted" id="syncState" style="padding:4px 12px">Szinkron: —</div>
       <button class="navi" id="settingsBtn"><svg class="ico"><use href="#i-gear"/></svg><span class="lbl">Beállítások</span></button>
     </div>
   </aside>
@@ -294,43 +398,50 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
     <div id="top">
       <button class="ghost" id="backBtn" title="Vissza">‹</button>
       <div id="crumbs"></div>
+      <div id="topBrand">MemoMill</div>
       <button class="ghost" id="pomoPill" hidden></button>
       <button class="ghost" id="gearTop" title="Beállítások"><svg class="ico"><use href="#i-gear"/></svg></button>
     </div>
 
-    <!-- MA -->
+    <!-- KEZDŐOLDAL -->
     <section id="homeView" class="view" hidden>
       <div class="wrap">
-        <div class="hero">
-          <svg class="mill" id="mill" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="url(#lg)"/><g transform="translate(256 256)"><g class="blades"><use href="#blades"/></g><circle r="26" fill="#061233"/><circle r="9" fill="#8ab6ff"/></g></svg>
+        <div class="hgrid">
           <div>
-            <div class="muted small" id="todayDate"></div>
-            <h1 class="h1" id="heroTitle">Ma</h1>
-            <div class="muted" id="heroMsg"></div>
-          </div>
-        </div>
-        <div class="grid2">
-          <div class="panel">
-            <h3>Mai cél</h3>
-            <div class="ringBox">
-              <div class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"/><circle class="arc" id="ringArc" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg><div class="txt"><b id="ringMin">0</b><span id="ringGoal">/ 5 perc</span></div></div>
-              <div style="flex:1;min-width:160px">
-                <div class="chips" id="chips"></div>
-                <button class="primary xl" id="homeGo">Ismétlés indítása</button>
-              </div>
+            <div class="lb" id="todayDate"></div>
+            <h1 class="greet" id="heroTitle">Jó napot.</h1>
+            <div class="rule"></div>
+            <div class="bigRow"><div class="bignum" id="dueNum">0</div><div class="bigTxt" id="heroMsg"></div></div>
+            <button class="primary xl cta" id="homeGo">Ismétlés indítása</button>
+            <div class="rule" style="margin-top:20px"></div>
+            <div class="kpis">
+              <div><div class="lb">Sorozat</div><b id="streakN">0</b></div>
+              <div><div class="lb">Ma tanultál</div><b id="todayMin">0′</b></div>
+              <div><div class="lb">Vizsgaterv</div><b id="planKpi">–</b></div>
             </div>
           </div>
-          <div class="panel">
-            <h3>Sorozat</h3>
-            <div class="streak"><span id="streakN">0</span> <small>nap egymás után</small></div>
-            <div id="heat"></div>
+          <div>
+            <div class="lb">Folytatás</div>
+            <div id="contBox"></div>
+            <div class="lb" style="margin-top:24px">Tanulásban</div>
+            <div id="learnList"></div>
           </div>
         </div>
-        <div class="panel"><h3>Tanulásban</h3><div id="learnList"></div></div>
+        <div class="panel" id="examPanel"><div class="lb">Vizsgaterv</div><div id="examBox"></div></div>
         <div class="grid2">
-          <div class="panel"><h3>Nehéz kártyák</h3><div id="leechBox"></div></div>
           <div class="panel">
-            <div class="row-between"><h3 style="margin:0">Pomodoro</h3><span class="muted small" id="pomoMode"></span></div>
+            <div class="lb">Mai cél</div>
+            <div class="ringBox">
+              <div class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"/><circle class="arc" id="ringArc" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/></svg><div class="txt"><b id="ringMin">0</b><span id="ringGoal">/ 5 perc</span></div></div>
+              <div class="small muted" id="goalTxt" style="flex:1;min-width:150px;line-height:1.7"></div>
+            </div>
+          </div>
+          <div class="panel"><div class="lb">Aktivitás</div><div id="heat"></div></div>
+        </div>
+        <div class="grid2">
+          <div class="panel"><div class="lb">Makacs kártyák</div><div id="leechBox"></div></div>
+          <div class="panel">
+            <div class="row-between"><div class="lb" style="margin:0">Pomodoro</div><span class="muted small" id="pomoMode"></span></div>
             <div class="pomoT" id="pomoTime">25:00</div>
             <div class="btns" style="margin-top:10px"><button class="primary" id="pomoStart">Indítás</button><button id="pomoReset">Nullázás</button><button class="ghost" id="pomoSkip">Váltás</button></div>
           </div>
@@ -341,25 +452,25 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
     <!-- ISMÉTLÉS -->
     <section id="reviewView" class="view" hidden>
       <div class="wrap" id="revWrap">
-        <div id="revIdle" class="panel"></div>
+        <div id="revIdle"></div>
         <div id="revSession" hidden>
           <div class="row-between" style="margin-bottom:8px"><span id="revProg" class="muted small"></span><button class="ghost" id="revExit">Kilépés</button></div>
-          <div class="prog" style="margin-bottom:16px"><i id="revBar" style="width:0"></i></div>
+          <div class="prog" style="margin-bottom:18px"><i id="revBar" style="width:0"></i></div>
           <div id="cardWrap">
-            <span class="swl l">ÚJRA</span><span class="swl r">JÓ</span><span class="swl u">KÖNNYŰ</span>
+            <span class="swl l">NEM</span><span class="swl r">SIKERÜLT</span>
             <div class="card3d" id="card">
               <div class="face front" id="cFront"></div>
               <div class="face back" id="cBack"></div>
             </div>
           </div>
-          <div id="grades" style="margin-top:16px" hidden></div>
-          <div style="text-align:center;margin-top:16px"><button class="primary xl" id="revShowBtn">Megfordít</button></div>
+          <div id="grades" style="margin-top:18px" hidden></div>
+          <div style="text-align:center;margin-top:18px"><button class="primary xl" id="revShowBtn">Megfordít</button></div>
         </div>
-        <div id="revDone" class="panel" hidden></div>
+        <div id="revDone" hidden></div>
       </div>
     </section>
 
-    <!-- FÁJLOK -->
+    <!-- JEGYZETEK -->
     <section id="filesView" class="view" hidden>
       <div id="fHead">
         <h1 id="curTitle"></h1>
@@ -372,6 +483,7 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
           <button data-act="prio" disabled>Prioritás</button>
           <button data-act="del" class="danger" disabled>Kukába</button>
           <button class="ghost" id="filesTrash"><svg class="ico"><use href="#i-trash"/></svg> Kuka</button>
+          <input id="fSearch" type="search" placeholder="Keresés a jegyzetekben…" autocomplete="off">
         </div>
       </div>
       <div id="summary"></div>
@@ -385,6 +497,7 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
         <div id="noteActions">
           <button class="primary" id="nLearn">Tanulás</button>
           <button id="nReview">Ismétlés ebből</button>
+          <button id="nErr">Hibatérkép</button>
           <button id="nAiCards">✨ AI kártyák</button>
           <button id="nChat">AI segéd</button>
           <button id="nExam">Vizsga</button>
@@ -392,10 +505,15 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
         </div>
         <div>
           <div class="row-between"><span class="stats" id="noteStats"></span><span class="stats" id="examInfo"></span></div>
-          <div class="bar"><i id="noteBar" style="width:0"></i></div>
+          <div class="pbar" style="max-width:none"><i id="noteBar" style="width:0"></i></div>
           <div class="stats" id="ladderInfo" style="margin-top:6px"></div>
         </div>
-        <div class="panel" id="chatPanel" hidden>
+        <div class="box" id="errPanel" hidden>
+          <div class="row-between"><b class="serif" style="font-size:20px">Hibatérkép</b><button class="ghost small" id="errReset">Nullázás</button></div>
+          <div class="legend muted" style="margin:6px 0 12px"><span class="e1" style="background:rgba(219,168,92,.22)">1 hiba</span><span style="background:rgba(224,123,110,.25)">2–3</span><span style="background:rgba(224,90,80,.45);color:#fff">4+</span> A gyakran elrontott szavakat a tanulás mindig elrejti.</div>
+          <div id="errText"></div>
+        </div>
+        <div class="box" id="chatPanel" hidden>
           <div class="row-between"><b>AI segéd – csak ebből a dokumentumból</b><span><button class="ghost small" id="chatQuiz">Kérdezz ki</button><button class="ghost small" id="chatClear">Törlés</button></span></div>
           <div id="chatLog"></div>
           <form id="chatForm"><input id="chatInput" type="text" placeholder="Kérdezz a dokumentumról…" autocomplete="off"><button class="primary" type="submit">Küldés</button></form>
@@ -404,16 +522,30 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
         <div class="help">
           Kártyák egy sorban:
           <b>kérdés &gt;&gt; válasz</b> (előre) · <b>kérdés &lt;&lt; válasz</b> (vissza) · <b>kérdés &lt;&gt; válasz</b> (mindkét irány) · <b>{{kitakart rész}}</b> (cloze).<br>
-          A <b>Tanulás</b> hét lépcsőn viszi végig a teljes szöveget. Hibátlan utolsó lépcső után a dokumentum az Ismétlésbe kerül: ott fejből kell begépelni.
+          A <b>Tanulás</b> hét fokozaton viszi végig a szöveget (Felfedés, Kezdőbetű, Gépelés). Minden sor egy bekezdés: az első hiba csak figyelmeztet, a második egy szívbe kerül, és a bekezdés újraindul.
         </div>
       </div>
     </section>
 
-    <!-- KERESÉS -->
-    <section id="searchView" class="view" hidden>
+    <!-- TANULÁS: lista -->
+    <section id="learnlistView" class="view" hidden>
       <div class="wrap">
-        <input id="qBox" type="search" placeholder="Keresés a jegyzetekben és kártyákban…" autocomplete="off">
-        <div id="hits"></div>
+        <div><h1 class="h1">Tanulás</h1><p class="sub">Fokozatról fokozatra, amíg a szöveg az ismétlésbe nem kerül.</p></div>
+        <div id="llActive"></div>
+        <div class="panel" id="llDonePanel"><div class="lb">Megtanult dokumentumok</div><div id="llDone"></div></div>
+      </div>
+    </section>
+
+    <!-- TANULÁS: térkép -->
+    <section id="pathView" class="view" hidden>
+      <div class="wrap" style="max-width:720px">
+        <div>
+          <div class="lb" id="pathCrumb"></div>
+          <h1 class="h1" id="pathTitle"></h1>
+          <p class="sub" id="pathMeta"></p>
+          <div class="btns" style="margin-top:12px"><button id="pathEdit">Szöveg</button><button id="pathErr">Hibatérkép</button></div>
+        </div>
+        <div id="pathMap"></div>
       </div>
     </section>
 
@@ -428,17 +560,19 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;fl
   </div>
 </div>
 
-<!-- TANULÁS -->
+<!-- TANULÁS: gyakorlás -->
 <div id="learn" hidden>
   <div id="learnTop">
     <button class="ghost" id="lClose" title="Bezárás">✕</button>
     <div id="lInfo"><b id="lTitle"></b><span class="muted small" id="lStep"></span></div>
-    <span class="muted small" id="lErr"></span>
+    <div id="lHearts"></div>
     <button class="ghost" id="lSpeak" title="Felolvasás">🔊</button>
   </div>
-  <div id="lStepBar"></div>
-  <div id="lBody"><div id="lText"></div></div>
+  <div id="lProg"><i style="width:0"></i></div>
+  <div id="lWarn"></div>
+  <div id="lBody"><div id="lPaper"><div id="lText"></div></div></div>
   <div id="lFoot"><div id="lFootIn"></div></div>
+  <div id="lFlash"><div class="fx"></div></div>
 </div>
 
 <dialog id="dlg"></dialog>
@@ -509,7 +643,7 @@ function review(st, g, now, ret, cap = Infinity) {
 const fmtIvl = ms => ms < 3600000 ? Math.max(1, Math.round(ms / 60000)) + ' p' : ms < DAY ? Math.round(ms / 3600000) + ' ó' : Math.round(ms / DAY) + ' nap';
 
 /* ===== adatok ===== */
-const DEF = {newPerDay: 15, typing: false, retention: 0.9, goalMin: 5, capMin: 0, docTol: 0, leech: 6, pomoWork: 25, pomoBreak: 5};
+const DEF = {name: '', newPerDay: 15, typing: false, retention: 0.9, goalMin: 5, capMin: 0, typoHard: 1, masterDays: 21, examNear: 7, leech: 6, pomoWork: 25, pomoBreak: 5};
 const SAMPLE = `A Duna Magyarország második leghosszabb folyója.
 Magyarország fővárosa >> Budapest
 Budapest a {{Duna}} partján fekszik.
@@ -556,6 +690,11 @@ function fixItem(i) {
     if (!i.ladder || typeof i.ladder !== 'object') i.ladder = {step: 1, done: false};
     i.ladder.step = clamp(+i.ladder.step || 1, 1, 7);
     i.ladder.done = !!i.ladder.done;
+    i.ladder.lives = clamp(+i.ladder.lives || 3, 1, 3);
+    const st = {};
+    Object.entries(i.ladder.stars && typeof i.ladder.stars === 'object' ? i.ladder.stars : {}).forEach(([k, v]) => { if (/^s[1-7]$/.test(k) && +v) st[k] = clamp(+v, 1, 3); });
+    i.ladder.stars = st;
+    if (i.exam && !i.exam.date) i.exam = null;
     delete i.cards; delete i.progress; delete i.daily;
   }
   return i;
@@ -587,7 +726,7 @@ const rawKids = pid => db.items.filter(i => i.parentId === pid);
 const kids = pid => rawKids(pid).filter(i => !i.deleted).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu'));
 function allIds(id) { const out = [id]; rawKids(id).forEach(k => out.push(...allIds(k.id))); return out; }
 function crumbs(id) { const p = []; let c = id ? byId(id) : null; while (c) { p.unshift(c); c = c.parentId ? byId(c.parentId) : null; } return p; }
-const makeNote = (name, parentId) => ({id: uid(), type: 'note', name, parentId, text: '', exam: null, prio: 'aktiv', ladder: {step: 1, done: false}, mod: Date.now()});
+const makeNote = (name, parentId) => ({id: uid(), type: 'note', name, parentId, text: '', exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}}, mod: Date.now()});
 const makeFolder = (name, parentId) => ({id: uid(), type: 'folder', name, parentId, mod: Date.now()});
 const srsOf = id => db.srs[id] || (db.srs[id] = {});
 const notes = () => db.items.filter(i => i.type === 'note' && live(i));
@@ -629,7 +768,7 @@ function migrateCards(note) {
   const S = db.srs[note.id];
   if (!S) return;
   const ids = new Set(cards.map(c => c.id));
-  const orphans = Object.entries(S).filter(([id, st]) => id !== 'doc' && !ids.has(id) && st && st.k);
+  const orphans = Object.entries(S).filter(([id, st]) => id !== 'doc' && id !== 'map' && !ids.has(id) && st && st.k);
   if (!orphans.length) return;
   cards.forEach(c => {
     if (S[c.id] || prevIds.has(c.id)) return;
@@ -665,7 +804,7 @@ function streak() {
 
 /* ===== sor ===== */
 const isLeech = st => st && (st.lapses || 0) >= db.settings.leech;
-function introducedToday(noteId, today) { let n = 0; Object.entries(db.srs[noteId] || {}).forEach(([id, st]) => { if (id !== 'doc' && st && dayKey(st.first || st.last) === today) n++; }); return n; }
+function introducedToday(noteId, today) { let n = 0; Object.entries(db.srs[noteId] || {}).forEach(([id, st]) => { if (id !== 'doc' && id !== 'map' && st && dayKey(st.first || st.last) === today) n++; }); return n; }
 function kvotaLimit(note, now) {
   const days = Math.max(1, Math.ceil((note.exam.ts - now) / DAY));
   const S = db.srs[note.id] || {};
@@ -717,7 +856,7 @@ function toast(msg, action) {
 }
 function confetti(n = 40) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const cols = ['#4f8cff', '#9cc2ff', '#ffffff', '#6fd3a0', '#f2b866'];
+  const cols = ['#c9a35a', '#e2c585', '#efe8d8', '#7fb38a', '#5f7fd0'];
   for (let i = 0; i < n; i++) {
     const e = document.createElement('i');
     e.className = 'conf';
@@ -961,54 +1100,153 @@ async function initSync() {
 }
 
 /* ===== nézetek ===== */
-const ui = {view: 'home', cur: null, sel: null, open: new Set(), noteId: null, q: ''};
+const ui = {view: 'home', cur: null, sel: null, open: new Set(), noteId: null, q: '', pathId: null, anim: null, errOpen: false};
 let rq = null, ls = null, chatOpen = false, chatBusy = false;
 const coarse = matchMedia('(pointer: coarse)').matches;
-const VIEWS = ['home', 'review', 'files', 'note', 'search', 'trash'];
-function show(view) { ui.view = view; render(); $('#main .view:not([hidden])') && ($('#' + view + 'View').scrollTop = 0); }
+const VIEWS = ['home', 'review', 'files', 'note', 'learnlist', 'path', 'trash'];
+function show(view) { ui.view = view; render(); const v = $('#' + view + 'View'); if (v) v.scrollTop = 0; }
+const svgI = (id, cls = '') => `<svg class="${cls}"><use href="#${id}"/></svg>`;
+const learningNotes = () => notes().filter(n => !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
+const starsOf = (n, s) => (n.ladder.stars || {})['s' + s] || 0;
+const livesOf = n => clamp(+n.ladder.lives || 3, 1, 3);
+const starTxt = k => '★'.repeat(k) + `<span class="o">${'★'.repeat(3 - k)}</span>`;
+function heartsHtml(k, max) { let s = ''; for (let i = 0; i < max; i++) s += `<svg class="${i < k ? 'on' : 'off'}"><use href="#i-heart"/></svg>`; return `<span class="hearts">${s}</span>`; }
+function fmtDue(ts, now = Date.now()) {
+  if (ts <= now) return 'most';
+  const k = dayKey(ts);
+  if (k === dayKey(now)) return 'ma később';
+  if (k === dayKey(now + DAY)) return 'holnap';
+  const d = Math.round((ts - now) / DAY);
+  return d < 60 ? d + ' nap múlva' : fmtD(ts);
+}
+function docPhase(n, now = Date.now()) {
+  const S = db.srs[n.id] || {};
+  const near = n.exam && n.exam.ts > now && n.exam.ts - now <= db.settings.examNear * DAY;
+  return ((S.doc && S.doc.s >= db.settings.masterDays) || near) ? 3 : 2;
+}
+const phaseName = n => docPhase(n) === 3 ? 'mesterfázis, 1 élet' : '2. fázis, 2 élet';
 
 function render() {
   reindex();
-  const due = buildQueue(Date.now(), null).length;
+  const now = Date.now();
+  const due = buildQueue(now, null).length;
   $('#dueBadge').textContent = due;
   $('#dueBadge').classList.toggle('zero', !due);
-  const tabOf = {home: 'tabHome', review: 'tabReview', files: 'tabFiles', note: 'tabFiles', search: 'tabSearch', trash: 'tabTrash'};
-  ['tabHome', 'tabReview', 'tabFiles', 'tabSearch', 'tabTrash'].forEach(t => $('#' + t).classList.toggle('on', tabOf[ui.view] === t));
+  const nl = learningNotes().length;
+  $('#learnBadge').textContent = nl;
+  $('#learnBadge').classList.toggle('zero', !nl);
+  const br = $('#brand');
+  br.classList.toggle('idle', !due);
+  br.style.setProperty('--spd', clamp(14 - due / 4, 2.5, 14) + 's');
+  const tabOf = {home: 'tabHome', files: 'tabNotes', note: 'tabNotes', trash: 'tabNotes', review: 'tabReview', learnlist: 'tabLearn', path: 'tabLearn'};
+  ['tabHome', 'tabNotes', 'tabReview', 'tabLearn'].forEach(t => $('#' + t).classList.toggle('on', tabOf[ui.view] === t));
   VIEWS.forEach(v => $('#' + v + 'View').hidden = ui.view !== v);
-  $('#backBtn').style.visibility = (ui.view === 'note' || (ui.view === 'files' && ui.cur)) ? 'visible' : 'hidden';
+  $('#top').classList.toggle('home', ui.view === 'home');
+  $('#backBtn').style.visibility = (['note', 'path', 'trash'].includes(ui.view) || (ui.view === 'files' && ui.cur)) ? 'visible' : 'hidden';
   renderTree();
-  if (ui.view === 'home') renderHome(due);
+  if (ui.view === 'home') renderHome();
   if (ui.view === 'files') renderFiles();
   if (ui.view === 'note') renderNote();
   if (ui.view === 'review') renderReview();
-  if (ui.view === 'search') renderSearch();
+  if (ui.view === 'learnlist') renderLearnList();
+  if (ui.view === 'path') renderPath();
   if (ui.view === 'trash') renderTrash();
-  if (ui.view !== 'files' && ui.view !== 'note') $('#crumbs').innerHTML = `<span class="muted">${({home: 'Ma', review: 'Ismétlés', search: 'Keresés', trash: 'Kuka'})[ui.view]}</span>`;
+  const names = {home: 'Kezdőoldal', review: 'Ismétlés', learnlist: 'Tanulás', trash: 'Jegyzetek › Kuka'};
+  if (names[ui.view]) $('#crumbs').innerHTML = `<span>${names[ui.view]}</span>`;
 }
 
-/* --- Ma --- */
-function renderHome(due) {
+/* --- kis építőelemek --- */
+function miniLine(n) {
+  const cur = n.ladder.done ? 8 : n.ladder.step;
+  let h = '';
+  for (let s = 1; s <= 7; s++) {
+    if (s > 1) h += `<s class="${s <= cur ? '' : 'l'}"></s>`;
+    h += s < cur ? '<i></i>' : s === cur ? '<i class="c"></i>' : svgI('i-lock');
+  }
+  return `<div class="mini">${h}</div>`;
+}
+function paperCard(n, withBtn) {
+  const path = crumbs(n.parentId).map(p => p.name).join(' · ') || 'Jegyzetek';
+  const st = n.ladder.step;
+  const fresh = st === 1 && !starsOf(n, 1);
+  return `<div class="paper click" data-path="${n.id}"><div class="pl">${esc(path)}</div><div class="pn">${esc(n.name || 'Névtelen')}</div>${miniLine(n)}`
+    + `<div class="pm"><span>${st}/7 · ${STEPS[st]}</span>${st > 1 ? heartsHtml(livesOf(n), 3) : ''}</div>`
+    + (withBtn ? `<div style="margin-top:12px"><button class="primary" data-go-learn="${n.id}">${fresh ? 'Kezdés' : 'Folytatás'}</button></div>` : '') + '</div>';
+}
+
+/* --- vizsgaterv --- */
+function examGroups(now) {
+  const g = new Map();
+  notes().forEach(n => { if (n.exam && n.exam.ts > now) { if (!g.has(n.exam.date)) g.set(n.exam.date, []); g.get(n.exam.date).push(n); } });
+  return [...g.entries()].map(([date, ns]) => examPlan(date, ns, now)).sort((a, b) => a.ts - b.ts);
+}
+function examPlan(date, ns, now) {
+  const ts = ns[0].exam.ts;
+  const set = Math.min(...ns.map(n => n.exam.set || ts - 30 * DAY));
+  const daysLeft = Math.max(0, Math.ceil((ts - now) / DAY));
+  const buffer = Math.min(2, Math.floor(daysLeft / 4));
+  let total = 0, doneU = 0, remSteps = 0, newCards = 0, sum = 0, cnt = 0;
+  ns.forEach(n => {
+    const stp = n.ladder.done ? 7 : n.ladder.step - 1;
+    total += 7; doneU += stp; remSteps += 7 - stp;
+    const S = db.srs[n.id] || {};
+    makeCards(n).forEach(c => {
+      total++; cnt++;
+      const s = S[c.id];
+      if (s) { doneU++; sum += retr(Math.max(0, now - s.last) / DAY, s.s); } else newCards++;
+    });
+    cnt++;
+    sum += n.ladder.done && S.doc ? retr(Math.max(0, now - S.doc.last) / DAY, S.doc.s) : stp / 7 * 0.5;
+  });
+  const span = Math.max(DAY, ts - buffer * DAY - set);
+  const expected = clamp((now - set) / span, 0, 1);
+  const actual = total ? doneU / total : 1;
+  const workDays = Math.max(1, daysLeft - buffer);
+  return {date, ts, ns, daysLeft, buffer, expected, actual,
+    ahead: Math.round((actual - expected) * span / DAY),
+    todaySteps: Math.ceil(remSteps / workDays), todayNew: Math.ceil(newCards / workDays),
+    know: cnt ? Math.round(100 * sum / cnt) : 0};
+}
+const examHtml = p => `<div class="exam"><div class="ed">${p.daysLeft}<small>NAP</small></div><div>`
+  + `<div class="et">${esc(p.ns.length === 1 ? p.ns[0].name : p.ns.length + ' dokumentum')} · ${p.date.split('-').join('. ')}.</div>`
+  + `<div class="track"><i style="width:${Math.round(p.actual * 100)}%"></i><b style="left:${Math.round(p.expected * 100)}%"></b></div>`
+  + `<div class="em">${p.ahead > 0 ? p.ahead + ' nappal a terv előtt' : p.ahead < 0 ? -p.ahead + ' nappal lemaradva' : 'Terv szerint'} · készültség ${Math.round(p.actual * 100)}% · becsült tudás most ${p.know}%`
+  + `<br>Mai adag: ${p.todaySteps} fokozat, ${p.todayNew} új kártya · ${p.buffer} tartaléknap a végén</div></div></div>`;
+
+/* --- kezdőoldal --- */
+function renderHome() {
   const now = Date.now(), today = dayKey(now);
   const q = buildQueue(now, null);
-  const nNew = q.filter(c => c.isNew).length, nDue = q.length - nNew;
-  const st = dayStat(today), goal = db.settings.goalMin;
-  const min = st.sec / 60;
-  $('#todayDate').textContent = new Date().toLocaleDateString('hu-HU', {weekday: 'long', month: 'long', day: 'numeric'});
-  const learning = notes().filter(n => !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
-  $('#heroMsg').textContent = q.length ? `${q.length} kártya vár őrlésre.` : learning.length ? 'Az ismétléssel végeztél. Jöhet a tanulás.' : 'Mára minden megőrölve. Szép munka!';
-  const mill = $('#mill');
-  mill.classList.toggle('idle', !q.length);
-  mill.style.setProperty('--spd', clamp(14 - q.length / 4, 2.5, 14) + 's');
+  const nNew = q.filter(c => c.isNew).length;
+  const st = dayStat(today), goal = db.settings.goalMin, min = st.sec / 60;
+  const d = new Date(), h = d.getHours();
+  $('#todayDate').textContent = d.toLocaleDateString('hu-HU', {weekday: 'long', month: 'long', day: 'numeric'});
+  $('#heroTitle').textContent = (h < 9 ? 'Jó reggelt' : h < 18 ? 'Jó napot' : 'Jó estét') + (db.settings.name ? ', ' + db.settings.name : '') + '.';
+  const learning = learningNotes().sort((a, b) => (b.ladder.at || 0) - (a.ladder.at || 0) || b.ladder.step - a.ladder.step);
+  $('#dueNum').textContent = q.length;
+  $('#heroMsg').innerHTML = q.length ? `kártya vár ma,<br>nagyjából ${Math.max(1, Math.round(q.length * 0.4))} perc.` : learning.length ? 'kártya vár ma.<br>Jöhet a tanulás.' : 'kártya vár ma.<br>Mára minden megőrölve.';
+  $('#homeGo').textContent = q.length ? 'Ismétlés indítása' : learning.length ? 'Tanulás folytatása' : 'Nincs mára teendő';
+  $('#homeGo').disabled = !q.length && !learning.length;
+  $('#streakN').textContent = streak();
+  $('#todayMin').textContent = Math.round(min) + '′';
+  const plans = examGroups(now), kp = $('#planKpi');
+  if (plans.length) { const a = plans[0].ahead; kp.textContent = a > 0 ? '+' + a + ' nap' : a < 0 ? a + ' nap' : 'tartva'; kp.className = a > 0 ? 'pos' : a < 0 ? 'neg' : ''; }
+  else { kp.textContent = '–'; kp.className = ''; }
+  $('#contBox').innerHTML = learning.length ? paperCard(learning[0], true)
+    : '<p class="serif muted" style="font-size:19px;font-style:italic;margin:0">Nincs tanulás alatt álló dokumentum. Nyiss meg egyet a Jegyzetekben, és nyomd meg a Tanulás gombot.</p>';
+  const dueDocs = notes().filter(n => n.ladder.done && db.srs[n.id] && db.srs[n.id].doc && db.srs[n.id].doc.due <= now);
+  $('#learnList').innerHTML = learning.slice(1, 6).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(n.name || 'Névtelen')}</span><span class="dv">${n.ladder.step}/7</span></div>`).join('')
+    + dueDocs.slice(0, 4).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(n.name || 'Névtelen')}</span><span class="dv b">ismétlés</span></div>`).join('')
+    || '<p class="muted small" style="margin:0">Itt jelennek meg a további dokumentumaid.</p>';
+  $('#examPanel').hidden = !plans.length;
+  $('#examBox').innerHTML = plans.map(examHtml).join('');
   $('#ringMin').textContent = min < 10 ? min.toFixed(1).replace('.', ',') : Math.round(min);
   $('#ringGoal').textContent = `/ ${goal} perc`;
   $('#ringArc').style.strokeDashoffset = 326.7 * (1 - clamp(min / goal, 0, 1));
   const acc = st.rev ? Math.round(100 * st.ok / st.rev) + '%' : '–';
-  $('#chips').innerHTML = `<span class="chip">Esedékes <b>${nDue}</b></span><span class="chip">Új <b>${nNew}</b></span><span class="chip">Ma ismételve <b>${st.rev}</b></span><span class="chip">Pontosság <b>${acc}</b></span>`;
-  $('#homeGo').textContent = q.length ? `Ismétlés indítása (${q.length})` : 'Nincs mára ismétlés';
-  $('#homeGo').disabled = !q.length;
-  $('#streakN').textContent = streak();
+  $('#goalTxt').innerHTML = `Ma ${st.rev} kártya, pontosság ${acc}.<br>Hátra: ${q.length - nNew} esedékes, ${nNew} új.<br>Sorozat: ${streak()} nap.`;
   const cells = [], start = new Date(); start.setHours(12, 0, 0, 0);
-  const weeks = innerWidth < 760 ? 15 : 20;
+  const weeks = innerWidth < 760 ? 16 : 22;
   const first = new Date(start.getTime() - ((weeks - 1) * 7 + ((start.getDay() + 6) % 7)) * DAY);
   for (let t = first.getTime(); t <= start.getTime(); t += DAY) {
     const k = dayKey(t), m = dayStat(k).sec / 60;
@@ -1016,34 +1254,31 @@ function renderHome(due) {
     cells.push(`<i class="${l ? 'l' + l : ''} ${k === today ? 'today' : ''}" title="${k}: ${Math.round(m)} perc"></i>`);
   }
   $('#heat').innerHTML = cells.join('');
-  $('#learnList').innerHTML = learning.length ? learning.sort((a, b) => b.ladder.step - a.ladder.step).slice(0, 8).map(n => `
-    <div class="li"><svg class="ico"><use href="#i-doc"/></svg><div class="nm"><div>${esc(n.name || 'Névtelen')}</div><div class="muted small">${n.ladder.step}/7 · ${STEPS[n.ladder.step]}</div><div class="bar"><i style="width:${ladderPct(n)}%"></i></div></div><button class="primary" data-learn="${n.id}">Folytatás</button></div>`).join('')
-    : '<p class="muted" style="margin:0">Nincs tanulás alatt álló dokumentum. Nyiss meg egyet, és nyomd meg a Tanulás gombot.</p>';
   const L = leeches();
   $('#leechBox').innerHTML = L.length
     ? `<p style="margin:0 0 10px">${L.length} kártyát már legalább ${db.settings.leech}× elrontottál.</p><button id="leechGo">Gyakorlás (nem módosítja az ütemezést)</button>`
-    : '<p class="muted" style="margin:0">Nincs makacs kártya. Így tovább!</p>';
+    : '<p class="muted" style="margin:0">Nincs makacs kártya.</p>';
   renderPomo();
 }
 const ladderPct = n => n.ladder.done ? 100 : Math.round((n.ladder.step - 1) / 7 * 100);
 
-/* --- fájlok --- */
+/* --- jegyzetek --- */
 function goFolder(id) { ui.cur = id; crumbs(id).forEach(c => ui.open.add(c.id)); ui.sel = null; show('files'); }
 function openItem(id) {
   const it = byId(id);
   if (!it) return;
-  if (it.type === 'folder') return goFolder(id);
-  ui.noteId = id; chatOpen = false; show('note');
+  if (it.type === 'folder') { ui.q = ''; $('#fSearch').value = ''; return goFolder(id); }
+  ui.noteId = id; chatOpen = false; ui.errOpen = false; show('note');
 }
 function renderTree() {
   const rows = [];
   const walk = (pid, depth) => kids(pid).filter(i => i.type === 'folder').forEach(f => {
     const open = ui.open.has(f.id);
     const has = kids(f.id).some(k => k.type === 'folder');
-    rows.push(`<div class="node ${ui.cur === f.id && ui.view === 'files' ? 'cur' : ''}" style="padding-left:${6 + depth * 14}px" data-folder="${f.id}"><span class="tg" data-toggle="${f.id}">${has ? (open ? '▾' : '▸') : '·'}</span><svg class="ico"><use href="#i-folderF"/></svg>${esc(f.name)}</div>`);
+    rows.push(`<div class="node ${ui.cur === f.id && ui.view === 'files' ? 'cur' : ''}" style="padding-left:${6 + depth * 14}px" data-folder="${f.id}" data-drop="${f.id}"><span class="tg" data-toggle="${f.id}">${has ? (open ? '▾' : '▸') : '·'}</span><svg class="ico"><use href="#i-folderF"/></svg>${esc(f.name)}</div>`);
     if (open) walk(f.id, depth + 1);
   });
-  rows.push(`<div class="node ${ui.cur === null && ui.view === 'files' ? 'cur' : ''}" data-folder="root"><svg class="ico"><use href="#i-home"/></svg>Minden mappa</div>`);
+  rows.push(`<div class="node ${ui.cur === null && ui.view === 'files' ? 'cur' : ''}" data-folder="root" data-drop="root"><svg class="ico"><use href="#i-notes"/></svg>Minden jegyzet</div>`);
   walk(null, 1);
   $('#tree').innerHTML = rows.join('');
 }
@@ -1051,13 +1286,15 @@ function noteDue(n, now) { const S = db.srs[n.id] || {}; const cs = makeCards(n)
 function renderFiles() {
   const path = crumbs(ui.cur);
   const cur = ui.cur ? byId(ui.cur) : null;
-  $('#crumbs').innerHTML = '<button class="ghost" data-go="root">Minden mappa</button>' + path.map(p => ` <span class="muted">›</span> <button class="ghost" data-go="${p.id}">${esc(p.name)}</button>`).join('');
-  $('#curTitle').innerHTML = `<svg class="ico" style="width:30px;height:30px"><use href="#i-folderF"/></svg>${esc(cur ? cur.name : 'Minden mappa')}`;
+  $('#crumbs').innerHTML = '<button class="ghost" data-go="root" data-drop="root">Jegyzetek</button>' + path.map(p => ` <span>›</span> <button class="ghost" data-go="${p.id}" data-drop="${p.id}">${esc(p.name)}</button>`).join('');
+  $('#curTitle').innerHTML = `<svg class="ico" style="width:30px;height:30px"><use href="#i-folderF"/></svg>${esc(cur ? cur.name : 'Jegyzetek')}`;
+  if ($('#fSearch').value !== ui.q) $('#fSearch').value = ui.q;
   if (ui.sel && !byId(ui.sel)) ui.sel = null;
   updBar();
+  if (fold(ui.q).length >= 2) return renderHits();
   const list = kids(ui.cur), now = Date.now();
   const nf = list.filter(i => i.type === 'folder').length;
-  $('#summary').textContent = `${nf} mappa • ${list.length - nf} dokumentum${coarse ? ' • koppintás: megnyitás, ⋯: kijelölés' : ' • dupla kattintás: megnyitás'}`;
+  $('#summary').textContent = `${nf} mappa · ${list.length - nf} dokumentum · ${coarse ? 'koppintás: megnyitás, hosszan nyomva: áthelyezés húzással' : 'dupla kattintás: megnyitás, húzd a mappára az áthelyezéshez'}`;
   const head = '<div class="row head"><span></span><span>Név</span><span class="m">Esedékes / kártya</span><span class="m d">Módosítva</span><span></span></div>';
   const body = list.map(i => {
     let info = '', date = '', sub = '';
@@ -1065,16 +1302,27 @@ function renderFiles() {
       const {d, t} = noteDue(i, now);
       info = `${d} / ${t}`;
       date = fmtD(i.mod);
-      sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${i.ladder.done ? 'Ismétlésben' : i.text.trim() ? 'Tanulás ' + i.ladder.step + '/7' : 'Üres'}</div><div class="bar"><i style="width:${ladderPct(i)}%"></i></div>`;
-    } else {
-      const c = kids(i.id).length;
-      sub = `<div class="muted small">${c} elem</div>`;
-    }
-    return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"><svg class="ico" style="width:22px;height:22px"><use href="#${i.type === 'folder' ? 'i-folderF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)}</div>${sub}</div><span class="m">${info}</span><span class="m d">${date}</span><button class="more" data-more="${i.id}" title="Kijelölés">⋯</button></div>`;
+      sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${i.ladder.done ? 'Ismétlésben' : i.text.trim() ? 'Tanulás ' + i.ladder.step + '/7' : 'Üres'}</div><div class="pbar"><i style="width:${ladderPct(i)}%"></i></div>`;
+    } else sub = `<div class="muted small">${kids(i.id).length} elem</div>`;
+    return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"${i.type === 'folder' ? ` data-drop="${i.id}"` : ''} draggable="${!coarse}"><svg class="ico" style="width:22px;height:22px"><use href="#${i.type === 'folder' ? 'i-folderF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)}</div>${sub}</div><span class="m">${info}</span><span class="m d">${date}</span><button class="more" data-more="${i.id}" title="Kijelölés">⋯</button></div>`;
   }).join('');
   $('#rows').innerHTML = list.length ? head + body : '<p class="muted" style="padding:20px">Ez a mappa üres. Hozz létre mappát vagy dokumentumot.</p>';
 }
-
+function renderHits() {
+  const q = fold(ui.q);
+  const re = (() => { try { return new RegExp('(' + ui.q.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'); } catch (e) { return null; } })();
+  const hl = s => re ? esc(s).replace(re, '<mark>$1</mark>') : esc(s);
+  const out = [];
+  db.items.filter(i => !i.deleted && live(i)).forEach(i => {
+    const path = crumbs(i.parentId).map(p => p.name).join(' › ') || 'Jegyzetek';
+    if (fold(i.name).includes(q)) out.push(`<div class="hit" data-open="${i.id}"><b>${hl(i.name)}</b><div class="muted small">${i.type === 'folder' ? 'Mappa' : 'Dokumentum'} · ${esc(path)}</div></div>`);
+    if (i.type === 'note') i.text.split('\n').forEach(line => {
+      if (out.length < 80 && line.trim() && fold(line).includes(q)) out.push(`<div class="hit" data-open="${i.id}">${hl(line.trim().slice(0, 200))}<div class="muted small">${esc(i.name)} · ${esc(path)}</div></div>`);
+    });
+  });
+  $('#summary').textContent = `${out.length} találat · az ékezetek nem számítanak`;
+  $('#rows').innerHTML = out.length ? out.join('') : '<p class="muted" style="padding:20px">Nincs találat.</p>';
+}
 function updBar() {
   const sel = byId(ui.sel);
   document.querySelectorAll('#bar [data-act]').forEach(b => {
@@ -1087,8 +1335,34 @@ function selectRow(id) {
   document.querySelectorAll('#rows .row[data-id]').forEach(r => r.classList.toggle('sel', r.dataset.id === id));
   updBar();
 }
+/* áthelyezés (húzás és menü) */
+function canMove(id, to) {
+  const it = byId(id);
+  if (!it || (it.parentId || null) === (to || null)) return false;
+  if (to && (to === id || allIds(id).includes(to))) return false;
+  return true;
+}
+function moveItem(id, to) {
+  const it = byId(id);
+  if (!canMove(id, to)) return false;
+  const from = it.parentId || null;
+  it.parentId = to || null; it.mod = Date.now(); markItem(id);
+  if (to) ui.open.add(to);
+  persist(); render();
+  toast(`„${it.name}” → ${to ? byId(to).name : 'Jegyzetek'}`, {label: 'Visszavonás', fn: () => { it.parentId = from; it.mod = Date.now(); markItem(id); persist(); render(); }});
+  return true;
+}
 
 /* --- dokumentum --- */
+function errMap(n) { const m = (db.srs[n.id] || {}).map; return (m && m.w) || {}; }
+function renderErr(n) {
+  const w = errMap(n);
+  if (!Object.keys(w).length) { $('#errText').innerHTML = '<span class="muted">Még nincs rögzített hiba ebben a dokumentumban.</span>'; return; }
+  $('#errText').innerHTML = docText(n).split('\n').map(line => line.split(/(\s+)/).map(tok => {
+    const c = w[fold(tok)] || 0;
+    return c ? `<span class="${c >= 4 ? 'e3' : c >= 2 ? 'e2' : 'e1'}" title="${c}× elrontva">${esc(tok)}</span>` : esc(tok);
+  }).join('')).join('\n');
+}
 function updateNoteStats() {
   const n = byId(ui.noteId);
   if (!n) return;
@@ -1099,20 +1373,20 @@ function updateNoteStats() {
   let ex = '';
   if (n.exam) {
     const left = Math.ceil((n.exam.ts - Date.now()) / DAY);
-    ex = `Vizsga: ${n.exam.date} · ${n.exam.mode === 'cel' ? 'célzott' : 'kvóta'} · ${left > 0 ? left + ' nap múlva' : 'lejárt'}`;
+    ex = `Vizsga: ${n.exam.date} · ${left > 0 ? left + ' nap múlva' : 'lejárt'}`;
   }
   $('#noteStats').textContent = `${words} szó · ${cards.length} kártya (${newC} új)`;
   $('#examInfo').textContent = ex;
   $('#noteBar').style.width = ladderPct(n) + '%';
   $('#ladderInfo').textContent = n.ladder.done
-    ? `Megtanulva ✓ · Ismétlés: ${S.doc ? fmtD(S.doc.due) : '—'}${S.doc && S.doc.lapses ? ' · ' + S.doc.lapses + ' visszaesés' : ''}`
+    ? `Megtanulva · következő ismétlés: ${S.doc ? fmtDue(S.doc.due) : '—'} · ${phaseName(n)}${S.doc && S.doc.lapses ? ' · ' + S.doc.lapses + ' visszaesés' : ''}`
     : `Tanulás: ${n.ladder.step}/7 · ${STEPS[n.ladder.step]}`;
-  $('#nLearn').textContent = n.ladder.done ? 'Tanulás (gyakorlás)' : `Tanulás · ${n.ladder.step}/7`;
+  $('#nLearn').textContent = n.ladder.done ? 'Tanulás · kész' : `Tanulás · ${n.ladder.step}/7`;
 }
 function renderNote() {
   const n = byId(ui.noteId);
   if (!n || !live(n)) { ui.noteId = null; return goFolder(ui.cur); }
-  $('#crumbs').innerHTML = [...crumbs(n.parentId), n].map(p => `<span class="muted">${esc(p.name)}</span>`).join(' <span class="muted">›</span> ');
+  $('#crumbs').innerHTML = [...crumbs(n.parentId), n].map(p => `<span>${esc(p.name)}</span>`).join(' <span>›</span> ');
   const nm = $('#noteName');
   if (document.activeElement !== nm) nm.value = n.name;
   const ta = $('#noteText');
@@ -1120,25 +1394,60 @@ function renderNote() {
   $('#nPrio').value = n.prio;
   $('#chatPanel').hidden = !chatOpen;
   if (chatOpen) renderChat();
+  $('#errPanel').hidden = !ui.errOpen;
+  if (ui.errOpen) renderErr(n);
   updateNoteStats();
 }
 
-/* --- keresés --- */
-function renderSearch() {
-  const q = fold(ui.q);
-  if ($('#qBox').value !== ui.q) $('#qBox').value = ui.q;
-  if (q.length < 2) { $('#hits').innerHTML = '<p class="muted">Írj be legalább két betűt. Az ékezetek nem számítanak.</p>'; return; }
-  const re = (() => { try { return new RegExp('(' + ui.q.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'); } catch (e) { return null; } })();
-  const hl = s => re ? esc(s).replace(re, '<mark>$1</mark>') : esc(s);
-  const out = [];
-  db.items.filter(live).forEach(i => {
-    const path = crumbs(i.parentId).map(p => p.name).join(' › ') || 'Minden mappa';
-    if (fold(i.name).includes(q)) out.push(`<div class="hit" data-open="${i.id}"><b>${hl(i.name)}</b><div class="muted small">${i.type === 'folder' ? 'Mappa' : 'Dokumentum'} · ${esc(path)}</div></div>`);
-    if (i.type === 'note') i.text.split('\n').forEach(line => {
-      if (out.length < 80 && line.trim() && fold(line).includes(q)) out.push(`<div class="hit" data-open="${i.id}">${hl(line.trim().slice(0, 200))}<div class="muted small">${esc(i.name)} · ${esc(path)}</div></div>`);
-    });
+/* --- tanulás: lista és térkép --- */
+function renderLearnList() {
+  const now = Date.now();
+  const act = learningNotes().sort((a, b) => (b.ladder.at || 0) - (a.ladder.at || 0) || b.ladder.step - a.ladder.step);
+  $('#llActive').innerHTML = act.length ? `<div class="lgrid">${act.map(n => paperCard(n, true)).join('')}</div>`
+    : '<p class="serif muted" style="font-size:19px;font-style:italic;margin:0">Nincs tanulás alatt álló dokumentum. Nyiss meg egyet a Jegyzetekben, és nyomd meg a Tanulás gombot.</p>';
+  const done = notes().filter(n => n.ladder.done).sort((a, b) => ((db.srs[a.id] || {}).doc || {due: 0}).due - ((db.srs[b.id] || {}).doc || {due: 0}).due);
+  $('#llDonePanel').hidden = !done.length;
+  $('#llDone').innerHTML = done.map(n => {
+    const S = db.srs[n.id] || {}, due = S.doc && S.doc.due <= now;
+    return `<div class="dl" data-path="${n.id}"><span class="dn">${esc(n.name || 'Névtelen')}</span><span class="dv ${due ? 'b' : ''}">${S.doc ? (due ? 'esedékes' : fmtDue(S.doc.due)) : '—'} · ${phaseName(n)}</span></div>`;
+  }).join('');
+}
+function openPath(id) { ui.pathId = id; show('path'); }
+function renderPath() {
+  const n = byId(ui.pathId);
+  if (!n || !live(n)) { ui.pathId = null; return show('learnlist'); }
+  $('#crumbs').innerHTML = `<span>Tanulás</span> <span>›</span> <span>${esc(n.name || 'Névtelen')}</span>`;
+  $('#pathCrumb').textContent = crumbs(n.parentId).map(p => p.name).join(' · ') || 'Jegyzetek';
+  $('#pathTitle').textContent = n.name || 'Névtelen';
+  const txt = docText(n), words = txt.split(/\s+/).filter(w => fold(w)).length, paras = txt.split('\n').filter(Boolean).length;
+  const S = db.srs[n.id] || {};
+  $('#pathMeta').textContent = !txt.trim() ? 'A dokumentum még üres. Írj bele szöveget a „Szöveg” gombbal.'
+    : n.ladder.done ? `Megtanulva. Következő ismétlés: ${S.doc ? fmtDue(S.doc.due) : '—'} (${phaseName(n)}).`
+    : `${words} szó, ${paras} bekezdés · ${n.ladder.step}/7 fokozat`;
+  const cur = n.ladder.done ? 8 : n.ladder.step;
+  const X = [0, -48, 0, 48, 0, -48, 0];
+  const a = ui.anim && ui.anim.id === n.id ? ui.anim : null;
+  let h = '', k = 0;
+  const node = s => {
+    const cls = s < cur ? 'done' : s === cur ? 'cur' : 'lock';
+    const an = a && a.step === s ? (a.type === 'unlock' ? ' justUnlocked' : ' justLocked') : '';
+    const inner = cls === 'done' ? svgI('i-check') : cls === 'lock' ? svgI('i-lock') : s;
+    const under = cls === 'done' ? `<span class="st">${starTxt(starsOf(n, s))}</span>` : cls === 'cur' && s > 1 ? heartsHtml(livesOf(n), 3) : '<span class="st"></span>';
+    return `<button class="pnode ${cls}${an}" data-step="${s}" style="--x:${X[k++]}px"><span class="disc">${inner}</span><span class="nl">${SHORT[s]}</span>${under}</button>`;
+  };
+  PHASES.forEach(([name, steps], pi) => {
+    h += `<div class="phase"><span>${['I', 'II', 'III'][pi]}</span><b>${name}</b><i></i></div>`;
+    steps.forEach(s => { h += node(s); });
   });
-  $('#hits').innerHTML = out.length ? out.join('') : '<p class="muted">Nincs találat.</p>';
+  h += `<div class="phase"><span>✦</span><b>Ismétlés</b><i></i></div>`;
+  h += `<button class="pnode trophy ${n.ladder.done ? 'done' : 'lock'}${a && a.step === 8 ? ' justUnlocked' : ''}" data-step="8"><span class="disc">${svgI('i-trophy')}</span><span class="nl">${n.ladder.done ? 'Az ismétlésben' : 'Cél: az ismétlés'}</span></button>`;
+  $('#pathMap').innerHTML = h;
+  ui.anim = null;
+  setTimeout(() => {
+    const el = $(`#pathMap [data-step="${a ? a.step : cur}"]`);
+    if (el) el.scrollIntoView({block: 'center', behavior: a ? 'smooth' : 'auto'});
+    if (a && a.type === 'unlock') confetti(a.step === 8 ? 70 : 26);
+  }, a ? 250 : 30);
 }
 
 /* --- kuka --- */
@@ -1167,15 +1476,23 @@ function restore(id) {
 function renderTrash() {
   const list = db.items.filter(i => i.deleted && (!i.parentId || live(byId(i.parentId) || {}))).sort((a, b) => b.deleted - a.deleted);
   $('#emptyTrash').disabled = !list.length;
-  $('#trashList').innerHTML = list.length ? list.map(i => `<div class="li"><svg class="ico"><use href="#${i.type === 'folder' ? 'i-folderF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)}</div><div class="muted small">Törölve: ${fmtD(i.deleted)} · még ${Math.max(0, 30 - Math.floor((Date.now() - i.deleted) / DAY))} napig</div></div><button data-restore="${i.id}">Visszaállítás</button><button class="danger ghost" data-kill="${i.id}">Végleg</button></div>`).join('')
+  $('#trashList').innerHTML = list.length ? list.map(i => `<div class="li"><svg class="ico"><use href="#${i.type === 'folder' ? 'i-folderF' : 'i-doc'}"/></svg><div class="nm"><div class="serif" style="font-size:18px">${esc(i.name)}</div><div class="muted small">Törölve: ${fmtD(i.deleted)} · még ${Math.max(0, 30 - Math.floor((Date.now() - i.deleted) / DAY))} napig</div></div><button data-restore="${i.id}">Visszaállítás</button><button class="danger ghost" data-kill="${i.id}">Végleg</button></div>`).join('')
     : '<p class="muted" style="margin:0">A kuka üres.</p>';
 }
 
-/* ===== ismétlés ===== */
+/* ===== ismétlés: Sikerült / Nem sikerült ===== */
+/* Új (ma először látott) kártya mindenképp holnap jön újra; elrontott kártya a kör végén
+   még egyszer, és holnap is. A régebbi kártyák sikeres ismétlését az FSRS ütemezi. */
+const nextDay = now => { const d = new Date(now); d.setHours(27, 0, 0, 0); return d.getTime(); };
+function plan(st, g, now, note) {
+  const ns = review(st, g, now, db.settings.retention, capFor(note, now));
+  if (g === 1 || !st || dayKey(st.first || st.last) === dayKey(now)) ns.due = nextDay(now);
+  return ns;
+}
 function startReview(noteId, practice) {
   const items = practice ? shuffle(leeches()) : buildQueue(Date.now(), noteId);
-  if (!items.length) { toast(practice ? 'Nincs nehéz kártya' : 'Nincs ismétlendő kártya'); return show('review'); }
-  rq = {items, total: items.length, done: 0, shown: false, typed: '', practice: !!practice, t0: Date.now(), shownAt: Date.now(), n: 0, ok: 0, sec: 0, diff: null};
+  if (!items.length) { toast(practice ? 'Nincs makacs kártya' : 'Nincs ismétlendő kártya'); return show('review'); }
+  rq = {items, total: items.length, done: 0, shown: false, typed: '', practice: !!practice, t0: Date.now(), shownAt: Date.now(), n: 0, ok: 0, sec: 0, failed: new Set()};
   show('review');
 }
 function renderReview() {
@@ -1184,12 +1501,13 @@ function renderReview() {
   $('#revDone').hidden = !(rq && rq.finished);
   if (!rq) {
     const q = buildQueue(Date.now(), null), L = leeches().length;
-    const nNew = q.filter(c => c.isNew).length;
-    $('#revIdle').innerHTML = (q.length
-      ? `<div class="sumBig">${q.length}</div><p style="text-align:center;margin:0 0 16px">kártya vár ma · ${q.length - nNew} esedékes, ${nNew} új</p><div style="text-align:center"><button class="primary xl" id="revGo">Indítás</button></div>`
-      : `<div class="sumBig">✓</div><p style="text-align:center" class="muted">Mára nincs ismétlendő kártya.</p>`)
-      + (L ? `<p style="text-align:center;margin-top:16px"><button id="leechGo2">Nehéz kártyák gyakorlása (${L})</button></p>` : '')
-      + `<p class="muted small" style="text-align:center;margin:14px 0 0">Telefonon: koppints a kártyára, majd húzd jobbra (Jó), balra (Újra) vagy felfelé (Könnyű). Gépen: szóköz, majd 1–4.</p>`;
+    const nNew = q.filter(c => c.isNew).length, nDoc = q.filter(c => c.kind === 'doc').length;
+    $('#revIdle').innerHTML = `<h1 class="h1">Ismétlés</h1><p class="sub">Kártyák és megtanult szövegek, a felejtési görbe szerint.</p><div class="rule"></div>`
+      + (q.length
+        ? `<div class="sumBig">${q.length}</div><p style="text-align:center;margin:0 0 18px" class="muted">${q.length - nNew - nDoc} esedékes kártya · ${nNew} új${nDoc ? ` · ${nDoc} teljes szöveg` : ''}</p><div style="text-align:center"><button class="primary xl" id="revGo">Indítás</button></div>`
+        : `<div class="sumBig">✓</div><p style="text-align:center" class="muted">Mára nincs ismétlendő kártya.</p>`)
+      + (L ? `<p style="text-align:center;margin-top:18px"><button id="leechGo2">Makacs kártyák gyakorlása (${L})</button></p>` : '')
+      + `<p class="muted small" style="text-align:center;margin:18px 0 0">Telefonon: koppints a kártyára, majd húzd jobbra (Sikerült) vagy balra (Nem sikerült). Gépen: szóköz, majd 1 = nem, 2 = sikerült.</p>`;
     return;
   }
   if (rq.finished) return renderDone();
@@ -1201,7 +1519,7 @@ function renderCard() {
   if (!c) return finishSession();
   const note = byId(c.noteId);
   if (!note) { rq.items.shift(); return renderCard(); }
-  const doc = c.kind === 'doc', typing = doc || db.settings.typing;
+  const doc = c.kind === 'doc', typing = !doc && db.settings.typing;
   $('#revProg').textContent = `${rq.done}/${rq.total} kész · hátra ${rq.items.length}${rq.practice ? ' · gyakorlás' : ''}`;
   $('#revBar').style.width = (100 * rq.done / Math.max(1, rq.total)) + '%';
   const kindTxt = doc ? 'Teljes szöveg fejből' : c.kind === 'cloze' ? 'Kiegészítés' : c.isNew ? 'Új kártya' : 'Kártya';
@@ -1210,33 +1528,25 @@ function renderCard() {
     card.classList.add('noanim'); card.classList.remove('flip');
     wrapEl.style.transition = 'none'; wrapEl.style.transform = ''; wrapEl.style.opacity = '';
     void wrapEl.offsetWidth; wrapEl.style.transition = ''; card.classList.remove('noanim');
+    const ph = doc ? docPhase(note) : 0;
     $('#cFront').innerHTML = `<div class="kind">${kindTxt} · ${esc(note.name)}</div>`
-      + (doc ? `<div class="q">${esc(note.name)}</div><div class="qs">Gépeld be a teljes szöveget fejből, segítség nélkül.</div>` : `<div class="q">${esc(c.front)}</div>`)
-      + (typing ? `<textarea id="revType" rows="${doc ? 8 : 3}" placeholder="${doc ? 'A teljes szöveg…' : 'A válasz…'}" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>` : `<div class="tapHint">Koppints a megfordításhoz</div>`);
+      + (doc ? `<div class="q">${esc(note.name)}</div><div class="qs">${ph === 3 ? 'Mesterfázis: egy életed van.' : '2. fázis: két életed van.'} Vak gépelés, bekezdésenként: az első hiba figyelmeztet, a második egy életbe kerül.</div><div>${heartsHtml(ph === 3 ? 1 : 2, ph === 3 ? 1 : 2)}</div>`
+        : `<div class="q">${esc(c.front)}</div>`)
+      + (typing ? `<textarea id="revType" rows="3" placeholder="A válasz…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>` : doc ? '' : `<div class="tapHint">Koppints a megfordításhoz</div>`);
     $('#cBack').innerHTML = '';
     $('#grades').hidden = true;
     $('#revShowBtn').hidden = false;
-    $('#revShowBtn').textContent = typing ? 'Ellenőrzés' : 'Megfordít';
+    $('#revShowBtn').textContent = doc ? 'Indítás' : typing ? 'Ellenőrzés' : 'Megfordít';
     rq.shownAt = Date.now();
     if (typing && !coarse) setTimeout(() => { const t = $('#revType'); t && t.focus(); }, 50);
   } else {
-    const now = Date.now(), S = srsOf(note.id), st = S[c.id], cap = capFor(note, now);
-    let backHtml = `<div class="kind">${kindTxt}</div>`;
-    if (doc) {
-      const r = rq.diff;
-      backHtml += `<div class="qs">${r.errors} hiba · ${r.pct}% · ${r.words} szó</div>${r.html}`;
-      const passed = r.errors <= db.settings.docTol;
-      backHtml += passed ? '<div class="ok"><b>Hibátlan, a dokumentum marad az ismétlésben.</b></div>' : '<div class="bad"><b>Nem sikerült, a dokumentum visszakerül a tanulásba (6. lépcső).</b></div>';
-      $('#grades').innerHTML = passed
-        ? [[2, 'Nehéz'], [3, 'Jó'], [4, 'Könnyű']].map(([g, l]) => `<button class="g g${g}" data-g="${g}">${l}<small>${rq.practice ? '' : fmtIvl(review(st, g, now, db.settings.retention, cap).due - now)}</small></button>`).join('')
-        : `<button class="g g1" data-g="1" style="grid-column:1/-1">Vissza a tanuláshoz</button>`;
-    } else {
-      backHtml += `<div class="qs">${esc(c.front)}</div><div class="a">${esc(c.back)}</div>`;
-      if (typing) { const pc = Math.round(sim(c.back, rq.typed) * 100); backHtml += `<div class="qs">Te írtad · ${pc}% egyezés ${pc >= 90 ? '✓' : ''}</div>${rq.typed.trim() ? wordDiff(c.back, rq.typed).html : '<div class="muted">(üres)</div>'}`; }
-      if (isLeech(st)) backHtml += `<div class="small" style="color:var(--warn)">Makacs kártya: ${st.lapses}× elrontva</div>`;
-      $('#grades').innerHTML = [[1, 'Újra'], [2, 'Nehéz'], [3, 'Jó'], [4, 'Könnyű']].map(([g, l]) =>
-        `<button class="g g${g}" data-g="${g}">${l}<small>${rq.practice ? '' : fmtIvl(review(st, g, now, db.settings.retention, cap).due - now)}</small></button>`).join('');
-    }
+    const now = Date.now(), S = srsOf(note.id), st = S[c.id];
+    let backHtml = `<div class="kind">${kindTxt}</div><div class="qs">${esc(c.front)}</div><div class="a">${esc(c.back)}</div>`;
+    if (typing) { const pc = Math.round(sim(c.back, rq.typed) * 100); backHtml += `<div class="qs">Te írtad · ${pc}% egyezés</div>${rq.typed.trim() ? wordDiff(c.back, rq.typed).html : '<div class="qs">(üres)</div>'}`; }
+    if (isLeech(st)) backHtml += `<div class="small" style="color:#9a6a1c">Makacs kártya: ${st.lapses}× elrontva</div>`;
+    const again = rq.failed.has(c.noteId + '/' + c.id);
+    $('#grades').innerHTML = [[1, 'Nem sikerült'], [3, 'Sikerült']].map(([g, l]) =>
+      `<button class="g g${g}" data-g="${g}">${l}<small>${rq.practice ? 'gyakorlás' : again ? (g === 1 ? 'még egyszer a végén' : 'holnap újra') : (g === 1 ? 'a végén újra · ' : '') + fmtDue(plan(st, g, now, note).due, now)}</small></button>`).join('');
     $('#cBack').innerHTML = backHtml;
     requestAnimationFrame(() => card.classList.add('flip'));
     $('#grades').hidden = false;
@@ -1246,9 +1556,9 @@ function renderCard() {
 function showBack() {
   if (!rq || rq.shown) return;
   const c = curCard();
+  if (c.kind === 'doc') return startLearn(c.noteId, 7, 'rev');
   const t = $('#revType');
   rq.typed = t ? t.value : '';
-  if (c.kind === 'doc') rq.diff = wordDiff(c.back, rq.typed);
   rq.shown = true;
   renderCard();
 }
@@ -1259,18 +1569,17 @@ function grade(g) {
   const now = Date.now();
   const spent = clamp(now - rq.shownAt, 0, 90000);
   addTime(spent); rq.sec += spent / 1000;
-  const v = myStat(); v.rev++; if (g > 1) v.ok++;
-  rq.n++; if (g > 1) rq.ok++;
-  if (note && !rq.practice) {
+  const key = c.noteId + '/' + c.id, again = rq.failed.has(key);
+  if (!again) { const v = myStat(); v.rev++; if (g > 1) v.ok++; rq.n++; if (g > 1) rq.ok++; }
+  if (note && !rq.practice && !again) {
     const S = srsOf(note.id);
-    const ns = review(S[c.id], g, now, db.settings.retention, capFor(note, now));
-    ns.k = c.kind === 'doc' ? 'doc' : cardKey(c);
+    const ns = plan(S[c.id], g, now, note);
+    ns.k = cardKey(c);
     S[c.id] = ns; markSrs(note.id, c.id);
-    if (c.kind === 'doc' && g === 1) { note.ladder = {step: 6, done: false}; note.mod = now; markItem(note.id); toast(`„${note.name}” visszakerült a tanulásba`); }
   }
   persist();
-  if (g === 1 && c.kind !== 'doc') rq.items.push(c); else rq.done++;
-  rq.shown = false; rq.typed = ''; rq.diff = null;
+  if (g === 1) { rq.failed.add(key); rq.items.push(c); } else rq.done++;
+  rq.shown = false; rq.typed = '';
   if (!rq.practice && db.settings.capMin && dayStat(dayKey(now)).sec >= db.settings.capMin * 60 && rq.items.length) {
     toast(`Elérted a mai ${db.settings.capMin} perces időkeretet`);
     return finishSession();
@@ -1282,18 +1591,18 @@ function finishSession() {
   if (!rq) return;
   rq.finished = true;
   confetti();
-  render();
+  show('review');
 }
 function renderDone() {
   const mins = Math.max(1, Math.round(rq.sec / 60));
   const acc = rq.n ? Math.round(100 * rq.ok / rq.n) : 100;
-  $('#revDone').innerHTML = `<div class="sumBig">Megőrölve!</div>
-    <div class="sumGrid"><div><b>${rq.done}</b><span class="muted small">kártya</span></div><div><b>${mins} p</b><span class="muted small">idő</span></div><div><b>${acc}%</b><span class="muted small">pontosság</span></div></div>
+  $('#revDone').innerHTML = `<p class="lb" style="text-align:center">Kész</p><div class="sumBig serif" style="font-family:var(--serif)">Megőrölve.</div>
+    <div class="sumGrid"><div><b>${rq.done}</b><span class="muted small">kártya</span></div><div><b>${mins}′</b><span class="muted small">idő</span></div><div><b>${acc}%</b><span class="muted small">elsőre sikerült</span></div></div>
     <p style="text-align:center" class="muted">Sorozat: <b style="color:var(--text)">${streak()} nap</b> · mai idő: ${Math.round(dayStat(dayKey(Date.now())).sec / 60)} / ${db.settings.goalMin} perc</p>
-    <div style="text-align:center"><button class="primary xl" id="doneHome">Vissza a Ma oldalra</button></div>`;
+    <div style="text-align:center"><button class="primary xl" id="doneHome">Vissza a kezdőoldalra</button></div>`;
 }
 
-/* húzás a kártyán */
+/* húzás a kártyán: jobbra Sikerült, balra Nem sikerült */
 (() => {
   const w = $('#cardWrap');
   let d = null;
@@ -1303,25 +1612,24 @@ function renderDone() {
     d = {x: e.clientX, y: e.clientY, moved: false};
   });
   w.addEventListener('pointermove', e => {
-    if (!d || !rq || !rq.shown || curCard().kind === 'doc') return;
+    if (!d || !rq || !rq.shown || !curCard() || curCard().kind === 'doc') return;
     const dx = e.clientX - d.x, dy = e.clientY - d.y;
     if (!d.moved && Math.hypot(dx, dy) < 8) return;
     if (!d.moved) { d.moved = true; try { w.setPointerCapture(e.pointerId); } catch (_) {} }
     w.style.transition = 'none';
-    w.style.transform = `translate(${dx}px,${Math.min(0, dy)}px) rotate(${dx / 24}deg)`;
-    lbl(dy < -70 && Math.abs(dx) < 80 ? 'u' : dx > 60 ? 'r' : dx < -60 ? 'l' : '-');
+    w.style.transform = `translate(${dx}px,0) rotate(${dx / 24}deg)`;
+    lbl(dx > 60 ? 'r' : dx < -60 ? 'l' : '-');
   });
   const end = e => {
     if (!d) return;
-    const dx = e.clientX - d.x, dy = e.clientY - d.y, moved = d.moved;
+    const dx = e.clientX - d.x, moved = d.moved;
     d = null; lbl('-');
     w.style.transition = '';
     if (!rq || rq.finished) return;
-    if (!moved) { if (!rq.shown && !$('#revType')) showBack(); return; }
-    let g = 0;
-    if (dy < -90 && Math.abs(dx) < 90) g = 4; else if (dx > 100) g = 3; else if (dx < -100) g = 1;
+    if (!moved) { if (!rq.shown && !$('#revType') && curCard() && curCard().kind !== 'doc') showBack(); return; }
+    const g = dx > 100 ? 3 : dx < -100 ? 1 : 0;
     if (!g) { w.style.transform = ''; return; }
-    w.style.transform = g === 4 ? 'translateY(-120vh)' : `translateX(${g === 3 ? '' : '-'}120vw) rotate(${g === 3 ? 20 : -20}deg)`;
+    w.style.transform = `translateX(${g === 3 ? '' : '-'}120vw) rotate(${g === 3 ? 20 : -20}deg)`;
     w.style.opacity = '0';
     setTimeout(() => grade(g), 220);
   };
@@ -1329,183 +1637,338 @@ function renderDone() {
   w.addEventListener('pointercancel', () => { d = null; lbl('-'); w.style.transition = ''; w.style.transform = ''; });
 })();
 
-/* ===== tanulás: 7 lépcső ===== */
+/* ===== tanulás: 3 szint, 7 fokozat, szívek ===== */
 const STEPS = ['', 'Felfedés', 'Kezdőbetű – könnyű', 'Kezdőbetű – közepes', 'Kezdőbetű – nehéz', 'Gépelés – könnyű', 'Gépelés – közepes', 'Gépelés – nehéz'];
-const HINTS = ['', 'Próbáld kitalálni a következő szót, aztán fedd fel. Ha tévedtél, kezdd újra.', 'Írd be minden szó kezdőbetűjét. A szöveg halványan látszik.', 'Írd be minden szó kezdőbetűjét. A szavak fele látszik.', 'Írd be minden szó kezdőbetűjét fejből.', 'Gépeld be a szavakat. A szöveg halványan látszik.', 'Gépeld be a szavakat. Csak a kezdőbetűk látszanak.', 'Gépeld be a teljes szöveget fejből, segítség nélkül.'];
-function startLearn(noteId, step) {
+const SHORT = ['', 'Felfedés', 'Könnyű', 'Közepes', 'Nehéz', 'Könnyű', 'Közepes', 'Nehéz'];
+const PHASES = [['Felfedés', [1]], ['Kezdőbetű', [2, 3, 4]], ['Gépelés', [5, 6, 7]]];
+const HINTS = ['',
+  'Gondold végig a következő szót, aztán fedd fel (szóköz vagy koppintás). Ha tévedtél, a „Hibáztam” újraindítja a bekezdést.',
+  'Írd be minden szó kezdőbetűjét. Minden harmadik szó rejtett.',
+  'Írd be minden szó kezdőbetűjét. Minden második szó rejtett.',
+  'Írd be minden szó kezdőbetűjét fejből.',
+  'Gépeld be a szavakat. A szöveg halványan látszik. A szó után szóköz vagy Enter.',
+  'Gépeld be a szavakat. Csak a kezdőbetűk látszanak.',
+  'Gépeld be a szöveget fejből, segítség nélkül.'];
+/* elírás-tűrés: optimal string alignment távolság (egy csere, kihagyás, betoldás vagy két szomszédos betű felcserélése = 1) */
+function osa(a, b) {
+  const m = a.length, n = b.length;
+  const d = Array.from({length: m + 1}, (_, i) => { const r = new Array(n + 1).fill(0); r[0] = i; return r; });
+  for (let j = 0; j <= n; j++) d[0][j] = j;
+  for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) {
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+    if (i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1]) d[i][j] = Math.min(d[i][j], d[i-2][j-2] + 1);
+  }
+  return d[m][n];
+}
+function tolFor(k, level) {
+  const L = k.length, base = L <= 3 ? 0 : L < 10 ? 1 : 2, longOne = L >= 10 ? 1 : 0;
+  if (level === 'easy') return base;
+  if (level === 'med') return longOne;
+  const h = +db.settings.typoHard;
+  return h === 2 ? base : h === 1 ? longOne : 0;
+}
+function matchWord(typed, k, level) {
+  const f = fold(typed);
+  if (f === k) return 'ok';
+  if (!f || /\d/.test(k)) return 'bad';
+  return osa(f, k) <= tolFor(k, level) ? 'typo' : 'bad';
+}
+const buzz = () => { try { navigator.vibrate && navigator.vibrate(40); } catch (_) {} };
+function shakeEl(el, msg) { if (el) { el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); } buzz(); if (msg) toast(msg); }
+
+function startLearn(noteId, step, mode = 'learn') {
   const n = byId(noteId);
   if (!n) return;
-  const text = docText(n);
   const toks = [];
-  text.split('\n').forEach((line, li, arr) => {
-    const ws = line.split(/\s+/).filter(Boolean);
-    ws.forEach((w, wi) => toks.push({w, k: fold(w), br: wi === ws.length - 1 && li < arr.length - 1}));
-  });
+  docText(n).split('\n').forEach((line, p) => line.split(/\s+/).filter(Boolean).forEach(w => toks.push({w, k: fold(w), p})));
   if (!toks.some(t => t.k)) return toast('A dokumentum üres, előbb írj bele szöveget');
-  const st = step || (n.ladder.done ? 7 : n.ladder.step);
-  ls = {noteId, step: st, toks, i: 0, errors: 0, marks: [], mask: toks.map(() => Math.random() < 0.5), last: Date.now(), consumed: 0, ended: false};
+  const letters = step >= 2 && step <= 4 && mode !== 'rev';
+  const weak = new Set(Object.entries(errMap(n)).filter(([, c]) => c >= 2).map(([k]) => k));
+  let c = 0;
+  toks.forEach(t => {
+    t.auto = !t.k || (letters && /\d/.test(t.k));
+    if (!t.auto) { t.hide = step === 4 || (step === 3 && c % 2 === 1) || (step === 2 && c % 3 === 2) || (letters && weak.has(t.k)); c++; }
+  });
+  const max = mode === 'rev' ? (docPhase(n) === 3 ? 1 : 2) : 3;
+  let hearts = max;
+  if (mode === 'learn') hearts = livesOf(n);
+  if (mode === 'rev' && n.ladder.rl > 0 && n.ladder.rl <= max) hearts = n.ladder.rl;
+  ls = {noteId, step, mode, toks, i: 0, para: 0, pe: 0, marks: [], typed: [], hearts, max, last: Date.now(), consumed: 0, ended: false, busy: false, errs: 0, restarts: 0, lost: 0, words: c};
+  if (mode === 'learn') n.ladder.at = Date.now();
   $('#learn').hidden = false;
   document.body.style.overflow = 'hidden';
   $('#lTitle').textContent = n.name || 'Névtelen';
-  $('#lStepBar').innerHTML = [1, 2, 3, 4, 5, 6, 7].map(s => `<i class="${s < st || n.ladder.done ? 'done' : ''} ${s === st ? 'cur' : ''}"></i>`).join('');
+  hideFlash(); hideWarn();
   skipAuto();
-  drawLearn();
-  buildFoot();
+  ls.para = ls.toks[Math.min(ls.i, ls.toks.length - 1)].p;
+  drawLearn(); drawHearts(); buildFoot();
 }
-function skipAuto() { while (ls.i < ls.toks.length && !ls.toks[ls.i].k) ls.i++; }
+function skipAuto() { while (ls.i < ls.toks.length && ls.toks[ls.i].auto) ls.i++; }
+const blind = () => ls.step === 1 || ls.step === 7 || ls.mode === 'rev';
+function splitFirst(w) { const m = w.match(/^([^\p{L}\p{N}]*)([\p{L}\p{N}])(.*)$/su); return m ? [m[1], m[2], m[3]] : null; }
 function tokHtml(j) {
   const t = ls.toks[j], s = ls.step;
-  if (!t.k) return esc(t.w);
   if (j < ls.i) return esc(t.w);
-  if (s === 1) return '';
-  const len = Math.max(2, Math.min(14, t.w.length));
-  const blank = w => `<span class="bl" style="width:${w}ch"></span>`;
-  if (s === 2 || s === 5) return esc(t.w);
-  if (s === 3) return ls.mask[j] ? esc(t.w) : blank(len);
-  if (s === 6) { const f = (t.w.match(/[\p{L}\p{N}]/u) || [t.w[0]])[0]; return `<span class="first">${esc(f)}</span>${blank(Math.max(1, len - 1))}`; }
-  return blank(len);
+  if (blind()) return '';
+  if (t.auto) return esc(t.w);
+  const f = splitFirst(t.w);
+  if (s <= 4) {
+    if (t.hide) return `<span class="hid">${esc(t.w)}</span>`;
+    return f ? `${esc(f[0])}<span class="f1">${esc(f[1])}</span>${esc(f[2])}` : esc(t.w);
+  }
+  if (s === 5) return esc(t.w);
+  return f ? `${esc(f[0])}<span class="f1">${esc(f[1])}</span><span class="hid">${esc(f[2])}</span>` : `<span class="hid">${esc(t.w)}</span>`;
 }
 function tokClass(j) {
-  const t = ls.toks[j], s = ls.step;
-  if (!t.k) return 't';
-  if (j < ls.i) return 't ' + (ls.marks[j] === 'bad' ? 'bad' : 'ok');
-  const fade = (s === 2 || s === 5 || (s === 3 && ls.mask[j])) ? ' fade' : '';
-  return 't' + fade + (j === ls.i ? ' cur' : '');
+  const t = ls.toks[j];
+  if (t.auto && j < ls.i) return 't';
+  if (j < ls.i) return 't ' + (ls.marks[j] || 'ok');
+  return 't' + (ls.step === 5 && ls.mode !== 'rev' ? ' fade' : '') + (j === ls.i ? ' cur' + (ls.marks[j] === 'bad' ? ' bad' : '') : '');
 }
 function drawLearn() {
-  const parts = ls.toks.map((t, j) => {
-    if (ls.step === 1 && j >= ls.i && t.k) return `<span class="t" data-j="${j}"></span>${t.br ? '<br>' : ' '}`;
-    return `<span class="${tokClass(j)}" data-j="${j}">${tokHtml(j)}</span>${t.br ? '<br>' : ' '}`;
+  let h = '', p = -1;
+  ls.toks.forEach((t, j) => {
+    if (t.p !== p) { if (p >= 0) h += '</div>'; h += '<div class="para">'; p = t.p; }
+    h += `<span class="${tokClass(j)}" data-j="${j}"${ls.typed[j] ? ` title="Te: ${esc(ls.typed[j])}"` : ''}>${tokHtml(j)}</span> `;
   });
-  $('#lText').innerHTML = parts.join('');
+  $('#lText').innerHTML = h + '</div>';
   ls.spans = [...$('#lText').querySelectorAll('[data-j]')];
   updLearnInfo();
   scrollCur();
 }
-function updTok(j) { const e = ls.spans[j]; if (!e) return; e.className = tokClass(j); e.innerHTML = tokHtml(j); }
+function updTok(j) { const e = ls.spans[j]; if (!e) return; e.className = tokClass(j); e.innerHTML = tokHtml(j); if (ls.typed[j]) e.title = 'Te: ' + ls.typed[j]; }
 function scrollCur() { const e = ls.spans[Math.min(ls.i, ls.spans.length - 1)]; if (e) e.scrollIntoView({block: 'center', behavior: 'smooth'}); }
 function updLearnInfo() {
-  const words = ls.toks.filter(t => t.k).length, done = ls.toks.slice(0, ls.i).filter(t => t.k).length;
-  $('#lStep').textContent = `${ls.step}/7 · ${STEPS[ls.step]} · ${done}/${words} szó`;
-  $('#lErr').textContent = ls.step > 1 ? `${ls.errors} hiba` : '';
+  const done = ls.toks.slice(0, ls.i).filter(t => !t.auto).length;
+  const label = ls.mode === 'rev' ? `Ismétlés · vak gépelés · ${ls.max === 1 ? 'mesterfázis' : '2. fázis'}` : `${ls.mode === 'practice' ? 'Gyakorlás · ' : ''}${ls.step}/7 · ${STEPS[ls.step]}`;
+  $('#lStep').textContent = `${label} · ${done}/${ls.words} szó`;
+  $('#lProg i').style.width = (100 * done / Math.max(1, ls.words)) + '%';
 }
-function learnTick() { const now = Date.now(); addTime(now - ls.last); ls.last = now; }
+function drawHearts(lostIdx) {
+  const el = $('#lHearts');
+  if (ls.step === 1 && ls.mode !== 'rev') { el.innerHTML = ''; return; }
+  let h = '';
+  for (let i = 0; i < ls.max; i++) h += `<svg class="${i < ls.hearts ? '' : 'off'}${i === lostIdx ? ' lost' : ''}"><use href="#i-heart"/></svg>`;
+  el.innerHTML = h;
+}
+function learnTick() { if (!ls) return; const now = Date.now(); addTime(now - ls.last); ls.last = now; }
 function buildFoot() {
   const f = $('#lFootIn');
-  if (ls.step === 1) {
-    f.innerHTML = `<div id="lHint">${HINTS[1]}</div><button id="lRestart">Hibáztam – újra</button><button class="primary xl" id="lNext">Következő szó ▸</button>`;
+  if (ls.step === 1 && ls.mode !== 'rev') {
+    f.innerHTML = `<div id="lHint">${HINTS[1]}</div><button id="lRestart">Hibáztam – bekezdés újra</button><button class="primary xl" id="lNext">Következő szó ▸</button>`;
     return;
   }
-  const full = ls.step >= 5;
-  f.innerHTML = `<div id="lHint">${HINTS[ls.step]}${full ? ' A szó után szóköz vagy Enter.' : ''}</div><input id="lIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="${full ? 'Írd a szót…' : 'Írd a kezdőbetűt…'}">`;
+  const full = ls.step >= 5 || ls.mode === 'rev';
+  const hint = ls.mode === 'rev' ? 'Gépeld be a szöveget fejből. Bekezdésenként az első hiba figyelmeztet, a második egy életbe kerül.' : HINTS[ls.step];
+  f.innerHTML = `<div id="lHint">${hint}</div><input id="lIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="${full ? 'Írd a szót…' : 'Írd a kezdőbetűt…'}">`;
   const inp = $('#lIn');
   ls.consumed = 0;
   inp.addEventListener('input', onLearnInput);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); if (ls && ls.step >= 5) submitWord(inp.value); inp.value = ''; ls && (ls.consumed = 0); } });
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); if (ls && (ls.step >= 5 || ls.mode === 'rev')) submitWord(inp.value); inp.value = ''; ls && (ls.consumed = 0); } });
   setTimeout(() => inp.focus(), 60);
 }
 function onLearnInput(e) {
   if (!ls || ls.ended) return;
   const inp = e.target, v = inp.value;
-  if (ls.step <= 4) {
+  if (ls.busy) { inp.value = ''; ls.consumed = 0; return; }
+  if (ls.step <= 4 && ls.mode !== 'rev') {
     if (v.length < ls.consumed) ls.consumed = v.length;
     const fresh = v.slice(ls.consumed);
     ls.consumed = v.length;
-    for (const ch of fresh) { if (!ls || ls.ended) break; if (fold(ch)) firstLetter(ch); }
+    for (const ch of fresh) { if (!ls || ls.ended || ls.busy) break; if (fold(ch)) firstLetter(ch); }
     if (v.length > 30 && !e.isComposing) { inp.value = ''; ls && (ls.consumed = 0); }
     return;
   }
   if (/\s/.test(v)) {
     const parts = v.split(/\s+/);
     const rest = parts.pop();
-    parts.forEach(p => { if (p && ls && !ls.ended) submitWord(p); });
-    inp.value = rest;
+    parts.forEach(p => { if (p && ls && !ls.ended && !ls.busy) submitWord(p); });
+    inp.value = ls && ls.busy ? '' : rest;
     return;
   }
   const t = ls.toks[ls.i];
   if (t && fold(v) === t.k) { inp.value = ''; submitWord(v); }
 }
+function warn(msg) { const w = $('#lWarn'); w.textContent = msg; w.classList.add('show'); clearTimeout(warn.t); warn.t = setTimeout(hideWarn, 2800); }
+function hideWarn() { $('#lWarn').classList.remove('show'); }
+function flash(icon, title, sub, ms, cb) {
+  const f = $('#lFlash');
+  f.querySelector('.fx').innerHTML = `<div class="fi">${icon}</div><div class="ft">${title}</div>${sub ? `<div class="fs">${sub}</div>` : ''}`;
+  f.classList.add('show');
+  clearTimeout(flash.t);
+  flash.t = setTimeout(() => { f.classList.remove('show'); cb && cb(); }, ms);
+}
+function hideFlash() { clearTimeout(flash.t); $('#lFlash').classList.remove('show'); }
+function recordErr(k) {
+  if (!k || !ls) return;
+  const S = srsOf(ls.noteId);
+  if (!S.map || typeof S.map !== 'object') S.map = {w: {}, last: 0};
+  S.map.w = S.map.w || {};
+  S.map.w[k] = (S.map.w[k] || 0) + 1;
+  S.map.last = Date.now();
+  markSrs(ls.noteId, 'map');
+}
+/* hiba: bekezdésenként az első figyelmeztet, a második egy szívbe kerül */
+function wrong(j) {
+  if (ls.marks[j] === 'bad') return;
+  ls.marks[j] = 'bad'; ls.errs++;
+  recordErr(ls.toks[j].k);
+  buzz();
+  if (ls.step === 1 && ls.mode !== 'rev') return;
+  ls.pe++;
+  if (ls.pe === 1) warn(ls.hearts > 1 || ls.max === 1 ? 'Első hiba ebben a bekezdésben. Még egy, és elveszítesz egy ' + (ls.mode === 'rev' ? 'életet.' : 'szívet.') : 'Első hiba. Még egy, és elfogy az utolsó szíved!');
+  else loseHeart();
+}
+function loseHeart() {
+  ls.hearts--; ls.lost++;
+  ls.busy = true;
+  hideWarn();
+  const n = byId(ls.noteId);
+  if (n) {
+    if (ls.mode === 'learn') n.ladder.lives = ls.hearts > 0 ? ls.hearts : 3;
+    if (ls.mode === 'rev') n.ladder.rl = ls.hearts;
+    n.mod = Date.now(); markItem(n.id); persist();
+  }
+  drawHearts(ls.hearts);
+  const word = ls.mode === 'rev' ? 'élet' : 'szív';
+  if (ls.hearts <= 0) {
+    flash(svgI('i-heartx'), `Elfogyott ${ls.max === 1 ? 'az élet' : 'minden ' + word}`, ls.mode === 'learn' && ls.step > 1 ? 'Egy fokozattal visszalépsz.' : '', 1500, () => finishRun(false));
+    return;
+  }
+  flash(svgI('i-heartx'), `−1 ${word}`, `A bekezdés újraindul. Maradt: ${ls.hearts}`, 1300, restartPara);
+}
+function restartPara() {
+  if (!ls) return;
+  const p = ls.para;
+  const start = ls.toks.findIndex(t => t.p === p);
+  for (let j = start; j < ls.toks.length && ls.toks[j].p === p; j++) { ls.marks[j] = undefined; ls.typed[j] = undefined; }
+  ls.i = start; ls.pe = 0; ls.busy = false; ls.restarts++;
+  skipAuto(); drawLearn();
+  const inp = $('#lIn'); if (inp) { inp.value = ''; ls.consumed = 0; inp.focus(); }
+}
 function firstLetter(ch) {
-  const t = ls.toks[ls.i];
+  const j = ls.i, t = ls.toks[j];
   if (!t) return;
   learnTick();
-  if (fold(ch) === t.k[0]) {
-    if (ls.marks[ls.i] !== 'bad') ls.marks[ls.i] = 'ok';
-    advance();
-  } else {
-    if (ls.marks[ls.i] !== 'bad') { ls.marks[ls.i] = 'bad'; ls.errors++; updLearnInfo(); }
-    const e = ls.spans[ls.i];
-    if (e) { e.classList.remove('shake'); void e.offsetWidth; e.classList.add('shake', 'bad'); }
-    try { navigator.vibrate && navigator.vibrate(40); } catch (_) {}
-  }
+  if (fold(ch) === t.k[0]) { if (!ls.marks[j]) ls.marks[j] = 'ok'; return advance(); }
+  wrong(j);
+  if (!ls.busy) { updTok(j); shakeEl(ls.spans[j]); }
 }
 function submitWord(word) {
-  if (!fold(word)) return;
-  const t = ls.toks[ls.i];
+  if (!ls || ls.busy || ls.ended || !fold(word)) return;
+  const j = ls.i, t = ls.toks[j];
   if (!t) return;
   learnTick();
-  if (fold(word) === t.k) ls.marks[ls.i] = 'ok';
-  else { ls.marks[ls.i] = 'bad'; ls.errors++; try { navigator.vibrate && navigator.vibrate(40); } catch (_) {} }
-  advance();
+  const r = matchWord(word, t.k, ls.mode === 'rev' ? 'hard' : ls.step === 5 ? 'easy' : ls.step === 6 ? 'med' : 'hard');
+  if (r === 'ok') ls.marks[j] = 'ok';
+  else if (r === 'typo') { ls.marks[j] = 'typo'; ls.typed[j] = word; }
+  else { ls.typed[j] = word; wrong(j); }
+  if (!ls.busy) advance();
 }
 function advance() {
   const j = ls.i;
   ls.i++;
   skipAuto();
   for (let x = j; x <= Math.min(ls.i, ls.toks.length - 1); x++) updTok(x);
-  const e = ls.spans[j]; if (e) { e.classList.add('pop'); }
+  const e = ls.spans[j]; if (e) e.classList.add('pop');
+  if (ls.i >= ls.toks.length) { updLearnInfo(); return finishRun(true); }
+  if (ls.toks[ls.i].p !== ls.para) { ls.para = ls.toks[ls.i].p; ls.pe = 0; hideWarn(); }
   updLearnInfo();
   scrollCur();
-  if (ls.i >= ls.toks.length) finishRun();
 }
 function revealNext() {
-  if (!ls || ls.step !== 1 || ls.ended) return;
+  if (!ls || ls.step !== 1 || ls.mode === 'rev' || ls.ended || ls.busy) return;
   learnTick();
   ls.marks[ls.i] = 'ok';
-  const j = ls.i;
-  ls.i++; skipAuto();
-  for (let x = j; x < ls.i; x++) updTok(x);
-  if (ls.spans[j]) ls.spans[j].classList.add('pop');
-  updLearnInfo(); scrollCur();
-  if (ls.i >= ls.toks.length) finishRun();
+  advance();
 }
-function finishRun() {
-  ls.ended = true;
+function finishRun(pass) {
+  if (!ls || ls.ended) return;
+  ls.ended = true; ls.busy = false;
+  hideWarn(); learnTick();
   const n = byId(ls.noteId);
-  const step = ls.step, errs = step === 1 ? 0 : ls.errors;
-  let next = step, msg, icon, good = errs === 0;
-  const now = Date.now();
-  if (n) {
-    const wasDone = n.ladder.done;
-    if (good && step === 7) {
-      if (!wasDone) {
+  if (!n) return closeLearn();
+  const now = Date.now(), step = ls.step, mode = ls.mode, L = n.ladder;
+  L.stars = L.stars || {};
+  const stars = step === 1 ? clamp(3 - ls.restarts, 1, 3) : clamp(ls.hearts, 0, 3);
+  let icon = svgI('i-check'), title = '', sub = '', btns = '', showStars = false;
+  ls.again = {step, mode};
+  if (mode === 'rev') {
+    const S = srsOf(n.id), master = ls.max === 1;
+    const v = myStat(); v.rev++; if (pass) v.ok++;
+    delete L.rl;
+    if (pass) {
+      const st = review(S.doc, ls.lost ? 2 : 3, now, db.settings.retention, capFor(n, now)); st.k = 'doc'; S.doc = st;
+      icon = svgI('i-trophy'); title = 'Sikerült!'; sub = `Következő ismétlés: ${fmtDue(st.due)}.`; confetti(40);
+    } else {
+      const st = review(S.doc, 1, now, db.settings.retention, capFor(n, now)); st.k = 'doc';
+      if (master) { st.due = now + 60 * 60000; title = 'Elfogyott az életed'; sub = 'Nem esel vissza: a szöveg ma még egyszer előjön.'; }
+      else { L.step = 6; L.done = false; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step: 7}; title = 'Vissza a tanulásba'; sub = 'Mindkét életed elfogyott. A dokumentum a Gépelés – közepes fokozatra került.'; }
+      S.doc = st;
+      icon = svgI('i-down');
+    }
+    markSrs(n.id, 'doc');
+    ls.revPass = pass;
+    btns = `<button class="primary xl" id="lExit">Tovább</button>`;
+  } else if (pass) {
+    showStars = true;
+    if (stars > (L.stars['s' + step] || 0)) L.stars['s' + step] = stars;
+    if (mode === 'learn' && !L.done && step === L.step) {
+      L.lives = 3;
+      if (step === 7) {
         const S = srsOf(n.id);
-        const st = review(S.doc, 3, now, db.settings.retention, capFor(n, now));
-        st.k = 'doc'; S.doc = st; markSrs(n.id, 'doc');
+        const st = review(S.doc, 3, now, db.settings.retention, capFor(n, now)); st.k = 'doc'; S.doc = st; markSrs(n.id, 'doc');
+        L.done = true; ui.anim = {id: n.id, type: 'unlock', step: 8};
+        icon = svgI('i-trophy'); title = 'Megtanultad!'; sub = `A dokumentum bekerült az ismétlésbe. Első ismétlés: ${fmtDue(st.due)}.`; confetti(80);
+        btns = `<button class="primary xl" id="lExit">Tovább</button>`;
+      } else {
+        L.step = step + 1; ui.anim = {id: n.id, type: 'unlock', step: step + 1};
+        title = 'Fokozat teljesítve'; sub = `Kinyílt: ${STEPS[step + 1]}.`; confetti(30);
+        btns = `<button class="primary xl" id="lNextStep">Tovább: ${STEPS[step + 1]}</button><button id="lExit">Térkép</button>`;
       }
-      n.ladder = {step: 7, done: true};
-      next = 0;
-    } else if (!wasDone) {
-      next = good ? step + 1 : Math.max(1, step - 1);
-      n.ladder = {step: next, done: false};
-    } else next = 7;
-    n.mod = now; markItem(n.id); persist();
+    } else {
+      title = 'Gyakorlás kész'; sub = 'A gyakorlás nem változtat a haladáson.'; confetti(16);
+      btns = `<button class="primary xl" id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
+    }
+  } else {
+    icon = svgI('i-heartx');
+    if (mode === 'learn' && !L.done && step === L.step && step > 1) {
+      L.step = step - 1; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step};
+      title = 'Visszaestél'; sub = `Most: ${STEPS[step - 1]}. A(z) „${STEPS[step]}” újra zárolva, amíg ezt nem teljesíted.`;
+      ls.again = {step: step - 1, mode: 'learn'};
+    } else {
+      if (mode === 'learn') L.lives = 3;
+      title = 'Nem sikerült'; sub = 'Próbáld újra, három szívvel.';
+    }
+    btns = `<button class="primary xl" id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
   }
-  if (good && step === 7) { icon = '🏆'; msg = n && n.ladder.done ? 'Hibátlan! A dokumentum bekerült az Ismétlésbe.' : 'Hibátlan!'; confetti(60); }
-  else if (good) { icon = '✓'; msg = `Hibátlan! Következik: ${STEPS[next]}.`; confetti(20); }
-  else { icon = '↓'; msg = `${errs} hiba. ${next < step ? 'Egy lépcsővel visszalépsz: ' + STEPS[next] + '.' : 'Próbáld újra.'}`; }
-  $('#lText').innerHTML = `<div class="result"><div class="big ${good ? 'ok' : 'bad'}">${icon}</div><div style="font-size:20px">${esc(msg)}</div>${ls.step > 1 ? `<div class="muted">${ls.toks.filter(t => t.k).length} szó · ${errs} hiba</div>` : ''}</div>`;
-  const f = $('#lFootIn');
-  f.innerHTML = (next ? `<button class="primary xl" id="lCont">${good ? 'Tovább' : 'Újra'}: ${STEPS[next]}</button>` : '') + `<button id="lExit">${next ? 'Kilépés' : 'Kész'}</button>`;
-  $('#lStepBar').innerHTML = [1, 2, 3, 4, 5, 6, 7].map(s => `<i class="${n && (n.ladder.done || s < n.ladder.step) ? 'done' : ''} ${s === next ? 'cur' : ''}"></i>`).join('');
-  ls.next = next;
+  L.at = now;
+  n.mod = now; markItem(n.id); persist();
+  $('#lText').innerHTML = `<div class="result"><div class="big" style="color:${pass ? '#b8862f' : '#c0473c'}">${icon}</div><div class="rt">${title}</div>`
+    + (showStars ? `<div class="stars">${starTxt(stars)}</div>` : '')
+    + `<div style="color:var(--ink2)">${esc(sub)}</div><div class="small" style="color:var(--ink2)">${ls.words} szó · ${ls.errs} hiba${ls.lost ? ' · ' + ls.lost + ' ' + (mode === 'rev' ? 'élet' : 'szív') + ' elveszett' : ''}</div></div>`;
+  $('#lFootIn').innerHTML = btns;
+  $('#lProg i').style.width = '100%';
 }
 function closeLearn() {
-  if (ls && !ls.ended) learnTick();
+  if (!ls) return;
+  if (!ls.ended) learnTick();
+  const wasRev = ls.mode === 'rev', ended = ls.ended, pass = ls.revPass, nid = ls.noteId;
   ls = null;
+  hideFlash(); hideWarn();
   $('#learn').hidden = true;
   document.body.style.overflow = '';
   persist();
+  if (wasRev) {
+    const c = curCard();
+    if (ended && rq && c && c.kind === 'doc' && c.noteId === nid) {
+      rq.items.shift(); rq.done++; rq.n++; if (pass) rq.ok++;
+      rq.shown = false;
+      if (!rq.items.length) return finishSession();
+    }
+    return show('review');
+  }
+  if (ended) { ui.pathId = nid; return show('path'); }
   render();
 }
 
@@ -1671,32 +2134,63 @@ $('#importFile').onchange = async e => {
 
 /* ===== kezelők ===== */
 $('#tabHome').onclick = () => show('home');
-$('#tabFiles').onclick = () => goFolder(ui.cur);
+$('#tabNotes').onclick = () => goFolder(ui.cur);
 $('#tabReview').onclick = () => { if (rq && rq.finished) rq = null; show('review'); };
-$('#tabSearch').onclick = () => { show('search'); setTimeout(() => $('#qBox').focus(), 50); };
-$('#tabTrash').onclick = () => show('trash');
+$('#tabLearn').onclick = () => show('learnlist');
 $('#filesTrash').onclick = () => show('trash');
 $('#backBtn').onclick = () => {
   if (ui.view === 'note') { const n = byId(ui.noteId); return goFolder(n ? n.parentId : null); }
   if (ui.view === 'files' && ui.cur) { const p = byId(ui.cur); return goFolder(p ? p.parentId : null); }
+  if (ui.view === 'path') return show('learnlist');
+  if (ui.view === 'trash') return goFolder(ui.cur);
 };
-$('#homeGo').onclick = () => startReview(null);
-$('#homeView').addEventListener('click', e => {
-  const l = e.target.closest('[data-learn]');
-  if (l) return startLearn(l.dataset.learn);
-  if (e.target.id === 'leechGo') startReview(null, true);
-});
+$('#homeGo').onclick = () => {
+  if (buildQueue(Date.now(), null).length) return startReview(null);
+  const l = learningNotes().sort((a, b) => (b.ladder.at || 0) - (a.ladder.at || 0));
+  if (l.length) openPath(l[0].id);
+};
+/* papírkártyák és listák: térkép megnyitása vagy azonnali indítás */
+function pathClicks(e) {
+  const g = e.target.closest('[data-go-learn]');
+  if (g) { const n = byId(g.dataset.goLearn); if (n) { migrateCards(n); startLearn(n.id, n.ladder.step, 'learn'); } return true; }
+  const p = e.target.closest('[data-path]');
+  if (p) { openPath(p.dataset.path); return true; }
+  return false;
+}
+$('#homeView').addEventListener('click', e => { if (pathClicks(e)) return; if (e.target.id === 'leechGo') startReview(null, true); });
+$('#learnlistView').addEventListener('click', pathClicks);
+$('#pathMap').onclick = e => {
+  const b = e.target.closest('[data-step]');
+  const n = byId(ui.pathId);
+  if (!b || !n) return;
+  const s = +b.dataset.step, cur = n.ladder.done ? 8 : n.ladder.step;
+  if (s === 8) {
+    if (!n.ladder.done) return shakeEl(b.querySelector('.disc'), 'Előbb teljesítsd a Gépelés – nehéz fokozatot');
+    const S = db.srs[n.id] || {};
+    return toast(S.doc ? `Következő ismétlés: ${fmtDue(S.doc.due)} (${phaseName(n)})` : 'Az ismétlésben');
+  }
+  if (s > cur) return shakeEl(b.querySelector('.disc'), 'Zárolva: előbb az előző fokozatot kell teljesíteni');
+  migrateCards(n);
+  startLearn(n.id, s, s === cur ? 'learn' : 'practice');
+};
+$('#pathEdit').onclick = () => { if (ui.pathId) openItem(ui.pathId); };
+$('#pathErr').onclick = () => { if (ui.pathId) { openItem(ui.pathId); ui.errOpen = true; render(); } };
+
 $('#tree').onclick = e => {
   const t = e.target.closest('[data-toggle]');
   if (t) { const id = t.dataset.toggle; ui.open.has(id) ? ui.open.delete(id) : ui.open.add(id); e.stopPropagation(); return renderTree(); }
   const n = e.target.closest('[data-folder]');
-  if (n) goFolder(n.dataset.folder === 'root' ? null : n.dataset.folder);
+  if (n) { ui.q = ''; goFolder(n.dataset.folder === 'root' ? null : n.dataset.folder); }
 };
 $('#crumbs').onclick = e => {
   const b = e.target.closest('[data-go]');
-  if (b && ui.view === 'files') goFolder(b.dataset.go === 'root' ? null : b.dataset.go);
+  if (b && ui.view === 'files') { ui.q = ''; goFolder(b.dataset.go === 'root' ? null : b.dataset.go); }
 };
+let noClick = 0;
 $('#rows').onclick = e => {
+  if (Date.now() < noClick) return;
+  const h = e.target.closest('[data-open]');
+  if (h) return openItem(h.dataset.open);
   const more = e.target.closest('[data-more]');
   if (more) return selectRow(ui.sel === more.dataset.more ? null : more.dataset.more);
   const r = e.target.closest('[data-id]');
@@ -1705,6 +2199,87 @@ $('#rows').onclick = e => {
   selectRow(r.dataset.id);
 };
 $('#rows').ondblclick = e => { const r = e.target.closest('[data-id]'); if (r && !e.target.closest('[data-more]')) openItem(r.dataset.id); };
+$('#rows').addEventListener('contextmenu', e => { if (coarse && e.target.closest('[data-id]')) e.preventDefault(); });
+$('#fSearch').oninput = e => { ui.q = e.target.value; renderFiles(); };
+
+/* húzás: gépen a böngésző saját húzása, telefonon hosszú nyomás */
+const dropVal = el => { const v = el && el.closest('[data-drop]'); return v ? (v.dataset.drop === 'root' ? null : v.dataset.drop) : undefined; };
+let dragId = null, dropEl = null;
+const setDrop = el => { if (dropEl === el) return; if (dropEl) dropEl.classList.remove('dropok'); dropEl = el; if (el) el.classList.add('dropok'); };
+document.addEventListener('dragstart', e => {
+  const r = e.target.closest && e.target.closest('#rows [data-id]');
+  if (!r) return;
+  dragId = r.dataset.id;
+  try { e.dataTransfer.setData('text/plain', dragId); e.dataTransfer.effectAllowed = 'move'; } catch (_) {}
+  setTimeout(() => r.classList.add('dragging'), 0);
+});
+document.addEventListener('dragover', e => {
+  if (!dragId) return;
+  const el = e.target.closest && e.target.closest('[data-drop]');
+  const to = dropVal(el);
+  if (el && to !== undefined && canMove(dragId, to)) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; setDrop(el); }
+  else setDrop(null);
+});
+document.addEventListener('drop', e => {
+  if (!dragId) return;
+  const to = dropVal(e.target.closest && e.target.closest('[data-drop]'));
+  e.preventDefault();
+  const id = dragId; dragId = null; setDrop(null);
+  if (to !== undefined) moveItem(id, to);
+});
+document.addEventListener('dragend', () => { dragId = null; setDrop(null); document.querySelectorAll('.row.dragging').forEach(r => r.classList.remove('dragging')); });
+(() => {
+  let lp = null, ghost = null;
+  const stop = () => {
+    clearTimeout(lp && lp.t);
+    if (ghost) { ghost.remove(); ghost = null; }
+    document.querySelectorAll('.row.dragging').forEach(r => r.classList.remove('dragging'));
+    setDrop(null); lp = null;
+  };
+  $('#rows').addEventListener('touchstart', e => {
+    const r = e.target.closest('[data-id]');
+    if (!r || e.touches.length !== 1 || e.target.closest('[data-more]')) return;
+    const t = e.touches[0];
+    lp = {id: r.dataset.id, x: t.clientX, y: t.clientY, on: false, row: r};
+    lp.t = setTimeout(() => {
+      if (!lp) return;
+      lp.on = true;
+      const it = byId(lp.id);
+      ghost = document.createElement('div'); ghost.id = 'ghost'; ghost.textContent = it ? it.name : '';
+      ghost.style.left = lp.x + 'px'; ghost.style.top = lp.y + 'px';
+      document.body.appendChild(ghost);
+      lp.row.classList.add('dragging');
+      buzz();
+    }, 430);
+  }, {passive: true});
+  document.addEventListener('touchmove', e => {
+    if (!lp) return;
+    const t = e.touches[0];
+    if (!lp.on) { if (Math.hypot(t.clientX - lp.x, t.clientY - lp.y) > 10) stop(); return; }
+    e.preventDefault();
+    ghost.style.left = t.clientX + 'px'; ghost.style.top = t.clientY + 'px';
+    const el = document.elementFromPoint(t.clientX, t.clientY);
+    const d = el && el.closest('[data-drop]');
+    const to = dropVal(d);
+    setDrop(d && to !== undefined && canMove(lp.id, to) ? d : null);
+    const v = $('#filesView'), rc = v.getBoundingClientRect();
+    if (t.clientY < rc.top + 60) v.scrollTop -= 12; else if (t.clientY > rc.bottom - 60) v.scrollTop += 12;
+  }, {passive: false});
+  const end = () => {
+    if (!lp) return;
+    if (lp.on) {
+      noClick = Date.now() + 500;
+      const id = lp.id, to = dropEl ? dropVal(dropEl) : undefined;
+      stop();
+      if (to !== undefined) moveItem(id, to);
+      return;
+    }
+    stop();
+  };
+  document.addEventListener('touchend', end);
+  document.addEventListener('touchcancel', stop);
+})();
+
 $('#bar').onclick = async e => {
   const b = e.target.closest('[data-act]');
   if (!b || b.disabled) return;
@@ -1738,11 +2313,11 @@ $('#bar').onclick = async e => {
   }
   if (act === 'move') {
     const ex = new Set(allIds(it.id));
-    const opts = [['root', 'Minden mappa']];
+    const opts = [['root', 'Jegyzetek (legfelső szint)']];
     const flat = (pid, d) => kids(pid).filter(f => f.type === 'folder' && !ex.has(f.id)).forEach(f => { opts.push([f.id, '· '.repeat(d) + f.name]); flat(f.id, d + 1); });
     flat(null, 1);
     const r = await dialog({title: 'Áthelyezés', fields: [{name: 'to', label: 'Cél mappa', options: opts, value: it.parentId || 'root'}], actions: [{label: 'Áthelyezés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
-    if (r) { it.parentId = r.values.to === 'root' ? null : r.values.to; it.mod = Date.now(); markItem(it.id); persist(); render(); }
+    if (r) moveItem(it.id, r.values.to === 'root' ? null : r.values.to);
     return;
   }
   if (act === 'del') trashItem(it);
@@ -1750,6 +2325,25 @@ $('#bar').onclick = async e => {
 
 let editT = null;
 $('#noteName').oninput = e => { const n = byId(ui.noteId); if (!n) return; n.name = e.target.value; n.mod = Date.now(); markItem(n.id); persist(); };
+/* szövegszerkesztés: kis módosításnál a tanulási haladás marad, nagy átírásnál újraindul */
+let editBase = null;
+$('#noteText').onfocus = () => { const n = byId(ui.noteId); editBase = n ? {id: n.id, text: docText(n)} : null; };
+$('#noteText').onblur = () => {
+  const n = byId(ui.noteId);
+  if (!n || !editBase || editBase.id !== n.id) return;
+  const before = editBase.text, after = docText(n);
+  editBase = null;
+  if (!before.trim() || before === after || n.ladder.done || (n.ladder.step === 1 && !starsOf(n, 1))) return;
+  const A = before.split(/\s+/).map(fold).filter(Boolean), B = after.split(/\s+/).map(fold).filter(Boolean);
+  const ca = new Map(); A.forEach(w => ca.set(w, (ca.get(w) || 0) + 1));
+  let same = 0; B.forEach(w => { const c = ca.get(w); if (c) { same++; ca.set(w, c - 1); } });
+  const change = 1 - same / Math.max(A.length, B.length, 1);
+  if (change > 0.3) {
+    n.ladder = {step: 1, done: false, lives: 3, stars: {}, at: n.ladder.at || 0};
+    n.mod = Date.now(); markItem(n.id); persist(); updateNoteStats();
+    toast('A szöveg nagy része megváltozott: a tanulás az 1. fokozattól indul');
+  }
+};
 $('#noteText').oninput = e => {
   const n = byId(ui.noteId); if (!n) return;
   n.text = e.target.value; n.mod = Date.now(); markItem(n.id);
@@ -1758,8 +2352,10 @@ $('#noteText').oninput = e => {
   saveSoon();
 };
 $('#nPrio').onchange = e => { const n = byId(ui.noteId); if (!n) return; n.prio = e.target.value; n.mod = Date.now(); markItem(n.id); persist(); };
-$('#nLearn').onclick = () => { const n = byId(ui.noteId); if (n) { migrateCards(n); startLearn(n.id); } };
+$('#nLearn').onclick = () => { const n = byId(ui.noteId); if (n) { migrateCards(n); openPath(n.id); } };
 $('#nReview').onclick = () => { const n = byId(ui.noteId); if (n) migrateCards(n); startReview(ui.noteId); };
+$('#nErr').onclick = () => { ui.errOpen = !ui.errOpen; renderNote(); };
+$('#errReset').onclick = () => { const n = byId(ui.noteId); if (!n || !db.srs[n.id]) return; delete db.srs[n.id].map; markSrs(n.id, 'map'); persist(); renderNote(); toast('Hibatérkép nullázva'); };
 $('#nAiCards').onclick = aiCards;
 $('#nChat').onclick = () => { chatOpen = !chatOpen; $('#chatPanel').hidden = !chatOpen; if (chatOpen) { renderChat(); setTimeout(() => $('#chatInput').focus(), 50); } };
 $('#chatClear').onclick = () => { if (ui.noteId) { saveChat(ui.noteId, []); renderChat(); } };
@@ -1769,6 +2365,7 @@ $('#nExam').onclick = async () => {
   const n = byId(ui.noteId); if (!n) return;
   const r = await dialog({
     title: 'Vizsga beállítása',
+    msg: 'Ugyanazzal a dátummal több dokumentum egy vizsgatervbe kerül a kezdőoldalon.',
     fields: [
       {name: 'date', label: 'Vizsga dátuma', type: 'date', value: n.exam ? n.exam.date : ''},
       {name: 'mode', label: 'Ütemezés', options: [['kvota', 'Kvóta: egyenletes napi új kártya'], ['cel', 'Célzott: ismétlés a vizsga előtt']], value: n.exam ? n.exam.mode : 'kvota'}
@@ -1777,11 +2374,13 @@ $('#nExam').onclick = async () => {
   });
   if (!r) return;
   if (r.key === 'clear') n.exam = null;
-  else { if (!r.values.date) return toast('Adj meg dátumot'); n.exam = {date: r.values.date, ts: examTs(r.values.date), mode: r.values.mode}; }
+  else {
+    if (!r.values.date) return toast('Adj meg dátumot');
+    const keep = n.exam && n.exam.date === r.values.date && n.exam.set;
+    n.exam = {date: r.values.date, ts: examTs(r.values.date), mode: r.values.mode, set: keep || Date.now()};
+  }
   n.mod = Date.now(); markItem(n.id); persist(); updateNoteStats();
 };
-$('#qBox').oninput = e => { ui.q = e.target.value; renderSearch(); };
-$('#hits').onclick = e => { const h = e.target.closest('[data-open]'); if (h) openItem(h.dataset.open); };
 $('#trashList').onclick = async e => {
   const r = e.target.closest('[data-restore]'), k = e.target.closest('[data-kill]');
   if (r) { restore(r.dataset.restore); toast('Visszaállítva'); }
@@ -1802,12 +2401,15 @@ async function openSettings() {
   const r = await dialog({
     title: 'Beállítások',
     fields: [
+      {name: 'name', label: 'Megszólítás a kezdőoldalon (nem kötelező)', value: s.name},
       {name: 'goalMin', label: 'Napi cél (perc)', type: 'number', value: s.goalMin, min: 1},
       {name: 'newPerDay', label: 'Új kártya naponta (összesen)', type: 'number', value: s.newPerDay, min: 0},
       {name: 'capMin', label: 'Napi időkeret az ismétlésre (perc, 0 = nincs)', type: 'number', value: s.capMin, min: 0},
       {name: 'retention', label: 'Kívánt megjegyzési arány', options: [['0.8', '80%'], ['0.85', '85%'], ['0.9', '90%'], ['0.95', '95%']], value: String(s.retention)},
       {name: 'typing', label: 'Gépelés a sima kártyáknál is', type: 'checkbox', value: s.typing},
-      {name: 'docTol', label: 'Megengedett hiba a teljes szöveg ismétlésénél (szó)', type: 'number', value: s.docTol, min: 0},
+      {name: 'typoHard', label: 'Elírás a nehéz gépelésnél és a szöveg ismétlésénél', options: [['0', 'Nincs tűrés: pontosan kell'], ['1', '10+ betűs szavaknál 1 elírás'], ['2', 'Mint a könnyű fokozatban']], value: String(s.typoHard)},
+      {name: 'masterDays', label: 'Mesterfázis (1 élet), ha a szöveg ennyi napja stabil', type: 'number', value: s.masterDays, min: 1},
+      {name: 'examNear', label: 'Mesterfázis a vizsga előtti utolsó napokban (nap)', type: 'number', value: s.examNear, min: 0},
       {name: 'leech', label: 'Makacs kártya ennyi elrontás után', type: 'number', value: s.leech, min: 2},
       {name: 'pomoWork', label: 'Pomodoro munka (perc)', type: 'number', value: s.pomoWork, min: 1},
       {name: 'pomoBreak', label: 'Pomodoro szünet (perc)', type: 'number', value: s.pomoBreak, min: 1},
@@ -1821,8 +2423,9 @@ async function openSettings() {
   if (r.key === 'export') return exportData();
   if (r.key === 'import') return $('#importFile').click();
   const v = r.values, num = (x, d, lo) => { const k = parseInt(x, 10); return isNaN(k) ? d : Math.max(lo, k); };
-  Object.assign(s, {goalMin: num(v.goalMin, 5, 1), newPerDay: num(v.newPerDay, 15, 0), capMin: num(v.capMin, 0, 0), retention: parseFloat(v.retention) || 0.9,
-    typing: !!v.typing, docTol: num(v.docTol, 0, 0), leech: num(v.leech, 6, 2), pomoWork: num(v.pomoWork, 25, 1), pomoBreak: num(v.pomoBreak, 5, 1)});
+  Object.assign(s, {name: v.name.slice(0, 40), goalMin: num(v.goalMin, 5, 1), newPerDay: num(v.newPerDay, 15, 0), capMin: num(v.capMin, 0, 0), retention: parseFloat(v.retention) || 0.9,
+    typing: !!v.typing, typoHard: num(v.typoHard, 1, 0), masterDays: num(v.masterDays, 21, 1), examNear: num(v.examNear, 7, 0),
+    leech: num(v.leech, 6, 2), pomoWork: num(v.pomoWork, 25, 1), pomoBreak: num(v.pomoBreak, 5, 1)});
   localStorage.setItem(API_KEY, v.apiKey);
   saveLocal();
   if (v.syncKey && v.syncKey !== syncKey()) { localStorage.setItem(SYNC_KEY, v.syncKey); return location.reload(); }
@@ -1848,26 +2451,30 @@ $('#learn').addEventListener('click', e => {
   if (!ls) return;
   const id = e.target.id;
   if (id === 'lNext') return revealNext();
-  if (id === 'lRestart') { learnTick(); ls.i = 0; ls.marks = []; skipAuto(); drawLearn(); return; }
-  if (id === 'lCont') return startLearn(ls.noteId, ls.next);
+  if (id === 'lRestart') { if (!ls.busy && !ls.ended) { ls.errs++; restartPara(); } return; }
+  if (id === 'lNextStep') return startLearn(ls.noteId, ls.again.step + 1, 'learn');
+  if (id === 'lAgain') { const n = byId(ls.noteId); const a = ls.again; return startLearn(ls.noteId, a.mode === 'learn' && n ? n.ladder.step : a.step, a.mode); }
   if (id === 'lExit') return closeLearn();
-  if (ls.step === 1 && !ls.ended && e.target.closest('#lBody')) revealNext();
-  if (ls.step > 1 && !ls.ended && e.target.closest('#lBody')) { const i = $('#lIn'); i && i.focus(); }
+  if (ls.ended || ls.busy) return;
+  if (ls.step === 1 && ls.mode !== 'rev' && e.target.closest('#lBody')) revealNext();
+  else if (e.target.closest('#lBody')) { const i = $('#lIn'); i && i.focus(); }
 });
 
 document.addEventListener('keydown', e => {
   if (ls) {
     if (e.key === 'Escape') return closeLearn();
-    if (ls.step === 1 && !ls.ended && (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'Enter')) { e.preventDefault(); revealNext(); }
+    if (ls.ended && e.key === 'Enter') { const b = $('#lFootIn .primary'); if (b) { e.preventDefault(); b.click(); } return; }
+    if (ls.step === 1 && ls.mode !== 'rev' && !ls.ended && (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'Enter')) { e.preventDefault(); revealNext(); }
     return;
   }
   if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && !(e.key === 'Enter' && e.ctrlKey)) return;
   if (!rq || ui.view !== 'review' || rq.finished) return;
   if (!rq.shown && (e.key === ' ' || (e.key === 'Enter' && e.ctrlKey))) { e.preventDefault(); showBack(); }
-  else if (rq.shown && ['1', '2', '3', '4'].includes(e.key)) { const b = $(`#grades [data-g="${e.key}"]`); if (b) grade(+e.key); }
+  else if (rq.shown && (e.key === '1' || e.key === 'ArrowLeft')) grade(1);
+  else if (rq.shown && (e.key === '2' || e.key === 'ArrowRight')) grade(3);
 });
 
-/* Android-alkalmazásból hívható: a napi ismétlési percek (az alkalmazászárhoz) */
+/* Android-alkalmazásból hívható: a napi tanulási percek (az alkalmazászárhoz) */
 window.memoMillStatus = () => JSON.stringify({day: dayKey(Date.now()), todaySec: dayStat(dayKey(Date.now())).sec, goalMin: db.settings.goalMin, due: buildQueue(Date.now(), null).length});
 window.memoMillOpenReview = () => { if (ls) closeLearn(); startReview(null); };
 /* Android Vissza gomb: true, ha az app kezelte */
@@ -1876,7 +2483,7 @@ window.memoMillBack = () => {
   if (d.open) { d.dispatchEvent(new Event('cancel', {cancelable: true})); return true; }
   if (ls) { closeLearn(); return true; }
   if (ui.view === 'review' && rq && !rq.finished) { $('#revExit').click(); return true; }
-  if (ui.view === 'note' || (ui.view === 'files' && ui.cur)) { $('#backBtn').click(); return true; }
+  if (ui.view === 'note' || ui.view === 'path' || ui.view === 'trash' || (ui.view === 'files' && ui.cur)) { $('#backBtn').click(); return true; }
   if (ui.view !== 'home') { if (rq && rq.finished) rq = null; show('home'); return true; }
   return false;
 };
