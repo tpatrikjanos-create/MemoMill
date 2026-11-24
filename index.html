@@ -356,7 +356,8 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 .acct b{display:block;font-size:15px;font-weight:600;overflow-wrap:anywhere}
 
 /* dokumentum: teljes képernyő, mód, / menü */
-body.docfull #noteWrap{max-width:920px;min-height:100%;padding-bottom:110px}
+body.docfull #noteWrap{max-width:none;min-height:100%;padding:28px 64px 110px}
+@media (max-width:760px){ body.docfull #noteWrap{padding:10px 14px 90px} }
 #noteWrap{display:flex;flex-direction:column}
 #noteModeRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 #modeSeg{flex:0 0 auto}
@@ -478,6 +479,10 @@ body.docfull #edTools{display:flex;position:fixed;left:calc(50% + 120px);transfo
 .calGrid .d.x{background:var(--grad);color:#061022;font-weight:700}
 @media (max-width:760px){ .crow{grid-template-columns:24px minmax(0,1fr) 84px} .crow .b{display:none} }
 
+.row .xp{border:0;background:var(--panel2);color:var(--acc);font-size:11.5px;padding:1px 8px;border-radius:8px;margin-left:6px;vertical-align:2px}
+.row.sub{padding-left:46px;background:rgba(34,211,238,.035)}
+.row.sub .nm>div:first-child{font-size:14.5px}
+
 /* párbeszéd, toast, konfetti */
 dialog{border:1px solid var(--line2);border-radius:20px;padding:22px 24px;width:min(540px,94vw);max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(34,211,238,.06);background:linear-gradient(160deg,#141a3c,#0b0f28);color:var(--text)}
 dialog::backdrop{background:rgba(3,5,14,.7);backdrop-filter:blur(3px)}
@@ -550,6 +555,7 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
     <symbol id="i-path" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
     <linearGradient id="gFold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
     <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+    <symbol id="i-docF" viewBox="0 0 24 24"><path d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="rgba(34,211,238,.18)" stroke="#5ee7f7" stroke-width="1.3" stroke-linejoin="round"/><path d="M14 3v5h5" fill="none" stroke="#5ee7f7" stroke-width="1.3"/><path d="M8.5 12h7M8.5 15h7M8.5 18h4" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/></symbol>
     <symbol id="i-folderF" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="url(#gFold)"/></symbol>
     <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="rgba(238,240,250,.14)" stroke="#eef0fa" stroke-opacity=".7" stroke-width="1.3" stroke-linejoin="round"/><path d="M14 3v5h5" fill="none" stroke="#eef0fa" stroke-opacity=".7" stroke-width="1.3" stroke-linejoin="round"/><path d="M8.5 13h7M8.5 16.5h5" stroke="#5ee7f7" stroke-width="1.4" stroke-linecap="round"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
@@ -1019,7 +1025,8 @@ const cardKey = c => (c.kind + ':' + c.front + ' ' + c.back).slice(0, 120);
    gazdátlan állapotot átköltöztetjük, így a haladás nem vész el. */
 function migrateCards(note) {
   const cards = makeCards(note);
-  const prevIds = new Set((cardCache.get(note.id).prev || []).map(c => c.id));
+  if (note.blk) return;
+  const prevIds = new Set(((cardCache.get(note.id) || {}).prev || []).map(c => c.id));
   const S = db.srs[note.id];
   if (!S) return;
   const ids = new Set(cards.map(c => c.id));
@@ -1044,9 +1051,22 @@ function migrateCards(note) {
 }
 const learnText = raw => raw.replace(/\{\{(.+?)\}\}/g, '$1').replace(/\*\*(.+?)\*\*/g, '$1').replace(/^#+\s+/, '').replace(/\s*>>>\s*$/, ':').replace(/\s*(>>|<<|<>|::)\s*/g, ' – ');
 /* tanulóblokk: {{ … }} több soron át; csak a bezáró }} után jön létre. Egy soron belül a {{ }} kitöltős kártya marad. */
-const BLK_RE = /\{\{([\s\S]*?)\}\}/g;
-function blockSpans(text) { const out = []; let m; BLK_RE.lastIndex = 0; while ((m = BLK_RE.exec(text || ''))) if (m[1].includes('\n')) out.push({a: m.index, b: m.index + m[0].length, inner: m[1]}); return out; }
-const stripBlk = text => (text || '').replace(BLK_RE, (m, inner) => inner.includes('\n') ? inner : m);
+/* lezárás után a {{ }} helyére láthatatlan jelölő kerül (U+2062 … U+2063), így a jelek eltűnnek, a blokk megmarad */
+const BS = '\u2062', BE = '\u2063';
+const BLK_RE = /\u2062([\s\S]*?)\u2063|\{\{([\s\S]*?)\}\}/g;
+function blockSpans(text) {
+  const out = []; let m; BLK_RE.lastIndex = 0;
+  while ((m = BLK_RE.exec(text || ''))) { const sealed = m[1] !== undefined, inner = sealed ? m[1] : m[2]; if (sealed || inner.includes('\n')) out.push({a: m.index, b: m.index + m[0].length, inner, sealed}); }
+  return out;
+}
+const stripBlk = text => (text || '').replace(BLK_RE, (m, s1, s2) => s1 !== undefined ? s1 : s2.includes('\n') ? s2 : m).replace(/[\u2062\u2063]/g, '');
+/* a lezárt, több soros {{ }} blokkokból jelölős blokk lesz; visszaadja az új szöveget és hány jel tűnt el a pos előtt */
+function sealBlocks(text, pos = 0) {
+  const t = (text || '').slice(0, pos) + '\u0001' + (text || '').slice(pos);
+  const out = t.replace(/\{\{([\s\S]*?)\}\}/g, (m, inner) => inner.replace(/\u0001/g, '').includes('\n') ? BS + inner.replace(/^[ \t]*\n/, '').replace(/\n[ \t]*$/, '') + BE : m);
+  const caret = out.indexOf('\u0001');
+  return {text: out.replace('\u0001', ''), caret: caret < 0 ? pos : caret};
+}
 const isBlkStart = t => false;
 const docText = n => stripBlk(n.text).split('\n').map(l => l.trim()).map(t => learnText(t.replace(/^!!\s*/, ''))).filter(Boolean).join('\n');
 /* tanulóblokkok: {{ cím … }} vagy !! bekezdés */
@@ -1724,9 +1744,16 @@ function renderTree() {
   const rows = [];
   const walk = (pid, depth) => kids(pid).filter(i => i.type === 'folder').forEach(f => {
     const open = ui.open.has(f.id);
-    const has = kids(f.id).some(k => k.type === 'folder');
+    const has = kids(f.id).some(k => k.type === 'folder' || (k.type === 'note' && blocksOf(k).length));
     rows.push(`<div class="node ${ui.cur === f.id && ui.view === 'files' ? 'cur' : ''}" style="padding-left:${6 + depth * 14}px" data-folder="${f.id}" data-drop="${f.id}"><span class="tg" data-toggle="${f.id}">${has ? (open ? '▾' : '▸') : '·'}</span><svg class="ico"><use href="#i-folderF"/></svg>${esc(f.name)}</div>`);
-    if (open) walk(f.id, depth + 1);
+    if (open) {
+      walk(f.id, depth + 1);
+      kids(f.id).filter(d => d.type === 'note' && blocksOf(d).length).forEach(d => {
+        const o = ui.open.has(d.id);
+        rows.push(`<div class="node ${ui.noteId === d.id && ui.view === 'note' ? 'cur' : ''}" style="padding-left:${6 + (depth + 1) * 14}px" data-doc="${d.id}"><span class="tg" data-toggle="${d.id}">${o ? '▾' : '▸'}</span><svg class="ico"><use href="#i-docF"/></svg>${esc(d.name)}</div>`);
+        if (o) blocksOf(d).forEach(b => rows.push(`<div class="node ${ui.noteId === b.id && ui.view === 'note' ? 'cur' : ''}" style="padding-left:${6 + (depth + 2) * 14}px" data-doc="${b.id}"><span class="tg">·</span><svg class="ico"><use href="#i-doc"/></svg>${esc(b.name)}</div>`));
+      });
+    }
   });
   rows.push(`<div class="node ${ui.cur === null && ui.view === 'files' ? 'cur' : ''}" data-folder="root" data-drop="root"><svg class="ico"><use href="#i-notes"/></svg>Minden jegyzet</div>`);
   walk(null, 1);
@@ -1754,7 +1781,10 @@ function renderFiles() {
       date = fmtD(i.mod);
       sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${!i.text.trim() ? 'Üres' : i.mode === 'jegyzet' ? 'Jegyzet' + (blocksOf(i).length ? ' · ' + blocksOf(i).length + ' tanulóblokk' : '') : i.mode === 'kartya' ? 'Kártya' : i.ladder.done ? 'Ismétlésben' : 'Tanulás ' + i.ladder.step + '/7'}</div>${i.mode === 'tanulas' ? `<div class="pbar"><i style="width:${ladderPct(i)}%"></i></div>` : ''}`;
     } else sub = `<div class="muted small">${kids(i.id).length} elem</div>`;
-    return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"${i.type === 'folder' ? ` data-drop="${i.id}"` : ''} draggable="${!coarse}"><svg class="ico" style="width:22px;height:22px"><use href="#${i.type === 'folder' ? 'i-folderF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)}</div>${sub}</div><span class="m">${info}</span><span class="m d">${date}</span><button class="more" data-more="${i.id}" title="Kijelölés">⋯</button></div>`;
+    const bl = i.type === 'note' ? blocksOf(i) : [], xo = ui.xp && ui.xp.has(i.id);
+    const tog = bl.length ? `<button class="xp" data-xp="${i.id}" title="Tanulóblokkok">${xo ? '▾' : '▸'} ${bl.length}</button>` : '';
+    return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"${i.type === 'folder' ? ` data-drop="${i.id}"` : ''} draggable="${!coarse}"><svg class="ico" style="width:22px;height:22px"><use href="#${i.type === 'folder' ? 'i-folderF' : bl.length ? 'i-docF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)} ${tog}</div>${sub}</div><span class="m">${info}</span><span class="m d">${date}</span><button class="more" data-more="${i.id}" title="Kijelölés">⋯</button></div>`
+      + (xo ? bl.map(b => `<div class="row sub" data-open="${b.id}"><svg class="ico" style="width:18px;height:18px"><use href="#i-doc"/></svg><div class="nm"><div>${esc(b.name)}</div><div class="muted small">Tanulóblokk · ${b.ladder.done ? 'Ismétlésben' : 'Tanulás ' + b.ladder.step + '/7'}</div></div><span class="m"></span><span class="m d"></span><span></span></div>`).join('') : '');
   }).join('');
   $('#rows').innerHTML = list.length ? head + body : '<p class="muted" style="padding:20px">Ez a mappa üres. Hozz létre mappát vagy dokumentumot.</p>';
 }
@@ -1870,8 +1900,11 @@ function renderNote() {
   $('#crumbs').innerHTML = [...crumbs(n.parentId), n].map(p => `<span class="cr">${p.type === 'folder' ? '<svg class="ico" style="width:15px;height:15px;margin-right:5px"><use href="#i-folderF"/></svg>' : ''}${esc(p.name)}</span>`).join(' <span>›</span> ');
   const nm = $('#noteName');
   if (document.activeElement !== nm) nm.value = n.name;
+  nm.readOnly = !!n.blk; nm.title = n.blk ? 'A tanulóblokk neve az első sora' : '';
   const ta = $('#noteText');
+  if (!n.blk && document.activeElement !== ta && /\{\{[\s\S]*?\n[\s\S]*?\}\}/.test(n.text)) { const r = sealBlocks(n.text); n.text = r.text; n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); }
   if (document.activeElement !== ta && ta.value !== n.text) ta.value = n.text;
+  $('#noteModeRow').hidden = !!n.blk; $('#nPrio').hidden = !!n.blk;
   $('#nPrio').value = n.prio;
   renderMode(n);
   renderDocBar(n);
@@ -2645,7 +2678,7 @@ $('#tabReview').onclick = () => { if (rq && rq.finished) rq = null; show('review
 $('#tabLearn').onclick = () => show('learnlist');
 $('#filesTrash').onclick = () => show('trash');
 $('#backBtn').onclick = () => {
-  if (ui.view === 'note') { const n = byId(ui.noteId); return goFolder(n ? n.parentId : null); }
+  if (ui.view === 'note') { const n = byId(ui.noteId); if (n && n.blk) return openItem(n.blk); return goFolder(n ? n.parentId : null); }
   if (ui.view === 'files' && ui.cur) { const p = byId(ui.cur); return goFolder(p ? p.parentId : null); }
   if (ui.view === 'path') return show('learnlist');
   if (ui.view === 'trash') return goFolder(ui.cur);
@@ -2681,12 +2714,14 @@ $('#pathMap').onclick = e => {
   migrateCards(n);
   startLearn(n.id, s, s === cur ? 'learn' : 'practice');
 };
-$('#pathEdit').onclick = () => { const n = byId(ui.pathId); if (n) openItem(n.blk || n.id); };
+$('#pathEdit').onclick = () => { const n = byId(ui.pathId); if (n) openItem(n.id); };
 $('#pathErr').onclick = () => { if (ui.pathId) { openItem(ui.pathId); ui.errOpen = true; render(); } };
 
 $('#tree').onclick = e => {
   const t = e.target.closest('[data-toggle]');
   if (t) { const id = t.dataset.toggle; ui.open.has(id) ? ui.open.delete(id) : ui.open.add(id); e.stopPropagation(); return renderTree(); }
+  const dn = e.target.closest('[data-doc]');
+  if (dn) return openItem(dn.dataset.doc);
   const n = e.target.closest('[data-folder]');
   if (n) { ui.q = ''; goFolder(n.dataset.folder === 'root' ? null : n.dataset.folder); }
 };
@@ -2697,6 +2732,8 @@ $('#crumbs').onclick = e => {
 let noClick = 0;
 $('#rows').onclick = e => {
   if (Date.now() < noClick) return;
+  const xp = e.target.closest('[data-xp]');
+  if (xp) { ui.xp = ui.xp || new Set(); const id = xp.dataset.xp; if (ui.xp.has(id)) ui.xp.delete(id); else ui.xp.add(id); return renderFiles(); }
   const h = e.target.closest('[data-open]');
   if (h) return openItem(h.dataset.open);
   const more = e.target.closest('[data-more]');
@@ -2865,9 +2902,16 @@ $('#noteText').onblur = () => {
 };
 $('#noteText').oninput = e => {
   const n = byId(ui.noteId); if (!n) return;
-  n.text = e.target.value; n.mod = Date.now(); markItem(n.id);
+  if (!n.blk) { n.text = e.target.value; n.mod = Date.now(); markItem(n.id); }
   clearTimeout(editT);
-  editT = setTimeout(() => { migrateCards(n); syncBlocks(n); updateNoteStats(); persist(); }, 250);
+  editT = setTimeout(() => {
+    if (!n.blk && /\{\{[\s\S]*?\n[\s\S]*?\}\}/.test(n.text)) {
+      const ta = $('#noteText'), pos = ta.selectionStart, r = sealBlocks(ta.value, pos);
+      if (r.text !== ta.value) { ta.value = r.text; ta.setSelectionRange(r.caret, r.caret); n.text = r.text; markItem(n.id); edSync(); }
+    }
+    if (n.blk) writeBlock(n, $('#noteText').value); else { migrateCards(n); syncBlocks(n); }
+    updateNoteStats(); persist();
+  }, 250);
   saveSoon();
 };
 $('#nPrio').onchange = e => { const n = byId(ui.noteId); if (!n) return; n.prio = e.target.value; n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); };
@@ -2886,7 +2930,8 @@ $('#chatClear').onclick = () => { if (ui.noteId) { saveChat(ui.noteId, []); rend
 $('#chatQuiz').onclick = () => sendChat('Kérdezz ki a dokumentumból! Egyszerre egy kérdést tegyél fel.');
 $('#chatForm').onsubmit = e => { e.preventDefault(); const t = $('#chatInput').value.trim(); if (!t) return; $('#chatInput').value = ''; sendChat(t); };
 $('#nExam').onclick = async () => {
-  const n = byId(ui.noteId); if (!n) return;
+  const n0 = byId(ui.noteId); if (!n0) return;
+  const n = n0.blk ? byId(n0.blk) : n0; if (!n) return;
   const r = await dialog({
     title: 'Vizsga beállítása',
     msg: 'Ugyanazzal a dátummal több dokumentum egy vizsgatervbe kerül a kezdőoldalon.',
@@ -3317,6 +3362,20 @@ function examCal(now) {
 }
 $('#examBox').addEventListener('click', e => { const b = e.target.closest('[data-cal]'); if (b) { ui.calOff = (ui.calOff || 0) + +b.dataset.cal; renderHome(); } });
 
+/* ===== tanulóblokk külön dokumentumként: a szerkesztés visszaíródik a fő dokumentumba ===== */
+function writeBlock(b, val) {
+  const p = byId(b.blk); if (!p) return;
+  const nv = val.trim(); if (nv === b.text) return;
+  let i = -1;
+  for (const sp of blockSpans(p.text)) { const j = p.text.indexOf(b.text, sp.a); if (j >= 0 && j < sp.b) { i = j; break; } }
+  if (i < 0) i = p.text.indexOf(b.text);
+  if (i < 0 || !nv) return;
+  p.text = p.text.slice(0, i) + nv + p.text.slice(i + b.text.length);
+  p.mod = Date.now(); markItem(p.id);
+  b.text = nv; b.mod = Date.now(); markItem(b.id);
+  syncBlocks(p);
+}
+
 /* ===== sorokból dokumentumok ===== */
 let selRange = null, selT = null;
 function lineRange(text, a, b) {
@@ -3325,7 +3384,7 @@ function lineRange(text, a, b) {
   let e0 = text.indexOf('\n', e); if (e0 < 0) e0 = text.length;
   return [s0, e0];
 }
-const convLines = chunk => chunk.split('\n').map(l => l.trim().replace(/^\{\{\s*/, '').replace(/\s*\}\}$/, '').replace(/^!!\s*/, '').trim()).filter(Boolean);
+const convLines = chunk => chunk.replace(/[\u2062\u2063]/g, '').split('\n').map(l => l.trim().replace(/^\{\{\s*/, '').replace(/\s*\}\}$/, '').replace(/^!!\s*/, '').trim()).filter(Boolean);
 function hideSel() {}
 const docTitle = (l, keep) => {
   const m = l.match(/^(\d+)\s*[).:\-–]?\s+(.*)$/);
@@ -3334,6 +3393,7 @@ const docTitle = (l, keep) => {
   return t.length > 180 ? t.slice(0, 180) + '…' : t;
 };
 async function convertLines(n, a, b) {
+  if (n.blk) return toast('Tanulóblokkon belül ez nem használható');
   const ta = $('#noteText');
   if (ta.value !== n.text) { n.text = ta.value; markItem(n.id); }
   const [s0, e0] = lineRange(n.text, a, b), lines = convLines(n.text.slice(s0, e0));
