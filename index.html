@@ -2181,9 +2181,9 @@ const SHORT = ['', 'Felfedés', 'Könnyű', 'Közepes', 'Nehéz', 'Könnyű', 'K
 const PHASES = [['Felfedés', [1]], ['Kezdőbetű', [2, 3, 4]], ['Gépelés', [5, 6, 7]]];
 const HINTS = ['',
   'Gondold végig a következő szót, aztán fedd fel (szóköz vagy koppintás). Ha tévedtél, a „Hibáztam” újraindítja a bekezdést.',
-  'Írd be minden szó kezdőbetűjét. Minden harmadik szó rejtett.',
-  'Írd be minden szó kezdőbetűjét. Minden második szó rejtett.',
-  'Írd be minden szó kezdőbetűjét fejből.',
+  'Írd be minden szó kezdőbetűjét. A kezdőbetű szürke, a szó többi része látszik.',
+  'Írd be minden szó kezdőbetűjét, a számokét és a rövid szavakét is. Minden második szó rejtett.',
+  'Írd be minden szó kezdőbetűjét fejből, a számokat is. Az írásjelek nem számítanak.',
   'Gépeld be a szavakat. A szöveg halványan látszik. A szó után szóköz vagy Enter.',
   'Gépeld be a szavakat. Csak a kezdőbetűk látszanak.',
   'Gépeld be a szöveget fejből, segítség nélkül.'];
@@ -2224,8 +2224,9 @@ function startLearn(noteId, step, mode = 'learn') {
   const weak = new Set(Object.entries(errMap(n)).filter(([, c]) => c >= 2).map(([k]) => k));
   let c = 0;
   toks.forEach(t => {
-    t.auto = !t.k || (letters && /\d/.test(t.k));
-    if (!t.auto) { t.hide = step === 4 || (step === 3 && c % 2 === 1) || (step === 2 && c % 3 === 2) || (letters && weak.has(t.k)); c++; }
+    t.auto = !t.k || (letters && step === 2 && /\d/.test(t.k));
+    t.short = t.k.length <= 2;
+    if (!t.auto) { t.hide = step === 4 || (step === 3 && (c % 2 === 1 || weak.has(t.k))); c++; }
   });
   const max = mode === 'rev' ? (docPhase(n) === 3 ? 1 : 2) : 3;
   let hearts = max;
@@ -2252,6 +2253,7 @@ function tokHtml(j) {
   const f = splitFirst(t.w);
   if (s <= 4) {
     if (t.hide) return `<span class="hid">${esc(t.w)}</span>`;
+    if (s === 2 && t.short) return esc(t.w);
     return f ? `${esc(f[0])}<span class="f1">${esc(f[1])}</span>${esc(f[2])}` : esc(t.w);
   }
   if (s === 5) return esc(t.w);
