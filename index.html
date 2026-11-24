@@ -211,6 +211,7 @@ input[type=checkbox]{accent-color:var(--a1);width:18px;height:18px}
 .kind{font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--acc)}
 .q{font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.3;overflow-wrap:anywhere}
 .a{font-size:25px;line-height:1.35;overflow-wrap:anywhere}
+.a.long{font-size:16px;line-height:1.65;text-align:left;white-space:pre-wrap;max-height:50vh;overflow:auto;width:100%}
 .qs{font-size:13.5px;color:var(--muted)}
 .face textarea{width:100%;font-size:17px;min-height:90px}
 .tapHint{font-size:12px;color:var(--muted)}
@@ -353,6 +354,31 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 .acct{display:flex;align-items:center;gap:12px;margin:6px 0 4px}
 .acct .av{width:42px;height:42px;border-radius:50%;background:var(--grad);color:#061022;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex-shrink:0}
 .acct b{display:block;font-size:15px;font-weight:600;overflow-wrap:anywhere}
+
+/* dokumentum: teljes képernyő, mód, / menü */
+body.docfull #side{display:none}
+body.docfull #noteWrap{max-width:940px;min-height:100%;padding-bottom:24px}
+#noteWrap{display:flex;flex-direction:column}
+#noteText{flex:1;min-height:calc(100vh - 330px)}
+#noteModeRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#modeSeg{flex:0 0 auto}
+#modeSeg button{padding:6px 14px}
+#modeHint{flex:1;min-width:160px}
+#selBar{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;animation:rise .2s ease both}
+#selBar button{box-shadow:0 14px 34px -10px #000,var(--glow)}
+#slashMenu{position:fixed;z-index:45;width:290px;max-height:320px;overflow:auto;background:#121736;border:1px solid var(--line2);border-radius:14px;padding:6px;box-shadow:0 20px 50px -16px #000,0 0 0 1px rgba(34,211,238,.08)}
+#slashMenu .si{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer}
+#slashMenu .si b{font-weight:500;font-size:14px;display:block}
+#slashMenu .si small{color:var(--muted);font-size:12px}
+#slashMenu .si .k{width:28px;height:28px;border-radius:8px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--acc);flex-shrink:0}
+#slashMenu .si.on,#slashMenu .si:hover{background:var(--panel2)}
+#slashMenu .sh{font-size:10.5px;letter-spacing:1.4px;color:var(--dim);padding:8px 10px 4px}
+#slashMenu .none{padding:10px;color:var(--muted);font-size:13px}
+@media (max-width:760px){
+  body.docfull #main{padding-bottom:0}
+  #slashMenu{left:10px!important;right:10px;width:auto;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom))}
+  #noteText{min-height:calc(100vh - 360px)}
+}
 
 /* párbeszéd, toast, konfetti */
 dialog{border:1px solid var(--line2);border-radius:20px;padding:22px 24px;width:min(540px,94vw);max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(34,211,238,.06);background:linear-gradient(160deg,#141a3c,#0b0f28);color:var(--text)}
@@ -540,6 +566,7 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <button data-act="rename" disabled>Átnevezés</button>
           <button data-act="move" disabled>Áthelyezés</button>
           <button data-act="prio" disabled>Prioritás</button>
+          <button data-act="mode" disabled>Mód</button>
           <button data-act="del" class="danger" disabled>Kukába</button>
           <button class="ghost" id="filesTrash"><svg class="ico"><use href="#i-trash"/></svg> Kuka</button>
           <input id="fSearch" type="search" placeholder="Keresés a jegyzetekben…" autocomplete="off">
@@ -553,6 +580,7 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
     <section id="noteView" class="view" hidden>
       <div class="wrap" id="noteWrap">
         <input id="noteName" type="text" placeholder="Dokumentum neve">
+        <div id="noteModeRow"><div class="seg" id="modeSeg"><button type="button" data-mode="jegyzet">Jegyzet</button><button type="button" data-mode="tanulas">Tanulás</button><button type="button" data-mode="kartya">Kártya</button></div><button class="ghost" id="nBlocks" hidden></button><span class="muted small" id="modeHint"></span></div>
         <div id="noteActions">
           <button class="primary" id="nLearn">Tanulás</button>
           <button id="nReview">Ismétlés ebből</button>
@@ -577,11 +605,12 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <div id="chatLog"></div>
           <form id="chatForm"><input id="chatInput" type="text" placeholder="Kérdezz a dokumentumról…" autocomplete="off"><button class="primary" type="submit">Küldés</button></form>
         </div>
-        <textarea id="noteText" placeholder="Írj ide. A Tanulás a teljes szöveget gyakoroltatja, a kártyákat a lenti jelölések adják."></textarea>
+        <textarea id="noteText" placeholder="Írj ide. A / jellel parancsmenüt nyithatsz."></textarea>
         <div class="help">
-          Kártyák egy sorban:
-          <b>kérdés &gt;&gt; válasz</b> (előre) · <b>kérdés &lt;&lt; válasz</b> (vissza) · <b>kérdés &lt;&gt; válasz</b> (mindkét irány) · <b>{{kitakart rész}}</b> (cloze).<br>
-          A <b>Tanulás</b> hét fokozaton viszi végig a szöveget (Felfedés, Kezdőbetű, Gépelés). Minden sor egy bekezdés: az első hiba csak figyelmeztet, a második egy szívbe kerül, és a bekezdés újraindul.
+          <b>/</b> parancsmenü (sor elején vagy szóköz után).
+          Kártyák egy sorban: <b>kérdés &gt;&gt; válasz</b> · <b>kérdés &lt;&lt; válasz</b> · <b>kérdés &lt;&gt; válasz</b> · <b>{{kitakart rész}}</b> egy soron belül.<br>
+          Tanulóblokk: egy sor <b>{{ Cím</b>, alatta a szöveg, végül egy sor <b>}}</b>. Egy bekezdéshez elég elé írni: <b>!!</b>. A blokkok bármely módban külön tanulási útvonalat kapnak.<br>
+          Módok: <b>Jegyzet</b> – csak jegyzet · <b>Tanulás</b> – a teljes szöveg a tanulási útvonalra kerül · <b>Kártya</b> – a cím a kérdés, a tartalom a válasz.
         </div>
       </div>
     </section>
@@ -660,6 +689,8 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
   <div id="lFlash"><div class="fx"></div></div>
 </div>
 
+<div id="selBar" hidden><button class="primary" id="selConvert">Sorokból dokumentumok</button></div>
+<div id="slashMenu" hidden role="listbox"></div>
 <dialog id="dlg"></dialog>
 <div id="toast"></div>
 <input type="file" id="importFile" accept=".json,application/json" hidden>
@@ -741,7 +772,7 @@ function load() {
     const fid = uid(), now = Date.now();
     d = {items: [
       {id: fid, type: 'folder', name: 'Példa', parentId: null, mod: now, sample: now},
-      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, exam: null, prio: 'aktiv', ladder: {step: 1, done: false}, mod: now, sample: now}
+      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, mode: 'tanulas', exam: null, prio: 'aktiv', ladder: {step: 1, done: false}, mod: now, sample: now}
     ]};
   }
   d.items = Array.isArray(d.items) ? d.items : Object.values(d.items);
@@ -764,6 +795,8 @@ let IDX = new Map();
 function reindex() { IDX = new Map(db.items.map(i => [i.id, i])); }
 const byId = id => (id && (IDX.get(id) || (reindex(), IDX.get(id)))) || null;
 
+const MODES = ['jegyzet', 'tanulas', 'kartya'];
+const MODE_NAME = {jegyzet: 'Jegyzet', tanulas: 'Tanulás', kartya: 'Kártya'};
 /* A Firebase nem tárol üres mezőket, ezért pótoljuk őket. */
 function fixItem(i) {
   if (i.parentId === undefined || i.parentId === '') i.parentId = null;
@@ -780,6 +813,9 @@ function fixItem(i) {
     Object.entries(i.ladder.stars && typeof i.ladder.stars === 'object' ? i.ladder.stars : {}).forEach(([k, v]) => { if (/^s[1-7]$/.test(k) && +v) st[k] = clamp(+v, 1, 3); });
     i.ladder.stars = st;
     if (i.exam && !i.exam.date) i.exam = null;
+    /* a módok előtti dokumentumok: ami eddig is tanulásban volt (nem üres), az maradjon ott */
+    if (!i.blk && !MODES.includes(i.mode)) i.mode = i.text.trim() ? 'tanulas' : 'jegyzet';
+    if (i.blk) i.mode = 'tanulas';
     delete i.cards; delete i.progress; delete i.daily;
   }
   return i;
@@ -808,23 +844,30 @@ addEventListener('pagehide', saveLocal);
 
 const live = i => { let c = i, g = 0; while (c && g++ < 200) { if (c.deleted) return false; c = c.parentId ? byId(c.parentId) : null; } return true; };
 const rawKids = pid => db.items.filter(i => i.parentId === pid);
-const kids = pid => rawKids(pid).filter(i => !i.deleted).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu'));
+const kids = pid => rawKids(pid).filter(i => !i.deleted).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu', {numeric: true}));
 function allIds(id) { const out = [id]; rawKids(id).forEach(k => out.push(...allIds(k.id))); return out; }
 function crumbs(id) { const p = []; let c = id ? byId(id) : null; while (c) { p.unshift(c); c = c.parentId ? byId(c.parentId) : null; } return p; }
-const makeNote = (name, parentId) => ({id: uid(), type: 'note', name, parentId, text: '', exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}}, mod: Date.now()});
+const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}}, mod: Date.now()});
 const makeFolder = (name, parentId) => ({id: uid(), type: 'folder', name, parentId, mod: Date.now()});
 const srsOf = id => db.srs[id] || (db.srs[id] = {});
 const notes = () => db.items.filter(i => i.type === 'note' && live(i));
+const docs = () => notes().filter(i => !i.blk);
+const learnable = n => !!n && (n.blk || n.mode === 'tanulas');
+const blocksOf = n => db.items.filter(i => i.blk === n.id && live(i)).sort((a, b) => (a.bi || 0) - (b.bi || 0));
+const dispName = n => { if (!n) return ''; if (!n.blk) return n.name || 'Névtelen'; const p = byId(n.blk); return (p ? (p.name || 'Névtelen') + ' – ' : '') + (n.name || 'Blokk'); };
 
 /* ===== kártyák a szövegből ===== */
 const cardCache = new Map();
 function makeCards(note) {
+  if (note.blk) return [];
+  const sig = note.text + '\u0001' + note.mode + '\u0001' + note.name;
   const hit = cardCache.get(note.id);
-  if (hit && hit.text === note.text) return hit.cards;
+  if (hit && hit.sig === sig) return hit.cards;
   const out = [];
+  if (note.mode === 'kartya' && note.name.trim() && docText(note).trim()) out.push({id: 'tc', front: note.name.trim(), back: docText(note), kind: 'tc'});
   (note.text || '').split('\n').forEach(raw => {
-    const line = raw.trim();
-    if (!line) return;
+    const line = raw.trim().replace(/^!!\s*/, '');
+    if (!line || isBlkStart(line) || line === '}}') return;
     const clozes = [...line.matchAll(/\{\{(.+?)\}\}/g)];
     if (clozes.length) {
       clozes.forEach((m, ci) => {
@@ -841,7 +884,7 @@ function makeCards(note) {
       if (op !== '>>') out.push({id: hid(note.id + '|b|' + line), front: R, back: L, kind: 'bwd'});
     }
   });
-  cardCache.set(note.id, {text: note.text, cards: out, prev: hit ? hit.cards : null});
+  cardCache.set(note.id, {sig, cards: out, prev: hit ? hit.cards : null});
   return out;
 }
 const cardKey = c => (c.kind + ':' + c.front + ' ' + c.back).slice(0, 120);
@@ -873,7 +916,57 @@ function migrateCards(note) {
   });
 }
 const learnText = raw => raw.replace(/\{\{(.+?)\}\}/g, '$1').replace(/\s*(>>|<<|<>)\s*/g, ' – ');
-const docText = n => n.text.split('\n').map(l => learnText(l.trim())).filter(Boolean).join('\n');
+const isBlkStart = t => /^\{\{/.test(t) && !t.includes('}}');
+const docText = n => n.text.split('\n').map(l => l.trim()).filter(t => !isBlkStart(t) && t !== '}}').map(t => learnText(t.replace(/^!!\s*/, ''))).filter(Boolean).join('\n');
+/* tanulóblokkok: {{ cím … }} vagy !! bekezdés */
+function parseBlocks(text) {
+  const L = (text || '').split('\n'), out = [];
+  for (let i = 0; i < L.length; i++) {
+    const t = L[i].trim();
+    if (isBlkStart(t)) {
+      const title = t.slice(2).trim(), body = [];
+      i++;
+      while (i < L.length && L[i].trim() !== '}}') { body.push(L[i]); i++; }
+      out.push({title, text: body.join('\n').trim()});
+    } else if (/^!!/.test(t)) {
+      const body = [t.replace(/^!!\s*/, '')];
+      while (i + 1 < L.length && L[i + 1].trim() && !isBlkStart(L[i + 1].trim()) && !/^!!/.test(L[i + 1].trim())) { i++; body.push(L[i]); }
+      out.push({title: '', text: body.join('\n').trim()});
+    }
+  }
+  return out.filter(b => b.text);
+}
+const autoTitle = t => { const w = learnText(t).split(/\s+/).filter(Boolean); return w.slice(0, 6).join(' ') + (w.length > 6 ? '…' : ''); };
+function textChange(a, b) {
+  const A = a.split(/\s+/).map(fold).filter(Boolean), B = b.split(/\s+/).map(fold).filter(Boolean);
+  const ca = new Map(); A.forEach(w => ca.set(w, (ca.get(w) || 0) + 1));
+  let same = 0; B.forEach(w => { const c = ca.get(w); if (c) { same++; ca.set(w, c - 1); } });
+  return 1 - same / Math.max(A.length, B.length, 1);
+}
+/* a blokkokat rejtett aldokumentumként tároljuk: így saját tanulási útvonaluk, ismétlésük és szinkronjuk van */
+function syncBlocks(n) {
+  if (!n || n.blk) return false;
+  const parsed = parseBlocks(n.text), old = db.items.filter(i => i.blk === n.id), used = new Set();
+  let changed = false;
+  const take = b => {
+    let m = b.title ? old.find(o => !used.has(o.id) && o.btitle && fold(o.btitle) === fold(b.title)) : null;
+    if (!m) { let best = null, bs = 0.6; old.forEach(o => { if (used.has(o.id)) return; const v = 1 - textChange(o.text, b.text); if (v > bs) { bs = v; best = o; } }); m = best; }
+    return m;
+  };
+  parsed.forEach((b, k) => {
+    let it = take(b);
+    if (!it) { it = makeNote('', n.id, 'tanulas'); it.blk = n.id; db.items.push(it); changed = true; }
+    used.add(it.id);
+    const name = b.title || autoTitle(b.text);
+    if (it.text !== b.text || it.name !== name || it.bi !== k || (it.btitle || '') !== b.title || it.prio !== n.prio || JSON.stringify(it.exam) !== JSON.stringify(n.exam)) {
+      Object.assign(it, {text: b.text, name, bi: k, btitle: b.title, prio: n.prio, exam: n.exam ? {...n.exam} : null, parentId: n.id, mod: Date.now()});
+      markItem(it.id); changed = true;
+    }
+  });
+  old.filter(o => !used.has(o.id)).forEach(o => { hardDelete(o.id); changed = true; });
+  if (changed) reindex();
+  return changed;
+}
 
 /* ===== statisztika ===== */
 function dayStat(day) { let sec = 0, rev = 0, ok = 0; Object.values(db.stats[day] || {}).forEach(v => { sec += v.sec || 0; rev += v.rev || 0; ok += v.ok || 0; }); return {sec, rev, ok}; }
@@ -917,7 +1010,7 @@ function buildQueue(now, noteId) {
         if (kv ? kroom > 0 : room > 0) { fresh.push({...c, noteId: note.id, isNew: true}); kv ? kroom-- : room--; }
       } else if (st.due <= now) due.push({...c, noteId: note.id, isNew: false, due: st.due});
     });
-    if (note.ladder.done && S.doc && S.doc.due <= now) due.push({id: 'doc', kind: 'doc', noteId: note.id, front: note.name, back: docText(note), isNew: false, due: S.doc.due});
+    if (learnable(note) && note.ladder.done && S.doc && S.doc.due <= now) due.push({id: 'doc', kind: 'doc', noteId: note.id, front: dispName(note), back: docText(note), isNew: false, due: S.doc.due});
   });
   due.sort((a, b) => a.due - b.due);
   return [...due, ...fresh];
@@ -1297,7 +1390,7 @@ const coarse = matchMedia('(pointer: coarse)').matches;
 const VIEWS = ['home', 'review', 'files', 'note', 'learnlist', 'path', 'trash', 'settings'];
 function show(view) { if (view !== 'settings') ui.setDraft = null; else if (ui.view !== 'settings') ui.setBack = ui.view; ui.view = view; render(); const v = $('#' + view + 'View'); if (v) v.scrollTop = 0; }
 const svgI = (id, cls = '') => `<svg class="${cls}"><use href="#${id}"/></svg>`;
-const learningNotes = () => notes().filter(n => !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
+const learningNotes = () => notes().filter(n => learnable(n) && !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
 const starsOf = (n, s) => (n.ladder.stars || {})['s' + s] || 0;
 const livesOf = n => clamp(+n.ladder.lives || 3, 1, 3);
 const starTxt = k => '★'.repeat(k) + `<span class="o">${'★'.repeat(3 - k)}</span>`;
@@ -1332,6 +1425,8 @@ function render() {
   $('#settingsBtn').classList.toggle('on', ui.view === 'settings');
   VIEWS.forEach(v => $('#' + v + 'View').hidden = ui.view !== v);
   $('#top').classList.toggle('home', ui.view === 'home');
+  document.body.classList.toggle('docfull', ui.view === 'note');
+  if (ui.view !== 'note') { hideSel(); hideSlash(); }
   $('#backBtn').style.visibility = (['note', 'path', 'trash', 'settings'].includes(ui.view) || (ui.view === 'files' && ui.cur)) ? 'visible' : 'hidden';
   renderTree();
   if (ui.view === 'home') renderHome();
@@ -1360,7 +1455,7 @@ function paperCard(n, withBtn) {
   const path = crumbs(n.parentId).map(p => p.name).join(' · ') || 'Jegyzetek';
   const st = n.ladder.step;
   const fresh = st === 1 && !starsOf(n, 1);
-  return `<div class="paper click" data-path="${n.id}"><div class="pl">${esc(path)}</div><div class="pn">${esc(n.name || 'Névtelen')}</div>${miniLine(n)}`
+  return `<div class="paper click" data-path="${n.id}"><div class="pl">${esc(path)}${n.blk ? ' · tanulóblokk' : ''}</div><div class="pn">${esc(n.blk ? n.name || 'Blokk' : n.name || 'Névtelen')}</div>${miniLine(n)}`
     + `<div class="pm"><span>${st}/7 · ${STEPS[st]}</span>${st > 1 ? heartsHtml(livesOf(n), 3) : ''}</div>`
     + (withBtn ? `<div style="margin-top:12px"><button class="primary" data-go-learn="${n.id}">${fresh ? 'Kezdés' : 'Folytatás'}</button></div>` : '') + '</div>';
 }
@@ -1368,7 +1463,7 @@ function paperCard(n, withBtn) {
 /* --- vizsgaterv --- */
 function examGroups(now) {
   const g = new Map();
-  notes().forEach(n => { if (n.exam && n.exam.ts > now) { if (!g.has(n.exam.date)) g.set(n.exam.date, []); g.get(n.exam.date).push(n); } });
+  docs().forEach(n => { if (n.exam && n.exam.ts > now) { if (!g.has(n.exam.date)) g.set(n.exam.date, []); g.get(n.exam.date).push(n); } });
   return [...g.entries()].map(([date, ns]) => examPlan(date, ns, now)).sort((a, b) => a.ts - b.ts);
 }
 function examPlan(date, ns, now) {
@@ -1425,9 +1520,9 @@ function renderHome() {
   else { kp.textContent = '–'; $('#planKpiB').className = ''; }
   $('#contBox').innerHTML = learning.length ? paperCard(learning[0], true)
     : '<p class="muted" style="margin:0;line-height:1.6">Nincs tanulás alatt álló dokumentum. Nyiss meg egyet a Jegyzetekben, és nyomd meg a Tanulás gombot.</p>';
-  const dueDocs = notes().filter(n => n.ladder.done && db.srs[n.id] && db.srs[n.id].doc && db.srs[n.id].doc.due <= now);
-  $('#learnList').innerHTML = learning.slice(1, 6).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(n.name || 'Névtelen')}</span><span class="dv">${n.ladder.step}/7</span></div>`).join('')
-    + dueDocs.slice(0, 4).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(n.name || 'Névtelen')}</span><span class="dv b">ismétlés</span></div>`).join('')
+  const dueDocs = notes().filter(n => learnable(n) && n.ladder.done && db.srs[n.id] && db.srs[n.id].doc && db.srs[n.id].doc.due <= now);
+  $('#learnList').innerHTML = learning.slice(1, 6).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(dispName(n))}</span><span class="dv">${n.ladder.step}/7</span></div>`).join('')
+    + dueDocs.slice(0, 4).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(dispName(n))}</span><span class="dv b">ismétlés</span></div>`).join('')
     || '';
   $('#examPanel').hidden = !plans.length;
   $('#examBox').innerHTML = plans.map(examHtml).join('');
@@ -1474,7 +1569,7 @@ function renderTree() {
   walk(null, 1);
   $('#tree').innerHTML = rows.join('');
 }
-function noteDue(n, now) { const S = db.srs[n.id] || {}; const cs = makeCards(n); let d = cs.filter(c => S[c.id] && S[c.id].due <= now).length; if (n.ladder.done && S.doc && S.doc.due <= now) d++; return {d, t: cs.length}; }
+function noteDue(n, now) { const S = db.srs[n.id] || {}; const cs = makeCards(n); let d = cs.filter(c => S[c.id] && S[c.id].due <= now).length; if (learnable(n) && n.ladder.done && S.doc && S.doc.due <= now) d++; return {d, t: cs.length}; }
 function renderFiles() {
   const path = crumbs(ui.cur);
   const cur = ui.cur ? byId(ui.cur) : null;
@@ -1494,7 +1589,7 @@ function renderFiles() {
       const {d, t} = noteDue(i, now);
       info = `${d} / ${t}`;
       date = fmtD(i.mod);
-      sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${i.ladder.done ? 'Ismétlésben' : i.text.trim() ? 'Tanulás ' + i.ladder.step + '/7' : 'Üres'}</div><div class="pbar"><i style="width:${ladderPct(i)}%"></i></div>`;
+      sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${!i.text.trim() ? 'Üres' : i.mode === 'jegyzet' ? 'Jegyzet' + (blocksOf(i).length ? ' · ' + blocksOf(i).length + ' tanulóblokk' : '') : i.mode === 'kartya' ? 'Kártya' : i.ladder.done ? 'Ismétlésben' : 'Tanulás ' + i.ladder.step + '/7'}</div>${i.mode === 'tanulas' ? `<div class="pbar"><i style="width:${ladderPct(i)}%"></i></div>` : ''}`;
     } else sub = `<div class="muted small">${kids(i.id).length} elem</div>`;
     return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"${i.type === 'folder' ? ` data-drop="${i.id}"` : ''} draggable="${!coarse}"><svg class="ico" style="width:22px;height:22px"><use href="#${i.type === 'folder' ? 'i-folderF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)}</div>${sub}</div><span class="m">${info}</span><span class="m d">${date}</span><button class="more" data-more="${i.id}" title="Kijelölés">⋯</button></div>`;
   }).join('');
@@ -1505,7 +1600,7 @@ function renderHits() {
   const re = (() => { try { return new RegExp('(' + ui.q.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'); } catch (e) { return null; } })();
   const hl = s => re ? esc(s).replace(re, '<mark>$1</mark>') : esc(s);
   const out = [];
-  db.items.filter(i => !i.deleted && live(i)).forEach(i => {
+  db.items.filter(i => !i.deleted && !i.blk && live(i)).forEach(i => {
     const path = crumbs(i.parentId).map(p => p.name).join(' › ') || 'Jegyzetek';
     if (fold(i.name).includes(q)) out.push(`<div class="hit" data-open="${i.id}"><b>${hl(i.name)}</b><div class="muted small">${i.type === 'folder' ? 'Mappa' : 'Dokumentum'} · ${esc(path)}</div></div>`);
     if (i.type === 'note') i.text.split('\n').forEach(line => {
@@ -1573,8 +1668,38 @@ function updateNoteStats() {
   $('#ladderInfo').textContent = n.ladder.done
     ? `Megtanulva · következő ismétlés: ${S.doc ? fmtDue(S.doc.due) : '—'} · ${phaseName(n)}${S.doc && S.doc.lapses ? ' · ' + S.doc.lapses + ' visszaesés' : ''}`
     : `Tanulás: ${n.ladder.step}/7 · ${STEPS[n.ladder.step]}`;
-  $('#nLearn').textContent = n.ladder.done ? 'Tanulás · kész' : `Tanulás · ${n.ladder.step}/7`;
+  $('#nLearn').textContent = n.mode !== 'tanulas' ? 'Tanulás' : n.ladder.done ? 'Tanulás · kész' : `Tanulás · ${n.ladder.step}/7`;
+  if (n.mode !== 'tanulas') {
+    $('#noteBar').style.width = '0';
+    const tc = S.tc;
+    $('#ladderInfo').textContent = n.mode === 'kartya'
+      ? (cards.some(c => c.id === 'tc') ? `Kártya: „${n.name}” → a tartalom · ${tc ? 'következő: ' + fmtDue(tc.due) : 'új kártya'}` : 'Kártya mód: adj címet és tartalmat, abból lesz a kártya.')
+      : 'Jegyzet: a teljes szöveg nem kerül tanulásba.' + (blocksOf(n).length ? ` ${blocksOf(n).length} tanulóblokk külön tanulható.` : '');
+  }
+  renderMode(n);
 }
+const MODE_HINT = {jegyzet: 'csak jegyzet', tanulas: 'a teljes szöveg tanulásba kerül', kartya: 'cím = kérdés, tartalom = válasz'};
+function renderMode(n) {
+  $('#modeSeg').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.mode === n.mode));
+  $('#modeHint').textContent = MODE_HINT[n.mode] || '';
+  const bl = blocksOf(n), nb = $('#nBlocks');
+  nb.hidden = !bl.length;
+  nb.textContent = bl.length + ' tanulóblokk';
+}
+function setMode(n, mode, quiet) {
+  if (!n || n.blk || n.mode === mode) return;
+  n.mode = mode; n.mod = Date.now(); markItem(n.id); cardCache.delete(n.id);
+  persist();
+  if (!quiet) toast({jegyzet: 'Jegyzet mód: nem kerül tanulásba', tanulas: 'Tanulás mód: a szöveg a tanulási útvonalra került', kartya: 'Kártya mód: a cím a kérdés, a tartalom a válasz'}[mode]);
+}
+function showBlocks(n) {
+  const bl = blocksOf(n);
+  const html = bl.map(b => `<div class="dl" data-blk="${b.id}"><span class="dn">${esc(b.name)}</span><span class="dv b">${b.ladder.done ? 'ismétlésben' : b.ladder.step + '/7'}</span></div>`).join('');
+  dialog({title: 'Tanulóblokkok', msg: 'Mindegyik blokk külön tanulási útvonalat kap. Koppints egyre a megnyitásához.', html: `<div style="margin-top:8px">${html}</div>`, actions: [{label: 'Bezárás', key: null}]});
+}
+$('#dlg').addEventListener('click', e => { const b = e.target.closest('[data-blk]'); if (b) { $('#dlg').close(); openPath(b.dataset.blk); } });
+$('#modeSeg').addEventListener('click', e => { const b = e.target.closest('[data-mode]'); const n = byId(ui.noteId); if (!b || !n) return; setMode(n, b.dataset.mode); renderNote(); });
+$('#nBlocks').onclick = () => { const n = byId(ui.noteId); if (n) showBlocks(n); };
 function renderNote() {
   const n = byId(ui.noteId);
   if (!n || !live(n)) { ui.noteId = null; return goFolder(ui.cur); }
@@ -1584,6 +1709,7 @@ function renderNote() {
   const ta = $('#noteText');
   if (document.activeElement !== ta && ta.value !== n.text) ta.value = n.text;
   $('#nPrio').value = n.prio;
+  renderMode(n);
   $('#chatPanel').hidden = !chatOpen;
   if (chatOpen) renderChat();
   $('#errPanel').hidden = !ui.errOpen;
@@ -1597,20 +1723,20 @@ function renderLearnList() {
   const act = learningNotes().sort((a, b) => (b.ladder.at || 0) - (a.ladder.at || 0) || b.ladder.step - a.ladder.step);
   $('#llActive').innerHTML = act.length ? `<div class="lgrid">${act.map(n => paperCard(n, true)).join('')}</div>`
     : '<p class="muted" style="margin:0;line-height:1.6">Nincs tanulás alatt álló dokumentum. Nyiss meg egyet a Jegyzetekben, és nyomd meg a Tanulás gombot.</p>';
-  const done = notes().filter(n => n.ladder.done).sort((a, b) => ((db.srs[a.id] || {}).doc || {due: 0}).due - ((db.srs[b.id] || {}).doc || {due: 0}).due);
+  const done = notes().filter(n => learnable(n) && n.ladder.done).sort((a, b) => ((db.srs[a.id] || {}).doc || {due: 0}).due - ((db.srs[b.id] || {}).doc || {due: 0}).due);
   $('#llDonePanel').hidden = !done.length;
   $('#llDone').innerHTML = done.map(n => {
     const S = db.srs[n.id] || {}, due = S.doc && S.doc.due <= now;
-    return `<div class="dl" data-path="${n.id}"><span class="dn">${esc(n.name || 'Névtelen')}</span><span class="dv ${due ? 'b' : ''}">${S.doc ? (due ? 'esedékes' : fmtDue(S.doc.due)) : '—'} · ${phaseName(n)}</span></div>`;
+    return `<div class="dl" data-path="${n.id}"><span class="dn">${esc(dispName(n))}</span><span class="dv ${due ? 'b' : ''}">${S.doc ? (due ? 'esedékes' : fmtDue(S.doc.due)) : '—'} · ${phaseName(n)}</span></div>`;
   }).join('');
 }
 function openPath(id) { ui.pathId = id; show('path'); }
 function renderPath() {
   const n = byId(ui.pathId);
   if (!n || !live(n)) { ui.pathId = null; return show('learnlist'); }
-  $('#crumbs').innerHTML = `<span>Tanulás</span> <span>›</span> <span>${esc(n.name || 'Névtelen')}</span>`;
+  $('#crumbs').innerHTML = `<span>Tanulás</span> <span>›</span> <span>${esc(dispName(n))}</span>`;
   $('#pathCrumb').textContent = crumbs(n.parentId).map(p => p.name).join(' · ') || 'Jegyzetek';
-  $('#pathTitle').textContent = n.name || 'Névtelen';
+  $('#pathTitle').textContent = dispName(n);
   const txt = docText(n), words = txt.split(/\s+/).filter(w => fold(w)).length, paras = txt.split('\n').filter(Boolean).length;
   const S = db.srs[n.id] || {};
   $('#pathMeta').textContent = !txt.trim() ? 'A dokumentum még üres. Írj bele szöveget a „Szöveg” gombbal.'
@@ -1711,17 +1837,17 @@ function renderCard() {
   if (!c) return finishSession();
   const note = byId(c.noteId);
   if (!note) { rq.items.shift(); return renderCard(); }
-  const doc = c.kind === 'doc', typing = !doc && db.settings.typing;
+  const doc = c.kind === 'doc', tc = c.kind === 'tc', typing = !doc && !tc && db.settings.typing;
   $('#revProg').textContent = `${rq.done}/${rq.total} kész · hátra ${rq.items.length}${rq.practice ? ' · gyakorlás' : ''}`;
   $('#revBar').style.width = (100 * rq.done / Math.max(1, rq.total)) + '%';
-  const kindTxt = doc ? 'Teljes szöveg fejből' : c.kind === 'cloze' ? 'Kiegészítés' : c.isNew ? 'Új kártya' : 'Kártya';
+  const kindTxt = doc ? 'Teljes szöveg fejből' : tc ? (c.isNew ? 'Új tétel' : 'Tétel') : c.kind === 'cloze' ? 'Kiegészítés' : c.isNew ? 'Új kártya' : 'Kártya';
   const card = $('#card'), wrapEl = $('#cardWrap');
   if (!rq.shown) {
     card.classList.add('noanim'); card.classList.remove('flip');
     wrapEl.style.transition = 'none'; wrapEl.style.transform = ''; wrapEl.style.opacity = '';
     void wrapEl.offsetWidth; wrapEl.style.transition = ''; card.classList.remove('noanim');
     const ph = doc ? docPhase(note) : 0;
-    $('#cFront').innerHTML = `<div class="kind">${kindTxt} · ${esc(note.name)}</div>`
+    $('#cFront').innerHTML = `<div class="kind">${kindTxt} · ${esc(tc ? (crumbs(note.parentId).map(p => p.name).join(' › ') || 'Jegyzetek') : dispName(note))}</div>`
       + (doc ? `<div class="q">${esc(note.name)}</div><div class="qs">${ph === 3 ? 'Mesterfázis: egy életed van.' : '2. fázis: két életed van.'} Vak gépelés, bekezdésenként: az első hiba figyelmeztet, a második egy életbe kerül.</div><div>${heartsHtml(ph === 3 ? 1 : 2, ph === 3 ? 1 : 2)}</div>`
         : `<div class="q">${esc(c.front)}</div>`)
       + (typing ? `<textarea id="revType" rows="3" placeholder="A válasz…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>` : doc ? '' : `<div class="tapHint">Koppints a megfordításhoz</div>`);
@@ -1733,7 +1859,7 @@ function renderCard() {
     if (typing && !coarse) setTimeout(() => { const t = $('#revType'); t && t.focus(); }, 50);
   } else {
     const now = Date.now(), S = srsOf(note.id), st = S[c.id];
-    let backHtml = `<div class="kind">${kindTxt}</div><div class="qs">${esc(c.front)}</div><div class="a">${esc(c.back)}</div>`;
+    let backHtml = `<div class="kind">${kindTxt}</div><div class="qs">${esc(c.front)}</div><div class="a${tc ? ' long' : ''}">${esc(c.back)}</div>`;
     if (typing) { const pc = Math.round(sim(c.back, rq.typed) * 100); backHtml += `<div class="qs">Te írtad · ${pc}% egyezés</div>${rq.typed.trim() ? wordDiff(c.back, rq.typed).html : '<div class="qs">(üres)</div>'}`; }
     if (isLeech(st)) backHtml += `<div class="small" style="color:var(--warn)">Makacs kártya: ${st.lapses}× elrontva</div>`;
     const again = rq.failed.has(c.noteId + '/' + c.id);
@@ -2366,7 +2492,7 @@ $('#pathMap').onclick = e => {
   migrateCards(n);
   startLearn(n.id, s, s === cur ? 'learn' : 'practice');
 };
-$('#pathEdit').onclick = () => { if (ui.pathId) openItem(ui.pathId); };
+$('#pathEdit').onclick = () => { const n = byId(ui.pathId); if (n) openItem(n.blk || n.id); };
 $('#pathErr').onclick = () => { if (ui.pathId) { openItem(ui.pathId); ui.errOpen = true; render(); } };
 
 $('#tree').onclick = e => {
@@ -2499,6 +2625,12 @@ $('#bar').onclick = async e => {
     if (name) { it.name = name; it.mod = Date.now(); markItem(it.id); persist(); render(); }
     return;
   }
+  if (act === 'mode') {
+    if (it.type === 'folder') return folderMode(it);
+    const r = await dialog({title: 'Mód', fields: [{name: 'm', label: it.name, options: [['jegyzet', 'Jegyzet'], ['tanulas', 'Tanulás'], ['kartya', 'Kártya (cím = kérdés, tartalom = válasz)']], value: it.mode}], actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
+    if (r) { setMode(it, r.values.m); render(); }
+    return;
+  }
   if (act === 'prio') {
     const r = await dialog({title: 'Prioritás', fields: [{name: 'p', label: it.name, options: [['aktiv', '● Most tanulom'], ['nincs', '○ Nincs prioritás (a végére kerül)'], ['szunet', '❚❚ Szünetel (nem jön elő)']], value: it.prio}], actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
     if (r) { it.prio = r.values.p; it.mod = Date.now(); markItem(it.id); persist(); render(); }
@@ -2520,20 +2652,25 @@ let editT = null;
 $('#noteName').oninput = e => { const n = byId(ui.noteId); if (!n) return; n.name = e.target.value; n.mod = Date.now(); markItem(n.id); persist(); };
 /* szövegszerkesztés: kis módosításnál a tanulási haladás marad, nagy átírásnál újraindul */
 let editBase = null;
-$('#noteText').onfocus = () => { const n = byId(ui.noteId); editBase = n ? {id: n.id, text: docText(n)} : null; };
+$('#noteText').onfocus = () => { const n = byId(ui.noteId); editBase = n ? {id: n.id, text: docText(n), blk: Object.fromEntries(blocksOf(n).map(b => [b.id, b.text]))} : null; };
 $('#noteText').onblur = () => {
   const n = byId(ui.noteId);
   if (!n || !editBase || editBase.id !== n.id) return;
-  const before = editBase.text, after = docText(n);
+  const before = editBase.text, after = docText(n), bsnap = editBase.blk || {};
   editBase = null;
+  clearTimeout(editT); migrateCards(n); syncBlocks(n);
+  blocksOf(n).forEach(b => {
+    const was = bsnap[b.id];
+    if (was == null || b.ladder.done || (b.ladder.step === 1 && !starsOf(b, 1)) || textChange(docText({text: was}), docText(b)) <= 0.3) return;
+    b.ladder = {step: 1, done: false, lives: 3, stars: {}, at: b.ladder.at || 0}; b.mod = Date.now(); markItem(b.id);
+    toast(`A(z) „${b.name}” blokk nagy része megváltozott: a tanulása az 1. fokozattól indul`);
+  });
+  persist(); updateNoteStats();
+  if (n.mode !== 'tanulas') return;
   if (!before.trim() || before === after || n.ladder.done || (n.ladder.step === 1 && !starsOf(n, 1))) return;
-  const A = before.split(/\s+/).map(fold).filter(Boolean), B = after.split(/\s+/).map(fold).filter(Boolean);
-  const ca = new Map(); A.forEach(w => ca.set(w, (ca.get(w) || 0) + 1));
-  let same = 0; B.forEach(w => { const c = ca.get(w); if (c) { same++; ca.set(w, c - 1); } });
-  const change = 1 - same / Math.max(A.length, B.length, 1);
-  if (change > 0.3) {
+  if (textChange(before, after) > 0.3) {
     n.ladder = {step: 1, done: false, lives: 3, stars: {}, at: n.ladder.at || 0};
-    n.mod = Date.now(); markItem(n.id); persist(); updateNoteStats();
+    n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); updateNoteStats();
     toast('A szöveg nagy része megváltozott: a tanulás az 1. fokozattól indul');
   }
 };
@@ -2541,11 +2678,16 @@ $('#noteText').oninput = e => {
   const n = byId(ui.noteId); if (!n) return;
   n.text = e.target.value; n.mod = Date.now(); markItem(n.id);
   clearTimeout(editT);
-  editT = setTimeout(() => { migrateCards(n); updateNoteStats(); persist(); }, 250);
+  editT = setTimeout(() => { migrateCards(n); syncBlocks(n); updateNoteStats(); persist(); }, 250);
   saveSoon();
 };
-$('#nPrio').onchange = e => { const n = byId(ui.noteId); if (!n) return; n.prio = e.target.value; n.mod = Date.now(); markItem(n.id); persist(); };
-$('#nLearn').onclick = () => { const n = byId(ui.noteId); if (n) { migrateCards(n); openPath(n.id); } };
+$('#nPrio').onchange = e => { const n = byId(ui.noteId); if (!n) return; n.prio = e.target.value; n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); };
+$('#nLearn').onclick = () => {
+  const n = byId(ui.noteId); if (!n) return;
+  migrateCards(n); syncBlocks(n);
+  if (n.mode !== 'tanulas') { if (blocksOf(n).length) return showBlocks(n); setMode(n, 'tanulas'); }
+  openPath(n.id);
+};
 $('#nReview').onclick = () => { const n = byId(ui.noteId); if (n) migrateCards(n); startReview(ui.noteId); };
 $('#nErr').onclick = () => { ui.errOpen = !ui.errOpen; renderNote(); };
 $('#errReset').onclick = () => { const n = byId(ui.noteId); if (!n || !db.srs[n.id]) return; delete db.srs[n.id].map; markSrs(n.id, 'map'); persist(); renderNote(); toast('Hibatérkép nullázva'); };
@@ -2572,7 +2714,7 @@ $('#nExam').onclick = async () => {
     const keep = n.exam && n.exam.date === r.values.date && n.exam.set;
     n.exam = {date: r.values.date, ts: examTs(r.values.date), mode: r.values.mode, set: keep || Date.now()};
   }
-  n.mod = Date.now(); markItem(n.id); persist(); updateNoteStats();
+  n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); updateNoteStats();
 };
 $('#trashList').onclick = async e => {
   const r = e.target.closest('[data-restore]'), k = e.target.closest('[data-kill]');
@@ -2732,6 +2874,170 @@ window.memoMillBack = () => {
   if (ui.view !== 'home') { if (rq && rq.finished) rq = null; show('home'); return true; }
   return false;
 };
+
+
+/* ===== sorokból dokumentumok ===== */
+let selRange = null, selT = null;
+function lineRange(text, a, b) {
+  const s0 = text.lastIndexOf('\n', a - 1) + 1;
+  let e = b; if (e > a && text[e - 1] === '\n') e--;
+  let e0 = text.indexOf('\n', e); if (e0 < 0) e0 = text.length;
+  return [s0, e0];
+}
+const convLines = chunk => chunk.split('\n').map(l => l.trim()).filter(l => l && !isBlkStart(l) && l !== '}}').map(l => l.replace(/^!!\s*/, ''));
+function hideSel() { const b = $('#selBar'); if (b) b.hidden = true; selRange = null; }
+function checkSel() {
+  const ta = $('#noteText');
+  if (ui.view !== 'note' || document.activeElement !== ta) return hideSel();
+  const a = ta.selectionStart, b = ta.selectionEnd;
+  if (b - a < 3) return hideSel();
+  const [s0, e0] = lineRange(ta.value, a, b), k = convLines(ta.value.slice(s0, e0)).length;
+  if (k < 2) return hideSel();
+  selRange = [a, b];
+  $('#selConvert').textContent = `Sorokból dokumentumok (${k})`;
+  $('#selBar').hidden = false;
+}
+document.addEventListener('selectionchange', () => { clearTimeout(selT); selT = setTimeout(checkSel, 120); });
+$('#selConvert').addEventListener('pointerdown', e => e.preventDefault());
+$('#selConvert').addEventListener('mousedown', e => e.preventDefault());
+$('#selConvert').onclick = () => { const n = byId(ui.noteId); if (n && selRange) convertLines(n, selRange[0], selRange[1]); };
+const docTitle = (l, keep) => {
+  const m = l.match(/^(\d+)\s*[).:\-–]?\s+(.*)$/);
+  let t = m ? (keep ? m[1] + '. ' + m[2] : m[2]) : l;
+  t = t.replace(/\s{2,}/g, ' ').trim();
+  return t.length > 180 ? t.slice(0, 180) + '…' : t;
+};
+async function convertLines(n, a, b) {
+  const ta = $('#noteText');
+  if (ta.value !== n.text) { n.text = ta.value; markItem(n.id); }
+  const [s0, e0] = lineRange(n.text, a, b), lines = convLines(n.text.slice(s0, e0));
+  hideSel();
+  if (!lines.length) return toast('Nincs átalakítható sor');
+  const r = await dialog({
+    title: `${lines.length} dokumentum készül`,
+    msg: `Egy „${n.name || 'Névtelen'}” nevű mappába kerülnek, minden sorból egy, a sor szövegével mint címmel.${lines.length < convLines(n.text).length ? ' A dokumentum többi szövege is ebbe a mappába kerül.' : ''}`,
+    fields: [
+      {name: 'mode', label: 'Az új dokumentumok módja', options: [['jegyzet', 'Jegyzet (később kidolgozod)'], ['kartya', 'Kártya (cím = kérdés, tartalom = válasz)'], ['tanulas', 'Tanulás (a szöveg bemagolása)']], value: 'jegyzet'},
+      {name: 'num', label: 'Számozás megtartása (1., 2., …)', type: 'checkbox', value: true}
+    ],
+    actions: [{label: 'Létrehozás', key: 'ok', primary: true}, {label: 'Mégse', key: null}]
+  });
+  if (!r) return;
+  const snap = {text: n.text, parentId: n.parentId, deleted: n.deleted};
+  const F = makeFolder(n.name || 'Új mappa', n.parentId);
+  db.items.push(F); markItem(F.id);
+  const now = Date.now();
+  const created = lines.map((l, k) => { const d = makeNote(docTitle(l, r.values.num), F.id, r.values.mode); d.mod = now + k; db.items.push(d); markItem(d.id); return d.id; });
+  const rest = (n.text.slice(0, s0) + n.text.slice(Math.min(e0 + 1, n.text.length))).replace(/\n{3,}/g, '\n\n');
+  n.text = rest; n.parentId = F.id;
+  if (!rest.trim()) n.deleted = Date.now();
+  n.mod = Date.now(); markItem(n.id); cardCache.delete(n.id); reindex(); syncBlocks(n);
+  persist();
+  ta.blur();
+  goFolder(F.id);
+  toast(`${lines.length} dokumentum elkészült`, {label: 'Visszavonás', fn: () => {
+    n.text = snap.text; n.parentId = snap.parentId;
+    if (snap.deleted) n.deleted = snap.deleted; else delete n.deleted;
+    n.mod = Date.now(); markItem(n.id); cardCache.delete(n.id);
+    created.forEach(id => hardDelete(id)); hardDelete(F.id);
+    reindex(); syncBlocks(n); persist(); openItem(n.id);
+  }});
+}
+/* bulk mód egy mappára */
+async function folderMode(f) {
+  const all = allIds(f.id).map(byId).filter(i => i && i.type === 'note' && !i.blk && !i.deleted);
+  if (!all.length) return toast('Ebben a mappában nincs dokumentum');
+  const r = await dialog({title: 'Mód a mappa összes dokumentumára', msg: `${all.length} dokumentum a(z) „${f.name}” mappában és az almappáiban.`, fields: [{name: 'mode', label: 'Mód', options: [['jegyzet', 'Jegyzet'], ['tanulas', 'Tanulás'], ['kartya', 'Kártya (cím = kérdés, tartalom = válasz)']], value: 'jegyzet'}], actions: [{label: 'Beállítás', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
+  if (!r) return;
+  all.forEach(n => setMode(n, r.values.mode, true));
+  persist(); render(); toast(`${all.length} dokumentum: ${MODE_NAME[r.values.mode]} mód`);
+}
+
+/* ===== / parancsmenü ===== */
+let slash = null;
+const insAt = (ta, txt, caretBack = 0) => { const p = ta.selectionStart; if (txt[0] === ' ' && (p === 0 || /\s/.test(ta.value[p - 1]))) txt = txt.slice(1); ta.setRangeText(txt, p, ta.selectionEnd, 'end'); ta.selectionStart = ta.selectionEnd = p + txt.length - caretBack; };
+const atLineStart = ta => { const p = ta.selectionStart; return p === 0 || ta.value[p - 1] === '\n'; };
+const SLASH = [
+  {k: '>>', t: 'Kártya', d: 'kérdés >> válasz', kw: 'flashcard kerdes valasz', fn: ta => insAt(ta, ' >> ')},
+  {k: '<>', t: 'Kétirányú kártya', d: 'mindkét irányban kérdez', kw: 'flashcard ket irany', fn: ta => insAt(ta, ' <> ')},
+  {k: '{}', t: 'Kitakart rész', d: '{{…}} egy soron belül', kw: 'cloze lyukas', fn: ta => insAt(ta, '{{}}', 2)},
+  {k: '▣', t: 'Tanulóblokk', d: 'csak ez a rész kerül tanulásba', kw: 'blokk tanulas resz', fn: ta => insAt(ta, (atLineStart(ta) ? '' : '\n') + '{{ Cím\n\n}}\n', 4)},
+  {k: '!!', t: 'Bekezdés tanulásra', d: 'ez az egy bekezdés tanulásba kerül', kw: 'blokk tanulas', fn: ta => { const p = ta.selectionStart, ls = ta.value.lastIndexOf('\n', p - 1) + 1; ta.setRangeText('!! ', ls, ls, 'end'); ta.selectionStart = ta.selectionEnd = p + 3; }},
+  {k: '≡', t: 'Sorokból dokumentumok', d: 'minden sor egy új dokumentum', kw: 'tetelsor atalakitas convert', fn: (ta, n) => setTimeout(() => convertLines(n, 0, ta.value.length), 0)},
+  {g: 'Mód'},
+  {k: 'J', t: 'Jegyzet mód', d: MODE_HINT.jegyzet, kw: 'mod', fn: (ta, n) => { setMode(n, 'jegyzet'); renderNote(); }},
+  {k: 'T', t: 'Tanulás mód', d: MODE_HINT.tanulas, kw: 'mod', fn: (ta, n) => { setMode(n, 'tanulas'); renderNote(); }},
+  {k: 'K', t: 'Kártya mód', d: MODE_HINT.kartya, kw: 'mod flashcard', fn: (ta, n) => { setMode(n, 'kartya'); renderNote(); }},
+  {g: 'Műveletek'},
+  {k: '▶', t: 'Tanulás indítása', d: 'a tanulási útvonal megnyitása', kw: 'start', fn: () => setTimeout(() => $('#nLearn').click(), 0)},
+  {k: '↻', t: 'Ismétlés ebből', d: 'kártyák ebből a dokumentumból', kw: 'review', fn: () => setTimeout(() => $('#nReview').click(), 0)},
+  {k: '◎', t: 'Hibatérkép', d: 'az elrontott szavak', kw: 'hiba', fn: () => $('#nErr').click()},
+  {k: '📅', t: 'Vizsga', d: 'vizsgadátum beállítása', kw: 'datum', fn: () => setTimeout(() => $('#nExam').click(), 0)},
+  {k: '✨', t: 'AI kártyák', d: 'kártyajavaslatok a szövegből', kw: 'ai', fn: () => setTimeout(() => $('#nAiCards').click(), 0)},
+  {k: '?', t: 'AI segéd', d: 'kérdezz a dokumentumról', kw: 'ai chat', fn: () => setTimeout(() => $('#nChat').click(), 0)}
+];
+function hideSlash() { slash = null; const m = $('#slashMenu'); if (m) m.hidden = true; }
+function caretXY(ta, pos) {
+  const d = document.createElement('div'), cs = getComputedStyle(ta);
+  ['boxSizing', 'width', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderLeftWidth', 'fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing', 'tabSize'].forEach(k => d.style[k] = cs[k]);
+  Object.assign(d.style, {position: 'absolute', visibility: 'hidden', whiteSpace: 'pre-wrap', overflowWrap: 'break-word', top: '0', left: '0'});
+  d.textContent = ta.value.slice(0, pos);
+  const sp = document.createElement('span'); sp.textContent = '​'; d.appendChild(sp);
+  document.body.appendChild(d);
+  const r = ta.getBoundingClientRect(), lh = parseFloat(cs.lineHeight) || 24;
+  const xy = {x: r.left + sp.offsetLeft - ta.scrollLeft, y: r.top + sp.offsetTop - ta.scrollTop + lh};
+  d.remove();
+  return xy;
+}
+function renderSlash() {
+  const ta = $('#noteText'), m = $('#slashMenu');
+  const q = fold(slash.q);
+  let list = SLASH.filter(c => c.g || !q || fold(c.t + ' ' + c.d + ' ' + (c.kw || '')).includes(q));
+  list = list.filter((c, k) => !c.g || (list[k + 1] && !list[k + 1].g));
+  slash.items = list.filter(c => !c.g);
+  slash.sel = clamp(slash.sel, 0, Math.max(0, slash.items.length - 1));
+  let idx = -1;
+  m.innerHTML = slash.items.length ? list.map(c => c.g ? `<div class="sh">${c.g.toUpperCase()}</div>` : (idx++, `<div class="si ${idx === slash.sel ? 'on' : ''}" data-si="${idx}"><span class="k">${esc(c.k)}</span><span><b>${esc(c.t)}</b><small>${esc(c.d)}</small></span></div>`)).join('')
+    : '<div class="none">Nincs ilyen parancs</div>';
+  const xy = caretXY(ta, slash.start);
+  const w = 290, h = Math.min(320, m.scrollHeight || 320);
+  m.style.left = clamp(xy.x, 8, innerWidth - w - 8) + 'px';
+  m.style.top = (xy.y + h + 8 > innerHeight ? Math.max(8, xy.y - h - 30) : xy.y + 4) + 'px';
+  m.hidden = false;
+  const on = m.querySelector('.si.on'); if (on) on.scrollIntoView({block: 'nearest'});
+}
+function runSlash(k) {
+  const ta = $('#noteText'), n = byId(ui.noteId), c = slash && slash.items[k];
+  if (!c || !n) return hideSlash();
+  const end = ta.selectionStart;
+  ta.setRangeText('', slash.start, end, 'start');
+  hideSlash();
+  c.fn(ta, n);
+  ta.dispatchEvent(new Event('input'));
+  if (document.activeElement !== ta && ui.view === 'note' && !$('#dlg').open) ta.focus();
+}
+$('#noteText').addEventListener('input', () => {
+  const ta = $('#noteText'), p = ta.selectionStart, v = ta.value;
+  if (slash) {
+    if (p <= slash.start || v[slash.start] !== '/') return hideSlash();
+    const q = v.slice(slash.start + 1, p);
+    if (/\s/.test(q) || q.length > 24) return hideSlash();
+    slash.q = q; return renderSlash();
+  }
+  if (p > 0 && v[p - 1] === '/' && ta.selectionStart === ta.selectionEnd && (p === 1 || /\s/.test(v[p - 2]))) { slash = {start: p - 1, q: '', sel: 0, items: []}; renderSlash(); }
+});
+$('#noteText').addEventListener('keydown', e => {
+  if (!slash) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); slash.sel = (slash.sel + 1) % Math.max(1, slash.items.length); renderSlash(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); slash.sel = (slash.sel - 1 + slash.items.length) % Math.max(1, slash.items.length); renderSlash(); }
+  else if (e.key === 'Enter' || e.key === 'Tab') { if (slash.items.length) { e.preventDefault(); runSlash(slash.sel); } else hideSlash(); }
+  else if (e.key === 'Escape') { e.preventDefault(); hideSlash(); }
+});
+$('#noteText').addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== $('#noteText')) { hideSlash(); hideSel(); } }, 150));
+$('#noteText').addEventListener('click', () => { if (slash && $('#noteText').selectionStart <= slash.start) hideSlash(); });
+$('#slashMenu').addEventListener('pointerdown', e => e.preventDefault());
+$('#slashMenu').addEventListener('mousedown', e => e.preventDefault());
+$('#slashMenu').addEventListener('click', e => { const it = e.target.closest('[data-si]'); if (it) runSlash(+it.dataset.si); });
 
 fixDb();
 purgeTrash();
