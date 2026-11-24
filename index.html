@@ -356,15 +356,12 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 .acct b{display:block;font-size:15px;font-weight:600;overflow-wrap:anywhere}
 
 /* dokumentum: teljes képernyő, mód, / menü */
-body.docfull #side{display:none}
-body.docfull #noteWrap{max-width:940px;min-height:100%;padding-bottom:24px}
+body.docfull #noteWrap{max-width:920px;min-height:100%;padding-bottom:110px}
 #noteWrap{display:flex;flex-direction:column}
 #noteModeRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 #modeSeg{flex:0 0 auto}
 #modeSeg button{padding:6px 14px}
 #modeHint{flex:1;min-width:160px}
-#selBar{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;animation:rise .2s ease both}
-#selBar button{box-shadow:0 14px 34px -10px #000,var(--glow)}
 #slashMenu{position:fixed;z-index:45;width:290px;max-height:320px;overflow:auto;background:#121736;border:1px solid var(--line2);border-radius:14px;padding:6px;box-shadow:0 20px 50px -16px #000,0 0 0 1px rgba(34,211,238,.08)}
 #slashMenu .si{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;cursor:pointer}
 #slashMenu .si b{font-weight:500;font-size:14px;display:block}
@@ -424,24 +421,26 @@ body.docfull #noteWrap{max-width:940px;min-height:100%;padding-bottom:24px}
 #dbMenu button{border:0;background:none;text-align:left;padding:9px 12px;border-radius:10px;font-size:14px;display:flex;flex-direction:column;gap:2px}
 #dbMenu button small{color:var(--muted);font-size:12px}
 #dbMenu button:hover{background:var(--panel2)}
-.edWrap{position:relative;flex:1;display:flex;background:rgba(5,8,22,.55);border-radius:var(--r);border:1px solid var(--line2)}
-.edWrap:focus-within{border-color:var(--a1);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
-#edBack,#noteText{font-family:var(--sans);font-size:16px;line-height:1.7;padding:16px 18px;letter-spacing:normal;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:4}
-#edBack{position:absolute;inset:0;color:transparent;pointer-events:none;overflow:hidden;border:1px solid transparent;border-radius:var(--r)}
-#edBack .ln{min-height:1.7em;border-radius:4px}
+.edWrap{position:relative;flex:1;display:flex;margin-top:6px}
+#edBack,#noteText{font-family:var(--sans);font-size:16.5px;line-height:1.95;padding:6px 8px 6px 30px;letter-spacing:normal;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:4}
+#edBack{position:absolute;inset:0;color:transparent;pointer-events:none;overflow:hidden;border:0}
+#edBack .ln{min-height:1.95em;border-radius:6px;position:relative}
+#edBack .ln.b::before{content:'';position:absolute;left:-17px;top:.82em;width:6px;height:6px;border-radius:50%;background:rgba(226,230,255,.55)}
+#edBack .ln.hd::before{display:none}
 #edBack .bk{background:rgba(34,211,238,.09);box-shadow:inset 3px 0 0 #22d3ee;border-radius:0}
 #edBack .bm{background:rgba(34,211,238,.16);box-shadow:inset 3px 0 0 #22d3ee;border-radius:0}
 #edBack .pp{background:rgba(139,92,246,.14);box-shadow:inset 3px 0 0 #8b5cf6;border-radius:0}
-#edBack .cd{background:rgba(52,211,153,.07)}
-#edBack .hd{background:rgba(255,255,255,.05);box-shadow:inset 0 -1px 0 rgba(94,231,247,.5)}
+#edBack .cd.b::before{background:#22d3ee;box-shadow:0 0 6px rgba(34,211,238,.7)}
+#edBack .hd{box-shadow:inset 0 -1px 0 rgba(94,231,247,.35);border-radius:0}
 #edBack mark{color:transparent;background:rgba(251,191,36,.3);border-radius:3px}
-#noteText{position:relative;flex:1;background:transparent!important;border:0!important;box-shadow:none!important;resize:none;overflow:hidden;min-height:calc(100vh - 380px);width:100%}
+#noteText{position:relative;flex:1;background:transparent!important;border:0!important;box-shadow:none!important;outline:none;resize:none;overflow:hidden;min-height:calc(100vh - 380px);width:100%;caret-color:var(--a1)}
 #edTools{display:none}
-@media (pointer:coarse){
-  body.docfull #edTools{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:35;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:rgba(14,18,42,.96);border-top:1px solid var(--line2);overflow-x:auto}
-  #edTools button{flex-shrink:0;padding:8px 12px;font-size:13.5px;border-radius:10px}
-  body.docfull #noteWrap{padding-bottom:70px}
-  body.docfull #selBar{bottom:calc(64px + env(safe-area-inset-bottom))}
+body.docfull #edTools{display:flex;position:fixed;left:calc(50% + 120px);transform:translateX(-50%);bottom:18px;z-index:35;gap:2px;padding:5px;background:rgba(18,23,54,.94);border:1px solid var(--line2);border-radius:14px;box-shadow:0 18px 40px -14px #000;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);max-width:calc(100vw - 24px);overflow-x:auto}
+#edTools button{flex-shrink:0;padding:7px 12px;font-size:13px;border-radius:10px;border:0;background:none;color:var(--muted)}
+#edTools button:hover{background:var(--panel2);color:var(--text)}
+@media (max-width:760px){
+  body.docfull #side{display:none}
+  body.docfull #edTools{left:50%;bottom:calc(10px + env(safe-area-inset-bottom))}
 }
 @media (max-width:760px){ .split{margin-left:0} #noteText{min-height:calc(100vh - 420px)} }
 
@@ -812,7 +811,6 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
 </div>
 
 <div id="milly" hidden><div class="mBox"><div class="mLogo"><svg class="logo" viewBox="0 -2 100 126" aria-hidden="true"><defs><clipPath id="mic"><rect width="100" height="74"/></clipPath><linearGradient id="mig" gradientUnits="userSpaceOnUse" x1="7" y1="0" x2="93" y2="114"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><polygon points="8,52 28,24 70,24 92,52" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="70" y1="24" x2="79" y2="52" stroke="#eef0fa" stroke-width="2.38" stroke-linecap="round"/><path d="M44,24 V15 H52 V24 M42,16 L48,7 L54,16 M48,7 V3" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M66,2 Q67,8 73,9 Q67,10 66,16 Q65,10 59,9 Q65,8 66,2 Z" fill="url(#mig)"/><path d="M79,11 Q79.6,14 82.5,14.5 Q79.6,15 79,18 Q78.4,15 75.5,14.5 Q78.4,14 79,11 Z" fill="url(#mig)"/><path d="M31,43 Q35,37 39,43 M55,43 Q59,37 63,43" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M13,52 V74 M88,52 V74 M80,56 L88,64 M88,56 L80,64" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><g clip-path="url(#mic)"><g class="wh w0"><circle cx="26" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="26" y1="74" x2="36.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="36.00" y1="74.00" x2="39.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="33.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="33.07" y1="81.07" x2="35.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="26.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="26.00" y1="84.00" x2="26.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="18.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="18.93" y1="81.07" x2="16.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="16.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="16.00" y1="74.00" x2="13.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="18.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="18.93" y1="66.93" x2="16.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="26.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="26.00" y1="64.00" x2="26.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="33.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="33.07" y1="66.93" x2="35.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g><g class="wh w1"><circle cx="48" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="48" y1="74" x2="58.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="58.00" y1="74.00" x2="61.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="55.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="55.07" y1="81.07" x2="57.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="48.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="48.00" y1="84.00" x2="48.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="40.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="40.93" y1="81.07" x2="38.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="38.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="38.00" y1="74.00" x2="35.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="40.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="40.93" y1="66.93" x2="38.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="48.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="48.00" y1="64.00" x2="48.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="55.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="55.07" y1="66.93" x2="57.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g><g class="wh w2"><circle cx="70" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="70" y1="74" x2="80.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="80.00" y1="74.00" x2="83.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="77.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="77.07" y1="81.07" x2="79.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="70.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="70.00" y1="84.00" x2="70.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="62.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="62.93" y1="81.07" x2="60.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="60.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="60.00" y1="74.00" x2="57.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="62.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="62.93" y1="66.93" x2="60.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="70.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="70.00" y1="64.00" x2="70.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="77.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="77.07" y1="66.93" x2="79.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g></g><line x1="6" y1="74" x2="94" y2="74" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="20" y1="74" x2="20" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="36" y1="74" x2="36" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="52" y1="74" x2="52" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="68" y1="74" x2="68" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="84" y1="74" x2="84" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M50,88 Q28,81 7,85 V114 Q28,110 50,117 Q72,110 93,114 V85 Q72,81 50,88 Z M50,88 V117" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/><path d="M7,114 V118 Q28,114 50,121 Q72,114 93,118 V114" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.04"/><path d="M14,91.2 Q28,88.2 44,93.2 M56,93.2 Q72,88.2 86,91.2" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,96.4 Q28,93.4 44,98.4 M56,98.4 Q72,93.4 86,96.4" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,101.6 Q28,98.6 44,103.6 M56,103.6 Q72,98.6 86,101.6" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,106.8 Q28,103.8 44,108.8 M56,108.8 Q72,103.8 86,106.8" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/></svg></div><b id="millyT"></b><span id="millyS"></span></div></div>
-<div id="selBar" hidden><button class="primary" id="selConvert">Sorokból dokumentumok</button></div>
 <div id="slashMenu" hidden role="listbox"></div>
 <dialog id="dlg"></dialog>
 <div id="toast"></div>
@@ -1867,7 +1865,7 @@ $('#nBlocks').onclick = () => { const n = byId(ui.noteId); if (n) showBlocks(n);
 function renderNote() {
   const n = byId(ui.noteId);
   if (!n || !live(n)) { ui.noteId = null; return goFolder(ui.cur); }
-  $('#crumbs').innerHTML = [...crumbs(n.parentId), n].map(p => `<span>${esc(p.name)}</span>`).join(' <span>›</span> ');
+  $('#crumbs').innerHTML = [...crumbs(n.parentId), n].map(p => `<span class="cr">${p.type === 'folder' ? '<svg class="ico" style="width:15px;height:15px;margin-right:5px"><use href="#i-folderF"/></svg>' : ''}${esc(p.name)}</span>`).join(' <span>›</span> ');
   const nm = $('#noteName');
   if (document.activeElement !== nm) nm.value = n.name;
   const ta = $('#noteText');
@@ -2022,7 +2020,7 @@ function renderCard() {
   const where = tc ? pth : pth + ' › ' + dispName(note);
   const fl = flagOf(note.id, c.id);
   $('#revBar').style.width = (100 * rq.done / Math.max(1, rq.total)) + '%';
-  const kindTxt = doc ? 'Teljes szöveg fejből' : tc ? (c.isNew ? 'Új tétel' : 'Tétel') : c.kind === 'cloze' ? 'Kiegészítés' : c.isNew ? 'Új kártya' : 'Kártya';
+  const kindTxt = doc ? 'Teljes szöveg fejből' : tc ? (c.isNew ? 'Új kártya' : 'Kártya') : c.kind === 'cloze' ? 'Kiegészítés' : c.isNew ? 'Új kártya' : 'Kártya';
   const card = $('#card'), wrapEl = $('#cardWrap');
   if (!rq.shown) {
     card.classList.add('noanim'); card.classList.remove('flip');
@@ -3203,7 +3201,7 @@ function edLines(text) {
     if (/^#+\s/.test(t)) cls[i] = 'hd';
     else if (/(>>|<<|<>|::)/.test(t) || /\{\{.+?\}\}/.test(t)) cls[i] = 'cd';
   }
-  return L.map((l, i) => `<div class="ln ${cls[i]}">${l ? esc(l).replace(/\*\*(.+?)\*\*/g, '<mark>**$1**</mark>') : '​'}</div>`).join('');
+  return L.map((l, i) => `<div class="ln ${cls[i]}${l.trim() && !isBlkStart(l.trim()) && l.trim() !== '}}' ? ' b' : ''}">${l ? esc(l).replace(/\*\*(.+?)\*\*/g, '<mark>**$1**</mark>') : '​'}</div>`).join('');
 }
 function edSync() {
   const ta = $('#noteText'), bk = $('#edBack');
@@ -3227,8 +3225,7 @@ $('#edTools').onclick = e => {
   if (k === 'h') { linePrefix(ta, '# '); return ta.dispatchEvent(new Event('input')); }
   if (k === 'mark') { wrapSel(ta, '**', '**', 'kiemelt'); return ta.dispatchEvent(new Event('input')); }
   if (k === 'blk') { SLASH.find(c => c.t === 'Tanulóblokk').fn(ta, n); return ta.dispatchEvent(new Event('input')); }
-  slash = {start: ta.selectionStart, q: '', sel: 0, items: [], virtual: true, grp: k === 'card' ? 'Kártya' : null};
-  renderSlash();
+  openSlashSel(ta, k === 'card' ? 'Kártya' : null);
 };
 
 /* ===== kártyalista ===== */
@@ -3325,22 +3322,7 @@ function lineRange(text, a, b) {
   return [s0, e0];
 }
 const convLines = chunk => chunk.split('\n').map(l => l.trim()).filter(l => l && !isBlkStart(l) && l !== '}}').map(l => l.replace(/^!!\s*/, ''));
-function hideSel() { const b = $('#selBar'); if (b) b.hidden = true; selRange = null; }
-function checkSel() {
-  const ta = $('#noteText');
-  if (ui.view !== 'note' || document.activeElement !== ta) return hideSel();
-  const a = ta.selectionStart, b = ta.selectionEnd;
-  if (b - a < 3) return hideSel();
-  const [s0, e0] = lineRange(ta.value, a, b), k = convLines(ta.value.slice(s0, e0)).length;
-  if (k < 2) return hideSel();
-  selRange = [a, b];
-  $('#selConvert').textContent = `Sorokból dokumentumok (${k})`;
-  $('#selBar').hidden = false;
-}
-document.addEventListener('selectionchange', () => { clearTimeout(selT); selT = setTimeout(checkSel, 120); });
-$('#selConvert').addEventListener('pointerdown', e => e.preventDefault());
-$('#selConvert').addEventListener('mousedown', e => e.preventDefault());
-$('#selConvert').onclick = () => { const n = byId(ui.noteId); if (n && selRange) convertLines(n, selRange[0], selRange[1]); };
+function hideSel() {}
 const docTitle = (l, keep) => {
   const m = l.match(/^(\d+)\s*[).:\-–]?\s+(.*)$/);
   let t = m ? (keep ? m[1] + '. ' + m[2] : m[2]) : l;
@@ -3351,7 +3333,6 @@ async function convertLines(n, a, b) {
   const ta = $('#noteText');
   if (ta.value !== n.text) { n.text = ta.value; markItem(n.id); }
   const [s0, e0] = lineRange(n.text, a, b), lines = convLines(n.text.slice(s0, e0));
-  hideSel();
   if (!lines.length) return toast('Nincs átalakítható sor');
   const r = await dialog({
     title: `${lines.length} dokumentum készül`,
@@ -3407,7 +3388,7 @@ const atLineStart = ta => { const p = ta.selectionStart; return p === 0 || ta.va
 const SLASH = [
   {grp: 'Tanulás', k: '▣', t: 'Tanulóblokk', d: 'csak ez a rész kerül tanulásba', kw: 'blokk resz {{ }}', fn: ta => { const a = ta.selectionStart, b = ta.selectionEnd, sel = ta.value.slice(a, b); const pre = (a === 0 || ta.value[a - 1] === '\n') ? '' : '\n'; edIns(ta, a, b, pre + '{{ Cím\n' + (sel || '') + '\n}}\n'); const st = a + pre.length + 3; ta.setSelectionRange(st, st + 3); }},
   {grp: 'Tanulás', k: '!!', t: 'Bekezdés tanulásra', d: 'ez az egy bekezdés tanulásba kerül', kw: 'blokk', fn: ta => linePrefix(ta, '!! ')},
-  {grp: 'Tanulás', k: '≡', t: 'Sorokból dokumentumok', d: 'minden sor egy új dokumentum', kw: 'tetelsor atalakitas convert', fn: (ta, n) => setTimeout(() => convertLines(n, 0, ta.value.length), 0)},
+  {grp: 'Tanulás', k: '≡', t: 'Dokumentummá alakítás', d: 'a kijelölt (vagy az összes) sorból egy-egy dokumentum', kw: 'sorokbol dokumentumok atalakitas convert', fn: (ta, n) => { const a = ta.selectionStart, b = ta.selectionEnd, has = b > a; setTimeout(() => convertLines(n, has ? a : 0, has ? b : ta.value.length), 0); }},
   {grp: 'Tanulás', k: 'J', t: 'Jegyzet mód', d: MODE_HINT.jegyzet, kw: 'mod', fn: (ta, n) => { setMode(n, 'jegyzet'); renderNote(); }},
   {grp: 'Tanulás', k: 'T', t: 'Tanulás mód', d: MODE_HINT.tanulas, kw: 'mod', fn: (ta, n) => { setMode(n, 'tanulas'); renderNote(); }},
   {grp: 'Tanulás', k: 'K', t: 'Kártya mód', d: MODE_HINT.kartya, kw: 'mod flashcard', fn: (ta, n) => { setMode(n, 'kartya'); renderNote(); }},
@@ -3449,9 +3430,9 @@ function renderSlash() {
   const list = []; slash.items.forEach((c, k) => { if (!q && (!k || slash.items[k - 1].grp !== c.grp)) list.push({g: c.grp}); list.push(c); });
   slash.sel = clamp(slash.sel, 0, Math.max(0, slash.items.length - 1));
   let idx = -1;
-  m.innerHTML = slash.items.length ? list.map(c => c.g ? `<div class="sh">${c.g.toUpperCase()}</div>` : (idx++, `<div class="si ${idx === slash.sel ? 'on' : ''}" data-si="${idx}"><span class="k">${esc(c.k)}</span><span><b>${esc(c.t)}</b><small>${esc(c.d)}</small></span></div>`)).join('')
-    : '<div class="none">Nincs ilyen parancs</div>';
-  const xy = caretXY(ta, slash.start);
+  m.innerHTML = (slash.virtual ? `<div class="sh">/${esc(slash.q)}</div>` : '') + (slash.items.length ? list.map(c => c.g ? `<div class="sh">${c.g.toUpperCase()}</div>` : (idx++, `<div class="si ${idx === slash.sel ? 'on' : ''}" data-si="${idx}"><span class="k">${esc(c.k)}</span><span><b>${esc(c.t)}</b><small>${esc(c.d)}</small></span></div>`)).join('')
+    : '<div class="none">Nincs ilyen parancs</div>');
+  const xy = caretXY(ta, slash.selB != null ? slash.selB : slash.start);
   const w = 290, h = Math.min(320, m.scrollHeight || 320);
   m.style.left = clamp(xy.x, 8, innerWidth - w - 8) + 'px';
   m.style.top = (xy.y + h + 8 > innerHeight ? Math.max(8, xy.y - h - 30) : xy.y + 4) + 'px';
@@ -3461,8 +3442,9 @@ function renderSlash() {
 function runSlash(k) {
   const ta = $('#noteText'), n = byId(ui.noteId), c = slash && slash.items[k];
   if (!c || !n) return hideSlash();
-  const end = ta.selectionStart, virt = slash.virtual, st0 = slash.start;
+  const end = ta.selectionStart, virt = slash.virtual, st0 = slash.start, sa = slash.selA, sb = slash.selB;
   hideSlash();
+  if (virt && sa != null) ta.setSelectionRange(sa, sb);
   if (!virt) { edIns(ta, st0, end, ''); ta.setSelectionRange(st0, st0); }
   c.fn(ta, n);
   ta.dispatchEvent(new Event('input'));
@@ -3479,8 +3461,20 @@ $('#noteText').addEventListener('input', () => {
   }
   if (p > 0 && v[p - 1] === '/' && ta.selectionStart === ta.selectionEnd && (p === 1 || /\s/.test(v[p - 2]))) { slash = {start: p - 1, q: '', sel: 0, items: []}; renderSlash(); }
 });
+function openSlashSel(ta, grp) {
+  slash = {start: ta.selectionStart, selA: ta.selectionStart, selB: ta.selectionEnd, q: '', sel: 0, items: [], virtual: true, grp: grp || null};
+  renderSlash();
+}
+$('#noteText').addEventListener('beforeinput', e => {
+  const ta = e.target;
+  if (e.data === '/' && ta.selectionEnd > ta.selectionStart && !slash) { e.preventDefault(); openSlashSel(ta); }
+});
 $('#noteText').addEventListener('keydown', e => {
   if (!slash) return;
+  if (slash.virtual && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    if (e.key.length === 1 && e.key !== ' ') { e.preventDefault(); slash.q += e.key; slash.sel = 0; return renderSlash(); }
+    if (e.key === 'Backspace') { e.preventDefault(); if (!slash.q) return hideSlash(); slash.q = slash.q.slice(0, -1); return renderSlash(); }
+  }
   if (e.key === 'ArrowDown') { e.preventDefault(); slash.sel = (slash.sel + 1) % Math.max(1, slash.items.length); renderSlash(); }
   else if (e.key === 'ArrowUp') { e.preventDefault(); slash.sel = (slash.sel - 1 + slash.items.length) % Math.max(1, slash.items.length); renderSlash(); }
   else if (e.key === 'Enter' || e.key === 'Tab') { if (slash.items.length) { e.preventDefault(); runSlash(slash.sel); } else hideSlash(); }
