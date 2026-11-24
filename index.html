@@ -181,7 +181,7 @@ input[type=checkbox]{accent-color:var(--a1);width:18px;height:18px}
 #noteWrap{gap:14px}
 #noteName{font-size:32px;font-weight:700;letter-spacing:-.8px;border:0;background:transparent;outline:none;box-shadow:none;padding:4px 0;width:100%}
 #noteActions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-#noteText{min-height:340px;resize:vertical;font-size:16px;line-height:1.7;padding:16px 18px;background:rgba(5,8,22,.55);border-radius:var(--r)}
+
 .help{font-size:12.5px;color:var(--muted);line-height:1.7;border-top:1px solid var(--line);padding-top:12px}
 .stats{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 #errText{font-size:17px;line-height:2;white-space:pre-wrap}
@@ -359,7 +359,6 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 body.docfull #side{display:none}
 body.docfull #noteWrap{max-width:940px;min-height:100%;padding-bottom:24px}
 #noteWrap{display:flex;flex-direction:column}
-#noteText{flex:1;min-height:calc(100vh - 330px)}
 #noteModeRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 #modeSeg{flex:0 0 auto}
 #modeSeg button{padding:6px 14px}
@@ -377,8 +376,110 @@ body.docfull #noteWrap{max-width:940px;min-height:100%;padding-bottom:24px}
 @media (max-width:760px){
   body.docfull #main{padding-bottom:0}
   #slashMenu{left:10px!important;right:10px;width:auto;top:auto!important;bottom:calc(12px + env(safe-area-inset-bottom))}
-  #noteText{min-height:calc(100vh - 360px)}
 }
+
+/* gyakorló képernyő */
+#revTop{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-bottom:8px}
+#revName{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#revProg{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;text-align:center}
+.revBtns{display:flex;justify-content:flex-end;gap:2px}
+.revBtns button{padding:6px 9px;font-size:15px}
+#revMenu{position:absolute;right:0;top:40px;z-index:30;background:#121736;border:1px solid var(--line2);border-radius:14px;padding:6px;display:flex;flex-direction:column;min-width:230px;box-shadow:0 20px 50px -16px #000}
+#revMenu button{border:0;background:none;text-align:left;padding:9px 12px;border-radius:10px;font-size:14px}
+#revMenu button:hover{background:var(--panel2)}
+.kind .path{color:var(--muted);letter-spacing:.4px;text-transform:none;font-size:12px;display:block;margin-top:3px}
+.flagTag{font-size:12px;color:var(--warn)}
+.micRow{display:flex;gap:8px;align-items:flex-start;width:100%}
+.micRow textarea{flex:1}
+.mic{width:44px;height:44px;padding:0;border-radius:50%;flex-shrink:0;font-size:18px}
+.mic.on{background:var(--grad);color:#061022;animation:pulse 1.2s infinite}
+/* kártyastílusok */
+#card.st-note .face{align-items:flex-start;text-align:left;justify-content:flex-start}
+#card.st-note .q{font-size:20px;font-weight:500}
+#card.st-note .a{font-size:18px}
+#card.c-ejkek .face{background:#0f1a3d}
+#card.c-grafit .face{background:#1b1d23;border-color:rgba(255,255,255,.12)}
+#card.c-papir .face{background:#f4f1ea;color:#1a1d2e;border-color:#e3ddd0}
+#card.c-papir .qs,#card.c-papir .tapHint,#card.c-papir .kind .path{color:#5b5f73}
+#card.c-papir .kind{color:#0e7490}
+#card.c-papir textarea{background:#fff;color:#1a1d2e;border-color:#d6cfbf}
+/* Milly */
+#milly{position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;background:rgba(3,5,14,.55);backdrop-filter:blur(3px)}
+#milly .mBox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:26px 30px;border-radius:24px;background:linear-gradient(160deg,#171d42,#0d1130);border:1px solid var(--line2);animation:unlock .6s cubic-bezier(.2,1.4,.4,1) both;text-align:center;max-width:300px}
+#milly .logo{width:110px;height:139px}
+#milly .logo .wh{animation-duration:1.6s}
+#milly b{font-size:24px;letter-spacing:-.5px}
+#milly span{color:var(--muted);font-size:14px}
+.doneMilly{display:flex;justify-content:center}
+.doneMilly .logo{width:90px;height:114px}
+
+/* dokumentum: tanulási sáv, kiemelés, eszköztár */
+#docBar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-radius:16px;background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(139,92,246,.12));border:1px solid rgba(34,211,238,.22)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;border-radius:999px;background:rgba(5,8,22,.45);border:1px solid var(--line2);color:var(--text)}
+#dbState .dot{margin:0}
+.split{position:relative;display:inline-flex;margin-left:auto}
+.split>button:first-child{border-radius:12px 0 0 12px;padding-right:12px}
+.split>button:nth-child(2){border-radius:0 12px 12px 0;padding:8px 10px;border-left:1px solid rgba(6,16,34,.35)}
+#dbMenu{position:absolute;right:0;top:44px;z-index:30;background:#121736;border:1px solid var(--line2);border-radius:14px;padding:6px;display:flex;flex-direction:column;min-width:260px;box-shadow:0 20px 50px -16px #000}
+#dbMenu button{border:0;background:none;text-align:left;padding:9px 12px;border-radius:10px;font-size:14px;display:flex;flex-direction:column;gap:2px}
+#dbMenu button small{color:var(--muted);font-size:12px}
+#dbMenu button:hover{background:var(--panel2)}
+.edWrap{position:relative;flex:1;display:flex;background:rgba(5,8,22,.55);border-radius:var(--r);border:1px solid var(--line2)}
+.edWrap:focus-within{border-color:var(--a1);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+#edBack,#noteText{font-family:var(--sans);font-size:16px;line-height:1.7;padding:16px 18px;letter-spacing:normal;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:4}
+#edBack{position:absolute;inset:0;color:transparent;pointer-events:none;overflow:hidden;border:1px solid transparent;border-radius:var(--r)}
+#edBack .ln{min-height:1.7em;border-radius:4px}
+#edBack .bk{background:rgba(34,211,238,.09);box-shadow:inset 3px 0 0 #22d3ee;border-radius:0}
+#edBack .bm{background:rgba(34,211,238,.16);box-shadow:inset 3px 0 0 #22d3ee;border-radius:0}
+#edBack .pp{background:rgba(139,92,246,.14);box-shadow:inset 3px 0 0 #8b5cf6;border-radius:0}
+#edBack .cd{background:rgba(52,211,153,.07)}
+#edBack .hd{background:rgba(255,255,255,.05);box-shadow:inset 0 -1px 0 rgba(94,231,247,.5)}
+#edBack mark{color:transparent;background:rgba(251,191,36,.3);border-radius:3px}
+#noteText{position:relative;flex:1;background:transparent!important;border:0!important;box-shadow:none!important;resize:none;overflow:hidden;min-height:calc(100vh - 380px);width:100%}
+#edTools{display:none}
+@media (pointer:coarse){
+  body.docfull #edTools{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:35;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:rgba(14,18,42,.96);border-top:1px solid var(--line2);overflow-x:auto}
+  #edTools button{flex-shrink:0;padding:8px 12px;font-size:13.5px;border-radius:10px}
+  body.docfull #noteWrap{padding-bottom:70px}
+  body.docfull #selBar{bottom:calc(64px + env(safe-area-inset-bottom))}
+}
+@media (max-width:760px){ .split{margin-left:0} #noteText{min-height:calc(100vh - 420px)} }
+
+/* kártyalista, statisztika, naptár */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{border-radius:999px;padding:6px 12px;font-size:13px}
+.chips button b{font-weight:700;margin-left:4px;color:var(--acc)}
+.chips button.on{background:var(--grad);color:#061022;border-color:transparent}
+.chips button.on b{color:#061022}
+#cActs{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px;border-radius:14px;background:var(--panel2);border:1px solid var(--line2);position:sticky;top:0;z-index:5}
+#cActs span{font-size:13px;color:var(--muted);margin-right:4px}
+.crow{display:grid;grid-template-columns:24px minmax(0,1.2fr) minmax(0,1fr) 120px;gap:12px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.crow:hover{background:var(--hover)}
+.crow .f{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.crow .b{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px}
+.crow .m{font-size:12px;color:var(--muted);text-align:right;line-height:1.4}
+.crow .tags{font-size:11px}
+.crow.off .f,.crow.off .b{opacity:.45;text-decoration:line-through}
+.stBar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--hover);margin:10px 0 8px}
+.stBar i{display:block;height:100%}
+.stLeg{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.stLeg span::before{content:'';display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;background:var(--c);vertical-align:0}
+.stLeg b{color:var(--text);font-weight:600;margin-left:3px}
+.chart{display:flex;align-items:flex-end;gap:3px;height:90px;margin-top:10px}
+.chart i{flex:1;background:var(--grad);border-radius:3px 3px 0 0;min-height:2px;position:relative}
+.chart i.z{background:var(--hover)}
+.chart i.t{outline:1.5px solid var(--text);outline-offset:1px}
+.chartAx{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);margin-top:4px}
+.cal{margin-top:14px}
+.calHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.calHead b{font-size:15px}
+.calGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.calGrid .dw{font-size:11px;color:var(--dim)}
+.calGrid .d{padding:7px 0;border-radius:9px;font-size:13px;font-variant-numeric:tabular-nums;position:relative}
+.calGrid .d.o{color:var(--dim)}
+.calGrid .d.t{box-shadow:inset 0 0 0 1.5px var(--a1)}
+.calGrid .d.x{background:var(--grad);color:#061022;font-weight:700}
+@media (max-width:760px){ .crow{grid-template-columns:24px minmax(0,1fr) 84px} .crow .b{display:none} }
 
 /* párbeszéd, toast, konfetti */
 dialog{border:1px solid var(--line2);border-radius:20px;padding:22px 24px;width:min(540px,94vw);max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(34,211,238,.06);background:linear-gradient(160deg,#141a3c,#0b0f28);color:var(--text)}
@@ -539,7 +640,8 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
       <div class="wrap" id="revWrap">
         <div id="revIdle"></div>
         <div id="revSession" hidden>
-          <div class="row-between" style="margin-bottom:8px"><span id="revProg" class="muted small"></span><button class="ghost" id="revExit">Kilépés</button></div>
+          <div id="revTop"><span id="revName"></span><span id="revProg"></span><span class="revBtns"><button class="ghost" id="revEdit" title="Kártya javítása">✏️</button><button class="ghost" id="revSkip" title="Átugrás">⏭</button><button class="ghost" id="revMore" title="Továbbiak">⋯</button><button class="ghost" id="revExit" title="Kilépés">✕</button></span>
+            <div id="revMenu" hidden><button data-rm="prev">↶ Előző kártya</button><button data-rm="off">⦸ Kártya kikapcsolása</button><button data-rm="fix">⚑ Javítandónak jelölöm</button><button data-rm="src">↗ Ugrás a forráshoz</button><button data-rm="tts">🔊 Felolvasás</button><button data-rm="type">⌨ Beírós mód: <b id="rmType"></b></button></div></div>
           <div class="prog" style="margin-bottom:18px"><i id="revBar" style="width:0"></i></div>
           <div id="cardWrap">
             <span class="swl l">NEM</span><span class="swl r">SIKERÜLT</span>
@@ -580,6 +682,13 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
     <section id="noteView" class="view" hidden>
       <div class="wrap" id="noteWrap">
         <input id="noteName" type="text" placeholder="Dokumentum neve">
+        <div id="docBar">
+          <span class="chip" id="dbState"></span>
+          <button class="chip" id="dbExam"></button>
+          <span class="split"><button class="primary" id="dbPractice">Gyakorlás</button><button class="primary" id="dbMore" title="Gyakorlás módja">▾</button>
+            <span id="dbMenu" hidden><button data-pm="sched">Ütemezés szerint<small>az esedékes és az új kártyák</small></button><button data-pm="all">Összes kártya sorrendben<small>beleszámít az ütemezésbe</small></button><button data-pm="cram">Gyors átismétlés<small>nem számít bele az ütemezésbe, vizsga előttre</small></button></span></span>
+          <button id="dbLearn">Tanulás folytatása</button>
+        </div>
         <div id="noteModeRow"><div class="seg" id="modeSeg"><button type="button" data-mode="jegyzet">Jegyzet</button><button type="button" data-mode="tanulas">Tanulás</button><button type="button" data-mode="kartya">Kártya</button></div><button class="ghost" id="nBlocks" hidden></button><span class="muted small" id="modeHint"></span></div>
         <div id="noteActions">
           <button class="primary" id="nLearn">Tanulás</button>
@@ -605,10 +714,12 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <div id="chatLog"></div>
           <form id="chatForm"><input id="chatInput" type="text" placeholder="Kérdezz a dokumentumról…" autocomplete="off"><button class="primary" type="submit">Küldés</button></form>
         </div>
-        <textarea id="noteText" placeholder="Írj ide. A / jellel parancsmenüt nyithatsz."></textarea>
+        <div class="edWrap"><div id="edBack" aria-hidden="true"></div><textarea id="noteText" placeholder="Írj ide. A / jellel parancsmenüt nyithatsz."></textarea></div>
+        <div id="edTools"><button data-et="slash" title="Parancsmenü">/</button><button data-et="card">Kártya ▾</button><button data-et="h">Címsor</button><button data-et="blk">Tanulóblokk</button><button data-et="mark">Kiemelés</button><button data-et="undo" title="Visszavonás">↶</button><button data-et="redo" title="Újra">↷</button></div>
         <div class="help">
           <b>/</b> parancsmenü (sor elején vagy szóköz után).
-          Kártyák egy sorban: <b>kérdés &gt;&gt; válasz</b> · <b>kérdés &lt;&lt; válasz</b> · <b>kérdés &lt;&gt; válasz</b> · <b>{{kitakart rész}}</b> egy soron belül.<br>
+          Kártyák: <b>kérdés &gt;&gt; válasz</b> · <b>kérdés &lt;&lt; válasz</b> · <b>kérdés &lt;&gt; válasz</b> · <b>fogalom :: meghatározás</b> · <b>{{kitakart rész}}</b> egy soron belül · többsoros: <b>kérdés &gt;&gt;&gt;</b>, alatta a válasz sorai egy üres sorig.<br>
+          Formázás: <b># Címsor</b> · <b>**kiemelés**</b>.<br>
           Tanulóblokk: egy sor <b>{{ Cím</b>, alatta a szöveg, végül egy sor <b>}}</b>. Egy bekezdéshez elég elé írni: <b>!!</b>. A blokkok bármely módban külön tanulási útvonalat kapnak.<br>
           Módok: <b>Jegyzet</b> – csak jegyzet · <b>Tanulás</b> – a teljes szöveg a tanulási útvonalra kerül · <b>Kártya</b> – a cím a kérdés, a tartalom a válasz.
         </div>
@@ -634,6 +745,17 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <div class="btns" style="margin-top:12px"><button id="pathEdit">Szöveg</button><button id="pathErr">Hibatérkép</button></div>
         </div>
         <div id="pathMap"></div>
+      </div>
+    </section>
+
+    <!-- KÁRTYALISTA -->
+    <section id="cardsView" class="view" hidden>
+      <div class="wrap" id="cardsWrap">
+        <div><h1 class="h1">Kártyák</h1><p class="sub">Az összes kártyád egy helyen. Szűrj, jelölj ki többet, és intézd el egyszerre.</p></div>
+        <div id="cChips" class="chips"></div>
+        <div class="row-between" style="gap:10px;flex-wrap:wrap"><input type="search" id="cSearch" placeholder="Keresés a kártyák között…" style="flex:1;min-width:200px"><label class="small muted" style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="cAll"> Mind kijelölése</label></div>
+        <div id="cActs" hidden><span id="cSelN"></span><button data-ca="off">Kikapcsolás</button><button data-ca="on">Bekapcsolás</button><button data-ca="unfix">Javítandó jelölés le</button><button data-ca="reset" class="danger">Ütemezés nullázása</button><button data-ca="src">Ugrás a forráshoz</button></div>
+        <div id="cList"></div>
       </div>
     </section>
 
@@ -689,6 +811,7 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
   <div id="lFlash"><div class="fx"></div></div>
 </div>
 
+<div id="milly" hidden><div class="mBox"><div class="mLogo"><svg class="logo" viewBox="0 -2 100 126" aria-hidden="true"><defs><clipPath id="mic"><rect width="100" height="74"/></clipPath><linearGradient id="mig" gradientUnits="userSpaceOnUse" x1="7" y1="0" x2="93" y2="114"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><polygon points="8,52 28,24 70,24 92,52" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="70" y1="24" x2="79" y2="52" stroke="#eef0fa" stroke-width="2.38" stroke-linecap="round"/><path d="M44,24 V15 H52 V24 M42,16 L48,7 L54,16 M48,7 V3" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M66,2 Q67,8 73,9 Q67,10 66,16 Q65,10 59,9 Q65,8 66,2 Z" fill="url(#mig)"/><path d="M79,11 Q79.6,14 82.5,14.5 Q79.6,15 79,18 Q78.4,15 75.5,14.5 Q78.4,14 79,11 Z" fill="url(#mig)"/><path d="M31,43 Q35,37 39,43 M55,43 Q59,37 63,43" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M13,52 V74 M88,52 V74 M80,56 L88,64 M88,56 L80,64" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><g clip-path="url(#mic)"><g class="wh w0"><circle cx="26" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="26" y1="74" x2="36.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="36.00" y1="74.00" x2="39.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="33.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="33.07" y1="81.07" x2="35.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="26.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="26.00" y1="84.00" x2="26.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="18.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="18.93" y1="81.07" x2="16.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="16.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="16.00" y1="74.00" x2="13.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="18.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="18.93" y1="66.93" x2="16.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="26.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="26.00" y1="64.00" x2="26.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="33.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="33.07" y1="66.93" x2="35.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g><g class="wh w1"><circle cx="48" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="48" y1="74" x2="58.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="58.00" y1="74.00" x2="61.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="55.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="55.07" y1="81.07" x2="57.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="48.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="48.00" y1="84.00" x2="48.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="40.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="40.93" y1="81.07" x2="38.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="38.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="38.00" y1="74.00" x2="35.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="40.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="40.93" y1="66.93" x2="38.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="48.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="48.00" y1="64.00" x2="48.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="55.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="55.07" y1="66.93" x2="57.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g><g class="wh w2"><circle cx="70" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="70" y1="74" x2="80.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="80.00" y1="74.00" x2="83.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="77.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="77.07" y1="81.07" x2="79.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="70.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="70.00" y1="84.00" x2="70.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="62.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="62.93" y1="81.07" x2="60.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="60.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="60.00" y1="74.00" x2="57.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="62.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="62.93" y1="66.93" x2="60.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="70.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="70.00" y1="64.00" x2="70.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="77.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="77.07" y1="66.93" x2="79.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g></g><line x1="6" y1="74" x2="94" y2="74" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="20" y1="74" x2="20" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="36" y1="74" x2="36" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="52" y1="74" x2="52" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="68" y1="74" x2="68" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="84" y1="74" x2="84" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M50,88 Q28,81 7,85 V114 Q28,110 50,117 Q72,110 93,114 V85 Q72,81 50,88 Z M50,88 V117" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/><path d="M7,114 V118 Q28,114 50,121 Q72,114 93,118 V114" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.04"/><path d="M14,91.2 Q28,88.2 44,93.2 M56,93.2 Q72,88.2 86,91.2" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,96.4 Q28,93.4 44,98.4 M56,98.4 Q72,93.4 86,96.4" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,101.6 Q28,98.6 44,103.6 M56,103.6 Q72,98.6 86,101.6" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,106.8 Q28,103.8 44,108.8 M56,108.8 Q72,103.8 86,106.8" fill="none" stroke="url(#mig)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/></svg></div><b id="millyT"></b><span id="millyS"></span></div></div>
 <div id="selBar" hidden><button class="primary" id="selConvert">Sorokból dokumentumok</button></div>
 <div id="slashMenu" hidden role="listbox"></div>
 <dialog id="dlg"></dialog>
@@ -759,7 +882,7 @@ function review(st, g, now, ret, cap = Infinity) {
 const fmtIvl = ms => ms < 3600000 ? Math.max(1, Math.round(ms / 60000)) + ' p' : ms < DAY ? Math.round(ms / 3600000) + ' ó' : Math.round(ms / DAY) + ' nap';
 
 /* ===== adatok ===== */
-const DEF = {name: '', newPerDay: 15, typing: false, retention: 0.9, goalMin: 5, capMin: 0, typoHard: 1, masterDays: 21, examNear: 7, leech: 6, pomoWork: 25, pomoBreak: 5};
+const DEF = {name: '', newPerDay: 15, typing: false, retention: 0.9, goalMin: 5, capMin: 0, typoHard: 1, masterDays: 21, examNear: 7, leech: 6, pomoWork: 25, pomoBreak: 5, staleMax: 20, newOrder: 'elol', groupDoc: true, cardStyle: 'focus', cardColor: 'aurora'};
 const SAMPLE = `A Duna Magyarország második leghosszabb folyója.
 Magyarország fővárosa >> Budapest
 Budapest a {{Duna}} partján fekszik.
@@ -865,9 +988,17 @@ function makeCards(note) {
   if (hit && hit.sig === sig) return hit.cards;
   const out = [];
   if (note.mode === 'kartya' && note.name.trim() && docText(note).trim()) out.push({id: 'tc', front: note.name.trim(), back: docText(note), kind: 'tc'});
-  (note.text || '').split('\n').forEach(raw => {
-    const line = raw.trim().replace(/^!!\s*/, '');
-    if (!line || isBlkStart(line) || line === '}}') return;
+  const LL = (note.text || '').split('\n');
+  for (let li = 0; li < LL.length; li++) {
+    const line = LL[li].trim().replace(/^!!\s*/, '').replace(/^#+\s+/, '');
+    if (!line || isBlkStart(line) || line === '}}') continue;
+    const ml = line.match(/^(.*?)\s*>>>\s*$/);
+    if (ml && ml[1]) {
+      const ans = [];
+      while (li + 1 < LL.length && LL[li + 1].trim()) { li++; ans.push(LL[li].trim().replace(/^[-•*]\s*/, '')); }
+      if (ans.length) out.push({id: hid(note.id + '|m|' + ml[1]), front: ml[1], back: ans.join('\n'), kind: 'fwd'});
+      continue;
+    }
     const clozes = [...line.matchAll(/\{\{(.+?)\}\}/g)];
     if (clozes.length) {
       clozes.forEach((m, ci) => {
@@ -875,15 +1006,15 @@ function makeCards(note) {
         const front = line.replace(/\{\{(.+?)\}\}/g, (_, t) => { k++; return k === ci ? '[…]' : t; });
         out.push({id: hid(note.id + '|c|' + line + '|' + ci), front, back: m[1], kind: 'cloze'});
       });
-      return;
+      continue;
     }
-    const m = line.match(/^(.*?)\s*(>>|<<|<>)\s*(.*)$/);
+    const m = line.match(/^(.*?)\s*(>>|<<|<>|::)\s*(.*)$/);
     if (m && m[1] && m[3]) {
       const [, L, op, R] = m;
       if (op !== '<<') out.push({id: hid(note.id + '|f|' + line), front: L, back: R, kind: 'fwd'});
       if (op !== '>>') out.push({id: hid(note.id + '|b|' + line), front: R, back: L, kind: 'bwd'});
     }
-  });
+  }
   cardCache.set(note.id, {sig, cards: out, prev: hit ? hit.cards : null});
   return out;
 }
@@ -896,7 +1027,7 @@ function migrateCards(note) {
   const S = db.srs[note.id];
   if (!S) return;
   const ids = new Set(cards.map(c => c.id));
-  const orphans = Object.entries(S).filter(([id, st]) => id !== 'doc' && id !== 'map' && !ids.has(id) && st && st.k);
+  const orphans = Object.entries(S).filter(([id, st]) => !(id === 'doc' || id === 'map' || id === 'flags') && !ids.has(id) && st && st.k);
   if (!orphans.length) return;
   cards.forEach(c => {
     if (S[c.id] || prevIds.has(c.id)) return;
@@ -915,7 +1046,7 @@ function migrateCards(note) {
     }
   });
 }
-const learnText = raw => raw.replace(/\{\{(.+?)\}\}/g, '$1').replace(/\s*(>>|<<|<>)\s*/g, ' – ');
+const learnText = raw => raw.replace(/\{\{(.+?)\}\}/g, '$1').replace(/\*\*(.+?)\*\*/g, '$1').replace(/^#+\s+/, '').replace(/\s*>>>\s*$/, ':').replace(/\s*(>>|<<|<>|::)\s*/g, ' – ');
 const isBlkStart = t => /^\{\{/.test(t) && !t.includes('}}');
 const docText = n => n.text.split('\n').map(l => l.trim()).filter(t => !isBlkStart(t) && t !== '}}').map(t => learnText(t.replace(/^!!\s*/, ''))).filter(Boolean).join('\n');
 /* tanulóblokkok: {{ cím … }} vagy !! bekezdés */
@@ -982,7 +1113,7 @@ function streak() {
 
 /* ===== sor ===== */
 const isLeech = st => st && (st.lapses || 0) >= db.settings.leech;
-function introducedToday(noteId, today) { let n = 0; Object.entries(db.srs[noteId] || {}).forEach(([id, st]) => { if (id !== 'doc' && id !== 'map' && st && dayKey(st.first || st.last) === today) n++; }); return n; }
+function introducedToday(noteId, today) { let n = 0; Object.entries(db.srs[noteId] || {}).forEach(([id, st]) => { if (!(id === 'doc' || id === 'map' || id === 'flags') && st && dayKey(st.first || st.last) === today) n++; }); return n; }
 function kvotaLimit(note, now) {
   const days = Math.max(1, Math.ceil((note.exam.ts - now) / DAY));
   const S = db.srs[note.id] || {};
@@ -994,30 +1125,65 @@ function capFor(note, now) {
   if (ex && ex.mode === 'cel' && now < ex.ts) return Math.max(1, Math.floor((ex.ts - now) / DAY));
   return Infinity;
 }
+/* kártyajelölések: kikapcsolt, javítandó (srs/<jegyzet>/flags) */
+const flagsOf = nid => ((db.srs[nid] || {}).flags || {}).c || {};
+const flagOf = (nid, cid) => flagsOf(nid)[cid] || {};
+function setFlag(nid, cid, key, val) {
+  const S = srsOf(nid);
+  if (!S.flags || typeof S.flags !== 'object') S.flags = {c: {}, last: 0};
+  S.flags.c = S.flags.c || {};
+  const f = {...(S.flags.c[cid] || {})};
+  if (val) f[key] = 1; else delete f[key];
+  if (Object.keys(f).length) S.flags.c[cid] = f; else delete S.flags.c[cid];
+  S.flags.last = Date.now();
+  markSrs(nid, 'flags');
+}
+const dayStart = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+function staleToday(now) { let k = 0; Object.values(db.stats[dayKey(now)] || {}).forEach(v => k += v.stale || 0); return k; }
+function groupByDoc(list) {
+  const order = [], m = new Map();
+  list.forEach(c => { if (!m.has(c.noteId)) { m.set(c.noteId, []); order.push(c.noteId); } m.get(c.noteId).push(c); });
+  return order.flatMap(id => m.get(id));
+}
 function buildQueue(now, noteId) {
-  const today = dayKey(now), due = [], fresh = [];
+  const today = dayKey(now), t0 = dayStart(now), due = [], stale = [], fresh = [];
   const list = notes().filter(n => noteId ? n.id === noteId : n.prio !== 'szunet').sort((a, b) => (a.prio === 'aktiv' ? 0 : 1) - (b.prio === 'aktiv' ? 0 : 1));
   let used = 0;
   notes().forEach(n => { if (!isKvota(n, now)) used += introducedToday(n.id, today); });
   let room = Math.max(0, db.settings.newPerDay - used);
   list.forEach(note => {
-    const S = db.srs[note.id] || {};
+    const S = db.srs[note.id] || {}, F = flagsOf(note.id);
     const kv = isKvota(note, now);
     let kroom = kv ? Math.max(0, kvotaLimit(note, now) - introducedToday(note.id, today)) : 0;
     makeCards(note).forEach(c => {
+      if ((F[c.id] || {}).off) return;
       const st = S[c.id];
       if (!st) {
         if (kv ? kroom > 0 : room > 0) { fresh.push({...c, noteId: note.id, isNew: true}); kv ? kroom-- : room--; }
-      } else if (st.due <= now) due.push({...c, noteId: note.id, isNew: false, due: st.due});
+      } else if (st.due <= now) (st.due < t0 ? stale : due).push({...c, noteId: note.id, isNew: false, due: st.due, stale: st.due < t0});
     });
     if (learnable(note) && note.ladder.done && S.doc && S.doc.due <= now) due.push({id: 'doc', kind: 'doc', noteId: note.id, front: dispName(note), back: docText(note), isNew: false, due: S.doc.due});
   });
-  due.sort((a, b) => a.due - b.due);
-  return [...due, ...fresh];
+  /* elhanyagolt kártyák: naponta legfeljebb staleMax jön vissza, a legkevésbé régóta esedékesek előbb */
+  const sm = +db.settings.staleMax || 0;
+  stale.sort((a, b) => b.due - a.due);
+  const okStale = sm ? stale.slice(0, Math.max(0, sm - staleToday(now))) : stale;
+  let rev = [...due, ...okStale].sort((a, b) => a.due - b.due);
+  let nw = fresh;
+  if (db.settings.groupDoc) { rev = groupByDoc(rev); nw = groupByDoc(nw); }
+  const ord = db.settings.newOrder;
+  if (ord === 'hatul') return [...rev, ...nw];
+  if (ord === 'kevert') {
+    const out = [], step = nw.length ? Math.max(1, Math.round((rev.length + nw.length) / nw.length)) : 1;
+    let i = 0, j = 0;
+    while (i < rev.length || j < nw.length) { if (j < nw.length && (out.length % step === 0 || i >= rev.length)) out.push(nw[j++]); else out.push(rev[i++]); }
+    return out;
+  }
+  return [...nw, ...rev];
 }
 function leeches() {
   const out = [];
-  notes().forEach(n => { const S = db.srs[n.id] || {}; makeCards(n).forEach(c => { if (isLeech(S[c.id])) out.push({...c, noteId: n.id, isNew: false}); }); });
+  notes().forEach(n => { const S = db.srs[n.id] || {}, F = flagsOf(n.id); makeCards(n).forEach(c => { if (isLeech(S[c.id]) && !(F[c.id] || {}).off) out.push({...c, noteId: n.id, isNew: false}); }); });
   return out;
 }
 
@@ -1046,10 +1212,6 @@ function confetti(n = 40) {
     document.body.appendChild(e);
     setTimeout(() => e.remove(), 1400);
   }
-}
-function speak(t) {
-  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'hu-HU'; speechSynthesis.speak(u); }
-  catch (e) { toast('A felolvasás nem érhető el'); }
 }
 function beep() {
   try {
@@ -1387,7 +1549,7 @@ async function logout() {
 const ui = {view: 'home', cur: null, sel: null, open: new Set(), noteId: null, q: '', pathId: null, anim: null, errOpen: false};
 let rq = null, ls = null, chatOpen = false, chatBusy = false;
 const coarse = matchMedia('(pointer: coarse)').matches;
-const VIEWS = ['home', 'review', 'files', 'note', 'learnlist', 'path', 'trash', 'settings'];
+const VIEWS = ['home', 'review', 'files', 'note', 'learnlist', 'path', 'trash', 'settings', 'cards'];
 function show(view) { if (view !== 'settings') ui.setDraft = null; else if (ui.view !== 'settings') ui.setBack = ui.view; ui.view = view; render(); const v = $('#' + view + 'View'); if (v) v.scrollTop = 0; }
 const svgI = (id, cls = '') => `<svg class="${cls}"><use href="#${id}"/></svg>`;
 const learningNotes = () => notes().filter(n => learnable(n) && !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
@@ -1420,14 +1582,14 @@ function render() {
   $('#learnBadge').textContent = nl;
   $('#learnBadge').classList.toggle('zero', !nl);
   ['#brand', '#topBrand'].forEach(sel => { const br = $(sel); br.classList.toggle('idle', !due); br.style.setProperty('--spd', clamp(10 - due / 4, 2.5, 10) + 's'); });
-  const tabOf = {home: 'tabHome', files: 'tabNotes', note: 'tabNotes', trash: 'tabNotes', review: 'tabReview', learnlist: 'tabLearn', path: 'tabLearn'};
+  const tabOf = {home: 'tabHome', files: 'tabNotes', note: 'tabNotes', trash: 'tabNotes', review: 'tabReview', cards: 'tabReview', learnlist: 'tabLearn', path: 'tabLearn'};
   ['tabHome', 'tabNotes', 'tabReview', 'tabLearn'].forEach(t => $('#' + t).classList.toggle('on', tabOf[ui.view] === t));
   $('#settingsBtn').classList.toggle('on', ui.view === 'settings');
   VIEWS.forEach(v => $('#' + v + 'View').hidden = ui.view !== v);
   $('#top').classList.toggle('home', ui.view === 'home');
   document.body.classList.toggle('docfull', ui.view === 'note');
   if (ui.view !== 'note') { hideSel(); hideSlash(); }
-  $('#backBtn').style.visibility = (['note', 'path', 'trash', 'settings'].includes(ui.view) || (ui.view === 'files' && ui.cur)) ? 'visible' : 'hidden';
+  $('#backBtn').style.visibility = (['note', 'path', 'trash', 'settings', 'cards'].includes(ui.view) || (ui.view === 'files' && ui.cur)) ? 'visible' : 'hidden';
   renderTree();
   if (ui.view === 'home') renderHome();
   if (ui.view === 'files') renderFiles();
@@ -1437,7 +1599,8 @@ function render() {
   if (ui.view === 'path') renderPath();
   if (ui.view === 'trash') renderTrash();
   if (ui.view === 'settings') renderSettings();
-  const names = {home: 'Kezdőoldal', review: 'Ismétlés', learnlist: 'Tanulás', trash: 'Jegyzetek › Kuka', settings: 'Beállítások'};
+  if (ui.view === 'cards') renderCards();
+  const names = {home: 'Kezdőoldal', review: 'Ismétlés', learnlist: 'Tanulás', trash: 'Jegyzetek › Kuka', settings: 'Beállítások', cards: 'Ismétlés › Kártyák'};
   if (names[ui.view]) $('#crumbs').innerHTML = `<span>${names[ui.view]}</span>`;
 }
 
@@ -1525,7 +1688,7 @@ function renderHome() {
     + dueDocs.slice(0, 4).map(n => `<div class="dl" data-path="${n.id}"><span class="dn">${esc(dispName(n))}</span><span class="dv b">ismétlés</span></div>`).join('')
     || '';
   $('#examPanel').hidden = !plans.length;
-  $('#examBox').innerHTML = plans.map(examHtml).join('');
+  $('#examBox').innerHTML = plans.map(examHtml).join('') + examCal(now);
   $('#ringMin').textContent = min < 10 ? min.toFixed(1).replace('.', ',') : Math.round(min);
   $('#ringGoal').textContent = `/ ${goal} perc`;
   $('#ringArc').style.strokeDashoffset = 326.7 * (1 - clamp(min / goal, 0, 1));
@@ -1677,6 +1840,7 @@ function updateNoteStats() {
       : 'Jegyzet: a teljes szöveg nem kerül tanulásba.' + (blocksOf(n).length ? ` ${blocksOf(n).length} tanulóblokk külön tanulható.` : '');
   }
   renderMode(n);
+  renderDocBar(n);
 }
 const MODE_HINT = {jegyzet: 'csak jegyzet', tanulas: 'a teljes szöveg tanulásba kerül', kartya: 'cím = kérdés, tartalom = válasz'};
 function renderMode(n) {
@@ -1710,6 +1874,8 @@ function renderNote() {
   if (document.activeElement !== ta && ta.value !== n.text) ta.value = n.text;
   $('#nPrio').value = n.prio;
   renderMode(n);
+  renderDocBar(n);
+  requestAnimationFrame(edSync);
   $('#chatPanel').hidden = !chatOpen;
   if (chatOpen) renderChat();
   $('#errPanel').hidden = !ui.errOpen;
@@ -1807,10 +1973,17 @@ function plan(st, g, now, note) {
   if (g === 1 || !st || dayKey(st.first || st.last) === dayKey(now)) ns.due = nextDay(now);
   return ns;
 }
-function startReview(noteId, practice) {
-  const items = practice ? shuffle(leeches()) : buildQueue(Date.now(), noteId);
-  if (!items.length) { toast(practice ? 'Nincs makacs kártya' : 'Nincs ismétlendő kártya'); return show('review'); }
-  rq = {items, total: items.length, done: 0, shown: false, typed: '', practice: !!practice, t0: Date.now(), shownAt: Date.now(), n: 0, ok: 0, sec: 0, failed: new Set()};
+/* mode: undefined = ütemezés szerint, true = makacs kártyák, 'all' = a dokumentum összes kártyája sorrendben, 'cram' = gyors átismétlés ütemezés nélkül */
+function docCards(noteId) {
+  const n = byId(noteId); if (!n) return [];
+  const S = db.srs[n.id] || {}, F = flagsOf(n.id);
+  return makeCards(n).filter(c => !(F[c.id] || {}).off).map(c => ({...c, noteId: n.id, isNew: !S[c.id]}));
+}
+function startReview(noteId, mode) {
+  const items = mode === true ? shuffle(leeches()) : (mode === 'all' || mode === 'cram') ? docCards(noteId) : buildQueue(Date.now(), noteId);
+  if (!items.length) { toast(mode === true ? 'Nincs makacs kártya' : mode ? 'Ebben a dokumentumban nincs kártya' : 'Nincs ismétlendő kártya'); return show('review'); }
+  const nm = noteId && byId(noteId) ? dispName(byId(noteId)) : 'Ismétlés';
+  rq = {items, total: items.length, done: 0, shown: false, typed: '', practice: mode === true || mode === 'cram', mode: mode || 'sched', name: mode === true ? 'Makacs kártyák' : mode === 'cram' ? nm + ' · gyors átismétlés' : mode === 'all' ? nm + ' · mind' : nm, t0: Date.now(), shownAt: Date.now(), n: 0, ok: 0, sec: 0, failed: new Set(), hist: []};
   show('review');
 }
 function renderReview() {
@@ -1825,7 +1998,9 @@ function renderReview() {
         ? `<div class="sumBig">${q.length}</div><p style="text-align:center;margin:0 0 18px" class="muted">${q.length - nNew - nDoc} esedékes kártya · ${nNew} új${nDoc ? ` · ${nDoc} teljes szöveg` : ''}</p><div style="text-align:center"><button class="primary xl" id="revGo">Indítás</button></div>`
         : `<div class="sumBig">✓</div><p style="text-align:center" class="muted">Mára nincs ismétlendő kártya.</p>`)
       + (L ? `<p style="text-align:center;margin-top:18px"><button id="leechGo2">Makacs kártyák gyakorlása (${L})</button></p>` : '')
-      + `<p class="muted small" style="text-align:center;margin:18px 0 0">Telefonon: koppints a kártyára, majd húzd jobbra (Sikerült) vagy balra (Nem sikerült). Gépen: szóköz, majd 1 = nem, 2 = sikerült.</p>`;
+      + `<p style="text-align:center;margin-top:14px"><button id="cardsGo">Kártyalista</button></p>`
+      + `<p class="muted small" style="text-align:center;margin:18px 0 0">Telefonon: koppints a kártyára, majd húzd jobbra (Sikerült) vagy balra (Nem sikerült). Gépen: szóköz, majd 1 = nem, 2 = sikerült.</p>`
+      + statsHtml();
     return;
   }
   if (rq.finished) return renderDone();
@@ -1839,6 +2014,13 @@ function renderCard() {
   if (!note) { rq.items.shift(); return renderCard(); }
   const doc = c.kind === 'doc', tc = c.kind === 'tc', typing = !doc && !tc && db.settings.typing;
   $('#revProg').textContent = `${rq.done}/${rq.total} kész · hátra ${rq.items.length}${rq.practice ? ' · gyakorlás' : ''}`;
+  $('#revName').textContent = rq.name || 'Ismétlés';
+  $('#rmType').textContent = db.settings.typing ? 'be' : 'ki';
+  const cardEl = $('#card');
+  cardEl.className = 'card3d' + (cardEl.classList.contains('flip') ? ' flip' : '') + ' st-' + (db.settings.cardStyle || 'focus') + ' c-' + (db.settings.cardColor || 'aurora');
+  const pth = crumbs(note.parentId).map(p => p.name).join(' › ') || 'Jegyzetek';
+  const where = tc ? pth : pth + ' › ' + dispName(note);
+  const fl = flagOf(note.id, c.id);
   $('#revBar').style.width = (100 * rq.done / Math.max(1, rq.total)) + '%';
   const kindTxt = doc ? 'Teljes szöveg fejből' : tc ? (c.isNew ? 'Új tétel' : 'Tétel') : c.kind === 'cloze' ? 'Kiegészítés' : c.isNew ? 'Új kártya' : 'Kártya';
   const card = $('#card'), wrapEl = $('#cardWrap');
@@ -1847,10 +2029,10 @@ function renderCard() {
     wrapEl.style.transition = 'none'; wrapEl.style.transform = ''; wrapEl.style.opacity = '';
     void wrapEl.offsetWidth; wrapEl.style.transition = ''; card.classList.remove('noanim');
     const ph = doc ? docPhase(note) : 0;
-    $('#cFront').innerHTML = `<div class="kind">${kindTxt} · ${esc(tc ? (crumbs(note.parentId).map(p => p.name).join(' › ') || 'Jegyzetek') : dispName(note))}</div>`
+    $('#cFront').innerHTML = `<div class="kind">${kindTxt}${fl.fix ? ' · <span class="flagTag">⚑ javítandó</span>' : ''}<span class="path">${esc(where)}</span></div>`
       + (doc ? `<div class="q">${esc(note.name)}</div><div class="qs">${ph === 3 ? 'Mesterfázis: egy életed van.' : '2. fázis: két életed van.'} Vak gépelés, bekezdésenként: az első hiba figyelmeztet, a második egy életbe kerül.</div><div>${heartsHtml(ph === 3 ? 1 : 2, ph === 3 ? 1 : 2)}</div>`
         : `<div class="q">${esc(c.front)}</div>`)
-      + (typing ? `<textarea id="revType" rows="3" placeholder="A válasz…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>` : doc ? '' : `<div class="tapHint">Koppints a megfordításhoz</div>`);
+      + (typing ? `<div class="micRow"><textarea id="revType" rows="3" placeholder="A válasz…" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>${canDictate() ? '<button class="mic" id="revMic" title="Diktálás">🎤</button>' : ''}</div>` : doc ? '' : `<div class="tapHint">Koppints a megfordításhoz</div>`);
     $('#cBack').innerHTML = '';
     $('#grades').hidden = true;
     $('#revShowBtn').hidden = false;
@@ -1859,7 +2041,7 @@ function renderCard() {
     if (typing && !coarse) setTimeout(() => { const t = $('#revType'); t && t.focus(); }, 50);
   } else {
     const now = Date.now(), S = srsOf(note.id), st = S[c.id];
-    let backHtml = `<div class="kind">${kindTxt}</div><div class="qs">${esc(c.front)}</div><div class="a${tc ? ' long' : ''}">${esc(c.back)}</div>`;
+    let backHtml = `<div class="kind">${kindTxt}<span class="path">${esc(where)}</span></div><div class="qs">${esc(c.front)}</div><div class="a${tc ? ' long' : ''}">${esc(c.back)}</div>`;
     if (typing) { const pc = Math.round(sim(c.back, rq.typed) * 100); backHtml += `<div class="qs">Te írtad · ${pc}% egyezés</div>${rq.typed.trim() ? wordDiff(c.back, rq.typed).html : '<div class="qs">(üres)</div>'}`; }
     if (isLeech(st)) backHtml += `<div class="small" style="color:var(--warn)">Makacs kártya: ${st.lapses}× elrontva</div>`;
     const again = rq.failed.has(c.noteId + '/' + c.id);
@@ -1888,7 +2070,9 @@ function grade(g) {
   const spent = clamp(now - rq.shownAt, 0, 90000);
   addTime(spent); rq.sec += spent / 1000;
   const key = c.noteId + '/' + c.id, again = rq.failed.has(key);
-  if (!again) { const v = myStat(); v.rev++; if (g > 1) v.ok++; rq.n++; if (g > 1) rq.ok++; }
+  const prevSt = note && (db.srs[note.id] || {})[c.id];
+  rq.hist.push({c, prev: prevSt ? JSON.parse(JSON.stringify(prevSt)) : null, counted: !again, ok: g > 1, g, scheduled: !!(note && !rq.practice && !again), stale: !!c.stale});
+  if (!again) { const v = myStat(); v.rev++; if (g > 1) v.ok++; if (c.stale && !rq.practice) v.stale = (v.stale || 0) + 1; rq.n++; if (g > 1) rq.ok++; }
   if (note && !rq.practice && !again) {
     const S = srsOf(note.id);
     const ns = plan(S[c.id], g, now, note);
@@ -1896,8 +2080,9 @@ function grade(g) {
     S[c.id] = ns; markSrs(note.id, c.id);
   }
   persist();
-  if (g === 1) { rq.failed.add(key); rq.items.push(c); } else rq.done++;
+  if (g === 1) { if (!again) rq.hist[rq.hist.length - 1].addFail = true; rq.failed.add(key); rq.items.push(c); } else rq.done++;
   rq.shown = false; rq.typed = '';
+  if (!rq.half && rq.total >= 6 && rq.done >= rq.total / 2 && rq.items.length) { rq.half = true; milly('Félúton vagy!', 'Milly szerint jól haladsz. Még ' + rq.items.length + ' kártya.'); }
   if (!rq.practice && db.settings.capMin && dayStat(dayKey(now)).sec >= db.settings.capMin * 60 && rq.items.length) {
     toast(`Elérted a mai ${db.settings.capMin} perces időkeretet`);
     return finishSession();
@@ -1915,6 +2100,7 @@ function renderDone() {
   const mins = Math.max(1, Math.round(rq.sec / 60));
   const acc = rq.n ? Math.round(100 * rq.ok / rq.n) : 100;
   $('#revDone').innerHTML = `<p class="lb" style="text-align:center">Kész</p><div class="sumBig">Megőrölve.</div>
+    <div class="doneMilly">${MILLY_SVG}</div>
     <div class="sumGrid"><div><b>${rq.done}</b><span class="muted small">kártya</span></div><div><b>${mins}′</b><span class="muted small">idő</span></div><div><b>${acc}%</b><span class="muted small">elsőre sikerült</span></div></div>
     <p style="text-align:center" class="muted">Sorozat: <b style="color:var(--text)">${streak()} nap</b> · mai idő: ${Math.round(dayStat(dayKey(Date.now())).sec / 60)} / ${db.settings.goalMin} perc</p>
     <div style="text-align:center"><button class="primary xl" id="doneHome">Vissza a kezdőoldalra</button></div>`;
@@ -2078,7 +2264,9 @@ function buildFoot() {
   }
   const full = ls.step >= 5 || ls.mode === 'rev';
   const hint = ls.mode === 'rev' ? 'Gépeld be a szöveget fejből. Bekezdésenként az első hiba figyelmeztet, a második egy életbe kerül.' : HINTS[ls.step];
-  f.innerHTML = `<div id="lHint">${hint}</div><input id="lIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="${full ? 'Írd a szót…' : 'Írd a kezdőbetűt…'}">`;
+  f.innerHTML = `<div id="lHint">${hint}</div><input id="lIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="${full ? 'Írd a szót…' : 'Írd a kezdőbetűt…'}">${full && canDictate() ? '<button class="mic" id="lMic" title="Diktálás: mondd ki a szöveget">🎤</button>' : ''}`;
+  const mic = $('#lMic');
+  if (mic) mic.onclick = () => dictate(mic, t => { t.split(/\s+/).forEach(w => { if (w && ls && !ls.ended && !ls.busy) submitWord(w); }); const i = $('#lIn'); i && i.focus(); });
   const inp = $('#lIn');
   ls.consumed = 0;
   inp.addEventListener('input', onLearnInput);
@@ -2462,6 +2650,7 @@ $('#backBtn').onclick = () => {
   if (ui.view === 'path') return show('learnlist');
   if (ui.view === 'trash') return goFolder(ui.cur);
   if (ui.view === 'settings') return show(ui.setBack && ui.setBack !== 'settings' ? ui.setBack : 'home');
+  if (ui.view === 'cards') return show('review');
 };
 $('#homeGo').onclick = () => {
   if (buildQueue(Date.now(), null).length) return startReview(null);
@@ -2741,7 +2930,13 @@ const SETS = [
   {t: 'Ismétlés', i: 'i-cards', d: 'Az ütemezés és a kártyák kikérdezése.', f: [
     {k: 'retention', type: 'seg', l: 'Kívánt megjegyzési arány', o: [['0.8', '80%'], ['0.85', '85%'], ['0.9', '90%'], ['0.95', '95%']], h: 'Magasabb arány gyakoribb ismétlést jelent.'},
     {k: 'typing', type: 'cb', l: 'Gépelés a sima kártyáknál is', h: 'A választ be kell írni, nem elég megfordítani a kártyát.'},
-    {k: 'leech', type: 'num', l: 'Makacs kártya', u: 'elrontás', min: 2, max: 30, h: 'Ennyi elrontás után kerül a kártya a makacsok közé.'}]},
+    {k: 'leech', type: 'num', l: 'Makacs kártya', u: 'elrontás', min: 2, max: 30, h: 'Ennyi elrontás után kerül a kártya a makacsok közé.'},
+    {k: 'staleMax', type: 'num', l: 'Elhanyagolt kártyák naponta', u: 'db', min: 0, max: 500, h: 'Ha napokig kimarad a tanulás, naponta legfeljebb ennyi régen esedékes kártya jön vissza, hogy ne zúduljon rád minden egyszerre. 0 = nincs korlát.'},
+    {k: 'newOrder', type: 'seg', l: 'Új kártyák helye', o: [['elol', 'Elöl'], ['kevert', 'Keverve'], ['hatul', 'Hátul']], h: 'Az új kártyák az esedékesek előtt, köztük vagy után jöjjenek.'},
+    {k: 'groupDoc', type: 'cb', l: 'Egy dokumentum kártyái egymás után', h: 'Az azonos dokumentumból származó kártyák egy blokkban jönnek.'}]},
+  {t: 'Kártyák megjelenése', i: 'i-doc', d: 'Hogyan nézzen ki a kártya gyakorláskor.', f: [
+    {k: 'cardStyle', type: 'seg', l: 'Stílus', o: [['focus', 'Fókuszált'], ['note', 'Jegyzetszerű']], h: 'Fókuszált: nagy betű, középen. Jegyzetszerű: balra zárt, olvasható szöveg.'},
+    {k: 'cardColor', type: 'seg', l: 'Háttér', o: [['aurora', 'Aurora'], ['ejkek', 'Éjkék'], ['grafit', 'Grafit'], ['papir', 'Papír']]}]},
   {t: 'Tanulás', i: 'i-path', d: 'Az útvonal fokozatai, a gépelés és a mesterfázis.', f: [
     {k: 'typoHard', type: 'seg', l: 'Elírás-tűrés a nehéz gépelésben', o: [['0', 'Nincs'], ['1', 'Hosszú szavaknál'], ['2', 'Mint a könnyűben']], h: 'A szöveg ismétlésére is érvényes. A számoknál sosincs tűrés.'},
     {k: 'masterDays', type: 'num', l: 'Mesterfázis ennyi stabil nap után', u: 'nap', min: 1, max: 365, h: 'Ettől kezdve egyetlen élet jár.'},
@@ -2812,7 +3007,7 @@ $('#setSave').onclick = () => {
   const s = db.settings;
   Object.assign(s, {name: String(D.name || '').slice(0, 40), goalMin: setRange('goalMin', D.goalMin), newPerDay: setRange('newPerDay', D.newPerDay), capMin: setRange('capMin', D.capMin),
     retention: parseFloat(D.retention) || 0.9, typing: !!D.typing, typoHard: clamp(parseInt(D.typoHard, 10) || 0, 0, 2), masterDays: setRange('masterDays', D.masterDays),
-    examNear: setRange('examNear', D.examNear), leech: setRange('leech', D.leech), pomoWork: setRange('pomoWork', D.pomoWork), pomoBreak: setRange('pomoBreak', D.pomoBreak)});
+    examNear: setRange('examNear', D.examNear), leech: setRange('leech', D.leech), staleMax: setRange('staleMax', D.staleMax), newOrder: ['elol', 'kevert', 'hatul'].includes(D.newOrder) ? D.newOrder : 'elol', groupDoc: !!D.groupDoc, cardStyle: D.cardStyle === 'note' ? 'note' : 'focus', cardColor: ['aurora', 'ejkek', 'grafit', 'papir'].includes(D.cardColor) ? D.cardColor : 'aurora', pomoWork: setRange('pomoWork', D.pomoWork), pomoBreak: setRange('pomoBreak', D.pomoBreak)});
   localStorage.setItem(API_KEY, (D.apiKey || '').trim());
   saveLocal();
   ui.setDraft = null; toast('Mentve'); renderSettings(); renderPomo();
@@ -2826,7 +3021,7 @@ $('#pomoReset').onclick = () => { pomo = {mode: pomo.mode, running: false, end: 
 $('#pomoSkip').onclick = () => pomoSwitch(false);
 $('#pomoPill').onclick = () => show('home');
 
-$('#revIdle').onclick = e => { if (e.target.id === 'revGo') startReview(null); if (e.target.id === 'leechGo2') startReview(null, true); };
+$('#revIdle').onclick = e => { if (e.target.id === 'revGo') startReview(null); if (e.target.id === 'leechGo2') startReview(null, true); if (e.target.id === 'cardsGo') { ui.cf = ui.cf || 'all'; ui.csel = new Set(); show('cards'); } };
 $('#revDone').onclick = e => { if (e.target.id === 'doneHome') { rq = null; show('home'); } };
 $('#revExit').onclick = () => { if (rq && rq.n) finishSession(); else { rq = null; render(); } };
 $('#revShowBtn').onclick = showBack;
@@ -2870,11 +3065,256 @@ window.memoMillBack = () => {
   if (d.open) { d.dispatchEvent(new Event('cancel', {cancelable: true})); return true; }
   if (ls) { closeLearn(); return true; }
   if (ui.view === 'review' && rq && !rq.finished) { $('#revExit').click(); return true; }
-  if (ui.view === 'note' || ui.view === 'path' || ui.view === 'trash' || ui.view === 'settings' || (ui.view === 'files' && ui.cur)) { $('#backBtn').click(); return true; }
+  if (ui.view === 'note' || ui.view === 'path' || ui.view === 'trash' || ui.view === 'settings' || ui.view === 'cards' || (ui.view === 'files' && ui.cur)) { $('#backBtn').click(); return true; }
   if (ui.view !== 'home') { if (rq && rq.finished) rq = null; show('home'); return true; }
   return false;
 };
 
+
+/* ===== Milly, a kabala ===== */
+const MILLY_SVG = (() => { const el = document.querySelector('#milly .mLogo'); return el ? el.innerHTML.replace(/id="mi/g, 'id="md').replace(/url\(#mi/g, 'url(#md') : ''; })();
+function milly(title, sub, ms = 1900) {
+  const m = $('#milly'); $('#millyT').textContent = title; $('#millyS').textContent = sub || '';
+  m.hidden = false; clearTimeout(milly.t); milly.t = setTimeout(() => { m.hidden = true; }, ms);
+}
+$('#milly').onclick = () => { $('#milly').hidden = true; };
+
+/* ===== diktálás és felolvasás ===== */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function canDictate() { try { return AND && AND.canDictate ? AND.canDictate() : !!SR; } catch (e) { return !!SR; } }
+let dictCb = null;
+window.memoMillDictation = t => { const cb = dictCb; dictCb = null; document.querySelectorAll('.mic.on').forEach(b => b.classList.remove('on')); if (cb && t) cb(t); };
+function dictate(btn, cb) {
+  if (dictCb) return;
+  dictCb = cb; btn && btn.classList.add('on');
+  if (AND && AND.startDictation) { try { AND.startDictation('hu-HU'); return; } catch (e) {} }
+  if (!SR) { window.memoMillDictation(''); return toast('Ezen az eszközön nincs diktálás'); }
+  const r = new SR(); r.lang = 'hu-HU'; r.interimResults = false; r.maxAlternatives = 1;
+  let got = '';
+  r.onresult = e => { got = [...e.results].map(x => x[0].transcript).join(' '); };
+  r.onerror = () => {};
+  r.onend = () => window.memoMillDictation(got);
+  try { r.start(); } catch (e) { window.memoMillDictation(''); }
+}
+function speak(text) {
+  if (!text) return;
+  if (AND && AND.speak) { try { AND.speak(text); return; } catch (e) {} }
+  if (!window.speechSynthesis) return toast('Ezen az eszközön nincs felolvasás');
+  const u = new SpeechSynthesisUtterance(text); u.lang = 'hu-HU'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+$('#cardWrap').addEventListener('click', e => {
+  const b = e.target.closest('#revMic'); if (!b) return;
+  e.stopPropagation();
+  dictate(b, t => { const ta = $('#revType'); if (ta) { ta.value = (ta.value ? ta.value.trimEnd() + ' ' : '') + t; ta.focus(); } });
+});
+
+/* ===== gyakorló képernyő: felső sáv ===== */
+$('#revSkip').onclick = () => { if (!rq || rq.finished || rq.items.length < 2) return; rq.items.push(rq.items.shift()); rq.shown = false; rq.typed = ''; renderCard(); };
+$('#revMore').onclick = e => { e.stopPropagation(); $('#revMenu').hidden = !$('#revMenu').hidden; };
+document.addEventListener('click', e => { if (!e.target.closest('#revMenu,#revMore')) { const m = $('#revMenu'); if (m) m.hidden = true; } });
+function srcLine(note, c) {
+  const L = note.text.split('\n');
+  for (let i = 0; i < L.length; i++) {
+    const cs = makeCards({id: '__tmp', text: L[i], mode: 'jegyzet', name: ''}); cardCache.delete('__tmp');
+    if (cs.some(x => x.kind === c.kind && x.front === c.front && x.back === c.back)) return i;
+  }
+  return L.findIndex(l => c.front && l.includes(c.front));
+}
+function gotoSource(c) {
+  const note = byId(c.noteId); if (!note) return;
+  const tgt = note.blk ? byId(note.blk) : note;
+  const li = c.kind === 'tc' || c.kind === 'doc' ? -1 : srcLine(tgt, c);
+  openItem(tgt.id);
+  if (li >= 0) setTimeout(() => { const ta = $('#noteText'), L = ta.value.split('\n'); const a = L.slice(0, li).join('\n').length + (li ? 1 : 0); ta.focus(); ta.setSelectionRange(a, a + L[li].length); }, 120);
+  toast('Az ismétlés megmarad: az Ismétlés fülön folytathatod');
+}
+$('#revEdit').onclick = async () => {
+  const c = curCard(); if (!c) return;
+  const note = byId(c.noteId); if (!note) return;
+  if (c.kind === 'tc' || c.kind === 'doc' || note.blk) return gotoSource(c);
+  const L = note.text.split('\n'), li = srcLine(note, c);
+  if (li < 0) return gotoSource(c);
+  const r = await dialog({title: 'Kártya javítása', msg: 'A forrássor a dokumentumban. A haladás megmarad.', fields: [{name: 'l', label: 'Sor', value: L[li].trim()}], actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
+  if (!r || !r.values.l) return;
+  L[li] = r.values.l; note.text = L.join('\n'); note.mod = Date.now(); markItem(note.id);
+  migrateCards(note); persist();
+  const nc = makeCards(note).filter(x => x.kind === c.kind).sort((x, y) => sim(y.front + y.back, r.values.l) - sim(x.front + x.back, r.values.l))[0];
+  if (nc) rq.items[0] = {...c, ...nc};
+  rq.shown = false; renderCard(); toast('Kártya javítva');
+};
+$('#revMenu').onclick = e => {
+  const b = e.target.closest('[data-rm]'); if (!b || !rq) return;
+  $('#revMenu').hidden = true;
+  const c = curCard(), act = b.dataset.rm;
+  if (act === 'prev') {
+    const h = rq.hist.pop(); if (!h) return toast('Nincs előző kártya');
+    const k = h.c.noteId + '/' + h.c.id;
+    if (h.g === 1) { const j = rq.items.lastIndexOf(h.c); if (j >= 0) rq.items.splice(j, 1); if (h.addFail) rq.failed.delete(k); } else rq.done--;
+    if (h.scheduled) { const S = srsOf(h.c.noteId); if (h.prev) S[h.c.id] = h.prev; else delete S[h.c.id]; markSrs(h.c.noteId, h.c.id); }
+    if (h.counted) { const v = myStat(); v.rev = Math.max(0, v.rev - 1); if (h.ok) v.ok = Math.max(0, v.ok - 1); if (h.stale && h.scheduled) v.stale = Math.max(0, (v.stale || 0) - 1); rq.n--; if (h.ok) rq.ok--; }
+    rq.items.unshift(h.c); rq.shown = false; persist(); return renderCard();
+  }
+  if (!c) return;
+  if (act === 'off') {
+    setFlag(c.noteId, c.id, 'off', 1);
+    rq.items = rq.items.filter(x => !(x.noteId === c.noteId && x.id === c.id)); rq.total = Math.max(rq.done, rq.total - 1);
+    persist(); toast('Kártya kikapcsolva', {label: 'Visszavonás', fn: () => { setFlag(c.noteId, c.id, 'off', 0); persist(); }});
+    rq.shown = false; return rq.items.length ? renderCard() : finishSession();
+  }
+  if (act === 'fix') { const on = !flagOf(c.noteId, c.id).fix; setFlag(c.noteId, c.id, 'fix', on); persist(); toast(on ? 'Javítandónak jelölve' : 'Jelölés levéve'); return renderCard(); }
+  if (act === 'src') return gotoSource(c);
+  if (act === 'tts') return speak(rq.shown ? c.front + '. ' + c.back : c.front);
+  if (act === 'type') { db.settings.typing = !db.settings.typing; saveLocal(); rq.shown = false; return renderCard(); }
+};
+
+/* ===== dokumentum: tanulási sáv ===== */
+function renderDocBar(n) {
+  const now = Date.now(), bl = blocksOf(n);
+  let st;
+  if (n.prio === 'szunet') st = '<span class="dot szunet"></span>Szünetel';
+  else if (n.mode === 'tanulas') st = n.ladder.done ? '<span class="dot aktiv"></span>Ismétlésben' : `<span class="dot aktiv"></span>Tanulás ${n.ladder.step}/7`;
+  else if (n.mode === 'kartya') st = '<span class="dot aktiv"></span>Kártya';
+  else st = '<span class="dot nincs"></span>Jegyzet' + (bl.length ? ` · ${bl.length} blokk` : '');
+  $('#dbState').innerHTML = st;
+  if (n.exam) { const left = Math.ceil((n.exam.ts - now) / DAY); $('#dbExam').textContent = `Vizsga: ${n.exam.date.replace(/-/g, '. ')}. · ${left > 0 ? left + ' nap' : 'lejárt'}`; }
+  else $('#dbExam').textContent = '+ Vizsgadátum';
+  const q = buildQueue(now, n.id).length + bl.reduce((k, b) => k + buildQueue(now, b.id).length, 0);
+  const total = makeCards(n).length;
+  $('#dbPractice').textContent = q ? `Gyakorlás · ${q} esedékes` : total ? `Gyakorlás · ${total} kártya` : 'Gyakorlás';
+  const lb = $('#dbLearn');
+  const lt = learnable(n) ? n : bl.find(b => !b.ladder.done) || null;
+  lb.hidden = !lt && !bl.length;
+  lb.textContent = lt && !lt.ladder.done ? `Tanulás folytatása · ${lt.ladder.step}/7` : 'Tanulás';
+}
+$('#dbExam').onclick = () => $('#nExam').click();
+$('#dbLearn').onclick = () => $('#nLearn').click();
+$('#dbPractice').onclick = () => { const n = byId(ui.noteId); if (!n) return; migrateCards(n); const q = buildQueue(Date.now(), n.id); if (q.length) startReview(n.id); else startReview(n.id, 'all'); };
+$('#dbMore').onclick = e => { e.stopPropagation(); $('#dbMenu').hidden = !$('#dbMenu').hidden; };
+document.addEventListener('click', e => { if (!e.target.closest('#dbMenu,#dbMore')) { const m = $('#dbMenu'); if (m) m.hidden = true; } });
+$('#dbMenu').onclick = e => { const b = e.target.closest('[data-pm]'); const n = byId(ui.noteId); if (!b || !n) return; $('#dbMenu').hidden = true; migrateCards(n); const m = b.dataset.pm; startReview(n.id, m === 'sched' ? undefined : m); };
+
+/* ===== szerkesztő: színes háttér-réteg és automatikus magasság ===== */
+function edLines(text) {
+  const L = text.split('\n'), cls = new Array(L.length).fill('');
+  for (let i = 0; i < L.length; i++) {
+    const t = L[i].trim();
+    if (isBlkStart(t)) { cls[i] = 'bm'; let j = i + 1; while (j < L.length && L[j].trim() !== '}}') { cls[j] = 'bk'; j++; } if (j < L.length) cls[j] = 'bm'; i = j; continue; }
+    if (/^!!/.test(t)) { cls[i] = 'pp'; while (i + 1 < L.length && L[i + 1].trim() && !isBlkStart(L[i + 1].trim()) && !/^!!/.test(L[i + 1].trim())) { i++; cls[i] = 'pp'; } continue; }
+    if (/^#+\s/.test(t)) cls[i] = 'hd';
+    else if (/(>>|<<|<>|::)/.test(t) || /\{\{.+?\}\}/.test(t)) cls[i] = 'cd';
+  }
+  return L.map((l, i) => `<div class="ln ${cls[i]}">${l ? esc(l).replace(/\*\*(.+?)\*\*/g, '<mark>**$1**</mark>') : '​'}</div>`).join('');
+}
+function edSync() {
+  const ta = $('#noteText'), bk = $('#edBack');
+  if (!ta || !bk) return;
+  bk.innerHTML = edLines(ta.value);
+  ta.style.height = 'auto';
+  ta.style.height = Math.max(ta.scrollHeight, bk.scrollHeight) + 'px';
+}
+$('#noteText').addEventListener('input', edSync);
+addEventListener('resize', () => { if (ui.view === 'note') edSync(); });
+
+/* ===== telefonos eszköztár ===== */
+$('#edTools').addEventListener('pointerdown', e => { if (e.target.closest('button')) e.preventDefault(); });
+$('#edTools').addEventListener('mousedown', e => e.preventDefault());
+$('#edTools').onclick = e => {
+  const b = e.target.closest('[data-et]'); if (!b) return;
+  const ta = $('#noteText'), n = byId(ui.noteId); if (!n) return;
+  ta.focus();
+  const k = b.dataset.et;
+  if (k === 'undo' || k === 'redo') { try { document.execCommand(k); } catch (_) {} return; }
+  if (k === 'h') { linePrefix(ta, '# '); return ta.dispatchEvent(new Event('input')); }
+  if (k === 'mark') { wrapSel(ta, '**', '**', 'kiemelt'); return ta.dispatchEvent(new Event('input')); }
+  if (k === 'blk') { SLASH.find(c => c.t === 'Tanulóblokk').fn(ta, n); return ta.dispatchEvent(new Event('input')); }
+  slash = {start: ta.selectionStart, q: '', sel: 0, items: [], virtual: true, grp: k === 'card' ? 'Kártya' : null};
+  renderSlash();
+};
+
+/* ===== kártyalista ===== */
+function allCards(now = Date.now()) {
+  const t0 = dayStart(now), today = dayKey(now), out = [];
+  notes().forEach(n => {
+    const S = db.srs[n.id] || {}, F = flagsOf(n.id);
+    makeCards(n).forEach(c => {
+      const st = S[c.id], f = F[c.id] || {};
+      out.push({...c, noteId: n.id, doc: dispName(n), st, off: !!f.off, fix: !!f.fix, isNew: !st,
+        today: !!(st && dayKey(st.last) === today), added: !!(st && dayKey(st.first || st.last) === today),
+        hard: !!(st && (st.d || 0) >= 7), leech: isLeech(st), stale: !!(st && st.due < t0)});
+    });
+  });
+  return out;
+}
+const CF = [['all', 'Mind', () => true], ['new', 'Új', c => c.isNew && !c.off], ['today', 'Ma gyakorolt', c => c.today], ['added', 'Ma hozzáadott', c => c.added], ['hard', 'Nehéz', c => c.hard], ['leech', 'Makacs', c => c.leech], ['fix', 'Javítandó', c => c.fix], ['off', 'Kikapcsolt', c => c.off]];
+function renderCards() {
+  const all = allCards(), f = CF.find(x => x[0] === ui.cf) || CF[0];
+  ui.csel = ui.csel || new Set();
+  $('#cChips').innerHTML = CF.map(([k, l, fn]) => `<button data-cf="${k}" class="${k === f[0] ? 'on' : ''}">${l}<b>${all.filter(fn).length}</b></button>`).join('');
+  const q = fold($('#cSearch').value);
+  const list = all.filter(f[2]).filter(c => !q || fold(c.front + ' ' + c.back + ' ' + c.doc).includes(q)).slice(0, 400);
+  ui.cvis = list;
+  const key = c => c.noteId + '|' + c.id;
+  [...ui.csel].forEach(k => { if (!all.some(c => key(c) === k)) ui.csel.delete(k); });
+  $('#cList').innerHTML = list.length ? list.map(c => {
+    const tags = [c.off ? 'kikapcsolt' : '', c.fix ? '⚑ javítandó' : '', c.leech ? 'makacs' : '', c.hard ? 'nehéz' : ''].filter(Boolean).join(' · ');
+    return `<div class="crow ${c.off ? 'off' : ''}" data-ck="${esc(key(c))}"><input type="checkbox" ${ui.csel.has(key(c)) ? 'checked' : ''}><div class="f">${esc(c.front)}</div><div class="b">${esc(c.back)}</div><div class="m">${c.st ? fmtDue(c.st.due) : 'új'}<br><span class="tags">${esc(c.doc)}${tags ? ' · ' + tags : ''}</span></div></div>`;
+  }).join('') : '<p class="muted" style="padding:16px 4px">Nincs ilyen kártya.</p>';
+  $('#cAll').checked = list.length > 0 && list.every(c => ui.csel.has(key(c)));
+  $('#cActs').hidden = !ui.csel.size;
+  $('#cSelN').textContent = ui.csel.size + ' kijelölve';
+}
+$('#cChips').onclick = e => { const b = e.target.closest('[data-cf]'); if (b) { ui.cf = b.dataset.cf; renderCards(); } };
+$('#cSearch').oninput = () => renderCards();
+$('#cAll').onchange = e => { (ui.cvis || []).forEach(c => { const k = c.noteId + '|' + c.id; if (e.target.checked) ui.csel.add(k); else ui.csel.delete(k); }); renderCards(); };
+$('#cList').onclick = e => { const r = e.target.closest('[data-ck]'); if (!r) return; const k = r.dataset.ck; if (ui.csel.has(k)) ui.csel.delete(k); else ui.csel.add(k); renderCards(); };
+$('#cActs').onclick = async e => {
+  const b = e.target.closest('[data-ca]'); if (!b) return;
+  const sel = [...ui.csel].map(k => k.split('|')), a = b.dataset.ca;
+  if (a === 'src') { const [nid, cid] = sel[0]; const c = allCards().find(x => x.noteId === nid && x.id === cid); if (c) gotoSource(c); return; }
+  if (a === 'reset') { const r = await dialog({title: 'Ütemezés nullázása', msg: `${sel.length} kártya újként indul újra. Ez nem vonható vissza.`, actions: [{label: 'Nullázás', key: 'ok', danger: true}, {label: 'Mégse', key: null}]}); if (!r) return; }
+  sel.forEach(([nid, cid]) => {
+    if (a === 'off') setFlag(nid, cid, 'off', 1);
+    if (a === 'on') setFlag(nid, cid, 'off', 0);
+    if (a === 'unfix') setFlag(nid, cid, 'fix', 0);
+    if (a === 'reset') { const S = srsOf(nid); if (S[cid]) { delete S[cid]; markSrs(nid, cid); } }
+  });
+  persist(); ui.csel = new Set(); renderCards();
+  toast({off: 'Kikapcsolva', on: 'Bekapcsolva', unfix: 'Jelölés levéve', reset: 'Ütemezés nullázva'}[a] + `: ${sel.length} kártya`);
+};
+
+/* ===== állapotsáv és grafikonok ===== */
+function statsHtml() {
+  const now = Date.now(), cs = allCards(now).filter(c => !c.off);
+  const learnN = notes().filter(n => learnable(n) && !n.ladder.done && n.text.trim()).length;
+  const nNew = cs.filter(c => c.isNew).length, stale = cs.filter(c => c.stale).length;
+  const fresh = cs.filter(c => c.st && !c.stale && (c.st.s || 0) < 21).length, stable = cs.filter(c => c.st && !c.stale && (c.st.s || 0) >= 21).length;
+  const parts = [['Tanulásban', learnN, '#a78bfa'], ['Új', nNew, '#64748b'], ['Friss ismétlés', fresh, '#22d3ee'], ['Stabil', stable, '#34d399'], ['Elhanyagolt', stale, '#fb7185']];
+  const tot = parts.reduce((k, p) => k + p[1], 0) || 1;
+  const t0 = dayStart(now), fwd = new Array(30).fill(0), back = new Array(30).fill(0);
+  cs.forEach(c => { if (!c.st) return; const d = Math.max(0, Math.floor((dayStart(c.st.due) - t0) / DAY)); if (d < 30) fwd[d]++; });
+  notes().forEach(n => { const S = db.srs[n.id] || {}; if (learnable(n) && n.ladder.done && S.doc) { const d = Math.max(0, Math.floor((dayStart(S.doc.due) - t0) / DAY)); if (d < 30) fwd[d]++; } });
+  for (let i = 0; i < 30; i++) back[29 - i] = dayStat(dayKey(now - i * DAY)).rev;
+  const bars = (arr, today) => { const mx = Math.max(1, ...arr); return `<div class="chart">${arr.map((v, i) => `<i class="${v ? '' : 'z'} ${i === today ? 't' : ''}" style="height:${Math.round(100 * v / mx)}%" title="${v}"></i>`).join('')}</div>`; };
+  return `<div class="card" style="margin-top:22px"><div class="lb">Állapot</div><div class="stBar">${parts.map(p => `<i style="width:${100 * p[1] / tot}%;background:${p[2]}"></i>`).join('')}</div><div class="stLeg">${parts.map(p => `<span style="--c:${p[2]}">${p[0]}<b>${p[1]}</b></span>`).join('')}</div></div>
+    <div class="grid2" style="margin-top:14px"><div class="card"><div class="lb">Esedékes a következő 30 napban</div>${bars(fwd, 0)}<div class="chartAx"><span>ma</span><span>+15</span><span>+29 nap</span></div></div>
+    <div class="card"><div class="lb">Gyakorlás az elmúlt 30 napban</div>${bars(back, 29)}<div class="chartAx"><span>−29 nap</span><span>−15</span><span>ma</span></div></div></div>`;
+}
+
+/* ===== havi vizsganaptár ===== */
+function examCal(now) {
+  const base = new Date(now); base.setDate(1); base.setMonth(base.getMonth() + (ui.calOff || 0));
+  const y = base.getFullYear(), m = base.getMonth(), first = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate();
+  const ex = new Map(); docs().forEach(n => { if (n.exam) { const k = n.exam.date; ex.set(k, (ex.get(k) || []).concat(n.name)); } });
+  const today = dayKey(now);
+  let h = ['H', 'K', 'Sze', 'Cs', 'P', 'Szo', 'V'].map(d => `<span class="dw">${d}</span>`).join('');
+  for (let i = 0; i < first; i++) h += '<span></span>';
+  for (let d = 1; d <= days; d++) {
+    const k = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`, e = ex.get(k);
+    h += `<span class="d ${k === today ? 't' : ''} ${e ? 'x' : ''}" ${e ? `title="${esc(e.join(', '))}"` : ''}>${d}</span>`;
+  }
+  return `<div class="cal"><div class="calHead"><button class="ghost" data-cal="-1">‹</button><b>${base.toLocaleDateString('hu-HU', {year: 'numeric', month: 'long'})}</b><button class="ghost" data-cal="1">›</button></div><div class="calGrid">${h}</div></div>`;
+}
+$('#examBox').addEventListener('click', e => { const b = e.target.closest('[data-cal]'); if (b) { ui.calOff = (ui.calOff || 0) + +b.dataset.cal; renderHome(); } });
 
 /* ===== sorokból dokumentumok ===== */
 let selRange = null, selT = null;
@@ -2955,26 +3395,38 @@ async function folderMode(f) {
 
 /* ===== / parancsmenü ===== */
 let slash = null;
-const insAt = (ta, txt, caretBack = 0) => { const p = ta.selectionStart; if (txt[0] === ' ' && (p === 0 || /\s/.test(ta.value[p - 1]))) txt = txt.slice(1); ta.setRangeText(txt, p, ta.selectionEnd, 'end'); ta.selectionStart = ta.selectionEnd = p + txt.length - caretBack; };
+function edIns(ta, a, b, txt) {
+  ta.focus(); ta.setSelectionRange(a, b);
+  let ok = false; try { ok = document.execCommand('insertText', false, txt); } catch (e) {}
+  if (!ok || ta.value.slice(a, a + txt.length) !== txt) { ta.setRangeText(txt, a, b, 'end'); }
+}
+const insAt = (ta, txt, caretBack = 0) => { const p = ta.selectionStart; if (txt[0] === ' ' && (p === 0 || /\s/.test(ta.value[p - 1]))) txt = txt.slice(1); edIns(ta, p, ta.selectionEnd, txt); ta.selectionStart = ta.selectionEnd = p + txt.length - caretBack; };
+const linePrefix = (ta, pre) => { const p = ta.selectionStart, ls = ta.value.lastIndexOf('\n', p - 1) + 1; if (ta.value.startsWith(pre, ls)) return; edIns(ta, ls, ls, pre); ta.selectionStart = ta.selectionEnd = p + pre.length; };
+const wrapSel = (ta, l, r, ph) => { const a = ta.selectionStart, b = ta.selectionEnd, t = ta.value.slice(a, b) || ph; edIns(ta, a, b, l + t + r); ta.setSelectionRange(a + l.length, a + l.length + t.length); };
 const atLineStart = ta => { const p = ta.selectionStart; return p === 0 || ta.value[p - 1] === '\n'; };
 const SLASH = [
-  {k: '>>', t: 'Kártya', d: 'kérdés >> válasz', kw: 'flashcard kerdes valasz', fn: ta => insAt(ta, ' >> ')},
-  {k: '<>', t: 'Kétirányú kártya', d: 'mindkét irányban kérdez', kw: 'flashcard ket irany', fn: ta => insAt(ta, ' <> ')},
-  {k: '{}', t: 'Kitakart rész', d: '{{…}} egy soron belül', kw: 'cloze lyukas', fn: ta => insAt(ta, '{{}}', 2)},
-  {k: '▣', t: 'Tanulóblokk', d: 'csak ez a rész kerül tanulásba', kw: 'blokk tanulas resz', fn: ta => insAt(ta, (atLineStart(ta) ? '' : '\n') + '{{ Cím\n\n}}\n', 4)},
-  {k: '!!', t: 'Bekezdés tanulásra', d: 'ez az egy bekezdés tanulásba kerül', kw: 'blokk tanulas', fn: ta => { const p = ta.selectionStart, ls = ta.value.lastIndexOf('\n', p - 1) + 1; ta.setRangeText('!! ', ls, ls, 'end'); ta.selectionStart = ta.selectionEnd = p + 3; }},
-  {k: '≡', t: 'Sorokból dokumentumok', d: 'minden sor egy új dokumentum', kw: 'tetelsor atalakitas convert', fn: (ta, n) => setTimeout(() => convertLines(n, 0, ta.value.length), 0)},
-  {g: 'Mód'},
-  {k: 'J', t: 'Jegyzet mód', d: MODE_HINT.jegyzet, kw: 'mod', fn: (ta, n) => { setMode(n, 'jegyzet'); renderNote(); }},
-  {k: 'T', t: 'Tanulás mód', d: MODE_HINT.tanulas, kw: 'mod', fn: (ta, n) => { setMode(n, 'tanulas'); renderNote(); }},
-  {k: 'K', t: 'Kártya mód', d: MODE_HINT.kartya, kw: 'mod flashcard', fn: (ta, n) => { setMode(n, 'kartya'); renderNote(); }},
-  {g: 'Műveletek'},
-  {k: '▶', t: 'Tanulás indítása', d: 'a tanulási útvonal megnyitása', kw: 'start', fn: () => setTimeout(() => $('#nLearn').click(), 0)},
-  {k: '↻', t: 'Ismétlés ebből', d: 'kártyák ebből a dokumentumból', kw: 'review', fn: () => setTimeout(() => $('#nReview').click(), 0)},
-  {k: '◎', t: 'Hibatérkép', d: 'az elrontott szavak', kw: 'hiba', fn: () => $('#nErr').click()},
-  {k: '📅', t: 'Vizsga', d: 'vizsgadátum beállítása', kw: 'datum', fn: () => setTimeout(() => $('#nExam').click(), 0)},
-  {k: '✨', t: 'AI kártyák', d: 'kártyajavaslatok a szövegből', kw: 'ai', fn: () => setTimeout(() => $('#nAiCards').click(), 0)},
-  {k: '?', t: 'AI segéd', d: 'kérdezz a dokumentumról', kw: 'ai chat', fn: () => setTimeout(() => $('#nChat').click(), 0)}
+  {grp: 'Tanulás', k: '▣', t: 'Tanulóblokk', d: 'csak ez a rész kerül tanulásba', kw: 'blokk resz {{ }}', fn: ta => { const a = ta.selectionStart, b = ta.selectionEnd, sel = ta.value.slice(a, b); const pre = (a === 0 || ta.value[a - 1] === '\n') ? '' : '\n'; edIns(ta, a, b, pre + '{{ Cím\n' + (sel || '') + '\n}}\n'); const st = a + pre.length + 3; ta.setSelectionRange(st, st + 3); }},
+  {grp: 'Tanulás', k: '!!', t: 'Bekezdés tanulásra', d: 'ez az egy bekezdés tanulásba kerül', kw: 'blokk', fn: ta => linePrefix(ta, '!! ')},
+  {grp: 'Tanulás', k: '≡', t: 'Sorokból dokumentumok', d: 'minden sor egy új dokumentum', kw: 'tetelsor atalakitas convert', fn: (ta, n) => setTimeout(() => convertLines(n, 0, ta.value.length), 0)},
+  {grp: 'Tanulás', k: 'J', t: 'Jegyzet mód', d: MODE_HINT.jegyzet, kw: 'mod', fn: (ta, n) => { setMode(n, 'jegyzet'); renderNote(); }},
+  {grp: 'Tanulás', k: 'T', t: 'Tanulás mód', d: MODE_HINT.tanulas, kw: 'mod', fn: (ta, n) => { setMode(n, 'tanulas'); renderNote(); }},
+  {grp: 'Tanulás', k: 'K', t: 'Kártya mód', d: MODE_HINT.kartya, kw: 'mod flashcard', fn: (ta, n) => { setMode(n, 'kartya'); renderNote(); }},
+  {grp: 'Tanulás', k: '▶', t: 'Tanulás indítása', d: 'a tanulási útvonal megnyitása', kw: 'start', fn: () => setTimeout(() => $('#nLearn').click(), 0)},
+  {grp: 'Kártya', k: '>>', t: 'Kártya', d: 'kérdés >> válasz', kw: 'flashcard kerdes valasz', fn: ta => insAt(ta, ' >> ')},
+  {grp: 'Kártya', k: '>>>', t: 'Kártya, többsoros', d: 'kérdés >>>, alatta a válasz sorai', kw: 'flashcard lista felsorolas', fn: ta => insAt(ta, ' >>>\n')},
+  {grp: 'Kártya', k: '<>', t: 'Kártya, kétirányú', d: 'mindkét irányban kérdez', kw: 'flashcard ket irany', fn: ta => insAt(ta, ' <> ')},
+  {grp: 'Kártya', k: '::', t: 'Fogalomkártya', d: 'fogalom :: meghatározás, mindkét irányban', kw: 'concept definicio', fn: ta => insAt(ta, ' :: ')},
+  {grp: 'Kártya', k: '{{}}', t: 'Kitöltős kártya', d: 'a {{kitakart}} rész a kérdés', kw: 'cloze lyukas', fn: ta => wrapSel(ta, '{{', '}}', '')},
+  {grp: 'Formázás', k: '#', t: 'Címsor', d: '# a sor elején', kw: 'heading cim', fn: ta => linePrefix(ta, '# ')},
+  {grp: 'Formázás', k: '**', t: 'Kiemelés', d: '**szöveg**, sárga háttérrel', kw: 'highlight felkover', fn: ta => wrapSel(ta, '**', '**', 'kiemelt')},
+  {grp: 'Formázás', k: '—', t: 'Elválasztó vonal', d: 'egy vonal két rész közé', kw: 'divider', fn: ta => insAt(ta, (atLineStart(ta) ? '' : '\n') + '———\n')},
+  {grp: 'Beszúrás', k: '📅', t: 'Mai dátum', d: 'a mai nap', kw: 'datum ma', fn: ta => insAt(ta, new Date().toLocaleDateString('hu-HU'))},
+  {grp: 'Beszúrás', k: '⏱', t: 'Pontos idő', d: 'dátum és idő', kw: 'ido ora', fn: ta => insAt(ta, new Date().toLocaleString('hu-HU', {dateStyle: 'short', timeStyle: 'short'}))},
+  {grp: 'Műveletek', k: '↻', t: 'Ismétlés ebből', d: 'kártyák ebből a dokumentumból', kw: 'review gyakorlas', fn: () => setTimeout(() => $('#nReview').click(), 0)},
+  {grp: 'Műveletek', k: '◎', t: 'Hibatérkép', d: 'az elrontott szavak', kw: 'hiba', fn: () => $('#nErr').click()},
+  {grp: 'Műveletek', k: '🗓', t: 'Vizsga', d: 'vizsgadátum beállítása', kw: 'datum', fn: () => setTimeout(() => $('#nExam').click(), 0)},
+  {grp: 'Műveletek', k: '✨', t: 'AI kártyák', d: 'kártyajavaslatok a szövegből', kw: 'ai', fn: () => setTimeout(() => $('#nAiCards').click(), 0)},
+  {grp: 'Műveletek', k: '?', t: 'AI segéd', d: 'kérdezz a dokumentumról', kw: 'ai chat milly', fn: () => setTimeout(() => $('#nChat').click(), 0)}
 ];
 function hideSlash() { slash = null; const m = $('#slashMenu'); if (m) m.hidden = true; }
 function caretXY(ta, pos) {
@@ -2992,9 +3444,9 @@ function caretXY(ta, pos) {
 function renderSlash() {
   const ta = $('#noteText'), m = $('#slashMenu');
   const q = fold(slash.q);
-  let list = SLASH.filter(c => c.g || !q || fold(c.t + ' ' + c.d + ' ' + (c.kw || '')).includes(q));
-  list = list.filter((c, k) => !c.g || (list[k + 1] && !list[k + 1].g));
-  slash.items = list.filter(c => !c.g);
+  slash.items = SLASH.filter(c => (!slash.grp || c.grp === slash.grp) && (!q || fold(c.grp + ' ' + c.t + ' ' + c.d + ' ' + (c.kw || '')).includes(q)));
+  if (q) { const sc = c => (fold(c.t).startsWith(q) ? 0 : fold(c.grp).startsWith(q) ? 1 : fold(c.t).includes(q) ? 2 : 3) - (fold(c.grp).startsWith(q) ? 0.5 : 0); slash.items = slash.items.map((c, i) => [sc(c), i, c]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(x => x[2]); }
+  const list = []; slash.items.forEach((c, k) => { if (!q && (!k || slash.items[k - 1].grp !== c.grp)) list.push({g: c.grp}); list.push(c); });
   slash.sel = clamp(slash.sel, 0, Math.max(0, slash.items.length - 1));
   let idx = -1;
   m.innerHTML = slash.items.length ? list.map(c => c.g ? `<div class="sh">${c.g.toUpperCase()}</div>` : (idx++, `<div class="si ${idx === slash.sel ? 'on' : ''}" data-si="${idx}"><span class="k">${esc(c.k)}</span><span><b>${esc(c.t)}</b><small>${esc(c.d)}</small></span></div>`)).join('')
@@ -3009,15 +3461,16 @@ function renderSlash() {
 function runSlash(k) {
   const ta = $('#noteText'), n = byId(ui.noteId), c = slash && slash.items[k];
   if (!c || !n) return hideSlash();
-  const end = ta.selectionStart;
-  ta.setRangeText('', slash.start, end, 'start');
+  const end = ta.selectionStart, virt = slash.virtual, st0 = slash.start;
   hideSlash();
+  if (!virt) { edIns(ta, st0, end, ''); ta.setSelectionRange(st0, st0); }
   c.fn(ta, n);
   ta.dispatchEvent(new Event('input'));
   if (document.activeElement !== ta && ui.view === 'note' && !$('#dlg').open) ta.focus();
 }
 $('#noteText').addEventListener('input', () => {
   const ta = $('#noteText'), p = ta.selectionStart, v = ta.value;
+  if (slash && slash.virtual) return hideSlash();
   if (slash) {
     if (p <= slash.start || v[slash.start] !== '/') return hideSlash();
     const q = v.slice(slash.start + 1, p);

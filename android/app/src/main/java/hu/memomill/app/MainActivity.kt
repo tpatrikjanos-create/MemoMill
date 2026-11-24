@@ -9,6 +9,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
+import org.json.JSONObject
+import java.util.Locale
 import android.webkit.JavascriptInterface
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
@@ -24,10 +28,13 @@ import java.io.File
 class MainActivity : Activity() {
     private lateinit var web: WebView
     private var fileCb: ValueCallback<Array<Uri>>? = null
+    private var tts: TextToSpeech? = null
+    private var ttsReady = false
 
     companion object {
         const val BASE = "https://appassets.androidplatform.net/assets/www/index.html"
         const val PICK = 41
+        const val DICTATE = 42
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -94,6 +101,10 @@ class MainActivity : Activity() {
             fileCb?.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data))
             fileCb = null
         }
+        if (requestCode == DICTATE) {
+            val text = if (resultCode == RESULT_OK) data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull() ?: "" else ""
+            web.evaluateJavascript("window.memoMillDictation && window.memoMillDictation(" + JSONObject.quote(text) + ")", null)
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -101,6 +112,11 @@ class MainActivity : Activity() {
         web.evaluateJavascript("(window.memoMillBack && window.memoMillBack()) ? 'y' : 'n'") { r ->
             if (r != "\"y\"") moveTaskToBack(true)
         }
+    }
+
+    override fun onDestroy() {
+        tts?.shutdown()
+        super.onDestroy()
     }
 
     override fun onPause() {
@@ -145,6 +161,43 @@ class MainActivity : Activity() {
         @JavascriptInterface
         fun openLockSettings() {
             runOnUiThread { startActivity(Intent(this@MainActivity, LockSettingsActivity::class.java)) }
+        }
+
+        @JavascriptInterface
+        fun canDictate(): Boolean =
+            packageManager.queryIntentActivities(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0).isNotEmpty()
+
+        @JavascriptInterface
+        fun startDictation(lang: String) {
+            runOnUiThread {
+                val i = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                    putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                    putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang)
+                    putExtra(RecognizerIntent.EXTRA_PROMPT, "Mondd a szöveget")
+                }
+                try {
+                    @Suppress("DEPRECATION")
+                    startActivityForResult(i, DICTATE)
+                } catch (_: Exception) {
+                    Toast.makeText(this@MainActivity, "Nincs beszédfelismerő a telefonon", Toast.LENGTH_LONG).show()
+                    web.evaluateJavascript("window.memoMillDictation && window.memoMillDictation('')", null)
+                }
+            }
+        }
+
+        @JavascriptInterface
+        fun speak(text: String) {
+            runOnUiThread {
+                val t = tts
+                if (t != null && ttsReady) { t.speak(text, TextToSpeech.QUEUE_FLUSH, null, "mm"); return@runOnUiThread }
+                tts = TextToSpeech(this@MainActivity) { st ->
+                    ttsReady = st == TextToSpeech.SUCCESS
+                    if (ttsReady) {
+                        tts?.language = Locale("hu", "HU")
+                        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "mm")
+                    }
+                }
+            }
         }
 
         @JavascriptInterface

@@ -9,6 +9,21 @@ Egyfájlos tanuló- és jegyzetapp (Memo). GitHub Pages-en fut.
 4. Firebase konzol → Realtime Database → **Rules**: a `database.rules.json` tartalma. Minden fiók csak a saját `users/<uid>/` ágát látja; a régi `memo/` ágat belépve csak olvasni lehet (az átköltöztetéshez), később törölhető.
 5. Az appban: belépés vagy regisztráció e-mail címmel és jelszóval. Az első belépéskor a helyi adatok és a régi szinkronkulcsos adatok átkerülnek a fiókba. Az Anthropic API-kulcsot a Beállításokban kell megadni (csak az adott eszközön tárolódik).
 
+## Dokumentumok
+- **Módok:** Jegyzet (csak jegyzet) · Tanulás (a teljes szöveg a tanulási útvonalra kerül) · Kártya (a cím a kérdés, a tartalom a válasz). Mappára egyszerre is beállítható (Jegyzetek → Mód).
+- **Tanulóblokk:** `{{ Cím` … `}}` vagy `!!` a bekezdés elején; blokkonként külön tanulási útvonal.
+- **Kártyák:** `>>`, `<<`, `<>`, `::` (fogalom), `{{kitöltős}}`, többsoros: `kérdés >>>` és alatta a válasz sorai egy üres sorig.
+- **Formázás:** `# Címsor`, `**kiemelés**`. A szerkesztő színesen jelöli a blokkokat, kártyákat és kiemeléseket.
+- **/ menü:** sor elején vagy szóköz után; telefonon alsó eszköztár is van.
+- **Sorokból dokumentumok:** jelöld ki a sorokat (pl. tételsor), és minden sorból dokumentum lesz egy mappában.
+
+## Ismétlés
+- Gyakorlás a dokumentum sávjáról: ütemezés szerint, összes kártya sorrendben, vagy gyors átismétlés (nem számít bele az ütemezésbe).
+- Gyakorlás közben: javítás (✏️), átugrás, előző kártya, kikapcsolás, javítandó jelölés, ugrás a forráshoz, felolvasás, beírós mód, diktálás (🎤).
+- Elhanyagolt kártyák: naponta legfeljebb a beállított számú régen esedékes kártya jön vissza. Az új kártyák helye (elöl, keverve, hátul) és a dokumentumonkénti csoportosítás beállítható.
+- Kártyalista szűrőcsipekkel és több kártya egyszerre kezelésével; állapotsáv és 30 napos grafikonok az Ismétlés oldalon.
+- Milly, a malom kabalája, félúton és a kör végén biztat.
+
 ## Tanulás és ismétlés
 - **Tanulás** (1. fázis): 3 szint, 7 fokozat lakatos útvonalon. Felfedés → Kezdőbetű (könnyű: minden 3. szó rejtett, közepes: minden 2., nehéz: mind) → Gépelés (könnyű, közepes, nehéz).
   Bekezdésenként az első hiba figyelmeztet, a második egy szívbe kerül és a bekezdés újraindul. 3 szív fogyása után egy fokozattal vissza, és az a fokozat újra zárolódik.
