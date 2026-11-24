@@ -11,7 +11,7 @@ Egyfájlos tanuló- és jegyzetapp (Memo). GitHub Pages-en fut.
 
 ## Dokumentumok
 - **Módok:** Jegyzet (csak jegyzet) · Tanulás (a teljes szöveg a tanulási útvonalra kerül) · Kártya (a cím a kérdés, a tartalom a válasz). Mappára egyszerre is beállítható (Jegyzetek → Mód).
-- **Tanulóblokk:** `{{ Cím` … `}}` vagy `!!` a bekezdés elején; blokkonként külön tanulási útvonal.
+- **Tanulóblokk:** `{{` … `}}` közé írt, több soros szöveg (a bezáró `}}` után jön létre, több is lehet), vagy `!!` a bekezdés elején; blokkonként külön tanulási útvonal.
 - **Kártyák:** `>>`, `<<`, `<>`, `::` (fogalom), `{{kitöltős}}`, többsoros: `kérdés >>>` és alatta a válasz sorai egy üres sorig.
 - **Formázás:** `# Címsor`, `**kiemelés**`. A szerkesztő színesen jelöli a blokkokat, kártyákat és kiemeléseket.
 - **/ menü:** sor elején vagy szóköz után; telefonon alsó eszköztár is van.
