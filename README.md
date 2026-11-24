@@ -3,10 +3,11 @@
 Egyfájlos tanuló- és jegyzetapp (Memo). GitHub Pages-en fut.
 
 ## Beállítás
-1. A `index.html` elején a `FIREBASE_CONFIG` objektumban a Firebase web-config értékei vannak (a `databaseURL` a Realtime Database URL-je).
-2. Firebase Realtime Database → Rules:
-   `{"rules":{"memo":{"$key":{".read":true,".write":true}}}}`
-3. Az app első indításakor a **Beállítások** oldalon (fogaskerék) add meg az Anthropic API-kulcsot (csak az adott böngészőben tárolódik) és a szinkronkulcsot (másik eszközön ugyanazt add meg).
+1. A `index.html` elején a `FIREBASE_CONFIG` objektumban a Firebase web-config értékei vannak.
+2. Firebase konzol → **Authentication** → Sign-in method → **Email/Password** bekapcsolása.
+3. Firebase konzol → Authentication → Templates: a sablonok nyelve legyen magyar (a jelszó-visszaállító levélhez).
+4. Firebase konzol → Realtime Database → **Rules**: a `database.rules.json` tartalma. Minden fiók csak a saját `users/<uid>/` ágát látja; a régi `memo/` ágat belépve csak olvasni lehet (az átköltöztetéshez), később törölhető.
+5. Az appban: belépés vagy regisztráció e-mail címmel és jelszóval. Az első belépéskor a helyi adatok és a régi szinkronkulcsos adatok átkerülnek a fiókba. Az Anthropic API-kulcsot a Beállításokban kell megadni (csak az adott eszközön tárolódik).
 
 ## Tanulás és ismétlés
 - **Tanulás** (1. fázis): 3 szint, 7 fokozat lakatos útvonalon. Felfedés → Kezdőbetű (könnyű: minden 3. szó rejtett, közepes: minden 2., nehéz: mind) → Gépelés (könnyű, közepes, nehéz).

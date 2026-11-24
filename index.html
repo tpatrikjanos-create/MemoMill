@@ -28,7 +28,7 @@ button.danger{color:var(--bad)}
 button.ghost{border-color:transparent;background:none;padding:6px 10px}
 button.ghost:hover:not(:disabled){background:var(--hover);border-color:transparent}
 button.xl{padding:14px 28px;font-size:15px}
-input[type=text],input[type=password],input[type=date],input[type=number],input[type=search],select,textarea{border:1px solid var(--line2);border-radius:12px;padding:10px 12px;background:rgba(5,8,22,.6);color:var(--text)}
+input[type=text],input[type=email],input[type=password],input[type=date],input[type=number],input[type=search],select,textarea{border:1px solid var(--line2);border-radius:12px;padding:10px 12px;background:rgba(5,8,22,.6);color:var(--text)}
 select option{background:#0e1330}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--a1);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
 input[type=checkbox]{accent-color:var(--a1);width:18px;height:18px}
@@ -336,6 +336,24 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 #setBar.show{transform:none;opacity:1;pointer-events:auto}
 #setBar span{flex:1;font-size:13px;color:var(--muted)}
 
+/* belépés */
+#auth{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(60% 50% at 0% 0%,rgba(109,93,252,.38),transparent 70%),radial-gradient(55% 45% at 100% 100%,rgba(14,165,183,.32),transparent 70%),var(--bg);overflow:auto}
+.authBox{width:min(400px,100%);background:var(--panel);border:1px solid var(--line2);border-radius:24px;padding:28px 26px;display:flex;flex-direction:column;gap:14px;animation:rise .45s ease both;box-shadow:0 30px 80px -30px #000}
+.authLogo{display:flex;justify-content:center}
+.authLogo .logo{width:96px;height:121px}
+.authT{margin:0;text-align:center;font-size:30px;font-weight:700;letter-spacing:-.8px}
+.authS{margin:0;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.5}
+#authForm{display:flex;flex-direction:column;gap:2px}
+#authForm .sf{margin-top:10px}
+#authGo{margin-top:16px;width:100%}
+.authErr{min-height:18px;font-size:13px;color:var(--bad);margin-top:8px;line-height:1.4}
+.authErr.ok{color:var(--ok)}
+.authLinks{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.authLinks button{font-size:13px;color:var(--muted)}
+.acct{display:flex;align-items:center;gap:12px;margin:6px 0 4px}
+.acct .av{width:42px;height:42px;border-radius:50%;background:var(--grad);color:#061022;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;flex-shrink:0}
+.acct b{display:block;font-size:15px;font-weight:600;overflow-wrap:anywhere}
+
 /* párbeszéd, toast, konfetti */
 dialog{border:1px solid var(--line2);border-radius:20px;padding:22px 24px;width:min(540px,94vw);max-height:88vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(34,211,238,.06);background:linear-gradient(160deg,#141a3c,#0b0f28);color:var(--text)}
 dialog::backdrop{background:rgba(3,5,14,.7);backdrop-filter:blur(3px)}
@@ -611,6 +629,23 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
 </div>
 
 <!-- TANULÁS: gyakorlás -->
+<div id="auth" hidden>
+  <div class="authBox">
+    <div class="authLogo"><svg class="logo" viewBox="0 -2 100 126" aria-hidden="true"><defs><clipPath id="lbc"><rect width="100" height="74"/></clipPath><linearGradient id="lbg" gradientUnits="userSpaceOnUse" x1="7" y1="0" x2="93" y2="114"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><polygon points="8,52 28,24 70,24 92,52" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="70" y1="24" x2="79" y2="52" stroke="#eef0fa" stroke-width="2.38" stroke-linecap="round"/><path d="M44,24 V15 H52 V24 M42,16 L48,7 L54,16 M48,7 V3" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M66,2 Q67,8 73,9 Q67,10 66,16 Q65,10 59,9 Q65,8 66,2 Z" fill="url(#lbg)"/><path d="M79,11 Q79.6,14 82.5,14.5 Q79.6,15 79,18 Q78.4,15 75.5,14.5 Q78.4,14 79,11 Z" fill="url(#lbg)"/><path d="M31,43 Q35,37 39,43 M55,43 Q59,37 63,43" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M13,52 V74 M88,52 V74 M80,56 L88,64 M88,56 L80,64" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><g clip-path="url(#lbc)"><g class="wh w0"><circle cx="26" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="26" y1="74" x2="36.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="36.00" y1="74.00" x2="39.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="33.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="33.07" y1="81.07" x2="35.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="26.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="26.00" y1="84.00" x2="26.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="18.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="18.93" y1="81.07" x2="16.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="16.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="16.00" y1="74.00" x2="13.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="18.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="18.93" y1="66.93" x2="16.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="26.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="26.00" y1="64.00" x2="26.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="26" y1="74" x2="33.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="33.07" y1="66.93" x2="35.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g><g class="wh w1"><circle cx="48" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="48" y1="74" x2="58.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="58.00" y1="74.00" x2="61.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="55.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="55.07" y1="81.07" x2="57.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="48.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="48.00" y1="84.00" x2="48.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="40.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="40.93" y1="81.07" x2="38.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="38.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="38.00" y1="74.00" x2="35.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="40.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="40.93" y1="66.93" x2="38.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="48.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="48.00" y1="64.00" x2="48.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="48" y1="74" x2="55.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="55.07" y1="66.93" x2="57.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g><g class="wh w2"><circle cx="70" cy="74" r="10" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="70" y1="74" x2="80.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="80.00" y1="74.00" x2="83.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="77.07" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="77.07" y1="81.07" x2="79.19" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="70.00" y2="84.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="70.00" y1="84.00" x2="70.00" y2="87.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="62.93" y2="81.07" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="62.93" y1="81.07" x2="60.81" y2="83.19" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="60.00" y2="74.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="60.00" y1="74.00" x2="57.00" y2="74.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="62.93" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="62.93" y1="66.93" x2="60.81" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="70.00" y2="64.00" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="70.00" y1="64.00" x2="70.00" y2="61.00" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/><line x1="70" y1="74" x2="77.07" y2="66.93" stroke="#eef0fa" stroke-width="2.04" stroke-linecap="round"/><line x1="77.07" y1="66.93" x2="79.19" y2="64.81" stroke="#eef0fa" stroke-width="3.4" stroke-linecap="round"/></g></g><line x1="6" y1="74" x2="94" y2="74" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="20" y1="74" x2="20" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="36" y1="74" x2="36" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="52" y1="74" x2="52" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="68" y1="74" x2="68" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><line x1="84" y1="74" x2="84" y2="80" fill="none" stroke="#eef0fa" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/><path d="M50,88 Q28,81 7,85 V114 Q28,110 50,117 Q72,110 93,114 V85 Q72,81 50,88 Z M50,88 V117" fill="none" stroke="url(#lbg)" stroke-linejoin="round" stroke-linecap="round" stroke-width="3.4"/><path d="M7,114 V118 Q28,114 50,121 Q72,114 93,118 V114" fill="none" stroke="url(#lbg)" stroke-linejoin="round" stroke-linecap="round" stroke-width="2.04"/><path d="M14,91.2 Q28,88.2 44,93.2 M56,93.2 Q72,88.2 86,91.2" fill="none" stroke="url(#lbg)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,96.4 Q28,93.4 44,98.4 M56,98.4 Q72,93.4 86,96.4" fill="none" stroke="url(#lbg)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,101.6 Q28,98.6 44,103.6 M56,103.6 Q72,98.6 86,101.6" fill="none" stroke="url(#lbg)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/><path d="M14,106.8 Q28,103.8 44,108.8 M56,108.8 Q72,103.8 86,106.8" fill="none" stroke="url(#lbg)" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" opacity=".75"/></svg></div>
+    <h1 class="authT">MemoMill</h1>
+    <p class="authS" id="authSub">Lépj be, hogy a jegyzeteid és a haladásod a fiókodban legyen, és minden eszközödön elérd.</p>
+    <div class="seg" id="authTabs"><button type="button" data-m="in" class="on">Belépés</button><button type="button" data-m="up">Regisztráció</button></div>
+    <form id="authForm" novalidate>
+      <label class="sf"><span>E-mail cím</span><input type="email" id="authEmail" autocomplete="email" inputmode="email" placeholder="nev@pelda.hu"></label>
+      <label class="sf" id="authPwRow"><span>Jelszó</span><input type="password" id="authPw" autocomplete="current-password" placeholder="legalább 6 karakter"></label>
+      <label class="sf" id="authPw2Row" hidden><span>Jelszó még egyszer</span><input type="password" id="authPw2" autocomplete="new-password"></label>
+      <div class="authErr" id="authErr" role="alert"></div>
+      <button class="primary xl" id="authGo" type="submit">Belépés</button>
+    </form>
+    <div class="authLinks"><button class="ghost" id="authForgot" type="button">Elfelejtett jelszó</button><button class="ghost" id="authSkip" type="button">Most kihagyom</button></div>
+  </div>
+</div>
+
 <div id="learn" hidden>
   <div id="learnTop">
     <button class="ghost" id="lClose" title="Bezárás">✕</button>
@@ -1023,7 +1058,8 @@ function syncKey() {
   if (!k) { k = uid() + uid(); localStorage.setItem(SYNC_KEY, k); }
   return k;
 }
-const base = () => 'memo/' + syncKey() + '/v2';
+let authUid = null, authUser = null, authMod = null, fAuth = null, dbMod = null, unsub = null;
+const base = () => 'users/' + authUid + '/memomill';
 function setSyncState(t) { const el = $('#syncState'); if (el) el.textContent = 'Szinkron: ' + t; }
 function persist() { saveSoon(); reindex(); if (!applyingRemote) schedulePush(); reportAndroid(); }
 /* Android-app híd: napi percek és kártyák az alkalmazászárhoz */
@@ -1041,10 +1077,10 @@ function reportAndroid() {
     } catch (e) {}
   }, 700);
 }
-function schedulePush() { if (!rtdb) return; clearTimeout(syncTimer); syncTimer = setTimeout(pushNow, 1200); }
+function schedulePush() { if (!rtdb || !authUid) return; clearTimeout(syncTimer); syncTimer = setTimeout(pushNow, 1200); }
 const clean = o => JSON.parse(JSON.stringify(o));
 function pushNow() {
-  if (!rtdb || !fb) return;
+  if (!rtdb || !fb || !authUid) return;
   const up = {...retryUp};
   dirty.items.forEach(id => { const it = byId(id); up['items/' + id] = it ? clean(it) : null; });
   dirty.srs.forEach(p => { const [n, c] = p.split('/'); const st = db.srs[n] && db.srs[n][c]; up['srs/' + p] = st ? clean(st) : null; });
@@ -1055,7 +1091,7 @@ function pushNow() {
   retryUp = {};
   if (!Object.keys(up).length) return;
   fb.update(fb.ref(rtdb, base()), up)
-    .then(() => setSyncState('kész'))
+    .then(() => setSyncState('rendben'))
     .catch(e => { retryUp = up; setSyncState('hiba (' + e.message + ')'); });
 }
 function mergeRemote(r, first) {
@@ -1116,37 +1152,142 @@ function legacyToV2(v) {
   });
   return out;
 }
+const OWNER_KEY = 'memo-owner', SKIP_KEY = 'memo-auth-skip';
+const AUTH_MSG = {
+  'auth/invalid-email': 'Ez nem érvényes e-mail cím.',
+  'auth/missing-email': 'Add meg az e-mail címed.',
+  'auth/missing-password': 'Add meg a jelszavad.',
+  'auth/invalid-credential': 'Hibás e-mail cím vagy jelszó.',
+  'auth/wrong-password': 'Hibás e-mail cím vagy jelszó.',
+  'auth/user-not-found': 'Ehhez az e-mail címhez nincs fiók.',
+  'auth/email-already-in-use': 'Ezzel az e-mail címmel már van fiók. Lépj be inkább.',
+  'auth/weak-password': 'A jelszó legalább 6 karakter legyen.',
+  'auth/too-many-requests': 'Túl sok próbálkozás. Várj pár percet, és próbáld újra.',
+  'auth/network-request-failed': 'Nincs internetkapcsolat.',
+  'auth/operation-not-allowed': 'A fiókos belépés még nincs bekapcsolva a Firebase-ben (Authentication → E-mail/jelszó).'
+};
+const authErr = e => AUTH_MSG[e && e.code] || ('Hiba: ' + ((e && e.message) || e));
 async function initSync() {
   if (!CONFIG_OK) { setSyncState('nincs beállítva'); return; }
   try {
     setSyncState('kapcsolódás…');
-    const [a, d] = await Promise.all([
+    const [a, d, au] = await Promise.all([
       import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js')
+      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js'),
+      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js')
     ]);
+    const app = a.initializeApp(FIREBASE_CONFIG);
+    dbMod = d; authMod = au;
     fb = {ref: d.ref, update: d.update};
-    rtdb = d.getDatabase(a.initializeApp(FIREBASE_CONFIG));
-    try {
-      const old = await d.get(d.ref(rtdb, 'memo/' + syncKey() + '/items'));
-      if (old.exists()) {
-        const tomb = (await d.get(d.ref(rtdb, 'memo/' + syncKey() + '/tomb'))).val();
-        applyingRemote = true; mergeRemote(legacyToV2({items: old.val(), tomb}), true); applyingRemote = false;
-        await d.update(d.ref(rtdb, 'memo/' + syncKey()), {items: null, tomb: null, updated: null});
-        saveLocal();
-      }
-    } catch (e) {}
-    d.onValue(d.ref(rtdb, base()), snap => {
-      applyingRemote = true;
-      const changed = mergeRemote(snap.val(), firstSnap);
-      applyingRemote = false;
-      if (changed) { saveLocal(); reportAndroid(); if (!ls) render(); }
-      setSyncState('kész');
-      firstSnap = false;
-      schedulePush();
-    }, err => setSyncState('hiba (' + err.message + ')'));
+    rtdb = d.getDatabase(app);
+    fAuth = au.getAuth(app);
+    fAuth.languageCode = 'hu';
+    au.onAuthStateChanged(fAuth, user => onAuth(user));
   } catch (e) {
     setSyncState('offline – csak helyben ment');
   }
+}
+async function onAuth(user) {
+  if (unsub) { try { unsub(); } catch (e) {} unsub = null; }
+  authUser = user || null; authUid = user ? user.uid : null;
+  if (!user) {
+    setSyncState('nincs belépve – csak helyben ment');
+    if (!localStorage.getItem(SKIP_KEY)) showAuth();
+    if (ui.view === 'settings') { ui.setDraft = null; render(); }
+    return;
+  }
+  hideAuth();
+  const owner = localStorage.getItem(OWNER_KEY);
+  if (owner && owner !== user.uid) {
+    /* másik fiók lépett be ezen az eszközön: a helyi adat az előző fióké volt */
+    localStorage.removeItem(KEY); localStorage.setItem(OWNER_KEY, user.uid); location.reload(); return;
+  }
+  localStorage.setItem(OWNER_KEY, user.uid);
+  localStorage.removeItem(SKIP_KEY);
+  firstSnap = true;
+  /* átköltöztetés: a régi szinkronkulcsos adat beolvasása egyszer */
+  const mig = 'memo-migrated-' + user.uid, d = dbMod;
+  if (!localStorage.getItem(mig) && localStorage.getItem(SYNC_KEY)) {
+    try {
+      const old = await d.get(d.ref(rtdb, 'memo/' + syncKey() + '/v2'));
+      if (old.exists()) { applyingRemote = true; mergeRemote(old.val(), true); applyingRemote = false; saveLocal(); }
+      const leg = await d.get(d.ref(rtdb, 'memo/' + syncKey() + '/items'));
+      if (leg.exists()) { const tomb = (await d.get(d.ref(rtdb, 'memo/' + syncKey() + '/tomb'))).val(); applyingRemote = true; mergeRemote(legacyToV2({items: leg.val(), tomb}), true); applyingRemote = false; saveLocal(); }
+    } catch (e) {}
+    localStorage.setItem(mig, '1');
+  }
+  unsub = d.onValue(d.ref(rtdb, base()), snap => {
+    applyingRemote = true;
+    const changed = mergeRemote(snap.val(), firstSnap);
+    applyingRemote = false;
+    if (changed) { saveLocal(); reportAndroid(); if (!ls) render(); }
+    setSyncState('rendben');
+    firstSnap = false;
+    schedulePush();
+  }, err => setSyncState('hiba (' + err.message + ')'));
+  if (ui.view === 'settings') { ui.setDraft = null; render(); }
+}
+/* --- belépőképernyő --- */
+let authMode = 'in';
+function setAuthMode(m) {
+  authMode = m;
+  $('#authTabs').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  $('#authPw2Row').hidden = m !== 'up';
+  $('#authPwRow').hidden = m === 'reset';
+  $('#authTabs').hidden = m === 'reset';
+  $('#authPw').autocomplete = m === 'up' ? 'new-password' : 'current-password';
+  $('#authGo').textContent = m === 'up' ? 'Fiók létrehozása' : m === 'reset' ? 'Visszaállító link küldése' : 'Belépés';
+  $('#authForgot').textContent = m === 'reset' ? 'Vissza a belépéshez' : 'Elfelejtett jelszó';
+  $('#authSub').textContent = m === 'reset' ? 'Add meg a fiókod e-mail címét. Küldünk egy linket, amivel új jelszót állíthatsz be.'
+    : m === 'up' ? 'Hozz létre egy fiókot. A mostani jegyzeteid és a haladásod átkerülnek bele.'
+    : 'Lépj be, hogy a jegyzeteid és a haladásod a fiókodban legyen, és minden eszközödön elérd.';
+  authMsg('');
+}
+function authMsg(t, ok) { const el = $('#authErr'); el.textContent = t; el.classList.toggle('ok', !!ok); }
+function showAuth(mode) { if (!fAuth) { toast('Nincs internetkapcsolat'); return; } setAuthMode(mode || 'in'); $('#auth').hidden = false; setTimeout(() => $('#authEmail').focus(), 50); }
+function hideAuth() { $('#auth').hidden = true; }
+$('#authTabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setAuthMode(b.dataset.m); });
+$('#authForgot').onclick = () => setAuthMode(authMode === 'reset' ? 'in' : 'reset');
+$('#authSkip').onclick = () => { localStorage.setItem(SKIP_KEY, '1'); hideAuth(); toast('Belépés nélkül csak ezen az eszközön ment. A Beállításokban bármikor beléphetsz.'); };
+$('#authForm').onsubmit = async e => {
+  e.preventDefault();
+  if (!fAuth) return authMsg('Nincs internetkapcsolat.');
+  const email = $('#authEmail').value.trim(), pw = $('#authPw').value;
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return authMsg('Ez nem érvényes e-mail cím.');
+  const go = $('#authGo'); go.disabled = true;
+  try {
+    if (authMode === 'reset') {
+      await authMod.sendPasswordResetEmail(fAuth, email);
+      setAuthMode('in'); $('#authEmail').value = email;
+      authMsg('Ha van ilyen fiók, elküldtük a visszaállító linket. Nézd meg a leveleidet (a spam mappát is).', true);
+    } else if (authMode === 'up') {
+      if (pw.length < 6) throw {code: 'auth/weak-password'};
+      if (pw !== $('#authPw2').value) { authMsg('A két jelszó nem egyezik.'); return; }
+      await authMod.createUserWithEmailAndPassword(fAuth, email, pw);
+      toast('Fiók létrehozva');
+    } else {
+      if (!pw) throw {code: 'auth/missing-password'};
+      await authMod.signInWithEmailAndPassword(fAuth, email, pw);
+      toast('Beléptél');
+    }
+    $('#authPw').value = $('#authPw2').value = '';
+  } catch (err) { authMsg(authErr(err)); }
+  finally { go.disabled = false; }
+};
+async function sendResetSelf() {
+  if (!authUser) return;
+  try { await authMod.sendPasswordResetEmail(fAuth, authUser.email); toast('Elküldtük a jelszómódosító linket: ' + authUser.email); }
+  catch (e) { toast(authErr(e)); }
+}
+async function logout() {
+  const ok = await dialog({title: 'Kijelentkezés', msg: 'Kijelentkezés után a jegyzeteid erről az eszközről törlődnek, de a fiókodban megmaradnak. Bármikor visszaléphetsz.', actions: [{label: 'Kijelentkezés', key: 'ok', danger: true}, {label: 'Mégse', key: null}]});
+  if (!ok) return;
+  clearTimeout(syncTimer); pushNow();
+  setTimeout(async () => {
+    try { await authMod.signOut(fAuth); } catch (e) {}
+    localStorage.removeItem(KEY); localStorage.removeItem(OWNER_KEY); localStorage.removeItem(SKIP_KEY);
+    location.reload();
+  }, 900);
 }
 
 /* ===== nézetek ===== */
@@ -2468,13 +2609,12 @@ const SETS = [
     {k: 'pomoBreak', type: 'num', l: 'Szünet', u: 'perc', min: 1, max: 60}]},
   {t: 'AI', i: 'i-notes', d: 'Az AI kártyákhoz és a segédhez.', f: [
     {k: 'apiKey', type: 'pw', l: 'Anthropic API-kulcs', h: 'Csak ezen az eszközön tárolódik, nem szinkronizálódik.', ph: 'sk-ant-…'}]},
-  {t: 'Szinkron', i: 'i-gear', d: 'Több eszköz összekötése.', f: [
-    {k: 'syncKey', type: 'text', l: 'Szinkronkulcs', h: 'A másik eszközön ugyanezt add meg. Változtatás után az app újratölt.'}]},
+  {t: 'Fiók', i: 'i-gear', d: 'A fiókodban tárolódnak a jegyzeteid és a haladásod, minden eszközödön ugyanaz.', acct: true},
   {t: 'Adatok', i: 'i-down', d: 'Biztonsági mentés és visszatöltés.', act: true}
 ];
 function setInit() {
   const s = db.settings;
-  ui.setDraft = {...s, retention: String(s.retention), typoHard: String(s.typoHard), apiKey: localStorage.getItem(API_KEY) || '', syncKey: syncKey()};
+  ui.setDraft = {...s, retention: String(s.retention), typoHard: String(s.typoHard), apiKey: localStorage.getItem(API_KEY) || ''};
   ui.setOrig = JSON.stringify(ui.setDraft);
 }
 function renderSettings() {
@@ -2489,8 +2629,14 @@ function renderSettings() {
     return `<label class="sf"><span>${f.l}</span><input type="${f.type === 'pw' ? 'password' : 'text'}" data-k="${f.k}" value="${esc(v || '')}" placeholder="${f.ph || ''}" autocomplete="off">${h}</label>`;
   };
   $('#setGrid').innerHTML = SETS.map(g => `<div class="card sgrp"><h2><span><svg class="ico"><use href="#${g.i}"/></svg></span>${g.t}</h2><p>${g.d}</p>`
-    + (g.act ? `<div class="btns" style="margin-top:6px"><button id="setExport">Mentés fájlba</button><button id="setImport">Visszatöltés fájlból</button>${AND ? '<button id="setLock">Alkalmazászár</button>' : ''}</div>` : g.f.map(fld).join('')) + '</div>').join('');
+    + (g.acct ? acctHtml() : g.act ? `<div class="btns" style="margin-top:6px"><button id="setExport">Mentés fájlba</button><button id="setImport">Visszatöltés fájlból</button>${AND ? '<button id="setLock">Alkalmazászár</button>' : ''}</div>` : g.f.map(fld).join('')) + '</div>').join('');
   setDirty();
+}
+function acctHtml() {
+  if (authUser) return `<div class="acct"><div class="av">${esc((authUser.email || '?')[0].toUpperCase())}</div><div><b>${esc(authUser.email || '')}</b><span class="muted small">Belépve · szinkron: ${esc((($('#syncState') || {}).textContent || '').replace('Szinkron: ', ''))}</span></div></div>
+    <div class="btns" style="margin-top:12px"><button id="acctReset">Jelszó módosítása</button><button class="danger" id="acctOut">Kijelentkezés</button></div>
+    <p class="muted small" style="margin:10px 0 0">A jelszó módosításához e-mailben küldünk egy linket.</p>`;
+  return `<p class="muted small" style="margin:6px 0 12px">Nem vagy belépve, ezért a jegyzeteid csak ezen az eszközön vannak meg.</p><div class="btns"><button class="primary" id="acctIn">Belépés</button><button id="acctUp">Regisztráció</button></div>`;
 }
 function setDirty() { $('#setBar').classList.toggle('show', !!ui.setDraft && JSON.stringify(ui.setDraft) !== ui.setOrig); }
 function setRange(k, x) { const f = SETS.flatMap(g => g.f || []).find(f => f.k === k); const n = parseInt(x, 10); return isNaN(n) ? DEF[k] : clamp(n, f.min, f.max); }
@@ -2510,6 +2656,10 @@ $('#setGrid').addEventListener('click', e => {
   if (sb) { const k = sb.dataset.step, inp = $(`#setGrid input[data-k="${k}"]`); inp.value = D[k] = setRange(k, (parseInt(inp.value, 10) || 0) + +sb.dataset.d); return setDirty(); }
   const sg = e.target.closest('.seg button');
   if (sg) { const box = sg.parentElement; box.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === sg)); D[box.dataset.seg] = sg.dataset.v; return setDirty(); }
+  if (e.target.id === 'acctIn') return showAuth('in');
+  if (e.target.id === 'acctUp') return showAuth('up');
+  if (e.target.id === 'acctReset') return sendResetSelf();
+  if (e.target.id === 'acctOut') return logout();
   if (e.target.id === 'setExport') return exportData();
   if (e.target.id === 'setImport') return $('#importFile').click();
   if (e.target.id === 'setLock') { try { AND.openLockSettings(); } catch (err) {} }
@@ -2523,8 +2673,6 @@ $('#setSave').onclick = () => {
     examNear: setRange('examNear', D.examNear), leech: setRange('leech', D.leech), pomoWork: setRange('pomoWork', D.pomoWork), pomoBreak: setRange('pomoBreak', D.pomoBreak)});
   localStorage.setItem(API_KEY, (D.apiKey || '').trim());
   saveLocal();
-  const nk = (D.syncKey || '').trim();
-  if (nk && nk !== syncKey()) { localStorage.setItem(SYNC_KEY, nk); return location.reload(); }
   ui.setDraft = null; toast('Mentve'); renderSettings(); renderPomo();
 };
 const openSettings = () => show('settings');
@@ -2587,7 +2735,6 @@ window.memoMillBack = () => {
 
 fixDb();
 purgeTrash();
-syncKey();
 initSync();
 if (location.hash === '#review') startReview(null); else render();
 reportAndroid();
