@@ -23,6 +23,9 @@ Egyfájlos tanuló- és jegyzetapp (Memo). GitHub Pages-en fut.
 - Elhanyagolt kártyák: naponta legfeljebb a beállított számú régen esedékes kártya jön vissza. Az új kártyák helye (elöl, keverve, hátul) és a dokumentumonkénti csoportosítás beállítható.
 - Kártyalista szűrőcsipekkel és több kártya egyszerre kezelésével; állapotsáv és 30 napos grafikonok az Ismétlés oldalon.
 - Milly, a malom kabalája, félúton és a kör végén biztat.
+- **Milly, a tanulótárs (Claude Haiku, a Beállításokban megadott API-kulccsal):** kizárólag a megnyitott dokumentumból vagy tanulóblokkból kérdez. Először megkérdezi a vizsga típusát (írásbeli/szóbeli, lesz-e esszé), és ahhoz igazítja a kérdéseket. Felmondás módban a saját szavaiddal leírt szöveget összeveti az anyaggal, jelzi a kihagyott részeket és kulcskifejezéseket; 85%-tól megtanultnak fogadja el.
+- Megtanult szöveg első ismétlése mindig másnap, utána indul a felejtési görbe szerinti ütemezés.
+- Vizsgaterv: napokra bontva mutatja, mikorra mit kell megtanulni és mikor esedékes az ismétlés.
 
 ## Tanulás és ismétlés
 - **Tanulás** (1. fázis): 3 szint, 7 fokozat lakatos útvonalon. Felfedés → Kezdőbetű (könnyű: minden 3. szó rejtett, közepes: minden 2., nehéz: mind) → Gépelés (könnyű, közepes, nehéz).

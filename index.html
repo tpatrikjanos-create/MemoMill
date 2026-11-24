@@ -119,7 +119,7 @@ input[type=checkbox]{accent-color:var(--a1);width:18px;height:18px}
 .dl .dn{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .dl .dv{font-size:12.5px;color:var(--muted);white-space:nowrap}
 .dl .dv.b{color:var(--acc)}
-.exam{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;padding:12px 0;border-bottom:1px solid var(--line)}
+.exam{display:grid;grid-template-columns:auto 1fr;align-items:start;gap:6px 22px;padding:12px 0;border-bottom:1px solid var(--line)}
 .exam:last-child{border-bottom:0}
 .exam .ed{font-size:30px;font-weight:700;line-height:1;letter-spacing:-1px}
 .exam .ed small{display:block;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:1px;margin-top:4px}
@@ -194,7 +194,51 @@ input[type=checkbox]{accent-color:var(--a1);width:18px;height:18px}
 .msg.user{margin-left:auto;background:var(--grad);color:#061022}
 .msg.assistant{background:var(--panel2)}
 .msg.error{color:var(--bad);font-size:13px}
-#chatForm{display:flex;gap:8px}
+#chatForm{display:flex;gap:8px;align-items:flex-end}
+#chatInput{flex:1;resize:none;min-height:44px;max-height:180px;font:inherit;line-height:1.5}
+#chatPanel{border:1px solid rgba(139,92,246,.35);background:linear-gradient(160deg,rgba(34,211,238,.06),rgba(139,92,246,.09))}
+.mHead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mTt{flex:1;min-width:140px}.mTt b{font-size:18px}
+.mBtns{display:flex;gap:6px;flex-wrap:wrap}
+.mAv{width:44px;height:44px;border-radius:14px;background:radial-gradient(circle at 30% 20%,rgba(34,211,238,.35),rgba(139,92,246,.3));display:inline-grid;place-items:center;flex:none;box-shadow:var(--glow)}
+.mAv svg{width:34px;height:40px}
+.mAv.sm{width:22px;height:22px;border-radius:7px;box-shadow:none;margin-right:6px;vertical-align:-5px}.mAv.sm svg{width:17px;height:20px}
+.millyBtn{background:linear-gradient(135deg,rgba(34,211,238,.18),rgba(139,92,246,.28));border:1px solid rgba(139,92,246,.5)}
+#mKeys{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0;align-items:center}
+#mKeys .kk{font-size:12px;padding:3px 9px;border-radius:999px;background:rgba(139,92,246,.18);border:1px solid rgba(139,92,246,.35)}
+.mChips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px}
+.mChips button{border-radius:999px;padding:7px 14px;font-size:14px}
+.msg.milly{border:1px solid rgba(139,92,246,.3)}
+.msg .sc{display:block;font-size:26px;font-weight:700;margin-bottom:2px}
+#mRec{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+#mRecTxt{width:100%;font:inherit;line-height:1.6;resize:vertical;min-height:160px}
+.mRecBtns{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#blkStrip{margin-top:14px}
+.bsHead{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 10px}
+.bsHead b{font-size:16px}
+.bsGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.bcard{position:relative;padding:14px 14px 12px 18px;border-radius:18px;background:linear-gradient(160deg,rgba(34,211,238,.09),rgba(139,92,246,.11));border:1px solid rgba(34,211,238,.22);cursor:pointer;display:flex;flex-direction:column;gap:9px;transition:transform .15s,border-color .15s,box-shadow .15s;overflow:hidden}
+.bcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad)}
+.bcard:hover{transform:translateY(-2px);border-color:rgba(34,211,238,.5);box-shadow:var(--glow)}
+.bcard.done{border-color:rgba(52,211,153,.35)}.bcard.done::before{background:var(--ok)}
+.bcard.due{border-color:rgba(251,191,36,.5)}.bcard.due::before{background:var(--warn)}
+.bTop{display:flex;gap:10px;align-items:center}
+.bNum{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--grad);color:#061022;font-weight:700;font-size:13px;flex:none}
+.bcard.done .bNum{background:var(--ok)}
+.bName{font-weight:600;font-size:15.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bPrev{font-size:13px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:3em}
+.bcard .pbar{max-width:none;margin:0}
+.bSt{font-size:12.5px;color:var(--muted)}
+.bBtns{display:flex;gap:6px}.bBtns button{padding:6px 12px;font-size:13px}
+#examPanel{border:1px solid rgba(251,191,36,.35);background:linear-gradient(150deg,rgba(251,191,36,.08),rgba(139,92,246,.1))}
+.exPlan{display:flex;flex-direction:column;gap:6px;margin-top:10px;grid-column:1/-1}
+.exDay{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:start;padding:6px 0;border-top:1px dashed var(--line)}
+.exDay.today .exD{color:var(--warn);font-weight:700}
+.exD{font-size:13px;color:var(--muted);padding-top:5px;text-transform:capitalize}
+.exIt{display:flex;flex-wrap:wrap;gap:6px}
+.exU{padding:5px 11px;font-size:13px;border-radius:999px}
+.exU.rev{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.1)}
+.exU.late{border-color:rgba(251,113,133,.6);background:rgba(251,113,133,.12)}
 #chatInput{flex:1;min-width:0}
 
 /* ismétlés */
@@ -294,6 +338,8 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 #lFoot{border-top:1px solid var(--line);padding:12px 14px calc(12px + env(safe-area-inset-bottom))}
 #lFootIn{max-width:860px;margin:0 auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
 #lIn{flex:1;min-width:180px;font-size:18px;padding:12px 14px}
+#lIn.hideIn{position:absolute;left:0;bottom:0;width:1px;min-width:0;height:1px;padding:0;border:0;opacity:0;caret-color:transparent}
+#lFootIn{position:relative}
 #lHint{width:100%;text-align:center;font-size:12.5px;color:var(--muted)}
 #lFlash{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(7,10,24,.86);opacity:0;pointer-events:none;transition:opacity .25s;z-index:5}
 #lFlash.show{opacity:1;pointer-events:auto}
@@ -616,11 +662,11 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
             <div id="contBox"></div>
             <div id="learnList" style="margin-top:12px"></div>
           </div>
+          <div class="card s4" id="examPanel"><div class="row-between"><div class="lb" style="margin:0">Vizsgaterv</div><span class="muted small">mikorra mit kell megtanulni</span></div><div id="examBox"></div></div>
           <div class="card tile"><div class="lb">Sorozat</div><b><svg><use href="#i-flame"/></svg><span id="streakN">0</span></b></div>
           <div class="card tile"><div class="lb">Ma tanultál</div><b><svg><use href="#i-clock"/></svg><span id="todayMin">0′</span></b></div>
           <div class="card tile"><div class="lb">Vizsgaterv</div><b id="planKpiB"><svg><use href="#i-cal"/></svg><span id="planKpi">–</span></b></div>
           <div class="card tile"><div class="lb">Pontosság ma</div><b><svg><use href="#i-target"/></svg><span id="accKpi">–</span></b></div>
-          <div class="card s4" id="examPanel"><div class="lb">Vizsgaterv</div><div id="examBox"></div></div>
           <div class="card">
             <div class="lb">Mai cél</div>
             <div class="ringBox">
@@ -692,14 +738,16 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <span class="split"><button class="primary" id="dbPractice">Gyakorlás</button><button class="primary" id="dbMore" title="Gyakorlás módja">▾</button>
             <span id="dbMenu" hidden><button data-pm="sched">Ütemezés szerint<small>az esedékes és az új kártyák</small></button><button data-pm="all">Összes kártya sorrendben<small>beleszámít az ütemezésbe</small></button><button data-pm="cram">Gyors átismétlés<small>nem számít bele az ütemezésbe, vizsga előttre</small></button></span></span>
           <button id="dbLearn">Tanulás folytatása</button>
+          <button class="millyBtn" id="dbMilly"><span class="mAv sm"></span>Milly</button>
         </div>
+        <div id="blkStrip" hidden></div>
         <div id="noteModeRow"><div class="seg" id="modeSeg"><button type="button" data-mode="jegyzet">Jegyzet</button><button type="button" data-mode="tanulas">Tanulás</button><button type="button" data-mode="kartya">Kártya</button></div><button class="ghost" id="nBlocks" hidden></button><span class="muted small" id="modeHint"></span></div>
         <div id="noteActions">
           <button class="primary" id="nLearn">Tanulás</button>
           <button id="nReview">Ismétlés ebből</button>
           <button id="nErr">Hibatérkép</button>
           <button id="nAiCards">✨ AI kártyák</button>
-          <button id="nChat">AI segéd</button>
+          <button id="nChat">Milly</button>
           <button id="nExam">Vizsga</button>
           <select id="nPrio" title="Prioritás"><option value="aktiv">● Most tanulom</option><option value="nincs">○ Nincs prioritás</option><option value="szunet">❚❚ Szünetel</option></select>
         </div>
@@ -714,9 +762,12 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <div id="errText"></div>
         </div>
         <div class="box" id="chatPanel" hidden>
-          <div class="row-between"><b>AI segéd – csak ebből a dokumentumból</b><span><button class="ghost small" id="chatQuiz">Kérdezz ki</button><button class="ghost small" id="chatClear">Törlés</button></span></div>
+          <div class="mHead"><span class="mAv"></span><div class="mTt"><b>Milly</b><div class="muted small" id="mScope"></div></div>
+            <span class="mBtns"><button class="primary small" id="chatQuiz">Kikérdezés</button><button class="small" id="mRecite">Felmondás</button><button class="ghost small" id="mType" title="Vizsga típusa, szó szerinti felmondás">Beállítás</button><button class="ghost small" id="chatClear">Törlés</button></span></div>
+          <div id="mKeys"></div>
           <div id="chatLog"></div>
-          <form id="chatForm"><input id="chatInput" type="text" placeholder="Kérdezz a dokumentumról…" autocomplete="off"><button class="primary" type="submit">Küldés</button></form>
+          <div id="mRec" hidden><div class="muted small" id="mRecHint"></div><textarea id="mRecTxt" rows="9" placeholder="Írd le a saját szavaiddal…"></textarea><div class="mRecBtns"><button type="button" class="mic" id="mRecMic" title="Diktálás">🎤</button><button class="primary" id="mRecGo">Ellenőrzés</button><button class="ghost" id="mRecX">Vissza a beszélgetéshez</button></div></div>
+          <form id="chatForm"><textarea id="chatInput" rows="1" placeholder="Válaszolj Millynek…" autocomplete="off"></textarea><button type="button" class="mic" id="chatMic" title="Diktálás">🎤</button><button class="primary" type="submit">Küldés</button></form>
         </div>
         <div class="edWrap"><div id="edBack" aria-hidden="true"></div><textarea id="noteText" placeholder="Írj ide. A / jellel parancsmenüt nyithatsz."></textarea></div>
         <div id="edTools"><button data-et="slash" title="Parancsmenü">/</button><button data-et="card">Kártya ▾</button><button data-et="h">Címsor</button><button data-et="blk">Tanulóblokk</button><button data-et="mark">Kiemelés</button><button data-et="undo" title="Visszavonás">↶</button><button data-et="redo" title="Újra">↷</button></div>
@@ -955,6 +1006,9 @@ function fixDb() {
     const S = db.srs[n.id];
     if (!S) return;
     makeCards(n).forEach(c => { if (S[c.id] && !S[c.id].k) S[c.id].k = cardKey(c); });
+    /* a frissen megtanult szöveg első ismétlése másnapra */
+    const d = n.ladder.done && S.doc;
+    if (d && d.reps === 1 && d.last) { const t = new Date(d.last); t.setHours(0, 0, 0, 0); const due = t.getTime() + 86400000 + 4 * 3600000; if (d.due > due) d.due = due; }
   });
 }
 
@@ -1160,6 +1214,8 @@ function setFlag(nid, cid, key, val) {
   markSrs(nid, 'flags');
 }
 const dayStart = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+/* megtanult szöveg: az első ismétlés mindig másnap, utána indul az SRS */
+function firstDoc(S, n, now) { const st = review(S.doc, 3, now, db.settings.retention, capFor(n, now)); st.k = 'doc'; st.due = dayStart(now) + DAY + 4 * 3600000; S.doc = st; return st; }
 function staleToday(now) { let k = 0; Object.values(db.stats[dayKey(now)] || {}).forEach(v => k += v.stale || 0); return k; }
 function groupByDoc(list) {
   const order = [], m = new Map();
@@ -1656,23 +1712,30 @@ function examPlan(date, ns, now) {
   const daysLeft = Math.max(0, Math.ceil((ts - now) / DAY));
   const buffer = Math.min(2, Math.floor(daysLeft / 4));
   let total = 0, doneU = 0, remSteps = 0, newCards = 0, sum = 0, cnt = 0;
+  const units = ns.flatMap(n => [...(learnable(n) ? [n] : []), ...blocksOf(n)]).filter(u => u.text.trim());
   ns.forEach(n => {
-    const stp = n.ladder.done ? 7 : n.ladder.step - 1;
-    total += 7; doneU += stp; remSteps += 7 - stp;
     const S = db.srs[n.id] || {};
     makeCards(n).forEach(c => {
       total++; cnt++;
       const s = S[c.id];
       if (s) { doneU++; sum += retr(Math.max(0, now - s.last) / DAY, s.s); } else newCards++;
     });
-    cnt++;
+  });
+  units.forEach(n => {
+    const stp = n.ladder.done ? 7 : n.ladder.step - 1, S = db.srs[n.id] || {};
+    total += 7; doneU += stp; remSteps += 7 - stp; cnt++;
     sum += n.ladder.done && S.doc ? retr(Math.max(0, now - S.doc.last) / DAY, S.doc.s) : stp / 7 * 0.5;
   });
   const span = Math.max(DAY, ts - buffer * DAY - set);
   const expected = clamp((now - set) / span, 0, 1);
   const actual = total ? doneU / total : 1;
   const workDays = Math.max(1, daysLeft - buffer);
-  return {date, ts, ns, daysLeft, buffer, expected, actual,
+  /* mikorra mit: a hátralévő anyagok egyenletesen elosztva a tartaléknapok előttig, plusz az esedékes ismétlések */
+  const rem = units.filter(u => !u.ladder.done).sort((a, b) => b.ladder.step - a.ladder.step);
+  const wd = Math.max(1, daysLeft - buffer), per = Math.max(1, Math.ceil(rem.length / wd)), t0 = dayStart(now);
+  const sched = rem.map((u, i) => ({u, day: t0 + Math.floor(i / per) * DAY, kind: 'learn'}));
+  units.filter(u => u.ladder.done).forEach(u => { const S = (db.srs[u.id] || {}).doc; if (S && S.due < ts) sched.push({u, day: Math.max(t0, dayStart(S.due)), kind: 'rev', late: S.due < t0}); });
+  return {date, ts, ns, daysLeft, buffer, expected, actual, units, sched, per, learned: units.length - rem.length,
     ahead: Math.round((actual - expected) * span / DAY),
     todaySteps: Math.ceil(remSteps / workDays), todayNew: Math.ceil(newCards / workDays),
     know: cnt ? Math.round(100 * sum / cnt) : 0};
@@ -1681,7 +1744,16 @@ const examHtml = p => `<div class="exam"><div class="ed">${p.daysLeft}<small>NAP
   + `<div class="et">${esc(p.ns.length === 1 ? p.ns[0].name : p.ns.length + ' dokumentum')} · ${p.date.split('-').join('. ')}.</div>`
   + `<div class="track"><i style="width:${Math.round(p.actual * 100)}%"></i><b style="left:${Math.round(p.expected * 100)}%"></b></div>`
   + `<div class="em">${p.ahead > 0 ? p.ahead + ' nappal a terv előtt' : p.ahead < 0 ? -p.ahead + ' nappal lemaradva' : 'Terv szerint'} · készültség ${Math.round(p.actual * 100)}% · becsült tudás most ${p.know}%`
-  + `<br>Mai adag: ${p.todaySteps} fokozat, ${p.todayNew} új kártya · ${p.buffer} tartaléknap a végén</div></div></div>`;
+  + `<br>${p.units.length ? `${p.learned}/${p.units.length} anyag megtanulva · naponta ~${p.per} új anyag` : `Mai adag: ${p.todaySteps} fokozat`}, ${p.todayNew} új kártya · ${p.buffer} tartaléknap a végén</div></div>${examDays(p)}</div>`;
+function examDays(p) {
+  if (!p.sched.length) return p.units.length ? '<div class="exPlan"><div class="muted small">Minden megtanulva, a vizsgáig nincs esedékes ismétlés.</div></div>' : '';
+  const t0 = dayStart(Date.now()), g = new Map();
+  p.sched.sort((a, b) => a.day - b.day || (a.kind === 'rev' ? -1 : 1)).forEach(x => { if (!g.has(x.day)) g.set(x.day, []); g.get(x.day).push(x); });
+  const lbl = d => d === t0 ? 'Ma' : d === t0 + DAY ? 'Holnap' : new Date(d).toLocaleDateString('hu-HU', {weekday: 'short', month: 'short', day: 'numeric'});
+  const rows = [...g].slice(0, 7).map(([d, xs]) => `<div class="exDay${d === t0 ? ' today' : ''}"><div class="exD">${lbl(d)}</div><div class="exIt">${xs.map(x =>
+    `<button class="exU ${x.kind}${x.late ? ' late' : ''}" data-path="${x.u.id}">${x.kind === 'rev' ? '↻ ' : ''}${esc(dispName(x.u))}${x.kind === 'learn' && x.u.ladder.step > 1 ? ` · ${x.u.ladder.step}/7` : ''}</button>`).join('')}</div></div>`).join('');
+  return `<div class="exPlan">${rows}${g.size > 7 ? `<div class="muted small">+ még ${g.size - 7} nap a vizsgáig</div>` : ''}</div>`;
+}
 
 /* --- kezdőoldal --- */
 function renderHome() {
@@ -1739,7 +1811,7 @@ function openItem(id) {
   const it = byId(id);
   if (!it) return;
   if (it.type === 'folder') { ui.q = ''; $('#fSearch').value = ''; return goFolder(id); }
-  ui.noteId = id; chatOpen = false; ui.errOpen = false; show('note');
+  ui.noteId = id; chatOpen = false; ui.errOpen = false; mPend = null; $('#mRec').hidden = true; $('#chatForm').hidden = false; show('note');
 }
 function renderTree() {
   const rows = [];
@@ -2184,7 +2256,7 @@ const HINTS = ['',
   'Írd be minden szó kezdőbetűjét. A kezdőbetű szürke, a szó többi része látszik.',
   'Írd be minden szó kezdőbetűjét, a számokét és a rövid szavakét is. Minden második szó rejtett.',
   'Írd be minden szó kezdőbetűjét fejből, a számokat is. Az írásjelek nem számítanak.',
-  'Gépeld be a szavakat. A szöveg halványan látszik. A szó után szóköz vagy Enter.',
+  'Gépeld be a szavakat. Minden második szó, a rövid szavak és a számok halványan látszanak. A szó után szóköz vagy Enter.',
   'Gépeld be a szavakat. Csak a kezdőbetűk látszanak.',
   'Gépeld be a szöveget fejből, segítség nélkül.'];
 /* elírás-tűrés: optimal string alignment távolság (egy csere, kihagyás, betoldás vagy két szomszédos betű felcserélése = 1) */
@@ -2226,7 +2298,7 @@ function startLearn(noteId, step, mode = 'learn') {
   toks.forEach(t => {
     t.auto = !t.k || (letters && step === 2 && /\d/.test(t.k));
     t.short = t.k.length <= 2;
-    if (!t.auto) { t.hide = step === 4 || (step === 3 && (c % 2 === 1 || weak.has(t.k))); c++; }
+    if (!t.auto) { t.hide = step === 4 || (step === 3 && (c % 2 === 1 || weak.has(t.k))); t.show = c % 2 === 0 || t.short || /\d/.test(t.k); c++; }
   });
   const max = mode === 'rev' ? (docPhase(n) === 3 ? 1 : 2) : 3;
   let hearts = max;
@@ -2256,7 +2328,7 @@ function tokHtml(j) {
     if (s === 2 && t.short) return esc(t.w);
     return f ? `${esc(f[0])}<span class="f1">${esc(f[1])}</span>${esc(f[2])}` : esc(t.w);
   }
-  if (s === 5) return esc(t.w);
+  if (s === 5) return t.show ? esc(t.w) : `<span class="hid">${esc(t.w)}</span>`;
   return f ? `${esc(f[0])}<span class="f1">${esc(f[1])}</span><span class="hid">${esc(f[2])}</span>` : `<span class="hid">${esc(t.w)}</span>`;
 }
 function tokClass(j) {
@@ -2300,7 +2372,8 @@ function buildFoot() {
   }
   const full = ls.step >= 5 || ls.mode === 'rev';
   const hint = ls.mode === 'rev' ? 'Gépeld be a szöveget fejből. Bekezdésenként az első hiba figyelmeztet, a második egy életbe kerül.' : HINTS[ls.step];
-  f.innerHTML = `<div id="lHint">${hint}</div><input id="lIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="${full ? 'Írd a szót…' : 'Írd a kezdőbetűt…'}">${full && canDictate() ? '<button class="mic" id="lMic" title="Diktálás: mondd ki a szöveget">🎤</button>' : ''}`;
+  f.innerHTML = `<div id="lHint">${hint}</div><input id="lIn"${full ? '' : ' class="hideIn" aria-label="Kezdőbetűk"'} type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="${full ? 'Írd a szót…' : ''}">${full ? '' : '<button class="ghost" id="lKbd">⌨ Billentyűzet</button>'}${full && canDictate() ? '<button class="mic" id="lMic" title="Diktálás: mondd ki a szöveget">🎤</button>' : ''}`;
+  const kb = $('#lKbd'); if (kb) kb.onclick = () => { const i = $('#lIn'); i && i.focus(); };
   const mic = $('#lMic');
   if (mic) mic.onclick = () => dictate(mic, t => { t.split(/\s+/).forEach(w => { if (w && ls && !ls.ended && !ls.busy) submitWord(w); }); const i = $('#lIn'); i && i.focus(); });
   const inp = $('#lIn');
@@ -2459,9 +2532,9 @@ function finishRun(pass) {
       L.lives = 3;
       if (step === 7) {
         const S = srsOf(n.id);
-        const st = review(S.doc, 3, now, db.settings.retention, capFor(n, now)); st.k = 'doc'; S.doc = st; markSrs(n.id, 'doc');
+        const st = firstDoc(S, n, now); markSrs(n.id, 'doc');
         L.done = true; ui.anim = {id: n.id, type: 'unlock', step: 8};
-        icon = svgI('i-trophy'); title = 'Megtanultad!'; sub = `A dokumentum bekerült az ismétlésbe. Első ismétlés: ${fmtDue(st.due)}.`; confetti(80);
+        icon = svgI('i-trophy'); title = 'Megtanultad!'; sub = `Holnap kötelező ismétlés, utána jön a felejtési görbe szerinti ütemezés. Első ismétlés: ${fmtDue(st.due)}.`; confetti(80);
         btns = `<button class="primary xl" id="lExit">Tovább</button>`;
       } else {
         L.step = step + 1; ui.anim = {id: n.id, type: 'unlock', step: step + 1};
@@ -2521,11 +2594,16 @@ function saveChat(id, msgs) { try { localStorage.setItem(chatKey(id), JSON.strin
 function renderChat() {
   const n = byId(ui.noteId);
   if (!n) return;
-  const msgs = loadChat(n.id);
+  const msgs = loadChat(n.id), st = studyOf(n), where = n.blk ? 'tanulóblokkból' : 'dokumentumból';
+  $('#mScope').textContent = `Csak ebből a ${where} kérdez` + (st.kind ? ` · ${st.kind === 'szobeli' ? 'szóbeli' : 'írásbeli' + (st.essay ? ' esszével' : st.essay === false ? ' teszt' : '')}` : '') + (n.mBest ? ` · legjobb felmondás ${n.mBest}%` : '');
+  const last = msgs[msgs.length - 1];
   $('#chatLog').innerHTML = msgs.length
-    ? msgs.map(m => `<div class="msg ${m.role}">${esc(m.content)}</div>`).join('')
-    : '<p class="muted small" style="margin:0">Kérdezz a dokumentumról, vagy nyomd meg a „Kérdezz ki” gombot. A válasz csak a szöveg alapján készül.</p>';
+    ? msgs.map(m => `<div class="msg ${m.role === 'milly' ? 'assistant milly' : m.role}">${m.score != null ? `<span class="sc">${m.score}%</span>` : ''}${esc(m.content)}</div>`).join('')
+      + (last && last.chips ? `<div class="mChips">${last.chips.map(c => `<button data-chip="${esc(c[1])}">${esc(c[0])}</button>`).join('')}</div>` : '')
+    : `<div class="msg assistant milly">Szia, Milly vagyok! Azt nézem meg, hogy érted-e az anyagot, nem csak bemagoltad. Kikérdezhetlek, vagy felmondhatod nekem a saját szavaiddal. Csak ebből a ${where} kérdezek.</div><div class="mChips"><button data-chip="go:quiz">Kérdezz ki</button><button data-chip="go:recite">Felmondom</button></div>`;
   $('#chatLog').scrollTop = $('#chatLog').scrollHeight;
+  const ks = mKeysOf(n);
+  $('#mKeys').innerHTML = ks.length ? '<span class="muted small">Kulcskifejezések:</span>' + ks.map(k => `<span class="kk">${esc(k)}</span>`).join('') : '';
 }
 async function claude({system, messages, maxTokens = 1024, onText}) {
   const key = localStorage.getItem(API_KEY);
@@ -2560,12 +2638,12 @@ async function claude({system, messages, maxTokens = 1024, onText}) {
   }
   return acc;
 }
-const sysDoc = n => 'Magyarul válaszolj, kizárólag az alábbi dokumentum tartalma alapján. Ha a válasz nincs benne a dokumentumban, mondd ki egyértelműen, és ne egészítsd ki külső tudással. Ha a felhasználó azt kéri, hogy kérdezd ki: egyszerre egy kérdést tegyél fel a dokumentumból, várd meg a választ, értékeld röviden a dokumentum alapján (mi volt jó, mi hiányzott), majd tedd fel a következőt.\n\n<dokumentum>\n' + n.text + '\n</dokumentum>';
 async function sendChat(text) {
   const n = byId(ui.noteId);
   if (!n || chatBusy) return;
-  if (!localStorage.getItem(API_KEY)) return toast('Adj meg API-kulcsot a Beállításokban');
+  if (!localStorage.getItem(API_KEY)) return toast('Milly-hez adj meg API-kulcsot a Beállításokban');
   const msgs = loadChat(n.id);
+  msgs.forEach(m => delete m.chips);
   msgs.push({role: 'user', content: text});
   chatBusy = true;
   saveChat(n.id, msgs); renderChat();
@@ -2573,7 +2651,7 @@ async function sendChat(text) {
   $('#chatLog').insertAdjacentHTML('beforeend', '<div class="msg assistant" id="liveMsg">…</div>');
   $('#chatLog').scrollTop = $('#chatLog').scrollHeight;
   try {
-    ans.content = await claude({system: sysDoc(n), messages: msgs.filter(m => m.role !== 'error').map(m => ({role: m.role, content: m.content})),
+    ans.content = await claude({system: millySys(n), messages: apiMsgs(msgs),
       onText: t => { const e = $('#liveMsg'); if (e) { e.textContent = t; $('#chatLog').scrollTop = $('#chatLog').scrollHeight; } }}) || '(üres válasz)';
     msgs.push(ans);
   } catch (e) {
@@ -2583,6 +2661,163 @@ async function sendChat(text) {
   saveChat(n.id, msgs);
   if (ui.noteId === n.id) renderChat();
 }
+/* ===== Milly, a tanulótárs: kikérdezés és felmondás, kizárólag a megnyitott anyagból ===== */
+const topDoc = n => n && n.blk ? byId(n.blk) || n : n;
+const studyOf = n => (topDoc(n) || {}).study || {};
+function setStudy(n, patch) {
+  const t = topDoc(n); if (!t) return;
+  const sd = {...(t.study || {}), ...patch};
+  Object.keys(sd).forEach(k => sd[k] == null && delete sd[k]);
+  t.study = sd; t.mod = Date.now(); markItem(t.id); persist();
+}
+const srcText = n => stripBlk(n.text).replace(/^!!\s*/gm, '').trim();
+const apiMsgs = msgs => {
+  const out = [];
+  msgs.forEach(m => {
+    if (m.local || (m.role !== 'user' && m.role !== 'assistant')) return;
+    const l = out[out.length - 1];
+    if (l && l.role === m.role) l.content += '\n\n' + m.content; else out.push({role: m.role, content: m.content});
+  });
+  while (out.length && out[0].role !== 'user') out.shift();
+  return out;
+};
+const hashStr = t => { let h = 0; for (let i = 0; i < t.length; i++) h = (h * 31 + t.charCodeAt(i)) | 0; return h.toString(36); };
+const MK = id => 'memo-mk-' + id;
+function mKeysOf(n) { try { const c = JSON.parse(localStorage.getItem(MK(n.id))); return c && c.h === hashStr(srcText(n)) ? c.keys : []; } catch (e) { return []; } }
+async function ensureKeys(n) {
+  if (mKeysOf(n).length || !localStorage.getItem(API_KEY) || ensureKeys.busy) return;
+  const src = srcText(n); if (src.split(/\s+/).length < 8) return;
+  ensureKeys.busy = true;
+  try {
+    const out = await claude({system: 'Csak érvényes JSON-t adj vissza, semmi mást.', maxTokens: 400,
+      messages: [{role: 'user', content: `Válaszd ki az alábbi tananyag 4–12 legfontosabb kulcskifejezését (fogalmak, nevek, számok, szakkifejezések), pontosan úgy, ahogy a szövegben szerepelnek. Formátum: {"keys":["…"]}\n\n<anyag>\n${src}\n</anyag>`}]});
+    const j = JSON.parse(out.slice(out.indexOf('{'), out.lastIndexOf('}') + 1));
+    if (Array.isArray(j.keys)) localStorage.setItem(MK(n.id), JSON.stringify({h: hashStr(src), keys: j.keys.map(String).slice(0, 14)}));
+    if (ui.noteId === n.id && chatOpen) renderChat();
+  } catch (e) {}
+  ensureKeys.busy = false;
+}
+function millySys(n) {
+  const st = studyOf(n), ks = mKeysOf(n);
+  const kind = st.kind === 'szobeli'
+    ? 'A vizsga SZÓBELI. Nyitott kérdéseket tegyél fel, amelyekre magyarázva, összefüggő mondatokban kell felelni, mint egy szóbelin. Értékeld a tartalmat, a pontosságot és azt, hogy érthetően, a saját szavaival fogalmaz-e. Kérdezz vissza, mint egy vizsgáztató.'
+    : st.essay
+      ? 'A vizsga ÍRÁSBELI, és lesz esszé vagy fogalmazás is. Tesztszerű kérdések (feleletválasztós A–D, igaz/hamis indoklással, rövid válasz, kiegészítés) mellett nagyjából minden harmadik feladat legyen rövid fogalmazás: pár mondatos kifejtés, amit tartalom, kulcskifejezések és logikus felépítés szerint értékelsz.'
+      : 'A vizsga ÍRÁSBELI TESZT. Tesztszerűen kérdezz: feleletválasztós (A–D, egy helyes, hihető rossz válaszokkal), igaz/hamis indoklással, rövid válaszos, kiegészítős kérdések.';
+  return `Te Milly vagy, a MemoMill tanulótársa: barátságos, tömör, magyarul tegezve beszélsz. A feladatod annak ellenőrzése, hogy a tanuló ÉRTI-E az anyagot, nem csak bemagolta.
+Szabályok:
+- Kizárólag az alábbi <anyag> tartalmából kérdezz és értékelj. Semmilyen külső tudást ne használj, ne kérdezz olyat, ami nincs benne. Ha a tanuló olyat kérdez, ami nincs az anyagban, mondd ki egyértelműen.
+- Egyszerre egy kérdést tegyél fel, és várd meg a választ.
+- A válasz után röviden értékelj: mi volt jó, mi hiányzott vagy pontatlan (az anyag vonatkozó részére röviden utalva), aztán jöhet a következő kérdés.
+- Váltogasd a kérdéseket: miért, összefüggés, saját szavas megfogalmazás, alkalmazás egy példára. Ne csak szó szerinti visszamondást kérj. Ha a válasz bemagoltnak tűnik, kérdezz rá másképp, hogy kiderüljön, érti-e.
+- ${kind}
+${ks.length ? '- Az anyag kulcskifejezései: ' + ks.join('; ') + '. Figyeld, hogy a tanuló használja-e őket.\n' : ''}
+<anyag>
+${srcText(n)}
+</anyag>`;
+}
+let mPend = null;
+function mSay(n, content, chips, extra) { const msgs = loadChat(n.id); msgs.forEach(m => delete m.chips); msgs.push({role: 'milly', content, chips, ...(extra || {})}); saveChat(n.id, msgs); if (ui.noteId === n.id) renderChat(); }
+function openMilly() {
+  const n = byId(ui.noteId); if (!n) return;
+  chatOpen = true; $('#chatPanel').hidden = false; renderChat();
+  $('#chatMic').hidden = !canDictate(); $('#mRecMic').hidden = !canDictate();
+  setTimeout(() => $('#chatPanel').scrollIntoView({behavior: 'smooth', block: 'start'}), 30);
+  ensureKeys(n);
+}
+function millyNeed(n, act) {
+  const st = studyOf(n);
+  if (!st.kind) { mPend = act; mSay(n, 'Mielőtt belekezdünk: milyen vizsgád lesz ebből?', [['Írásbeli', 'kind:irasbeli'], ['Szóbeli', 'kind:szobeli']]); return true; }
+  if (st.kind === 'irasbeli' && st.essay == null) { mPend = act; mSay(n, 'Lesz az írásbelin esszé vagy fogalmazás, ahol hosszabban kell kifejteni?', [['Igen, lesz', 'essay:1'], ['Nem, csak teszt', 'essay:0']]); return true; }
+  if ((act === 'recite' || act === 'setup') && !st.verbatim) { mPend = act; mSay(n, 'Felmondásnál mennyire fontos, hogy szó szerint tudd?', [['Szó szerint kell', 'verbatim:szo'], ['A kulcskifejezések kellenek, a többi mehet saját szavakkal', 'verbatim:kulcs'], ['Csak a lényeg számít', 'verbatim:lenyeg']]); return true; }
+  return false;
+}
+function millyGo(act) {
+  const n = byId(ui.noteId); if (!n) return;
+  if (!srcText(n)) return toast('Az anyag üres');
+  if (!chatOpen) openMilly();
+  if (millyNeed(n, act)) return;
+  mPend = null;
+  if (act === 'quiz') { if (!localStorage.getItem(API_KEY)) return toast('Milly-hez adj meg API-kulcsot a Beállításokban'); sendChat('Kezdjük a kikérdezést! Tedd fel az első kérdést.'); }
+  else if (act === 'recite') openRecite(true);
+  else mSay(n, 'Rendben, megjegyeztem. Mehet a kikérdezés vagy a felmondás?', [['Kérdezz ki', 'go:quiz'], ['Felmondom', 'go:recite']]);
+}
+function millyChip(v, label) {
+  const n = byId(ui.noteId); if (!n) return;
+  if (v.startsWith('go:')) return millyGo(v.slice(3));
+  const [k, x] = v.split(':');
+  const msgs = loadChat(n.id); msgs.forEach(m => delete m.chips); msgs.push({role: 'user', content: label, local: 1}); saveChat(n.id, msgs);
+  setStudy(n, {[k]: k === 'essay' ? x === '1' : x});
+  millyGo(mPend || 'setup');
+}
+const VERB = {szo: 'Szó szerinti felmondás kell: a pontszámba számít bele a szöveghű megfogalmazás is.', kulcs: 'A kulcskifejezéseknek szerepelniük kell, a többi lehet saját megfogalmazás.', lenyeg: 'Csak a lényeg és a megértés számít, a megfogalmazás szabad.'};
+function openRecite(on) {
+  const n = byId(ui.noteId); if (!n) return;
+  $('#mRec').hidden = !on; $('#chatForm').hidden = !!on;
+  if (on) { $('#mRecHint').textContent = `Írd le (vagy diktáld) az egész ${n.blk ? 'tanulóblokkot' : 'tételt'} a saját szavaiddal. ${VERB[studyOf(n).verbatim] || ''} 85%-tól elfogadom megtanultnak.`; setTimeout(() => $('#mRecTxt').focus(), 60); }
+}
+function acceptLearned(n) {
+  const now = Date.now();
+  if (!learnable(n) && !blocksOf(n).length) setMode(n, 'tanulas', true);
+  (learnable(n) ? [n] : blocksOf(n)).forEach(t => {
+    if (t.ladder.done) return;
+    const S = srsOf(t.id); firstDoc(S, t, now); markSrs(t.id, 'doc');
+    t.ladder.done = true; t.ladder.step = 7; t.mod = now; markItem(t.id);
+  });
+  persist();
+}
+async function evalRecite() {
+  const n = byId(ui.noteId), txt = $('#mRecTxt').value.trim();
+  if (!n || chatBusy) return;
+  if (txt.split(/\s+/).length < 5) return toast('Írj hosszabban, a teljes anyagot mondd fel');
+  if (!localStorage.getItem(API_KEY)) return toast('Milly-hez adj meg API-kulcsot a Beállításokban');
+  const st = studyOf(n), ks = mKeysOf(n);
+  const msgs = loadChat(n.id); msgs.forEach(m => delete m.chips); msgs.push({role: 'user', content: txt, local: 1}); saveChat(n.id, msgs);
+  chatBusy = true; renderChat();
+  $('#chatLog').insertAdjacentHTML('beforeend', '<div class="msg assistant milly" id="liveMsg">Összevetem a szöveggel…</div>');
+  $('#chatLog').scrollTop = $('#chatLog').scrollHeight;
+  $('#mRecGo').disabled = true;
+  try {
+    const out = await claude({maxTokens: 1500,
+      system: `Te Milly vagy, a MemoMill tanulótársa. A tanuló a saját szavaival felmondta az alábbi tananyagot. Vesd össze KIZÁRÓLAG a tananyaggal, külső tudást ne használj.
+Pontozás (score, 0–100): mennyire adta vissza a tananyag tartalmát. ${VERB[st.verbatim] || VERB.kulcs}
+A megértés fontosabb a magolásnál: a meaning (0–100) azt mutassa, mennyire érti a lényeget és az összefüggéseket. Ha valami tartalmilag téves, az erősen csökkentse a pontot.
+Találd meg a tananyag kulcskifejezéseit is (ha kapsz listát, abból indulj ki), és nézd meg, melyik hiányzik a felmondásból.
+Csak érvényes JSON-t adj vissza, semmi mást:
+{"score":0,"meaning":0,"keys":["a tananyag kulcskifejezései"],"keys_missed":["…"],"missing":["kihagyott gondolat, röviden"],"errors":["téves vagy pontatlan állítás, és mi a helyes az anyag szerint"],"feedback":"2–4 mondat tegezve, biztatóan, konkrétan"}`,
+      messages: [{role: 'user', content: `<anyag>\n${srcText(n)}\n</anyag>\n${ks.length ? `<kulcskifejezesek>${ks.join('; ')}</kulcskifejezesek>\n` : ''}<felmondas>\n${txt}\n</felmondas>`}]});
+    const j = JSON.parse(out.slice(out.indexOf('{'), out.lastIndexOf('}') + 1));
+    const sc = clamp(Math.round(+j.score || 0), 0, 100), mn = clamp(Math.round(+j.meaning || 0), 0, 100);
+    const L = a => Array.isArray(a) ? a.filter(Boolean).map(String) : [];
+    if (L(j.keys).length && !ks.length) try { localStorage.setItem(MK(n.id), JSON.stringify({h: hashStr(srcText(n)), keys: L(j.keys).slice(0, 14)})); } catch (e) {}
+    let t = `Megértés: ${mn}%\n\n${j.feedback || ''}`;
+    if (L(j.missing).length) t += '\n\nKimaradt:\n• ' + L(j.missing).join('\n• ');
+    if (L(j.errors).length) t += '\n\nPontatlan:\n• ' + L(j.errors).join('\n• ');
+    if (L(j.keys_missed).length) t += '\n\nHiányzó kulcskifejezések: ' + L(j.keys_missed).join(', ');
+    n.mBest = Math.max(n.mBest || 0, sc); n.mod = Date.now(); markItem(n.id);
+    if (sc >= 85) {
+      acceptLearned(n);
+      t += `\n\nElfogadom megtanultnak! Bekerült az ismétlésbe: holnap kötelező ismétlés, utána a felejtési görbe szerint jön.`;
+      confetti(70); $('#mRecTxt').value = ''; openRecite(false);
+    } else t += `\n\nA 85%-hoz még kell egy kör. Nézd át a kimaradt részeket, és próbáld újra!`;
+    chatBusy = false;
+    mSay(n, t, sc >= 85 ? [['Kérdezz ki', 'go:quiz']] : [['Újra felmondom', 'go:recite'], ['Kérdezz ki', 'go:quiz']], {score: sc});
+    persist(); renderDocBar(n);
+  } catch (e) {
+    chatBusy = false;
+    const m2 = loadChat(n.id); m2.push({role: 'error', content: 'Hiba: ' + e.message}); saveChat(n.id, m2); renderChat();
+  }
+  $('#mRecGo').disabled = false;
+}
+$('#chatPanel').addEventListener('click', e => { const c = e.target.closest('[data-chip]'); if (c && !chatBusy) millyChip(c.dataset.chip, c.textContent); });
+$('#mRecite').onclick = () => millyGo('recite');
+$('#mType').onclick = () => { const n = byId(ui.noteId); if (!n) return; setStudy(n, {kind: null, essay: null, verbatim: null}); millyGo('setup'); };
+$('#mRecGo').onclick = evalRecite;
+$('#mRecX').onclick = () => openRecite(false);
+$('#mRecMic').onclick = () => dictate($('#mRecMic'), t => { if (t) { const a = $('#mRecTxt'); a.value = (a.value ? a.value.trimEnd() + ' ' : '') + t; } });
+$('#chatMic').onclick = () => dictate($('#chatMic'), t => { if (t) { const a = $('#chatInput'); a.value = (a.value ? a.value.trimEnd() + ' ' : '') + t; a.focus(); } });
+$('#chatInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); $('#chatForm').requestSubmit(); } });
+$('#chatInput').addEventListener('input', e => { const a = e.target; a.style.height = 'auto'; a.style.height = Math.min(180, a.scrollHeight) + 'px'; });
 async function aiCards() {
   const n = byId(ui.noteId);
   if (!n) return;
@@ -2928,10 +3163,10 @@ $('#nReview').onclick = () => { const n = byId(ui.noteId); if (n) migrateCards(n
 $('#nErr').onclick = () => { ui.errOpen = !ui.errOpen; renderNote(); };
 $('#errReset').onclick = () => { const n = byId(ui.noteId); if (!n || !db.srs[n.id]) return; delete db.srs[n.id].map; markSrs(n.id, 'map'); persist(); renderNote(); toast('Hibatérkép nullázva'); };
 $('#nAiCards').onclick = aiCards;
-$('#nChat').onclick = () => { chatOpen = !chatOpen; $('#chatPanel').hidden = !chatOpen; if (chatOpen) { renderChat(); setTimeout(() => $('#chatInput').focus(), 50); } };
+$('#nChat').onclick = () => { if (chatOpen) { chatOpen = false; $('#chatPanel').hidden = true; } else openMilly(); };
 $('#chatClear').onclick = () => { if (ui.noteId) { saveChat(ui.noteId, []); renderChat(); } };
-$('#chatQuiz').onclick = () => sendChat('Kérdezz ki a dokumentumból! Egyszerre egy kérdést tegyél fel.');
-$('#chatForm').onsubmit = e => { e.preventDefault(); const t = $('#chatInput').value.trim(); if (!t) return; $('#chatInput').value = ''; sendChat(t); };
+$('#chatQuiz').onclick = () => millyGo('quiz');
+$('#chatForm').onsubmit = e => { e.preventDefault(); const t = $('#chatInput').value.trim(); if (!t) return; $('#chatInput').value = ''; $('#chatInput').style.height = ''; sendChat(t); };
 $('#nExam').onclick = async () => {
   const n0 = byId(ui.noteId); if (!n0) return;
   const n = n0.blk ? byId(n0.blk) : n0; if (!n) return;
@@ -2940,7 +3175,9 @@ $('#nExam').onclick = async () => {
     msg: 'Ugyanazzal a dátummal több dokumentum egy vizsgatervbe kerül a kezdőoldalon.',
     fields: [
       {name: 'date', label: 'Vizsga dátuma', type: 'date', value: n.exam ? n.exam.date : ''},
-      {name: 'mode', label: 'Ütemezés', options: [['kvota', 'Kvóta: egyenletes napi új kártya'], ['cel', 'Célzott: ismétlés a vizsga előtt']], value: n.exam ? n.exam.mode : 'kvota'}
+      {name: 'mode', label: 'Ütemezés', options: [['kvota', 'Kvóta: egyenletes napi új kártya'], ['cel', 'Célzott: ismétlés a vizsga előtt']], value: n.exam ? n.exam.mode : 'kvota'},
+      {name: 'kind', label: 'Vizsga típusa (Milly ehhez igazítja a kérdéseit)', options: [['', 'Még nem tudom'], ['irasbeli', 'Írásbeli'], ['szobeli', 'Szóbeli']], value: (n.study || {}).kind || ''},
+      {name: 'essay', label: 'Írásbelin lesz esszé / fogalmazás?', options: [['', 'Nem tudom'], ['1', 'Igen'], ['0', 'Nem, csak teszt']], value: (n.study || {}).essay == null ? '' : (n.study.essay ? '1' : '0')}
     ],
     actions: [{label: 'Mentés', key: 'ok', primary: true}, {label: 'Vizsga törlése', key: 'clear', danger: true}, {label: 'Mégse', key: null}]
   });
@@ -2950,6 +3187,10 @@ $('#nExam').onclick = async () => {
     if (!r.values.date) return toast('Adj meg dátumot');
     const keep = n.exam && n.exam.date === r.values.date && n.exam.set;
     n.exam = {date: r.values.date, ts: examTs(r.values.date), mode: r.values.mode, set: keep || Date.now()};
+    const sd = {...(n.study || {})};
+    if (r.values.kind) sd.kind = r.values.kind; else delete sd.kind;
+    if (r.values.essay) sd.essay = r.values.essay === '1'; else delete sd.essay;
+    n.study = sd;
   }
   n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); updateNoteStats();
 };
@@ -3121,6 +3362,7 @@ window.memoMillBack = () => {
 
 /* ===== Milly, a kabala ===== */
 const MILLY_SVG = (() => { const el = document.querySelector('#milly .mLogo'); return el ? el.innerHTML.replace(/id="mi/g, 'id="md').replace(/url\(#mi/g, 'url(#md') : ''; })();
+document.querySelectorAll('.mAv').forEach((e, k) => { e.innerHTML = MILLY_SVG.replace(/id="md/g, `id="ma${k}`).replace(/url\(#md/g, `url(#ma${k}`); });
 function milly(title, sub, ms = 1900) {
   const m = $('#milly'); $('#millyT').textContent = title; $('#millyS').textContent = sub || '';
   m.hidden = false; clearTimeout(milly.t); milly.t = setTimeout(() => { m.hidden = true; }, ms);
@@ -3233,7 +3475,30 @@ function renderDocBar(n) {
   const lt = learnable(n) ? n : bl.find(b => !b.ladder.done) || null;
   lb.hidden = !lt && !bl.length;
   lb.textContent = lt && !lt.ladder.done ? `Tanulás folytatása · ${lt.ladder.step}/7` : 'Tanulás';
+  renderBlkStrip(n);
 }
+function renderBlkStrip(n) {
+  const el = $('#blkStrip'), bl = n.blk ? [] : blocksOf(n);
+  el.hidden = !bl.length;
+  if (!bl.length) { el.innerHTML = ''; return; }
+  const now = Date.now(), done = bl.filter(b => b.ladder.done).length;
+  el.innerHTML = `<div class="bsHead"><b>Tanulóblokkok</b><span class="muted small">${done}/${bl.length} megtanulva</span></div><div class="bsGrid">` + bl.map((b, i) => {
+    const S = (db.srs[b.id] || {}).doc, due = b.ladder.done && S && S.due <= now;
+    const st = b.ladder.done ? (S ? (due ? 'Ismétlés esedékes most' : 'Ismétlés ' + fmtDue(S.due, now)) : 'Megtanulva')
+      : b.ladder.step === 1 && !starsOf(b, 1) ? 'Még nem kezdted' : `Tanulás ${b.ladder.step}/7 · ${STEPS[b.ladder.step]}`;
+    const prev = esc(stripBlk(b.text).split('\n').slice(1).join(' ').replace(/\s+/g, ' ').slice(0, 140));
+    return `<div class="bcard${b.ladder.done ? ' done' : ''}${due ? ' due' : ''}" data-bopen="${b.id}"><div class="bTop"><span class="bNum">${b.ladder.done ? '✓' : i + 1}</span><span class="bName">${esc(b.name || 'Blokk')}</span></div>`
+      + `<div class="bPrev">${prev || '&nbsp;'}</div><div class="pbar"><i style="width:${ladderPct(b)}%"></i></div><div class="bSt">${st}</div>`
+      + `<div class="bBtns"><button class="primary" data-blearn="${b.id}">${due ? 'Ismétlés' : b.ladder.done ? 'Útvonal' : 'Tanulás'}</button><button class="millyBtn" data-bmilly="${b.id}">Milly</button></div></div>`;
+  }).join('') + '</div>';
+}
+$('#blkStrip').addEventListener('click', e => {
+  const l = e.target.closest('[data-blearn]'), m = e.target.closest('[data-bmilly]'), o = e.target.closest('[data-bopen]');
+  if (l) return openPath(l.dataset.blearn);
+  if (m) { openItem(m.dataset.bmilly); return openMilly(); }
+  if (o) openItem(o.dataset.bopen);
+});
+$('#dbMilly').onclick = () => { if (chatOpen) { chatOpen = false; $('#chatPanel').hidden = true; } else openMilly(); };
 $('#dbExam').onclick = () => $('#nExam').click();
 $('#dbLearn').onclick = () => $('#nLearn').click();
 $('#dbPractice').onclick = () => { const n = byId(ui.noteId); if (!n) return; migrateCards(n); const q = buildQueue(Date.now(), n.id); if (q.length) startReview(n.id); else startReview(n.id, 'all'); };
