@@ -280,6 +280,10 @@ button.g3{color:var(--ok);border-color:rgba(52,211,153,.5)}
 .llBar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px}
 #llQ{flex:1 1 220px;min-width:0}
 #llIn,#llSort{flex:0 1 auto;max-width:260px}
+.llDoc{margin:18px 0 8px;padding:14px;border-radius:20px;border:1px solid var(--line);background:rgba(5,8,22,.28)}
+.llDH{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 2px 12px}
+.llDT{display:flex;flex-direction:column;gap:2px;min-width:0}.llDT b{font-size:17px}.llDT .i{margin-right:6px}
+.llDR{display:flex;gap:10px;align-items:center}
 .llGrp{margin:16px 2px 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
 .llRow{display:grid;grid-template-columns:30px minmax(0,1fr) 150px auto;gap:12px;align-items:center;padding:11px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line);margin-bottom:6px;cursor:pointer;transition:border-color .15s,background .15s}
 .llRow:hover{border-color:var(--line2);background:var(--panel2)}
@@ -803,8 +807,8 @@ dialog .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;fl
           <input id="llQ" type="search" placeholder="Keresés név vagy szöveg alapján…" autocomplete="off">
           <select id="llIn" title="Hol"></select>
           <select id="llSort" title="Rendezés">
-            <option value="recent">Legutóbb tanult</option><option value="step">Előrehaladás</option><option value="name">Név (A–Z)</option>
-            <option value="folder">Mappa / dokumentum szerint</option><option value="due">Ismétlés esedékessége</option><option value="exam">Vizsga dátuma</option>
+            <option value="created">Létrehozás sorrendjében</option><option value="recent">Legutóbb tanult</option><option value="step">Előrehaladás</option>
+            <option value="name">Név (A–Z)</option><option value="due">Ismétlés esedékessége</option><option value="exam">Vizsga dátuma</option>
           </select>
         </div>
         <div class="chips" id="llChips"></div>
@@ -1028,6 +1032,7 @@ function fixDb() {
     const S = db.srs[n.id];
     if (!S) return;
     makeCards(n).forEach(c => { if (S[c.id] && !S[c.id].k) S[c.id].k = cardKey(c); });
+    if (!n.cr) n.cr = n.blk ? (n.bi || 0) + 1 : n.mod || 1;
     /* a frissen megtanult szöveg első ismétlése másnapra */
     const d = n.ladder.done && S.doc;
     if (d && d.reps === 1 && d.last) { const t = new Date(d.last); t.setHours(0, 0, 0, 0); const due = t.getTime() + 86400000 + 4 * 3600000; if (d.due > due) d.due = due; }
@@ -1049,7 +1054,7 @@ const rawKids = pid => db.items.filter(i => i.parentId === pid);
 const kids = pid => rawKids(pid).filter(i => !i.deleted).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu', {numeric: true}));
 function allIds(id) { const out = [id]; rawKids(id).forEach(k => out.push(...allIds(k.id))); return out; }
 function crumbs(id) { const p = []; let c = id ? byId(id) : null; while (c) { p.unshift(c); c = c.parentId ? byId(c.parentId) : null; } return p; }
-const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}}, mod: Date.now()});
+const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}}, mod: Date.now(), cr: Date.now()});
 const makeFolder = (name, parentId) => ({id: uid(), type: 'folder', name, parentId, mod: Date.now()});
 const srsOf = id => db.srs[id] || (db.srs[id] = {});
 const notes = () => db.items.filter(i => i.type === 'note' && live(i));
@@ -2013,7 +2018,8 @@ function renderNote() {
 
 /* --- tanulás: lista és térkép --- */
 /* szűrő és rendezés a tanulás listához, eszközönként megjegyezve */
-const LLF = (() => { try { return {st: 'aktiv', q: '', inn: '', sort: 'recent', ...JSON.parse(localStorage.getItem('memo-llf') || '{}')}; } catch (e) { return {st: 'aktiv', q: '', inn: '', sort: 'recent'}; } })();
+const LLF = (() => { try { return {st: 'aktiv', q: '', inn: '', sort: 'created', ...JSON.parse(localStorage.getItem('memo-llf') || '{}')}; } catch (e) { return {st: 'aktiv', q: '', inn: '', sort: 'created'}; } })();
+if (!['created', 'recent', 'step', 'name', 'due', 'exam'].includes(LLF.sort)) LLF.sort = 'created';
 const llSave = () => { try { localStorage.setItem('memo-llf', JSON.stringify({st: LLF.st, inn: LLF.inn, sort: LLF.sort})); } catch (e) {} };
 const LL_ST = [['aktiv', 'Tanulandó'], ['folyamat', 'Folyamatban'], ['uj', 'Nem kezdett'], ['esedekes', 'Ismétlés esedékes'], ['kesz', 'Megtanult'], ['vizsga', 'Vizsgás'], ['szunet', 'Szüneteltetett'], ['mind', 'Mind']];
 function llStatus(n, now) {
@@ -2054,32 +2060,44 @@ function renderLearnList() {
   const list = scope.filter(x => llMatch(x.n, LLF.st, x.st, now));
   const dueOf = x => { const S = (db.srs[x.n.id] || {}).doc; return x.n.ladder.done && S ? S.due : Infinity; };
   const nm = x => dispName(x.n), fp = x => x.path.map(c => c.name).join(' › ');
-  const CMP = {
-    recent: (a, b) => (b.n.ladder.at || 0) - (a.n.ladder.at || 0) || nm(a).localeCompare(nm(b), 'hu', {numeric: true}),
-    step: (a, b) => ladderPct(b.n) - ladderPct(a.n) || nm(a).localeCompare(nm(b), 'hu', {numeric: true}),
-    name: (a, b) => nm(a).localeCompare(nm(b), 'hu', {numeric: true}),
-    folder: (a, b) => fp(a).localeCompare(fp(b), 'hu', {numeric: true}) || (a.n.bi || 0) - (b.n.bi || 0) || nm(a).localeCompare(nm(b), 'hu', {numeric: true}),
-    due: (a, b) => dueOf(a) - dueOf(b) || nm(a).localeCompare(nm(b), 'hu'),
-    exam: (a, b) => (llExam(a.n) || Infinity) - (llExam(b.n) || Infinity) || nm(a).localeCompare(nm(b), 'hu')
-  };
-  list.sort(CMP[LLF.sort] || CMP.recent);
-  const row = x => {
-    const n = x.n, S = (db.srs[n.id] || {}).doc, ex = llExam(n);
-    const info = x.st === 'kesz' ? `Megtanulva · ismétlés ${S ? fmtDue(S.due, now) : '—'}` : x.st === 'esedekes' ? 'Ismétlés esedékes most'
-      : x.st === 'uj' ? 'Még nem kezdted' : `${n.ladder.step}/7 · ${STEPS[n.ladder.step]}`;
-    const btn = n.ladder.done ? `<button class="${x.st === 'esedekes' ? 'primary' : ''}" data-path="${n.id}">${x.st === 'esedekes' ? 'Ismétlés' : 'Útvonal'}</button>`
-      : `<button class="primary" data-go-learn="${n.id}">${x.st === 'uj' ? 'Kezdés' : 'Folytatás'}</button>`;
-    return `<div class="llRow ${x.st}" data-path="${n.id}"><span class="ic">${n.ladder.done ? '✓' : n.ladder.step}</span>`
-      + `<div style="min-width:0"><div class="nm">${esc(n.blk ? n.name || 'Blokk' : dispName(n))}${ex >= dayStart(now) ? `<span class="tg">vizsga ${Math.ceil((ex - dayStart(now)) / DAY)} nap</span>` : ''}</div><div class="pt">${esc(fp(x)) || 'Jegyzetek'}</div></div>`
-      + `<div class="pr"><div class="pbar"><i style="width:${ladderPct(n)}%"></i></div>${info}</div>${btn}</div>`;
-  };
-  let h = '';
-  if (LLF.sort === 'folder') {
-    let g = null;
-    list.forEach(x => { const k = fp(x) || 'Jegyzetek'; if (k !== g) { g = k; const c = list.filter(y => (fp(y) || 'Jegyzetek') === k).length; h += `<div class="llGrp"><span>${esc(k)}</span><span>${c}</span></div>`; } h += row(x); });
-  } else h = list.map(row).join('');
+  const KEY = {
+    created: x => x.n.cr || 0, recent: x => -(x.n.ladder.at || 0), step: x => -ladderPct(x.n),
+    name: x => 0, due: dueOf, exam: x => llExam(x.n) || Infinity
+  }[LLF.sort];
+  const cmp = (a, b) => KEY(a) - KEY(b) || (a.n.bi || 0) - (b.n.bi || 0) || nm(a).localeCompare(nm(b), 'hu', {numeric: true});
+  list.sort(cmp);
+  /* csoportok: a blokkok a dokumentumuk alatt, az önálló tanulós dokumentumok a mappájuk alatt – mint egy megnyitott dokumentum */
+  const groups = new Map();
+  list.forEach(x => {
+    const k = x.n.blk ? 'd:' + x.n.blk : 'f:' + (x.n.parentId || '');
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(x);
+  });
+  const gs = [...groups].map(([k, xs]) => {
+    const id = k.slice(2), d = k[0] === 'd' ? byId(id) : null;
+    return {k, xs, d, id, key: LLF.sort === 'created' ? Math.min(d ? d.cr || 0 : Infinity, ...xs.map(x => x.n.cr || 0)) : LLF.sort === 'name' ? 0 : KEY(xs[0])};
+  });
+  gs.sort((a, b) => a.key - b.key || (a.d ? dispName(a.d) : '').localeCompare(b.d ? dispName(b.d) : '', 'hu'));
+  const h = gs.map(g => {
+    let title, path, tot = '';
+    if (g.d) {
+      const all2 = blocksOf(g.d), dn = all2.filter(b => b.ladder.done).length;
+      /* blokksorszám létrehozás szerint, a teljes dokumentumon belül */
+      const ord = all2.slice().sort((a, b) => (a.cr || 0) - (b.cr || 0) || (a.bi || 0) - (b.bi || 0)).map(b => b.id);
+      g.num = x => ord.indexOf(x.n.id) + 1;
+      title = `<span class="i">📄</span>${esc(dispName(g.d))}`; path = crumbs(g.d.parentId).map(c => c.name).join(' › ') || 'Jegyzetek';
+      tot = `<span class="muted small">${dn}/${all2.length} megtanulva</span><button class="small" data-dopen="${g.d.id}">Megnyitás</button>`;
+    } else {
+      const f = g.id ? byId(g.id) : null;
+      title = `<span class="i">📁</span>${esc(f ? f.name : 'Jegyzetek')}`; path = f ? crumbs(f.parentId).map(c => c.name).join(' › ') : '';
+      g.num = x => g.xs.indexOf(x) + 1;
+    }
+    return `<section class="llDoc"><div class="llDH"><div class="llDT"><b>${title}</b>${path ? `<span class="muted small">${esc(path)}</span>` : ''}</div><div class="llDR">${tot}</div></div>`
+      + `<div class="bsGrid">${g.xs.map(x => bcardHtml(x.n, g.num(x), now)).join('')}</div></section>`;
+  }).join('');
   $('#llList').innerHTML = h || `<p class="muted" style="line-height:1.6">${all.length ? 'Nincs a szűrőnek megfelelő anyag.' : 'Még nincs tanulásra jelölt anyag. Nyiss meg egy dokumentumot a Jegyzetekben, és nyomd meg a Tanulás gombot, vagy jelölj ki tanulóblokkot {{ … }} közé.'}</p>`;
 }
+$('#llList').addEventListener('click', e => { e.stopPropagation(); blkClicks(e); });
 $('#llChips').addEventListener('click', e => { const c = e.target.closest('[data-llst]'); if (!c) return; LLF.st = c.dataset.llst; llSave(); renderLearnList(); });
 $('#llIn').onchange = e => { LLF.inn = e.target.value; llSave(); renderLearnList(); };
 $('#llSort').onchange = e => { LLF.sort = e.target.value; llSave(); renderLearnList(); };
@@ -2334,7 +2352,7 @@ const STEPS = ['', 'Felfedés', 'Kezdőbetű – könnyű', 'Kezdőbetű – kö
 const SHORT = ['', 'Felfedés', 'Könnyű', 'Közepes', 'Nehéz', 'Könnyű', 'Közepes', 'Nehéz'];
 const PHASES = [['Felfedés', [1]], ['Kezdőbetű', [2, 3, 4]], ['Gépelés', [5, 6, 7]]];
 const HINTS = ['',
-  'Gondold végig a következő szót, aztán fedd fel (szóköz vagy koppintás). Ha tévedtél, a „Hibáztam” újraindítja a bekezdést.',
+  'Gondold végig a következő szót, aztán fedd fel (szóköz vagy koppintás). Ha tévedtél, a „Hibáztam” elölről kezdi az egészet.',
   'Írd be minden szó kezdőbetűjét. A kezdőbetű szürke, a szó többi része látszik.',
   'Írd be minden szó kezdőbetűjét, a számokét és a rövid szavakét is. Minden második szó rejtett.',
   'Írd be minden szó kezdőbetűjét fejből, a számokat is. Az írásjelek nem számítanak.',
@@ -2449,7 +2467,7 @@ function learnTick() { if (!ls) return; const now = Date.now(); addTime(now - ls
 function buildFoot() {
   const f = $('#lFootIn');
   if (ls.step === 1 && ls.mode !== 'rev') {
-    f.innerHTML = `<div id="lHint">${HINTS[1]}</div><button id="lRestart">Hibáztam – bekezdés újra</button><button class="primary xl" id="lNext">Következő szó ▸</button>`;
+    f.innerHTML = `<div id="lHint">${HINTS[1]}</div><button id="lRestart">Hibáztam – elölről</button><button class="primary xl" id="lNext">Következő szó ▸</button>`;
     return;
   }
   const full = ls.step >= 5 || ls.mode === 'rev';
@@ -2533,6 +2551,14 @@ function loseHeart() {
     return;
   }
   flash(svgI('i-heartx'), `−1 ${word}`, `A bekezdés újraindul. Maradt: ${ls.hearts}`, 1300, restartPara);
+}
+/* Felfedés: hiba után az egész blokk / dokumentum elölről */
+function restartAll() {
+  if (!ls) return;
+  ls.marks = []; ls.typed = []; ls.i = 0; ls.pe = 0; ls.busy = false; ls.restarts++;
+  ls.para = ls.toks.length ? ls.toks[0].p : 0;
+  skipAuto(); drawLearn();
+  const sc = $('#lBody'); if (sc) sc.scrollTop = 0;
 }
 function restartPara() {
   if (!ls) return;
@@ -3404,7 +3430,7 @@ $('#learn').addEventListener('click', e => {
   if (!ls) return;
   const id = e.target.id;
   if (id === 'lNext') return revealNext();
-  if (id === 'lRestart') { if (!ls.busy && !ls.ended) { ls.errs++; restartPara(); } return; }
+  if (id === 'lRestart') { if (!ls.busy && !ls.ended) { ls.errs++; restartAll(); } return; }
   if (id === 'lNextStep') return startLearn(ls.noteId, ls.again.step + 1, 'learn');
   if (id === 'lAgain') { const n = byId(ls.noteId); const a = ls.again; return startLearn(ls.noteId, a.mode === 'learn' && n ? n.ladder.step : a.step, a.mode); }
   if (id === 'lExit') return closeLearn();
@@ -3553,6 +3579,8 @@ function renderDocBar(n) {
   const q = buildQueue(now, n.id).length + bl.reduce((k, b) => k + buildQueue(now, b.id).length, 0);
   const total = makeCards(n).length;
   $('#dbPractice').textContent = q ? `Gyakorlás · ${q} esedékes` : total ? `Gyakorlás · ${total} kártya` : 'Gyakorlás';
+  /* gyakorlás csak a tanulás végigvitele után (blokknál a blokké, tanulós dokumentumnál a dokumentumé) */
+  $('#dbPractice').closest('.split').hidden = learnable(n) && !n.ladder.done;
   const lb = $('#dbLearn');
   const lt = learnable(n) ? n : bl.find(b => !b.ladder.done) || null;
   lb.hidden = !lt && !bl.length;
@@ -3564,22 +3592,27 @@ function renderBlkStrip(n) {
   el.hidden = !bl.length;
   if (!bl.length) { el.innerHTML = ''; return; }
   const now = Date.now(), done = bl.filter(b => b.ladder.done).length;
-  el.innerHTML = `<div class="bsHead"><b>Tanulóblokkok</b><span class="muted small">${done}/${bl.length} megtanulva</span></div><div class="bsGrid">` + bl.map((b, i) => {
+  el.innerHTML = `<div class="bsHead"><b>Tanulóblokkok</b><span class="muted small">${done}/${bl.length} megtanulva</span></div><div class="bsGrid">` + bl.map((b, i) => bcardHtml(b, i + 1, now)).join('') + '</div>';
+}
+function bcardHtml(b, num, now) {
+  {
     const S = (db.srs[b.id] || {}).doc, due = b.ladder.done && S && S.due <= now;
     const st = b.ladder.done ? (S ? (due ? 'Ismétlés esedékes most' : 'Ismétlés ' + fmtDue(S.due, now)) : 'Megtanulva')
       : b.ladder.step === 1 && !starsOf(b, 1) ? 'Még nem kezdted' : `Tanulás ${b.ladder.step}/7 · ${STEPS[b.ladder.step]}`;
     const prev = esc(stripBlk(b.text).split('\n').slice(1).join(' ').replace(/\s+/g, ' ').slice(0, 140));
-    return `<div class="bcard${b.ladder.done ? ' done' : ''}${due ? ' due' : ''}" data-bopen="${b.id}"><div class="bTop"><span class="bNum">${b.ladder.done ? '✓' : i + 1}</span><span class="bName">${esc(b.name || 'Blokk')}</span></div>`
+    return `<div class="bcard${b.ladder.done ? ' done' : ''}${due ? ' due' : ''}" data-bopen="${b.id}"><div class="bTop"><span class="bNum">${b.ladder.done ? '✓' : num}</span><span class="bName">${esc(b.blk ? b.name || 'Blokk' : dispName(b))}</span></div>`
       + `<div class="bPrev">${prev || '&nbsp;'}</div><div class="pbar"><i style="width:${ladderPct(b)}%"></i></div><div class="bSt">${st}</div>`
-      + `<div class="bBtns"><button class="primary" data-blearn="${b.id}">${due ? 'Ismétlés' : b.ladder.done ? 'Útvonal' : 'Tanulás'}</button><button class="millyBtn" data-bmilly="${b.id}">Milly</button></div></div>`;
-  }).join('') + '</div>';
+      + `<div class="bBtns"><button class="primary" data-blearn="${b.id}">${due ? 'Ismétlés' : b.ladder.done ? 'Útvonal' : b.ladder.step === 1 && !starsOf(b, 1) ? 'Kezdés' : 'Folytatás'}</button><button class="millyBtn" data-bmilly="${b.id}">Milly</button></div></div>`;
+  }
 }
-$('#blkStrip').addEventListener('click', e => {
+function blkClicks(e) {
+  const d = e.target.closest('[data-dopen]'); if (d) return openItem(d.dataset.dopen);
   const l = e.target.closest('[data-blearn]'), m = e.target.closest('[data-bmilly]'), o = e.target.closest('[data-bopen]');
   if (l) return openPath(l.dataset.blearn);
   if (m) { openItem(m.dataset.bmilly); return openMilly(); }
   if (o) openItem(o.dataset.bopen);
-});
+}
+$('#blkStrip').addEventListener('click', blkClicks);
 $('#dbMilly').onclick = () => { if (chatOpen) { chatOpen = false; $('#chatPanel').hidden = true; } else openMilly(); };
 $('#dbExam').onclick = () => $('#nExam').click();
 $('#dbLearn').onclick = () => $('#nLearn').click();
