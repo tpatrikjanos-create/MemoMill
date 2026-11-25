@@ -48,3 +48,9 @@ Az aláíró kulcs (`android/memomill.jks`) csak az oldaltelepítéshez van, Pla
 ### Alkalmazászár
 Beállítások → Alkalmazászár. Kapcsold be a „MemoMill alkalmazászár” szolgáltatást a Kisegítő lehetőségekben,
 jelöld ki a zárolt appokat (a TikTok, Instagram, YouTube stb. alapból ki van jelölve).
+
+## Megjelenés
+- 7 téma (Aurora, Fehér, Fekete, Malomvíz, Grafit és lime, Éjkék és korall, Erdő és arany), eszközönként a Beállítások › Megjelenés alatt; követheti a rendszer világos/sötét módját. Mattüveg hatás és Milly-animációk kikapcsolhatók.
+- Kereső és parancsmenü: `Ctrl F` (jobb felső gomb). Gyorsbillentyűk: `Ctrl Enter` tanulás folytatása, `Alt R` ismétlés, `Alt N` új jegyzet, `Alt M` Milly, `Alt 1–4` fülek, `Ctrl Z` visszavonás törlés után.
+- Kezdőoldal: vizsga-visszaszámlálók, mai tanulási sor, lapozható vizsgaterv-widget, összecsukható statisztika.
+- Android 13+: prediktív vissza-gesztus.

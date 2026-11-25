@@ -7,6 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.window.OnBackInvokedCallback
+import android.window.OnBackInvokedDispatcher
 import android.os.Environment
 import android.provider.MediaStore
 import android.speech.RecognizerIntent
@@ -83,6 +85,7 @@ class MainActivity : Activity() {
         }
         web.addJavascriptInterface(Bridge(), "MemoMillAndroid")
         web.loadUrl(BASE + if (intent.getBooleanExtra("review", false)) "#review" else "")
+        setInAppBack(true)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -104,6 +107,26 @@ class MainActivity : Activity() {
         if (requestCode == DICTATE) {
             val text = if (resultCode == RESULT_OK) data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull() ?: "" else ""
             web.evaluateJavascript("window.memoMillDictation && window.memoMillDictation(" + JSONObject.quote(text) + ")", null)
+        }
+    }
+
+    /* prediktív vissza (Android 13+): ha az app kezeli a visszát, saját visszahívás; a kezdőoldalon a rendszer mutatja a kilépés előnézetét */
+    private var backCb: Any? = null
+    private fun setInAppBack(on: Boolean) {
+        if (Build.VERSION.SDK_INT < 33) return
+        val d = onBackInvokedDispatcher
+        if (on && backCb == null) {
+            val cb = OnBackInvokedCallback { handleBack() }
+            d.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, cb)
+            backCb = cb
+        } else if (!on && backCb != null) {
+            d.unregisterOnBackInvokedCallback(backCb as OnBackInvokedCallback)
+            backCb = null
+        }
+    }
+    private fun handleBack() {
+        web.evaluateJavascript("(window.memoMillBack && window.memoMillBack()) ? 'y' : 'n'") { r ->
+            if (r != "\"y\"") moveTaskToBack(true)
         }
     }
 
@@ -161,6 +184,11 @@ class MainActivity : Activity() {
         @JavascriptInterface
         fun openLockSettings() {
             runOnUiThread { startActivity(Intent(this@MainActivity, LockSettingsActivity::class.java)) }
+        }
+
+        @JavascriptInterface
+        fun setCanBack(on: Boolean) {
+            runOnUiThread { setInAppBack(on) }
         }
 
         @JavascriptInterface
