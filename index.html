@@ -739,7 +739,6 @@ details.acc .hgrid.accBody .card{animation:none}
 #app{gap:16px}
 #main,body.glass #main{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:0}
 #top{border-bottom:0;height:64px;padding:0 8px 0 28px}
-#side,body.glass #side{border-radius:24px;padding:18px 14px}
 .wrap{max-width:1100px;padding:8px 40px 64px;gap:18px}
 .card,.panel,.box{border-radius:22px;padding:20px 24px;border:1px solid rgba(var(--fg),.09);background:rgba(var(--fg),.04)}
 body.glass .card,body.glass .panel,body.glass .box{background:var(--glass);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:inset 0 1px 0 rgba(var(--fg),.06),var(--shadow)}
@@ -810,6 +809,53 @@ body.docfull #noteWrap.hasBlk{padding-right:360px}
 @media (max-width:1099px){body.docfull #noteWrap.hasBlk{padding-right:64px}}
 @media (max-width:760px){body.docfull #noteWrap.hasBlk{padding-right:14px}}
 #examPanel,body.glass #examPanel{border-color:rgba(var(--fg),.09)}
+
+.exW{min-height:200px}
+.exWP{font-size:13px;color:var(--dim)}
+.exWT{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-top:2px}.exWT b{font-size:21px;font-weight:600}.exWT .muted{font-size:14px}
+.exWG{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px 16px;font-size:14px;margin-top:14px;align-items:baseline}
+.exWD{color:var(--muted);text-transform:capitalize}.exWD.today{color:var(--warn);font-weight:600}
+.exWI{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:baseline}.exWI .sep{color:var(--dim)}
+.exWU{background:none;border:0;padding:0;min-height:0;color:var(--text);font:inherit;text-align:left;cursor:pointer}.exWU:hover{color:var(--a1)}.exWU.rev{color:var(--warn)}
+.exWB{margin-top:16px;height:8px;border-radius:99px;background:rgba(var(--fg),.08);overflow:hidden}.exWB i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--a1),var(--a2))}
+.exWS{margin-top:8px;font-size:13px}
+@media (hover:none){.navi:hover:not(:disabled){background:none;color:inherit}}
+@media (min-width:761px){#side,body.glass #side{border-radius:24px;padding:18px 14px}}
+@media (max-width:760px){
+  #side,body.glass #side{padding:4px;border-radius:20px;background:color-mix(in srgb,var(--menu) 88%,transparent)}
+  #side .navi{flex:1 1 0;min-width:0;align-items:center;justify-content:center;text-align:center;padding:6px 0;min-height:0}
+  #side .navi .lbl{width:100%;text-align:center}
+  #side .navi .ico{margin:0 auto}
+  #side .navi .badge{left:calc(50% + 4px);top:2px}
+  #top{gap:8px}
+  #searchBtn,#gearTop{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;display:inline-grid;place-items:center;border-radius:12px}
+  #gearTop{border:1px solid var(--line2);background:var(--panel)}
+  #searchBtn .ico,#gearTop .ico{width:20px;height:20px}
+  .seg2 button{padding:0 11px;font-size:13.5px;gap:6px}
+  #llFilt,#llSort{min-height:44px}
+  #llSort{flex:1;min-width:0}
+  .llDoc>summary{padding:14px 16px 12px;min-height:0;gap:8px}
+  .llDT b{font-size:18px}
+  .bcard{grid-template-columns:42px minmax(0,1fr) auto;grid-template-rows:auto auto;row-gap:2px;column-gap:12px;padding:12px 0}
+  .bcard .bW{grid-row:1/3;align-self:center}
+  .bcard .bMain{align-self:end}
+  .bcard .bSt{grid-column:2;grid-row:2;align-self:start;margin-top:0;font-size:13px}
+  .bcard .bBtns{grid-row:1/3;grid-column:3;align-self:center}
+  .bcard .bBtns button{min-width:0;padding:0 14px;min-height:42px}
+  .exWG{grid-template-columns:84px minmax(0,1fr)}
+}
+#ctx{position:fixed;z-index:90;min-width:220px;max-width:300px;padding:6px;border-radius:14px;background:var(--menu);border:1px solid var(--line2);box-shadow:0 18px 50px -12px rgba(0,0,0,.55);animation:ctxIn .12s var(--ease)}
+body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%)}
+@keyframes ctxIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+#ctx button{display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:6px 10px;border:0;border-radius:9px;background:none;color:var(--text);font-size:14px;text-align:left}
+#ctx button:hover:not(:disabled),#ctx button:focus-visible{background:rgba(var(--a1r),.13);outline:none}
+#ctx button:disabled{color:var(--dim)}
+#ctx button.bad{color:var(--bad)}
+#ctx .ico{width:17px;height:17px;color:var(--muted);flex:none}
+#ctx button span:nth-child(2){flex:1}
+#ctx kbd{font-family:inherit;font-size:11px;color:var(--dim)}
+#ctx hr{border:0;border-top:1px solid var(--line);margin:5px 4px}
+@media (prefers-reduced-motion:reduce){#ctx{animation:none}}
 </style>
 </head>
 <body>
@@ -837,6 +883,10 @@ body.docfull #noteWrap.hasBlk{padding-right:360px}
     <symbol id="i-speak" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10z M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
     <symbol id="i-kbd" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5h16l-6 8v6l-4-2v-4z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cut" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 7.5L20 18M8 16.5L20 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-paste" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 5V3h6v2M9 11h6M9 15h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-selall" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2.5"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
     <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
@@ -974,7 +1024,7 @@ body.docfull #noteWrap.hasBlk{padding-right:360px}
           <button class="primary" id="nLearn">Tanulás</button>
           <button id="nReview">Ismétlés ebből</button>
           <button id="nErr">Hibatérkép</button>
-          <button id="nAiCards">✨ AI kártyák</button>
+          <button id="nAiCards"><svg class="ico"><use href="#i-spark"/></svg> AI kártyák</button>
           <button id="nChat">Milly</button>
           <button id="nExam">Vizsga</button>
           <select id="nPrio" title="Prioritás"><option value="aktiv">● Most tanulom</option><option value="nincs">○ Nincs prioritás</option><option value="szunet">❚❚ Szünetel</option></select>
@@ -1107,6 +1157,7 @@ body.docfull #noteWrap.hasBlk{padding-right:360px}
 <div id="slashMenu" hidden role="listbox"></div>
 <dialog id="dlg"></dialog>
 <div id="toast"></div>
+<div id="ctx" role="menu" hidden></div>
 <div id="cmdk" hidden><div class="ck" role="dialog" aria-modal="true" aria-label="Keresés és parancsok">
   <label class="ckIn"><svg class="ico"><use href="#i-search"/></svg><input id="ckQ" type="text" placeholder="Keresés a jegyzetekben vagy parancs…" autocomplete="off" spellcheck="false" aria-controls="ckList"><kbd>Esc</kbd></label>
   <div id="ckList" role="listbox"></div>
@@ -1990,6 +2041,22 @@ const examHtml = p => `<div class="exam"><div class="ed">${p.daysLeft}<small>NAP
   + `<div class="track"><i style="width:${Math.round(p.actual * 100)}%"></i><b style="left:${Math.round(p.expected * 100)}%"></b></div>`
   + `<div class="em">${p.ahead > 0 ? p.ahead + ' nappal a terv előtt' : p.ahead < 0 ? -p.ahead + ' nappal lemaradva' : 'Terv szerint'} · készültség ${Math.round(p.actual * 100)}% · becsült tudás most ${p.know}%`
   + `<br>${p.units.length ? `${p.learned}/${p.units.length} anyag megtanulva · naponta ~${p.per} új anyag` : `Mai adag: ${p.todaySteps} fokozat`}, ${p.todayNew} új kártya · ${p.buffer} tartaléknap a végén</div></div>${examDays(p)}</div>`;
+/* vizsgaterv-widget a látványterv szerint: útvonal, név, dátum, napokra bontott teendők, haladás */
+function examWidget(p) {
+  const t0 = dayStart(Date.now()), g = new Map(), n0 = p.ns[0];
+  p.sched.slice().sort((a, b) => a.day - b.day || (a.kind === 'rev' ? -1 : 1)).forEach(x => { if (!g.has(x.day)) g.set(x.day, []); g.get(x.day).push(x); });
+  const lbl = d => d === t0 ? 'Ma' : d === t0 + DAY ? 'Holnap' : new Date(d).toLocaleDateString('hu-HU', {weekday: 'short', month: 'short', day: 'numeric'});
+  const nm = u => u.blk ? u.name || 'Blokk' : dispName(u);
+  const rows = [...g].slice(0, 4).map(([d, xs]) => `<span class="exWD${d === t0 ? ' today' : ''}">${lbl(d)}</span><span class="exWI">${xs.map(x => `<button class="exWU${x.kind === 'rev' ? ' rev' : ''}" data-path="${x.u.id}">${esc(nm(x.u))}${x.kind === 'rev' ? ' (ismétlés)' : ''}</button>`).join('<span class="sep">·</span>')}</span>`).join('');
+  const bufTo = new Date(p.ts - DAY), bufFrom = new Date(p.ts - p.buffer * DAY);
+  const buf = p.buffer ? `<span class="exWD">${bufFrom.toLocaleDateString('hu-HU', {month: 'short', day: 'numeric'})}–${bufTo.getDate()}.</span><span class="exWI muted">Tartaléknapok: teljes ismétlés, Milly-felmondás</span>` : '';
+  const pct = Math.round(p.actual * 100), st = p.ahead > 0 ? ['előrébb jársz a tervnél', 'ok'] : p.ahead < 0 ? [-p.ahead + ' nappal le vagy maradva', 'warn'] : ['az ütemben vagy', 'ok'];
+  const path = n0 ? crumbs(n0.parentId).map(c => c.name).join(' › ') : '';
+  return `<div class="exW"><div class="exWP">${esc(path || 'Jegyzetek')}</div>`
+    + `<div class="exWT"><b>${esc(p.ns.length === 1 ? dispName(n0) : p.ns.length + ' dokumentum')}</b><span class="muted">vizsga ${new Date(p.ts).toLocaleDateString('hu-HU', {month: 'short', day: 'numeric'})} · ${p.daysLeft} nap</span></div>`
+    + (rows || buf ? `<div class="exWG">${rows}${buf}</div>` : '<div class="muted small" style="margin-top:12px">Minden megtanulva, a vizsgáig nincs esedékes ismétlés.</div>')
+    + `<div class="exWB"><i style="width:${pct}%"></i></div><div class="exWS" style="color:var(--${st[1]})">${pct}% kész · ${st[0]}</div></div>`;
+}
 function examDays(p) {
   if (!p.sched.length) return p.units.length ? '<div class="exPlan"><div class="muted small">Minden megtanulva, a vizsgáig nincs esedékes ismétlés.</div></div>' : '';
   const t0 = dayStart(Date.now()), g = new Map();
@@ -2047,7 +2114,7 @@ function renderHome() {
   const st = dayStat(today), goal = db.settings.goalMin, min = st.sec / 60;
   const d = new Date(), h = d.getHours();
   $('#todayDate').textContent = d.toLocaleDateString('hu-HU', {weekday: 'long', month: 'long', day: 'numeric'});
-  $('#heroTitle').textContent = (h < 9 ? 'Jó reggelt' : h < 18 ? 'Jó napot' : 'Jó estét') + (db.settings.name ? ', ' + db.settings.name : '') + '.';
+  $('#heroTitle').textContent = db.settings.name ? `Szia, ${db.settings.name}!` : (h < 9 ? 'Jó reggelt!' : h < 18 ? 'Jó napot!' : 'Jó estét!');
   const steps = todaySteps(now), mins = steps.reduce((k, x) => k + x.m, 0);
   const loading = firstSnap && authUid && !docs().length;
   $('#heroMsg').textContent = loading ? 'Betöltöm a jegyzeteidet…' : steps.length ? `A mai sor kb. ${mins} perc. Felülről lefelé haladj.` : 'Mára minden megőrölve. Pihenj, vagy kezdj új anyagot.';
@@ -2066,7 +2133,7 @@ function renderHome() {
   $('#examPanel').hidden = !plans.length;
   ui.exI = clamp(ui.exI || 0, 0, Math.max(0, plans.length - 1));
   if (plans.length) {
-    $('#examBox').innerHTML = examHtml(plans[ui.exI]) + `<details class="exCalD"><summary class="muted small">Vizsganaptár</summary>${examCal(now)}</details>`;
+    $('#examBox').innerHTML = examWidget(plans[ui.exI]) + `<details class="exCalD"><summary class="muted small">Vizsganaptár</summary>${examCal(now)}</details>`;
     $('#exPos').textContent = plans.length > 1 ? `${ui.exI + 1} / ${plans.length}` : '';
     $('#exPrev').hidden = $('#exNext').hidden = plans.length < 2;
     $('#exDots').innerHTML = plans.length > 1 ? plans.map((p, i) => `<button class="exDot${i === ui.exI ? ' on' : ''}" data-ex="${i}" aria-label="${i + 1}. vizsga"><i></i></button>`).join('') : '';
@@ -3218,7 +3285,7 @@ async function aiCards() {
   if (!n) return;
   if (!n.text.trim()) return toast('A dokumentum üres');
   if (!localStorage.getItem(API_KEY)) return toast('Adj meg API-kulcsot a Beállításokban');
-  $('#nAiCards').disabled = true; $('#nAiCards').textContent = '✨ Gondolkodik…';
+  $('#nAiCards').disabled = true; $('#nAiCards').textContent = 'Gondolkodik…';
   try {
     const out = await claude({maxTokens: 2048,
       system: 'Tanulókártyákat készítesz magyarul, KIZÁRÓLAG a megadott dokumentum tartalmából. Ne adj hozzá külső tudást. Rövid, egyértelmű kérdéseket és tömör válaszokat írj. Ne ismételd a dokumentumban már kártyaként (>>, <<, <>, {{ }}) szereplő sorokat. Csak egy JSON tömböt adj vissza, magyarázat nélkül: [{"q":"kérdés","a":"válasz"}]. Legfeljebb 15 elem.',
@@ -3227,7 +3294,7 @@ async function aiCards() {
     const list = (m ? JSON.parse(m[0]) : []).filter(x => x && x.q && x.a).map(x => ({q: String(x.q).replace(/\n/g, ' ').replace(/>>|<<|<>/g, '-').trim(), a: String(x.a).replace(/\n/g, ' ').trim()}));
     if (!list.length) throw new Error('Nem jött használható javaslat');
     const html = '<p class="muted small">Pipáld ki, melyik kerüljön a dokumentum végére.</p>' + list.map((x, i) => `<label class="pick"><input type="checkbox" data-pick="${i}" checked><span><b>${esc(x.q)}</b><br><span class="muted">${esc(x.a)}</span></span></label>`).join('');
-    const r = await dialog({title: `✨ ${list.length} kártyajavaslat`, html, actions: [{label: 'Hozzáadás', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
+    const r = await dialog({title: `${list.length} kártyajavaslat`, html, actions: [{label: 'Hozzáadás', key: 'ok', primary: true}, {label: 'Mégse', key: null}]});
     if (r && r.picks.length) {
       const lines = r.picks.map(i => `${list[i].q} >> ${list[i].a}`);
       n.text = n.text.replace(/\s*$/, '') + '\n' + lines.join('\n');
@@ -3237,7 +3304,7 @@ async function aiCards() {
       toast(`${lines.length} kártya hozzáadva`);
     }
   } catch (e) { toast('AI hiba: ' + e.message); }
-  $('#nAiCards').disabled = false; $('#nAiCards').textContent = '✨ AI kártyák';
+  $('#nAiCards').disabled = false; $('#nAiCards').innerHTML = '<svg class="ico"><use href="#i-spark"/></svg> AI kártyák';
 }
 
 /* ===== Pomodoro ===== */
@@ -3853,6 +3920,88 @@ document.addEventListener('keydown', e => {
     const f = m[e.code === 'Comma' ? ',' : e.code.startsWith('Digit') ? e.code.slice(5) : k];
     if (f) { e.preventDefault(); f(); }
   }
+});
+
+
+/* ===== saját jobbklikk-menü (egérrel; érintésnél a rendszer szövegkijelölése marad) ===== */
+let lastPtr = 'mouse';
+document.addEventListener('pointerdown', e => { lastPtr = e.pointerType; if (!$('#ctx').hidden && !e.target.closest('#ctx')) ctxClose(); }, true);
+const fileAct = (act, id) => { ui.sel = id; return $('#bar').onclick({target: {closest: () => ({dataset: {act}, disabled: false})}}); };
+function ctxClose() { $('#ctx').hidden = true; }
+function ctxOpen(x, y, items) {
+  const m = $('#ctx');
+  m.innerHTML = items.map((it, i) => it === '-' ? '<hr>' : `<button role="menuitem" data-ci="${i}"${it.dis ? ' disabled' : ''}${it.bad ? ' class="bad"' : ''}>${it.ic ? `<svg class="ico"><use href="#${it.ic}"/></svg>` : '<span class="ico"></span>'}<span>${it.l}</span>${it.k ? `<kbd>${it.k}</kbd>` : ''}</button>`).join('');
+  m.hidden = false; ctxAt = Date.now();
+  const r = m.getBoundingClientRect();
+  m.style.left = Math.max(6, Math.min(x, innerWidth - r.width - 6)) + 'px';
+  m.style.top = Math.max(6, Math.min(y, innerHeight - r.height - 6)) + 'px';
+  m.onclick = e => { const b = e.target.closest('[data-ci]'); if (!b || b.disabled) return; ctxClose(); items[+b.dataset.ci].run(); };
+  const f = m.querySelector('button:not([disabled])'); if (f) f.focus({preventScroll: true});
+}
+$('#ctx').addEventListener('keydown', e => {
+  const bs = [...$('#ctx').querySelectorAll('button:not([disabled])')], i = bs.indexOf(document.activeElement);
+  if (e.key === 'Escape') { e.preventDefault(); ctxClose(); }
+  else if (e.key === 'ArrowDown') { e.preventDefault(); (bs[i + 1] || bs[0]).focus(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); (bs[i - 1] || bs[bs.length - 1]).focus(); }
+});
+let ctxAt = 0;
+addEventListener('blur', ctxClose); addEventListener('resize', ctxClose); document.addEventListener('scroll', () => { if (Date.now() - ctxAt > 300) ctxClose(); }, true);
+async function clipPaste(el) {
+  try { const t = await navigator.clipboard.readText(); el.focus(); document.execCommand('insertText', false, t); }
+  catch (e) { el.focus(); toast('Beillesztés: Ctrl+V'); }
+}
+function fieldItems(el) {
+  const sel = el.selectionStart !== el.selectionEnd, ro = el.readOnly || el.disabled;
+  return [
+    {l: 'Kivágás', k: 'Ctrl X', ic: 'i-cut', dis: !sel || ro, run: () => { el.focus(); document.execCommand('cut'); }},
+    {l: 'Másolás', k: 'Ctrl C', ic: 'i-copy', dis: !sel, run: () => { el.focus(); document.execCommand('copy'); }},
+    {l: 'Beillesztés', k: 'Ctrl V', ic: 'i-paste', dis: ro, run: () => clipPaste(el)},
+    {l: 'Mindet kijelöl', k: 'Ctrl A', ic: 'i-selall', run: () => { el.focus(); el.select(); }}
+  ];
+}
+function itemItems(id) {
+  const n = byId(id); if (!n) return null;
+  const its = [{l: 'Megnyitás', ic: n.type === 'folder' ? 'i-folderF' : 'i-doc', run: () => n.type === 'folder' ? goFolder(id) : openItem(id)}];
+  if (n.type === 'note') {
+    if (learnable(n)) its.push({l: n.ladder.done ? 'Tanulási útvonal' : 'Tanulás', ic: 'i-path', run: () => openPath(id)});
+    its.push({l: 'Milly', ic: 'i-spark', run: () => { openItem(id); openMilly(); }});
+  }
+  if (!n.blk) {
+    its.push('-', {l: 'Átnevezés', ic: 'i-edit', run: () => fileAct('rename', id)}, {l: 'Áthelyezés', ic: 'i-folderF', run: () => fileAct('move', id)});
+    if (n.type === 'note') its.push({l: 'Mód…', ic: 'i-cards', run: () => fileAct('mode', id)}, {l: 'Prioritás…', ic: 'i-cal', run: () => fileAct('prio', id)});
+    its.push('-', {l: 'Kukába', ic: 'i-trash', bad: true, run: () => trashItem(id)});
+  } else its.push('-', {l: 'Szülő dokumentum', ic: 'i-docF', run: () => openItem(n.blk)});
+  return its;
+}
+document.addEventListener('contextmenu', e => {
+  if (lastPtr === 'touch' || e.shiftKey) return;
+  const t = e.target;
+  if (t.closest('#ctx')) return e.preventDefault();
+  let items = null;
+  if (t.id === 'noteText') {
+    const ta = t, sel = ta.selectionStart !== ta.selectionEnd, et = k => () => { ta.focus(); const b = document.querySelector(`#edTools [data-et="${k}"]`); if (b) b.dispatchEvent(new MouseEvent('mousedown', {bubbles: true})), b.click(); };
+    items = [...fieldItems(ta), '-',
+      {l: 'Parancsmenü', k: '/', ic: 'i-more', run: et('slash')},
+      {l: 'Tanulóblokk', k: '{{ }}', ic: 'i-path', dis: ta.readOnly, run: et('blk')},
+      {l: 'Kártya', ic: 'i-cards', dis: ta.readOnly, run: et('card')},
+      {l: 'Címsor', ic: 'i-edit', dis: ta.readOnly, run: et('h')},
+      {l: 'Kiemelés', ic: 'i-spark', dis: ta.readOnly, run: et('mark')}];
+    if (sel && !ta.readOnly) items.push('-', {l: 'Dokumentummá alakítás…', ic: 'i-docF', run: () => { ta.focus(); openSlashSel(ta); }});
+  } else if (t.matches('input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=date]), textarea')) items = fieldItems(t);
+  else {
+    const row = t.closest('[data-id], [data-open], [data-bopen], [data-folder], [data-doc], [data-path], [data-go-learn]');
+    const id = row && (row.dataset.id || row.dataset.open || row.dataset.bopen || row.dataset.folder || row.dataset.doc || row.dataset.path || row.dataset.goLearn);
+    if (id && byId(id)) items = itemItems(id);
+    else items = [
+      {l: 'Keresés és parancsok', k: 'Ctrl F', ic: 'i-search', run: ckOpen},
+      {l: 'Új jegyzet', k: 'Alt N', ic: 'i-doc', run: newNoteCmd},
+      {l: 'Tanulás folytatása', k: 'Ctrl Enter', ic: 'i-play', run: () => ckCmds()[0].run()},
+      '-', {l: 'Vissza', ic: 'i-left', dis: $('#backBtn').hidden, run: () => $('#backBtn').click()},
+      {l: 'Beállítások', k: 'Alt ,', ic: 'i-gear', run: () => show('settings')}];
+  }
+  if (!items) return;
+  e.preventDefault();
+  ctxOpen(e.clientX, e.clientY, items);
 });
 
 /* prediktív vissza: a natív app tudja, kell-e saját vissza-kezelés (a kezdőoldalon a rendszer előnézete jön) */
