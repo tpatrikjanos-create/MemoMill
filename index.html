@@ -894,7 +894,7 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
 .nN{font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nP{font-size:13px;color:var(--dim)}
 .nK,.nD{font-size:13px;color:var(--muted)}.nD{text-align:right}
 @media (max-width:760px){
-  #main:has(#homeView:not([hidden])) #top,#main:has(#learnlistView:not([hidden])) #top,#main:has(#filesView:not([hidden])) #top{padding:0 12px;height:auto}
+  #main:has(#homeView:not([hidden])) #top,#main:has(#learnlistView:not([hidden])) #top,#main:has(#filesView:not([hidden])) #top{padding:0 12px;height:auto;min-height:64px}
   #fHead{padding:8px 12px 0}#summary{padding:10px 12px 0}#rows{margin:10px 12px 30px;padding:4px 14px}
   .nrow{grid-template-columns:24px minmax(0,1fr) auto}.nK{display:none}
   #filesTrash{display:inline-flex}
@@ -4128,7 +4128,7 @@ document.addEventListener('contextmenu', e => {
 $('#noteMore').open = lsGet('memo-notemore', '0') === '1';
 $('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.26 02:22';
+const APP_V = '2026.11.26 16:42';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
