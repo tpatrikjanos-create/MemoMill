@@ -856,6 +856,17 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
 #ctx kbd{font-family:inherit;font-size:11px;color:var(--dim)}
 #ctx hr{border:0;border-top:1px solid var(--line);margin:5px 4px}
 @media (prefers-reduced-motion:reduce){#ctx{animation:none}}
+
+.hCols{display:flex;flex-direction:column;gap:18px}.hMain,.hSide{display:flex;flex-direction:column;gap:18px;min-width:0}
+@media (min-width:1500px){
+  .wrap{max-width:1560px}
+  .hCols{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;align-items:start}
+  .hSide details.acc{margin:0}
+  .hSide .hgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hSide .hgrid .s2{grid-column:span 2}
+}
+#appVer{font-size:11px;color:var(--dim);padding:0 12px 6px}
+#newVer{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:85;display:flex;align-items:center;gap:12px;padding:10px 12px 10px 16px;border-radius:14px;background:var(--menu);border:1px solid var(--a1);box-shadow:0 18px 50px -12px rgba(0,0,0,.6)}
 </style>
 </head>
 <body>
@@ -917,6 +928,7 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
     <div id="tree"></div>
     <div id="sideFoot">
       <div class="small muted" id="syncState" style="padding:4px 12px">Szinkron: —</div>
+      <div id="appVer"></div>
       <button class="navi" id="trashBtn"><svg class="ico"><use href="#i-trash"/></svg><span class="lbl">Kuka</span><span class="badge zero" id="trashBadge" hidden>0</span></button>
       <button class="navi" id="settingsBtn"><svg class="ico"><use href="#i-gear"/></svg><span class="lbl">Beállítások</span></button>
     </div>
@@ -940,11 +952,13 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
           <button class="primary xl" id="homeGo" hidden>Kezdés</button>
         </div>
         <div class="cdRow" id="cdRow"></div>
-        <section class="card qCard" id="todayCard"><div class="row-between"><h2 class="h2">Mai tanulási sor</h2><span class="muted small" id="todayProg"></span></div><ol class="tList" id="todayList"></ol></section>
+        <div class="hCols"><div class="hMain">
+        <section class="card qCard" id="todayCard"><div class="row-between"><h2 class="h2">Mai teendők</h2><span class="muted small" id="todayProg"></span></div><ol class="tList" id="todayList"></ol></section>
         <section class="card" id="examPanel" aria-roledescription="carousel" aria-label="Vizsgatervek">
           <div class="exHead"><h2 class="h2">Vizsgaterv</h2><span class="muted small" id="exPos"></span><span style="flex:1"></span><button class="exNav" id="exPrev" aria-label="Előző vizsga"><svg class="ico"><use href="#i-left"/></svg></button><button class="exNav" id="exNext" aria-label="Következő vizsga"><svg class="ico"><use href="#i-right"/></svg></button></div>
           <div id="examBox"></div><div class="exDots" id="exDots"></div>
         </section>
+        </div><div class="hSide">
         <details class="card acc" id="accStats"><summary><h2 class="h2">Statisztika</h2><span class="muted small" id="statSum"></span><svg class="ico chev"><use href="#i-chev"/></svg></summary>
           <div class="hgrid accBody">
             <div class="card tile"><div class="lb">Sorozat</div><b><svg><use href="#i-flame"/></svg><span id="streakN">0</span></b></div>
@@ -960,6 +974,7 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
         <details class="card acc"><summary><h2 class="h2">Makacs kártyák</h2><span class="muted small" id="leechSum"></span><svg class="ico chev"><use href="#i-chev"/></svg></summary><div class="accBody" id="leechBox"></div></details>
         <details class="card acc"><summary><h2 class="h2">Pomodoro</h2><span class="muted small" id="pomoMode"></span><svg class="ico chev"><use href="#i-chev"/></svg></summary><div class="accBody"><div class="pomoRow"><div class="pomoT" id="pomoTime">25:00</div>
             <div class="btns"><button class="primary" id="pomoStart">Indítás</button><button id="pomoReset">Nullázás</button><button class="ghost" id="pomoSkip">Váltás</button></div></div></div></details>
+        </div></div>
       </div>
     </section>
 
@@ -2117,7 +2132,7 @@ function renderHome() {
   $('#heroTitle').textContent = db.settings.name ? `Szia, ${db.settings.name}!` : (h < 9 ? 'Jó reggelt!' : h < 18 ? 'Jó napot!' : 'Jó estét!');
   const steps = todaySteps(now), mins = steps.reduce((k, x) => k + x.m, 0);
   const loading = firstSnap && authUid && !docs().length;
-  $('#heroMsg').textContent = loading ? 'Betöltöm a jegyzeteidet…' : steps.length ? `A mai sor kb. ${mins} perc. Felülről lefelé haladj.` : 'Mára minden megőrölve. Pihenj, vagy kezdj új anyagot.';
+  $('#heroMsg').textContent = loading ? 'Betöltöm a jegyzeteidet…' : steps.length ? `Ma kb. ${mins} perc tanulás vár rád. Fentről lefelé haladj.` : 'Mára minden megőrölve. Pihenj, vagy kezdj új anyagot.';
   const hg = $('#homeGo');
   hg.textContent = steps.length ? steps[0].b : 'Mára kész';
   hg.disabled = !steps.length;
@@ -2128,6 +2143,7 @@ function renderHome() {
     : steps.length ? steps.map((x, i) => `<li class="tItem"><span class="tNum" style="--c:var(--${x.c})">${i + 1}</span><div class="tTx"><b>${esc(x.t)}</b><span>${esc(x.s)}</span></div><button class="${i === 0 ? 'primary' : 'tex'}" ${x.a}>${i === 0 ? '<svg class="ico"><use href="#i-play"/></svg>' : ''}${x.b}</button></li>`).join('')
     : '<li class="tItem muted">Nincs mára teendő. A Tanulás fülön kezdhetsz új anyagot.</li>';
   renderCd();
+  if (innerWidth >= 1500 && !ui.statAuto) { ui.statAuto = true; $('#accStats').open = true; }
   /* vizsgaterv-widget: egyszerre egy vizsga, nyilakkal, pöttyökkel vagy oldalra húzással */
   const plans = examGroups(now);
   $('#examPanel').hidden = !plans.length;
@@ -3631,7 +3647,9 @@ $('#nLearn').onclick = () => {
   if (n.mode !== 'tanulas') { if (blocksOf(n).length) return showBlocks(n); setMode(n, 'tanulas'); }
   openPath(n.id);
 };
-$('#nReview').onclick = () => { const n = byId(ui.noteId); if (n) migrateCards(n); startReview(ui.noteId); };
+/* gyakorlás és ismétlés csak a tanulás végigvitele után: tanulós dokumentumnál a dokumentumé, blokkosnál minden blokké */
+function learnDone(n) { if (!n) return true; if (learnable(n)) return !!n.ladder.done; const bl = blocksOf(n); return !bl.length || bl.every(b => b.ladder.done); }
+$('#nReview').onclick = () => { const n = byId(ui.noteId); if (!learnDone(n)) return toast('Előbb fejezd be a tanulást'); if (n) migrateCards(n); startReview(ui.noteId); };
 $('#nErr').onclick = () => { ui.errOpen = !ui.errOpen; renderNote(); };
 $('#errReset').onclick = () => { const n = byId(ui.noteId); if (!n || !db.srs[n.id]) return; delete db.srs[n.id].map; markSrs(n.id, 'map'); persist(); renderNote(); toast('Hibatérkép nullázva'); };
 $('#nAiCards').onclick = aiCards;
@@ -4004,6 +4022,21 @@ document.addEventListener('contextmenu', e => {
   ctxOpen(e.clientX, e.clientY, items);
 });
 
+/* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
+const APP_V = '2026.11.26 01:15';
+$('#appVer').textContent = 'Verzió: ' + APP_V;
+async function verCheck() {
+  if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
+  try {
+    const r = await fetch('./version.json?t=' + Date.now(), {cache: 'no-store'}); if (!r.ok) return;
+    const v = (await r.json()).v;
+    if (v && v !== APP_V && !$('#newVer')) {
+      document.body.insertAdjacentHTML('beforeend', `<div id="newVer" role="status"><span>Új verzió érhető el (${esc(v)})</span><button class="primary" id="newVerGo">Frissítés</button></div>`);
+      $('#newVerGo').onclick = () => location.replace(location.pathname + '?v=' + encodeURIComponent(v) + location.hash);
+    }
+  } catch (e) {}
+}
+setTimeout(verCheck, 3000); setInterval(verCheck, 600000);
 /* prediktív vissza: a natív app tudja, kell-e saját vissza-kezelés (a kezdőoldalon a rendszer előnézete jön) */
 if (AND && AND.setCanBack) { let last = null; setInterval(() => { const c = !!(ui.view !== 'home' || ls || $('#dlg').open || !$('#cmdk').hidden || (rq && !rq.finished && ui.view === 'review')); if (c !== last) { last = c; try { AND.setCanBack(c); } catch (e) {} } }, 400); }
 /* Android-alkalmazásból hívható: a napi tanulási percek (az alkalmazászárhoz) */
@@ -4134,7 +4167,8 @@ function renderDocBar(n) {
   const total = makeCards(n).length;
   $('#dbPractice').textContent = q ? `Gyakorlás · ${q} esedékes` : total ? `Gyakorlás · ${total} kártya` : 'Gyakorlás';
   /* gyakorlás csak a tanulás végigvitele után (blokknál a blokké, tanulós dokumentumnál a dokumentumé) */
-  $('#dbPractice').closest('.split').hidden = learnable(n) && !n.ladder.done;
+  const ld = learnDone(n);
+  $('#dbPractice').closest('.split').hidden = !ld; $('#nReview').hidden = !ld;
   const lb = $('#dbLearn');
   const lt = learnable(n) ? n : bl.find(b => !b.ladder.done) || null;
   lb.hidden = !lt && !bl.length;
@@ -4192,7 +4226,7 @@ $('#blkStrip').addEventListener('click', blkClicks);
 $('#dbMilly').onclick = () => { if (chatOpen) { chatOpen = false; $('#chatPanel').hidden = true; } else openMilly(); };
 $('#dbExam').onclick = () => $('#nExam').click();
 $('#dbLearn').onclick = () => $('#nLearn').click();
-$('#dbPractice').onclick = () => { const n = byId(ui.noteId); if (!n) return; migrateCards(n); const q = buildQueue(Date.now(), n.id); if (q.length) startReview(n.id); else startReview(n.id, 'all'); };
+$('#dbPractice').onclick = () => { const n = byId(ui.noteId); if (!n) return; if (!learnDone(n)) return toast('Előbb fejezd be a tanulást'); migrateCards(n); const q = buildQueue(Date.now(), n.id); if (q.length) startReview(n.id); else startReview(n.id, 'all'); };
 $('#dbMore').onclick = e => { e.stopPropagation(); $('#dbMenu').hidden = !$('#dbMenu').hidden; };
 document.addEventListener('click', e => { if (!e.target.closest('#dbMenu,#dbMore')) { const m = $('#dbMenu'); if (m) m.hidden = true; } });
 $('#dbMenu').onclick = e => { const b = e.target.closest('[data-pm]'); const n = byId(ui.noteId); if (!b || !n) return; $('#dbMenu').hidden = true; migrateCards(n); const m = b.dataset.pm; startReview(n.id, m === 'sched' ? undefined : m); };
