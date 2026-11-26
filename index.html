@@ -929,6 +929,28 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
 #rows,#foldAcc{margin-left:clamp(16px,3vw,56px);margin-right:clamp(16px,3vw,56px)}
 #main:has(#homeView:not([hidden])) #top,#main:has(#learnlistView:not([hidden])) #top,#main:has(#filesView:not([hidden])) #top,#main:has(#settingsView:not([hidden])) #top,#main:has(#trashView:not([hidden])) #top{padding-left:clamp(16px,3vw,56px);padding-right:clamp(16px,3vw,56px)}
 @media (min-width:1600px){.hHeroT .h1{font-size:44px}.h1{font-size:40px}}
+
+/* dokumentum a látványterv szerint: egy üvegkártyában, olvasóbetűvel */
+#noteWrap{isolation:isolate}
+@media (min-width:761px){
+  #noteWrap::before{content:"";position:absolute;inset:8px 24px 24px 24px;z-index:-1;border-radius:24px;background:var(--glass);border:1px solid rgba(var(--fg),.09);box-shadow:inset 0 1px 0 rgba(var(--fg),.06),var(--shadow)}
+  body.glass #noteWrap::before{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%)}
+  #noteWrap{position:relative}
+  #noteWrap.hasBlk::before{right:340px}
+  body.docfull #noteWrap{padding-top:40px}
+}
+@media (min-width:761px) and (max-width:1099px){#noteWrap.hasBlk::before{right:24px}}
+#noteMore{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:0}
+#noteMore>summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:44px;font-size:13.5px;color:var(--muted);cursor:pointer}
+#noteMore>summary::-webkit-details-marker{display:none}
+#noteMore>summary .chev{margin-left:auto;transition:transform .2s var(--ease)}#noteMore[open]>summary .chev{transform:rotate(180deg)}
+#noteMore[open]{padding-bottom:12px}#noteMore>*:not(summary){margin-top:8px}
+#noteText,#edBack{font-family:var(--read)!important;font-size:18px!important;line-height:1.7!important}
+#edBack .ln{min-height:1.7em}
+#edBack .ln.bt{position:relative}
+#edBack .ln.bt[data-st]::after{content:attr(data-st);position:absolute;right:12px;top:0;font-family:var(--sans);font-size:12.5px;color:var(--muted)}
+#blkStrip .bSt{display:none!important}
+#blkStrip .bcard{padding:6px 8px}
 </style>
 </head>
 <body>
@@ -1097,6 +1119,7 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
           <button class="primary" id="dbLearn"><svg class="ico"><use href="#i-play"/></svg> Tanulás folytatása</button>
         </div>
         <div id="blkStrip" class="card" hidden></div>
+        <details id="noteMore"><summary><svg class="ico"><use href="#i-more"/></svg>Dokumentum beállításai és műveletek<svg class="ico chev"><use href="#i-chev"/></svg></summary>
         <div id="noteModeRow"><div class="seg" id="modeSeg"><button type="button" data-mode="jegyzet">Jegyzet</button><button type="button" data-mode="tanulas">Tanulás</button><button type="button" data-mode="kartya">Kártya</button></div><button class="ghost" id="nBlocks" hidden></button><span class="muted small" id="modeHint"></span></div>
         <div id="noteActions">
           <button class="primary" id="nLearn">Tanulás</button>
@@ -1112,6 +1135,7 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
           <div class="pbar" style="max-width:none"><i id="noteBar" style="width:0"></i></div>
           <div class="stats" id="ladderInfo" style="margin-top:6px"></div>
         </div>
+        </details>
         <div class="box" id="errPanel" hidden>
           <div class="row-between"><b class="serif" style="font-size:20px">Hibatérkép</b><button class="ghost small" id="errReset">Nullázás</button></div>
           <div class="legend muted" style="margin:6px 0 12px"><span style="background:rgba(251,191,36,.18)">1 hiba</span><span style="background:rgba(251,113,133,.22)">2–3</span><span style="background:rgba(244,63,94,.45);color:#fff">4+</span> A gyakran elrontott szavakat a tanulás mindig elrejti.</div>
@@ -2491,7 +2515,6 @@ function renderLearnList() {
   $('#llChips').innerHTML = [['uj', 'Nem kezdett'], ['vizsga', 'Vizsgás'], ['szunet', 'Szüneteltetett']].map(([k, l]) => `<button class="chip${LLF.st === k ? ' on' : ''}" data-llst="${k}">${l}<b>${cnt(k)}</b></button>`).join('');
   const fOn = !!(LLF.q || LLF.inn || ['uj', 'vizsga', 'szunet'].includes(LLF.st));
   $('#llFilt').classList.toggle('on', fOn);
-  if (fOn && !ui.llFiltTouched) $('#llMore').hidden = false;
   const list = scope.filter(x => llMatch(x.n, LLF.st, x.st, now));
   const dueOf = x => { const S = (db.srs[x.n.id] || {}).doc; return x.n.ladder.done && S ? S.due : Infinity; };
   const nm = x => dispName(x.n), fp = x => x.path.map(c => c.name).join(' › ');
@@ -4100,8 +4123,12 @@ document.addEventListener('contextmenu', e => {
   ctxOpen(e.clientX, e.clientY, items);
 });
 
+/* a dokumentum-beállítások lenyíló nyitottságát eszközönként megjegyzi */
+{ const h = document.querySelector('#noteWrap .help'); if (h) $('#noteMore').append(h); }
+$('#noteMore').open = lsGet('memo-notemore', '0') === '1';
+$('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.26 02:13';
+const APP_V = '2026.11.26 02:22';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
@@ -4291,7 +4318,9 @@ function bcardHtml(b, num, now, prim) {
 }
 function rowsHtml(list, numOf, now) {
   const act = list.filter(b => studyRank(b, now) !== 3), dn = list.filter(b => studyRank(b, now) === 3);
-  return `<div class="bsGrid">${act.map((b, i) => bcardHtml(b, numOf(b), now, i === 0)).join('')}</div>`
+  const MAX = 5, head = act.slice(0, MAX), rest = act.slice(MAX);
+  return `<div class="bsGrid">${head.map((b, i) => bcardHtml(b, numOf(b), now, i === 0)).join('')}</div>`
+    + (rest.length ? `<details class="bDone bMore"><summary><svg class="ico"><use href="#i-more"/></svg>További ${rest.length} blokk<svg class="ico chev"><use href="#i-chev"/></svg></summary><div class="bsGrid">${rest.map(b => bcardHtml(b, numOf(b), now, false)).join('')}</div></details>` : '')
     + (dn.length ? `<details class="bDone"><summary><svg class="ico"><use href="#i-check"/></svg>${dn.length} megtanult · következő ismétlés ${fmtDue(Math.min(...dn.map(b => ((db.srs[b.id] || {}).doc || {due: Infinity}).due)), now)}<svg class="ico chev"><use href="#i-chev"/></svg></summary><div class="bsGrid">${dn.map(b => bcardHtml(b, numOf(b), now)).join('')}</div></details>` : '');
 }
 function blkClicks(e) {
@@ -4322,7 +4351,10 @@ function edLines(text) {
     if (/^#+\s/.test(t)) cls[i] = 'hd';
     else if (/(>>|<<|<>|::)/.test(t) || /\{\{.+?\}\}/.test(t)) cls[i] = 'cd';
   }
-  return L.map((l, i) => `<div class="ln ${cls[i]}">${l ? esc(l).replace(/\*\*(.+?)\*\*/g, '<mark>**$1**</mark>') : '​'}</div>`).join('');
+  const nn = byId(ui.noteId), bl = nn && !nn.blk ? blocksOf(nn).slice().sort((a, b) => (a.bi || 0) - (b.bi || 0)) : [], now = Date.now(), stl = {};
+  let kk = 0;
+  L.forEach((l, i) => { if (/\bbt\b/.test(cls[i])) { const b = bl[kk++]; if (b) { const S = (db.srs[b.id] || {}).doc; stl[i] = b.ladder.done ? (S && S.due < dayStart(now) + DAY ? 'Ismétlés esedékes ma' : 'Megtanulva') : b.ladder.step > 1 || starsOf(b, 1) ? `${STEPS[b.ladder.step]} · ${b.ladder.step}/7` : 'Új'; } } });
+  return L.map((l, i) => `<div class="ln ${cls[i]}"${stl[i] ? ` data-st="${esc(stl[i])}"` : ''}>${l ? esc(l).replace(/\*\*(.+?)\*\*/g, '<mark>**$1**</mark>') : '​'}</div>`).join('');
 }
 function edSync() {
   const ta = $('#noteText'), bk = $('#edBack');
