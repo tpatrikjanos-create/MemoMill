@@ -858,15 +858,66 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
 @media (prefers-reduced-motion:reduce){#ctx{animation:none}}
 
 .hCols{display:flex;flex-direction:column;gap:18px}.hMain,.hSide{display:flex;flex-direction:column;gap:18px;min-width:0}
-@media (min-width:1500px){
-  .wrap{max-width:1560px}
-  .hCols{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;align-items:start}
-  .hSide details.acc{margin:0}
-  .hSide .hgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hSide .hgrid .s2{grid-column:span 2}
-}
+
 #appVer{font-size:11px;color:var(--dim);padding:0 12px 6px}
 #newVer{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:85;display:flex;align-items:center;gap:12px;padding:10px 12px 10px 16px;border-radius:14px;background:var(--menu);border:1px solid var(--a1);box-shadow:0 18px 50px -12px rgba(0,0,0,.6)}
+
+/* ===== a látványterv pontos követése ===== */
+.h1,.hHeroT .h1{font-family:var(--sans);font-weight:700;letter-spacing:-.02em}
+.hHeroT .h1{font-size:38px}
+#main:has(#homeView:not([hidden])) #top,#main:has(#learnlistView:not([hidden])) #top,#main:has(#filesView:not([hidden])) #top,#main:has(#settingsView:not([hidden])) #top,#main:has(#trashView:not([hidden])) #top{max-width:1100px;width:100%;box-sizing:border-box;padding:0 40px;height:72px}
+.wrap{max-width:1100px}
+#side .sec{margin-top:10px}
+.swipeHint{display:none;text-align:center;font-size:12px;color:var(--dim);margin-top:2px}
+@media (pointer:coarse){.swipeHint{display:block}}
+/* Jegyzetek: Minden jegyzet */
+#filesView{padding:0}
+#fHead{max-width:1100px;box-sizing:border-box;padding:8px 40px 0;display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;border:0}
+#fHead .fhT{flex:1;min-width:240px}
+#curTitle{font-size:36px;font-weight:700;letter-spacing:-.02em;margin:0;display:flex;align-items:center;gap:10px}
+#curTitle .ico{display:none}
+#fSub{margin:6px 0 0;color:var(--muted);font-size:16px}
+#bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;border:0;padding:0;background:none}
+#bar button:disabled{visibility:hidden}
+#bar #fSearch{display:none}
+#filesTrash{display:none}
+#summary{max-width:1100px;box-sizing:border-box;padding:14px 40px 0;font-size:13px;color:var(--dim);border:0}
+#rows{max-width:1100px;box-sizing:border-box;margin:12px 40px 60px;padding:8px 20px 6px;border-radius:22px;border:1px solid rgba(var(--fg),.09);background:var(--glass)}
+body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:inset 0 1px 0 rgba(var(--fg),.06),var(--shadow)}
+#rows .row{border-top:1px solid var(--line);border-bottom:0;border-radius:0;min-height:56px}
+#rows .row:first-child{border-top:0}
+#rows .row.head{display:none}
+.nrow{display:grid;grid-template-columns:28px minmax(0,1fr) 190px 120px;gap:14px;align-items:center;min-height:56px;padding:0 6px;border-top:1px solid var(--line);cursor:pointer;color:var(--text)}
+.nrow:first-child{border-top:0}
+.nrow:hover .nN{color:var(--a1)}
+.nrow .ico{color:var(--muted);width:20px;height:20px}
+.nN{font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nP{font-size:13px;color:var(--dim)}
+.nK,.nD{font-size:13px;color:var(--muted)}.nD{text-align:right}
+@media (max-width:760px){
+  #main:has(#homeView:not([hidden])) #top,#main:has(#learnlistView:not([hidden])) #top,#main:has(#filesView:not([hidden])) #top{padding:0 12px;height:auto}
+  #fHead{padding:8px 12px 0}#summary{padding:10px 12px 0}#rows{margin:10px 12px 30px;padding:4px 14px}
+  .nrow{grid-template-columns:24px minmax(0,1fr) auto}.nK{display:none}
+  #filesTrash{display:inline-flex}
+}
+#foldAcc{max-width:1020px;margin:0 40px 60px}
+@media (max-width:760px){#foldAcc{margin:0 12px 30px}}
+@media (min-width:761px){#foldAcc:not([open]) summary .muted::after{content:'a bal oldali fában is'}}
+#filesView.root #bar button:disabled{display:none}
+#rows{margin-bottom:16px}
+#crumbs>button:first-child{padding-left:0}
+
+/* dokumentum fejléc a látványterv szerint */
+#docBar,body.glass #docBar{background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#docBar .dbSp{flex:1;min-width:0}
+#docBar #dbState{font-size:12.5px}
+#dbExam{color:var(--warn);background:rgba(251,191,36,.12);border-color:transparent;font-weight:600}
+#dbLearn .ico{width:15px;height:15px;vertical-align:-2px}
+#noteModeRow,#noteActions{display:inline-flex}
+#noteModeRow{margin-top:4px}
+#noteActions{gap:6px;flex-wrap:wrap}
+#noteActions button,#noteActions select{min-height:36px;padding:4px 12px;font-size:13px;background:none;border-color:var(--line)}
+#nLearn,#nChat{display:none!important}
+#noteModeRow .seg button{min-height:34px;font-size:13px}
 </style>
 </head>
 <body>
@@ -898,6 +949,7 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
     <symbol id="i-paste" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 5V3h6v2M9 11h6M9 15h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
     <symbol id="i-selall" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2.5"/><path d="M8 12l3 3 5-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M20 20l-4.3-4.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
     <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
@@ -927,8 +979,6 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
     <div class="sec">Mappák</div>
     <div id="tree"></div>
     <div id="sideFoot">
-      <div class="small muted" id="syncState" style="padding:4px 12px">Szinkron: —</div>
-      <div id="appVer"></div>
       <button class="navi" id="trashBtn"><svg class="ico"><use href="#i-trash"/></svg><span class="lbl">Kuka</span><span class="badge zero" id="trashBadge" hidden>0</span></button>
       <button class="navi" id="settingsBtn"><svg class="ico"><use href="#i-gear"/></svg><span class="lbl">Beállítások</span></button>
     </div>
@@ -956,7 +1006,7 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
         <section class="card qCard" id="todayCard"><div class="row-between"><h2 class="h2">Mai teendők</h2><span class="muted small" id="todayProg"></span></div><ol class="tList" id="todayList"></ol></section>
         <section class="card" id="examPanel" aria-roledescription="carousel" aria-label="Vizsgatervek">
           <div class="exHead"><h2 class="h2">Vizsgaterv</h2><span class="muted small" id="exPos"></span><span style="flex:1"></span><button class="exNav" id="exPrev" aria-label="Előző vizsga"><svg class="ico"><use href="#i-left"/></svg></button><button class="exNav" id="exNext" aria-label="Következő vizsga"><svg class="ico"><use href="#i-right"/></svg></button></div>
-          <div id="examBox"></div><div class="exDots" id="exDots"></div>
+          <div id="examBox"></div><div class="exDots" id="exDots"></div><div class="swipeHint" id="exHint">Oldalra húzva vált</div>
         </section>
         </div><div class="hSide">
         <details class="card acc" id="accStats"><summary><h2 class="h2">Statisztika</h2><span class="muted small" id="statSum"></span><svg class="ico chev"><use href="#i-chev"/></svg></summary>
@@ -1003,10 +1053,10 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
     <!-- JEGYZETEK -->
     <section id="filesView" class="view" hidden>
       <div id="fHead">
-        <h1 id="curTitle"></h1>
+        <div class="fhT"><h1 id="curTitle"></h1><p id="fSub"></p></div>
         <div id="bar">
-          <button class="primary" data-act="newNote">+ Dokumentum</button>
-          <button data-act="newFolder">+ Mappa</button>
+          <button class="primary" data-act="newNote"><svg class="ico"><use href="#i-plus"/></svg> Új jegyzet</button>
+          <button class="tex" data-act="newFolder"><svg class="ico"><use href="#i-folderF"/></svg> Új mappa</button>
           <button data-act="open" disabled>Megnyitás</button>
           <button data-act="rename" disabled>Átnevezés</button>
           <button data-act="move" disabled>Áthelyezés</button>
@@ -1019,6 +1069,7 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
       </div>
       <div id="summary"></div>
       <div id="rows"></div>
+      <details class="card acc" id="foldAcc" open hidden><summary><h2 class="h2">Mappák</h2><span class="muted small"></span><svg class="ico chev"><use href="#i-chev"/></svg></summary><div class="accBody" id="foldList"></div></details>
     </section>
 
     <!-- DOKUMENTUM -->
@@ -1030,8 +1081,9 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
           <button class="chip" id="dbExam"></button>
           <span class="split"><button class="primary" id="dbPractice">Gyakorlás</button><button class="primary" id="dbMore" title="Gyakorlás módja">▾</button>
             <span id="dbMenu" hidden><button data-pm="sched">Ütemezés szerint<small>az esedékes és az új kártyák</small></button><button data-pm="all">Összes kártya sorrendben<small>beleszámít az ütemezésbe</small></button><button data-pm="cram">Gyors átismétlés<small>nem számít bele az ütemezésbe, vizsga előttre</small></button></span></span>
-          <button id="dbLearn">Tanulás folytatása</button>
-          <button class="millyBtn" id="dbMilly"><span class="mAv sm"></span>Milly</button>
+          <span class="dbSp"></span>
+          <button class="tex millyBtn" id="dbMilly"><span class="mAv sm"></span>Milly</button>
+          <button class="primary" id="dbLearn"><svg class="ico"><use href="#i-play"/></svg> Tanulás folytatása</button>
         </div>
         <div id="blkStrip" class="card" hidden></div>
         <div id="noteModeRow"><div class="seg" id="modeSeg"><button type="button" data-mode="jegyzet">Jegyzet</button><button type="button" data-mode="tanulas">Tanulás</button><button type="button" data-mode="kartya">Kártya</button></div><button class="ghost" id="nBlocks" hidden></button><span class="muted small" id="modeHint"></span></div>
@@ -1119,7 +1171,7 @@ body.glass #ctx{background:color-mix(in srgb,var(--menu) 82%,transparent);backdr
     <!-- BEÁLLÍTÁSOK -->
     <section id="settingsView" class="view" hidden>
       <div class="wrap" id="setWrap">
-        <div><h1 class="h1">Beállítások</h1><p class="sub">A változások csak a Mentés gombbal lépnek életbe.</p></div>
+        <div><h1 class="h1">Beállítások</h1><p class="sub">A változások csak a Mentés gombbal lépnek életbe.</p><p class="small muted" style="margin:6px 0 0"><span id="syncState">Szinkron: —</span> · <span id="appVer"></span></p></div>
         <div class="sgrid" id="setGrid"></div>
         <div id="setBar"><span>Mentetlen változások</span><button class="ghost" id="setUndo">Elvetés</button><button class="primary" id="setSave">Mentés</button></div>
       </div>
@@ -1977,7 +2029,7 @@ function render() {
   $('#top').classList.toggle('home', ui.view === 'home' || ui.view === 'learnlist' || ui.view === 'review' || (ui.view === 'files' && !ui.cur));
   document.body.classList.toggle('docfull', ui.view === 'note');
   if (ui.view !== 'note') { hideSel(); hideSlash(); }
-  $('#backBtn').style.visibility = (['note', 'path', 'trash', 'settings', 'cards'].includes(ui.view) || (ui.view === 'files' && ui.cur)) ? 'visible' : 'hidden';
+  $('#backBtn').style.display = (['note', 'path', 'trash', 'settings', 'cards'].includes(ui.view) || (ui.view === 'files' && ui.cur)) ? '' : 'none';
   renderTree();
   if (ui.view === 'home') renderHome();
   if (ui.view === 'files') renderFiles();
@@ -2143,7 +2195,6 @@ function renderHome() {
     : steps.length ? steps.map((x, i) => `<li class="tItem"><span class="tNum" style="--c:var(--${x.c})">${i + 1}</span><div class="tTx"><b>${esc(x.t)}</b><span>${esc(x.s)}</span></div><button class="${i === 0 ? 'primary' : 'tex'}" ${x.a}>${i === 0 ? '<svg class="ico"><use href="#i-play"/></svg>' : ''}${x.b}</button></li>`).join('')
     : '<li class="tItem muted">Nincs mára teendő. A Tanulás fülön kezdhetsz új anyagot.</li>';
   renderCd();
-  if (innerWidth >= 1500 && !ui.statAuto) { ui.statAuto = true; $('#accStats').open = true; }
   /* vizsgaterv-widget: egyszerre egy vizsga, nyilakkal, pöttyökkel vagy oldalra húzással */
   const plans = examGroups(now);
   $('#examPanel').hidden = !plans.length;
@@ -2221,6 +2272,21 @@ function renderFiles() {
   if (ui.sel && !byId(ui.sel)) ui.sel = null;
   updBar();
   if (fold(ui.q).length >= 2) return renderHits();
+  $('#fSub').textContent = ui.cur ? 'Mappa tartalma. Dupla kattintás: megnyitás, jobbklikk: további műveletek.' : 'Legutóbb szerkesztett elöl. A mappák a bal oldali fában.';
+  $('#foldAcc').hidden = true;
+  $('#filesView').classList.toggle('root', !ui.cur);
+  if (!ui.cur) {
+    $('#curTitle').textContent = 'Minden jegyzet';
+    const all = notes().filter(n => !n.blk).sort((a, b) => (b.mod || 0) - (a.mod || 0));
+    $('#summary').textContent = `${all.length} dokumentum`;
+    const kind = n => { const bl = blocksOf(n).length; return !n.text.trim() ? 'Üres' : bl ? bl + ' tanulóblokk' : n.mode === 'kartya' ? 'Kártya mód' : n.mode === 'tanulas' ? (n.ladder.done ? 'Megtanulva' : 'Tanulás ' + n.ladder.step + '/7') : 'Jegyzet'; };
+    $('#rows').innerHTML = all.length ? all.map(n => `<div class="row nrow" data-id="${n.id}" data-open="${n.id}" draggable="${!coarse}"><svg class="ico"><use href="#i-doc"/></svg><div style="min-width:0"><div class="nN">${esc(dispName(n))}</div><div class="nP">${esc(crumbs(n.parentId).map(c => c.name).join(' › ') || 'Jegyzetek')}</div></div><span class="nK">${kind(n)}</span><span class="nD">${fmtD(n.mod)}</span></div>`).join('')
+      : '<p class="muted" style="padding:20px">Még nincs jegyzeted. Kezdd az „Új jegyzet” gombbal.</p>';
+    const fs = kids(null).filter(i => i.type === 'folder');
+    $('#foldAcc').hidden = !fs.length;
+    $('#foldList').innerHTML = fs.map(f => `<div class="row nrow" data-id="${f.id}" data-fgo="${f.id}" data-drop="${f.id}"><svg class="ico" style="color:var(--a1)"><use href="#i-folderF"/></svg><div style="min-width:0"><div class="nN">${esc(f.name)}</div><div class="nP">${kids(f.id).length} elem</div></div><span class="nK"></span><span class="nD">${fmtD(f.mod)}</span></div>`).join('');
+    return;
+  }
   const list = kids(ui.cur), now = Date.now();
   const nf = list.filter(i => i.type === 'folder').length;
   $('#summary').textContent = `${nf} mappa · ${list.length - nf} dokumentum · ${coarse ? 'koppintás: megnyitás, hosszan nyomva: áthelyezés húzással' : 'dupla kattintás: megnyitás, húzd a mappára az áthelyezéshez'}`;
@@ -3456,6 +3522,7 @@ $('#crumbs').onclick = e => {
   if (b && ui.view === 'files') { ui.q = ''; goFolder(b.dataset.go === 'root' ? null : b.dataset.go); }
 };
 let noClick = 0;
+$('#foldList').onclick = e => { const f = e.target.closest('[data-fgo]'); if (f) goFolder(f.dataset.fgo); };
 $('#rows').onclick = e => {
   if (Date.now() < noClick) return;
   const xp = e.target.closest('[data-xp]');
@@ -3987,7 +4054,7 @@ function itemItems(id) {
   if (!n.blk) {
     its.push('-', {l: 'Átnevezés', ic: 'i-edit', run: () => fileAct('rename', id)}, {l: 'Áthelyezés', ic: 'i-folderF', run: () => fileAct('move', id)});
     if (n.type === 'note') its.push({l: 'Mód…', ic: 'i-cards', run: () => fileAct('mode', id)}, {l: 'Prioritás…', ic: 'i-cal', run: () => fileAct('prio', id)});
-    its.push('-', {l: 'Kukába', ic: 'i-trash', bad: true, run: () => trashItem(id)});
+    its.push('-', {l: 'Kukába', ic: 'i-trash', bad: true, run: () => trashItem(byId(id))});
   } else its.push('-', {l: 'Szülő dokumentum', ic: 'i-docF', run: () => openItem(n.blk)});
   return its;
 }
@@ -4014,7 +4081,7 @@ document.addEventListener('contextmenu', e => {
       {l: 'Keresés és parancsok', k: 'Ctrl F', ic: 'i-search', run: ckOpen},
       {l: 'Új jegyzet', k: 'Alt N', ic: 'i-doc', run: newNoteCmd},
       {l: 'Tanulás folytatása', k: 'Ctrl Enter', ic: 'i-play', run: () => ckCmds()[0].run()},
-      '-', {l: 'Vissza', ic: 'i-left', dis: $('#backBtn').hidden, run: () => $('#backBtn').click()},
+      '-', {l: 'Vissza', ic: 'i-left', dis: $('#backBtn').style.display === 'none', run: () => $('#backBtn').click()},
       {l: 'Beállítások', k: 'Alt ,', ic: 'i-gear', run: () => show('settings')}];
   }
   if (!items) return;
@@ -4023,7 +4090,7 @@ document.addEventListener('contextmenu', e => {
 });
 
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.26 01:15';
+const APP_V = '2026.11.26 01:56';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
@@ -4161,7 +4228,7 @@ function renderDocBar(n) {
   else if (n.mode === 'kartya') st = '<span class="dot aktiv"></span>Kártya';
   else st = '<span class="dot nincs"></span>Jegyzet' + (bl.length ? ` · ${bl.length} blokk` : '');
   $('#dbState').innerHTML = st;
-  if (n.exam) { const left = Math.ceil((n.exam.ts - now) / DAY); $('#dbExam').textContent = `Vizsga: ${n.exam.date.replace(/-/g, '. ')}. · ${left > 0 ? left + ' nap' : 'lejárt'}`; }
+  if (n.exam) { const left = Math.ceil((n.exam.ts - now) / DAY); $('#dbExam').textContent = `Vizsga ${new Date(n.exam.ts).toLocaleDateString('hu-HU', {month: 'short', day: 'numeric'})} · ${left > 0 ? left + ' nap' : 'lejárt'}`; }
   else $('#dbExam').textContent = '+ Vizsgadátum';
   const q = buildQueue(now, n.id).length + bl.reduce((k, b) => k + buildQueue(now, b.id).length, 0);
   const total = makeCards(n).length;
@@ -4172,7 +4239,8 @@ function renderDocBar(n) {
   const lb = $('#dbLearn');
   const lt = learnable(n) ? n : bl.find(b => !b.ladder.done) || null;
   lb.hidden = !lt && !bl.length;
-  lb.textContent = lt && !lt.ladder.done ? `Tanulás folytatása · ${lt.ladder.step}/7` : 'Tanulás';
+  lb.innerHTML = '<svg class="ico"><use href="#i-play"/></svg> ' + (lt && !lt.ladder.done ? (lt.ladder.step > 1 || starsOf(lt, 1) ? 'Tanulás folytatása' : 'Tanulás kezdése') : 'Tanulási útvonal');
+  lb.className = ld ? 'tex' : 'primary';
   renderBlkStrip(n);
 }
 function renderBlkStrip(n) {
