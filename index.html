@@ -972,6 +972,63 @@ body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgb
 #noteMore>summary{border:1px solid rgba(var(--a1r),.35);background:linear-gradient(100deg,rgba(var(--a1r),.10),rgba(var(--a2r),.10));border-radius:14px;padding:12px 16px;color:var(--text);font-weight:600;font-size:15px}
 #noteMore>summary:hover{border-color:rgba(var(--a1r),.6)}
 #noteMore>summary .ico{color:var(--a1)}
+
+/* ===== gyakorlójátékok és értő olvasás ===== */
+.gStart{max-width:620px;margin:6vh auto 0;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.gStart h2{font-family:var(--disp);font-size:clamp(30px,5vw,44px);margin:0;letter-spacing:-.02em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gDesc{font-size:16px;font-weight:500;color:var(--ink2,var(--muted));line-height:1.55;margin:0;max-width:52ch}
+.gMeta{font-size:13px;color:var(--muted);font-weight:500}
+.gLv{display:inline-flex;gap:4px;padding:4px;border-radius:14px;background:rgba(var(--fg),.05);border:1px solid var(--line)}
+.gLv button{border:0;background:none;padding:8px 16px;border-radius:10px;font-weight:600;font-size:14px;min-height:40px;display:inline-flex;gap:6px;align-items:center}
+.gLv button.on{background:linear-gradient(100deg,rgba(var(--a1r),.25),rgba(var(--a2r),.25));color:var(--text);box-shadow:inset 0 0 0 1px rgba(var(--a1r),.5)}
+.gLv button.lk{opacity:.45}.gLv .ico,.gLv svg{width:14px;height:14px}
+#lText .t.rh{color:transparent;background:rgba(var(--fg),.06)}
+#lText .t.rh b.bio{color:transparent}
+#lText .t.rv.hl,#lText .t.tp{background:linear-gradient(100deg,rgba(var(--a1r),.32),rgba(var(--a2r),.28));color:var(--text)}
+#lText.gDrag{touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair}
+#lText b.bio{font-weight:800}
+#learn[data-game] #lText{font-weight:500}
+#learn[data-game] #lText .gy{font-style:normal;color:var(--ok)}
+#learn[data-game] #lText .gr{font-style:normal;color:#fff;background:var(--bad);border-radius:3px}
+#learn[data-game="read"] #lText .t.ok{color:var(--ok)}
+.gap{display:inline-block;height:1.05em;vertical-align:-.18em;border-bottom:2px solid rgba(var(--fg),.35);border-radius:2px}
+.gap.cur{border-bottom-color:var(--a1);background:rgba(var(--a1r),.14);box-shadow:0 0 0 3px rgba(var(--a1r),.12);animation:gPulse 1.4s ease-in-out infinite}
+@keyframes gPulse{50%{box-shadow:0 0 0 6px rgba(var(--a1r),.06)}}
+.gw.ok{color:var(--ok);font-weight:700}.gw.bad{color:var(--bad);font-weight:700}
+.bar{display:inline-block;height:.62em;border-radius:4px;background:rgba(var(--fg),.12);vertical-align:.05em}
+.bar.cur{background:linear-gradient(100deg,rgba(var(--a1r),.55),rgba(var(--a2r),.5))}
+.gOpts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+.gOpts.n2{grid-template-columns:repeat(2,minmax(0,1fr))}.gOpts.n4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.gOpt{min-height:58px;display:flex;align-items:center;gap:10px;padding:8px 14px;text-align:left;border-radius:14px;font-size:18px;font-weight:600;background:rgba(var(--fg),.05);border:1px solid var(--line2,var(--line))}
+.gOpt kbd{flex:none;font:600 12px var(--sans);color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.gOt{min-width:0;overflow-wrap:anywhere;hyphens:auto;line-height:1.2}
+.gOpt:hover:not(:disabled){border-color:rgba(var(--a1r),.6);background:rgba(var(--a1r),.08)}
+.gOpt.no{animation:gNo .5s ease;border-color:var(--bad);background:rgba(251,113,133,.16)}.gOpt:disabled{opacity:.45}
+@keyframes gNo{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.gRow{display:flex;gap:10px;justify-content:center;width:100%}
+#learn[data-game] #lFootIn #gIn{flex:1;min-width:200px;font-size:18px;min-height:50px}
+#gBio.on{color:var(--a1);box-shadow:inset 0 0 0 1px rgba(var(--a1r),.5)}
+.scHint{font-size:14px;color:var(--muted);font-weight:500;margin-bottom:12px;text-align:center}
+#scList{display:flex;flex-direction:column;gap:10px;max-width:760px;margin:0 auto}
+.scI{display:flex;gap:10px;align-items:stretch;border-radius:14px;background:rgba(var(--fg),.05);border:1px solid var(--line);font-size:17px;font-weight:500;line-height:1.5}
+.scI .hdl{flex:none;width:44px;display:grid;place-items:center;cursor:grab;touch-action:none;color:var(--muted);border-right:1px solid var(--line)}
+.scI .hdl svg{width:22px;height:22px}
+.scI .scT{padding:10px 14px 10px 0}
+.scI.drag{box-shadow:0 18px 40px rgba(0,0,0,.45);border-color:rgba(var(--a1r),.6);background:var(--dlg,#151b2e);cursor:grabbing}
+.scPh{border:2px dashed rgba(var(--a1r),.4);border-radius:14px}
+.gScore{font-family:var(--disp);font-size:64px;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
+.gLabel{font-size:17px;font-weight:600}
+.gRec{font-weight:700;color:var(--warn);background:rgba(251,191,36,.12);padding:4px 12px;border-radius:99px;font-size:14px}
+.gFull{max-width:760px;margin:18px auto 0;text-align:left;border:1px solid var(--line);border-radius:16px;padding:12px 18px;background:rgba(var(--fg),.03);font-weight:500}
+.gFull summary{cursor:pointer;font-weight:700;margin-bottom:6px}
+.scRes{max-width:760px;margin:18px auto 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;text-align:left;font-weight:500}
+.scRes li{padding:10px 14px;border-radius:12px;border:1px solid var(--line)}
+.scRes li.ok{border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.08)}.scRes li.bad{border-color:rgba(251,113,133,.5);background:rgba(251,113,133,.08)}
+.scRes li b{margin-right:6px}.scRes li.ok b{color:var(--ok)}.scRes li.bad b{color:var(--bad)}
+#pathMap .st small{font-size:11px;color:var(--muted);letter-spacing:0}
+@media (max-width:760px){.gOpts{grid-template-columns:repeat(2,minmax(0,1fr))}.gOpt{font-size:16px;min-height:54px}.gStart{margin-top:2vh}}
+#gLvTop{display:flex;justify-content:center}#gLvTop .gLv{padding:3px}#gLvTop .gLv button{min-height:34px;padding:5px 12px;font-size:13px}
+@media (max-width:760px){#learnTop{flex-wrap:wrap}#gLvTop{order:10;flex-basis:100%}#gLvTop:empty{display:none}#gLvTop .gLv button{padding:5px 12px;font-size:13px}}
 </style>
 </head>
 <body>
@@ -994,7 +1051,7 @@ body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgb
     <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
     <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z M14 6l4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
     <symbol id="i-skip" viewBox="0 0 24 24"><path d="M5 5l9 7-9 7zM18 5v14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
-    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-grip" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></g></symbol><symbol id="i-more" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18" cy="12" r="1.6" fill="currentColor"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-speak" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10z M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></symbol>
     <symbol id="i-kbd" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
@@ -1267,7 +1324,7 @@ body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgb
   <div id="learnTop">
     <button class="ghost" id="lClose" title="Bezárás" aria-label="Bezárás"><svg class="ico"><use href="#i-x"/></svg></button>
     <div id="lInfo"><b id="lTitle"></b><span class="muted small" id="lStep"></span></div>
-    <div id="lHearts"></div>
+    <div id="gLvTop"></div><div id="lHearts"></div>
     <button class="ghost" id="lSpeak" title="Felolvasás"><svg class="ico"><use href="#i-speak"/></svg></button>
   </div>
   <div id="lProg"><i style="width:0"></i></div>
@@ -1366,7 +1423,7 @@ function load() {
     const fid = uid(), now = Date.now();
     d = {items: [
       {id: fid, type: 'folder', name: 'Példa', parentId: null, mod: now, sample: now},
-      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, mode: 'tanulas', exam: null, prio: 'aktiv', ladder: {step: 1, done: false}, mod: now, sample: now}
+      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, mode: 'tanulas', exam: null, prio: 'aktiv', ladder: {step: 1, done: false, v: 2}, mod: now, sample: now}
     ]};
   }
   d.items = Array.isArray(d.items) ? d.items : Object.values(d.items);
@@ -1400,11 +1457,12 @@ function fixItem(i) {
     if (i.exam === undefined) i.exam = null;
     if (!['aktiv', 'nincs', 'szunet'].includes(i.prio)) i.prio = 'aktiv';
     if (!i.ladder || typeof i.ladder !== 'object') i.ladder = {step: 1, done: false};
-    i.ladder.step = clamp(+i.ladder.step || 1, 1, 7);
+    if (i.ladder.v !== 2) { i.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 2}; i._rst = 1; }
+    i.ladder.step = clamp(+i.ladder.step || 1, 1, 15);
     i.ladder.done = !!i.ladder.done;
     i.ladder.lives = clamp(+i.ladder.lives || 3, 1, 3);
     const st = {};
-    Object.entries(i.ladder.stars && typeof i.ladder.stars === 'object' ? i.ladder.stars : {}).forEach(([k, v]) => { if (/^s[1-7]$/.test(k) && +v) st[k] = clamp(+v, 1, 3); });
+    Object.entries(i.ladder.stars && typeof i.ladder.stars === 'object' ? i.ladder.stars : {}).forEach(([k, v]) => { if (/^s([1-9]|1[0-5])$/.test(k) && +v) st[k] = clamp(+v, 1, 3); });
     i.ladder.stars = st;
     if (i.exam && !i.exam.date) i.exam = null;
     /* a módok előtti dokumentumok: ami eddig is tanulásban volt (nem üres), az maradjon ott */
@@ -1416,6 +1474,8 @@ function fixItem(i) {
 }
 function fixDb() {
   db.items = db.items.filter(i => i && i.id).map(fixItem);
+  /* új létra (2026.11.): minden haladás újraindul, a teljes szöveg ismétlése is */
+  db.items.forEach(i => { if (!i._rst) return; delete i._rst; markItem(i.id); if (db.srs[i.id] && db.srs[i.id].doc) { delete db.srs[i.id].doc; markSrs(i.id, 'doc'); } });
   reindex();
   /* a régi kártyaállapotokhoz rövid kulcs, hogy szerkesztés után is megtaláljuk őket */
   db.items.forEach(n => {
@@ -1445,7 +1505,7 @@ const rawKids = pid => db.items.filter(i => i.parentId === pid);
 const kids = pid => rawKids(pid).filter(i => !i.deleted).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu', {numeric: true}));
 function allIds(id) { const out = [id]; rawKids(id).forEach(k => out.push(...allIds(k.id))); return out; }
 function crumbs(id) { const p = []; let c = id ? byId(id) : null; while (c) { p.unshift(c); c = c.parentId ? byId(c.parentId) : null; } return p; }
-const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}}, mod: Date.now(), cr: Date.now()});
+const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}, v: 2}, mod: Date.now(), cr: Date.now()});
 const makeFolder = (name, parentId) => ({id: uid(), type: 'folder', name, parentId, mod: Date.now()});
 const srsOf = id => db.srs[id] || (db.srs[id] = {});
 const notes = () => db.items.filter(i => i.type === 'note' && live(i));
@@ -2049,6 +2109,8 @@ function show(view) { if (view !== 'note' && typeof chatOpen !== 'undefined' && 
 const svgI = (id, cls = '') => `<svg class="${cls}"><use href="#${id}"/></svg>`;
 const learningNotes = () => notes().filter(n => learnable(n) && !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
 const starsOf = (n, s) => (n.ladder.stars || {})['s' + s] || 0;
+const stageOf = n => n.ladder.done ? 7 : (LV[n.ladder.step] || LV[1]).st;
+const stTxt = n => `${stageOf(n)}/7`;
 const livesOf = n => clamp(+n.ladder.lives || 3, 1, 3);
 const starTxt = k => '★'.repeat(k) + `<span class="o">${'★'.repeat(3 - k)}</span>`;
 function heartsHtml(k, max) { let s = ''; for (let i = 0; i < max; i++) s += `<svg class="${i < k ? 'on' : 'off'}"><use href="#i-heart"/></svg>`; return `<span class="hearts">${s}</span>`; }
@@ -2103,7 +2165,7 @@ function render() {
 
 /* --- kis építőelemek --- */
 function miniLine(n) {
-  const cur = n.ladder.done ? 8 : n.ladder.step;
+  const cur = n.ladder.done ? 8 : stageOf(n);
   let h = '';
   for (let s = 1; s <= 7; s++) {
     if (s > 1) h += `<s class="${s <= cur ? '' : 'l'}"></s>`;
@@ -2116,7 +2178,7 @@ function paperCard(n, withBtn) {
   const st = n.ladder.step;
   const fresh = st === 1 && !starsOf(n, 1);
   return `<div class="paper click" data-path="${n.id}"><div class="pl">${esc(path)}${n.blk ? ' · tanulóblokk' : ''}</div><div class="pn">${esc(n.blk ? n.name || 'Blokk' : n.name || 'Névtelen')}</div>${miniLine(n)}`
-    + `<div class="pm"><span>${st}/7 · ${STEPS[st]}</span>${st > 1 ? heartsHtml(livesOf(n), 3) : ''}</div>`
+    + `<div class="pm"><span>${LV[st].st}/7 · ${STEPS[st]}</span>${st > 1 ? heartsHtml(livesOf(n), 3) : ''}</div>`
     + (withBtn ? `<div style="margin-top:12px"><button class="primary" data-go-learn="${n.id}">${fresh ? 'Kezdés' : 'Folytatás'}</button></div>` : '') + '</div>';
 }
 
@@ -2142,7 +2204,7 @@ function examPlan(date, ns, now) {
     });
   });
   units.forEach(n => {
-    const stp = n.ladder.done ? 7 : n.ladder.step - 1, S = db.srs[n.id] || {};
+    const stp = n.ladder.done ? 7 : (n.ladder.step - 1) / NL * 7, S = db.srs[n.id] || {};
     total += 7; doneU += stp; remSteps += 7 - stp; cnt++;
     sum += n.ladder.done && S.doc ? retr(Math.max(0, now - S.doc.last) / DAY, S.doc.s) : stp / 7 * 0.5;
   });
@@ -2187,7 +2249,7 @@ function examDays(p) {
   p.sched.sort((a, b) => a.day - b.day || (a.kind === 'rev' ? -1 : 1)).forEach(x => { if (!g.has(x.day)) g.set(x.day, []); g.get(x.day).push(x); });
   const lbl = d => d === t0 ? 'Ma' : d === t0 + DAY ? 'Holnap' : new Date(d).toLocaleDateString('hu-HU', {weekday: 'short', month: 'short', day: 'numeric'});
   const rows = [...g].slice(0, 7).map(([d, xs]) => `<div class="exDay${d === t0 ? ' today' : ''}"><div class="exD">${lbl(d)}</div><div class="exIt">${xs.map(x =>
-    `<button class="exU ${x.kind}${x.late ? ' late' : ''}" data-path="${x.u.id}">${x.kind === 'rev' ? '↻ ' : ''}${esc(dispName(x.u))}${x.kind === 'learn' && x.u.ladder.step > 1 ? ` · ${x.u.ladder.step}/7` : ''}</button>`).join('')}</div></div>`).join('');
+    `<button class="exU ${x.kind}${x.late ? ' late' : ''}" data-path="${x.u.id}">${x.kind === 'rev' ? '↻ ' : ''}${esc(dispName(x.u))}${x.kind === 'learn' && x.u.ladder.step > 1 ? ` · ${stTxt(x.u)}` : ''}</button>`).join('')}</div></div>`).join('');
   return `<div class="exPlan">${rows}${g.size > 7 ? `<div class="muted small">+ még ${g.size - 7} nap a vizsgáig</div>` : ''}</div>`;
 }
 
@@ -2226,7 +2288,7 @@ function todaySteps(now) {
   const cards = q.filter(c => c.kind !== 'doc').length, st = [];
   if (dueDocs.length) st.push({c: 'warn', t: dueDocs.length > 1 ? 'Kötelező ismétlés' : dispName(dueDocs[0]) + ' – ismétlés', s: (dueDocs.length > 1 ? dueDocs.slice(0, 2).map(dispName).join(', ') + (dueDocs.length > 2 ? ` és még ${dueDocs.length - 2}` : '') + ' · ' : '') + `kb. ${dueDocs.length * 3} perc`, b: 'Ismétlés', a: `data-go-rev="${dueDocs[0].id}"`, m: dueDocs.length * 3});
   const shortN = n => n.blk ? n.name || 'Blokk' : dispName(n), docN = n => n.blk ? (byId(n.blk) || {}).name + ' · ' : '';
-  if (inProg[0]) st.push({c: 'a2', t: shortN(inProg[0]), s: `${docN(inProg[0])}Félbehagytad · ${STEPS[inProg[0].ladder.step]}, ${inProg[0].ladder.step}/7 · kb. 8 perc`, b: 'Folytatás', a: `data-go-learn="${inProg[0].id}"`, m: 8, n: inProg[0]});
+  if (inProg[0]) st.push({c: 'a2', t: shortN(inProg[0]), s: `${docN(inProg[0])}Félbehagytad · ${STEPS[inProg[0].ladder.step]}, ${stTxt(inProg[0])} · kb. 8 perc`, b: 'Folytatás', a: `data-go-learn="${inProg[0].id}"`, m: 8, n: inProg[0]});
   if (fresh[0]) st.push({c: 'a1', t: shortN(fresh[0]), s: docN(fresh[0]) + (today.has(fresh[0].id) ? 'Új, a vizsgaterv szerint ma soros' : 'Új anyag') + ' · kb. 12 perc', b: 'Kezdés', a: `data-go-learn="${fresh[0].id}"`, m: 12, n: fresh[0]});
   if (cards) st.push({c: 'muted', t: 'Kártyák', s: `${cards} esedékes kártya · kb. ${Math.max(1, Math.round(cards * .4))} perc`, b: 'Gyakorlás', a: 'data-go-cards="1"', m: Math.max(1, Math.round(cards * .4))});
   return st;
@@ -2290,7 +2352,7 @@ function renderHome() {
     : '<p class="muted" style="margin:0">Nincs makacs kártya.</p>';
   renderPomo();
 }
-const ladderPct = n => n.ladder.done ? 100 : Math.round((n.ladder.step - 1) / 7 * 100);
+const ladderPct = n => n.ladder.done ? 100 : Math.round((n.ladder.step - 1) / NL * 100);
 
 /* --- jegyzetek --- */
 function goFolder(id) { ui.cur = id; crumbs(id).forEach(c => ui.open.add(c.id)); ui.sel = null; show('files'); }
@@ -2336,7 +2398,7 @@ function renderFiles() {
     $('#curTitle').textContent = 'Minden jegyzet';
     const all = notes().filter(n => !n.blk).sort((a, b) => (b.mod || 0) - (a.mod || 0));
     $('#summary').textContent = `${all.length} dokumentum`;
-    const kind = n => { const bl = blocksOf(n).length; return !n.text.trim() ? 'Üres' : bl ? bl + ' tanulóblokk' : n.mode === 'kartya' ? 'Kártya mód' : n.mode === 'tanulas' ? (n.ladder.done ? 'Megtanulva' : 'Tanulás ' + n.ladder.step + '/7') : 'Jegyzet'; };
+    const kind = n => { const bl = blocksOf(n).length; return !n.text.trim() ? 'Üres' : bl ? bl + ' tanulóblokk' : n.mode === 'kartya' ? 'Kártya mód' : n.mode === 'tanulas' ? (n.ladder.done ? 'Megtanulva' : 'Tanulás ' + stTxt(n)) : 'Jegyzet'; };
     $('#rows').innerHTML = all.length ? all.map(n => `<div class="row nrow" data-id="${n.id}" data-open="${n.id}" draggable="${!coarse}"><svg class="ico"><use href="#i-doc"/></svg><div style="min-width:0"><div class="nN">${esc(dispName(n))}</div><div class="nP">${esc(crumbs(n.parentId).map(c => c.name).join(' › ') || 'Jegyzetek')}</div></div><span class="nK">${kind(n)}</span><span class="nD">${fmtD(n.mod)}</span></div>`).join('')
       : '<p class="muted" style="padding:20px">Még nincs jegyzeted. Kezdd az „Új jegyzet” gombbal.</p>';
     const fs = kids(null).filter(i => i.type === 'folder');
@@ -2354,12 +2416,12 @@ function renderFiles() {
       const {d, t} = noteDue(i, now);
       info = `${d} / ${t}`;
       date = fmtD(i.mod);
-      sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${!i.text.trim() ? 'Üres' : i.mode === 'jegyzet' ? 'Jegyzet' + (blocksOf(i).length ? ' · ' + blocksOf(i).length + ' tanulóblokk' : '') : i.mode === 'kartya' ? 'Kártya' : i.ladder.done ? 'Ismétlésben' : 'Tanulás ' + i.ladder.step + '/7'}</div>${i.mode === 'tanulas' ? `<div class="pbar"><i style="width:${ladderPct(i)}%"></i></div>` : ''}`;
+      sub = `<div class="muted small"><span class="dot ${i.prio}"></span>${!i.text.trim() ? 'Üres' : i.mode === 'jegyzet' ? 'Jegyzet' + (blocksOf(i).length ? ' · ' + blocksOf(i).length + ' tanulóblokk' : '') : i.mode === 'kartya' ? 'Kártya' : i.ladder.done ? 'Ismétlésben' : 'Tanulás ' + stTxt(i)}</div>${i.mode === 'tanulas' ? `<div class="pbar"><i style="width:${ladderPct(i)}%"></i></div>` : ''}`;
     } else sub = `<div class="muted small">${kids(i.id).length} elem</div>`;
     const bl = i.type === 'note' ? blocksOf(i) : [], xo = ui.xp && ui.xp.has(i.id);
     const tog = bl.length ? `<button class="xp" data-xp="${i.id}" title="Tanulóblokkok">${xo ? '▾' : '▸'} ${bl.length}</button>` : '';
     return `<div class="row ${ui.sel === i.id ? 'sel' : ''}" data-id="${i.id}"${i.type === 'folder' ? ` data-drop="${i.id}"` : ''} draggable="${!coarse}"><svg class="ico" style="width:22px;height:22px"><use href="#${i.type === 'folder' ? 'i-folderF' : bl.length ? 'i-docF' : 'i-doc'}"/></svg><div class="nm"><div>${esc(i.name)} ${tog}</div>${sub}</div><span class="m">${info}</span><span class="m d">${date}</span><button class="more" data-more="${i.id}" title="Kijelölés">⋯</button></div>`
-      + (xo ? bl.map(b => `<div class="row sub" data-open="${b.id}"><svg class="ico" style="width:18px;height:18px"><use href="#i-doc"/></svg><div class="nm"><div>${esc(b.name)}</div><div class="muted small">Tanulóblokk · ${b.ladder.done ? 'Ismétlésben' : 'Tanulás ' + b.ladder.step + '/7'}</div></div><span class="m"></span><span class="m d"></span><span></span></div>`).join('') : '');
+      + (xo ? bl.map(b => `<div class="row sub" data-open="${b.id}"><svg class="ico" style="width:18px;height:18px"><use href="#i-doc"/></svg><div class="nm"><div>${esc(b.name)}</div><div class="muted small">Tanulóblokk · ${b.ladder.done ? 'Ismétlésben' : 'Tanulás ' + stTxt(b)}</div></div><span class="m"></span><span class="m d"></span><span></span></div>`).join('') : '');
   }).join('');
   $('#rows').innerHTML = list.length ? head + body : '<p class="muted" style="padding:20px">Ez a mappa üres. Hozz létre mappát vagy dokumentumot.</p>';
 }
@@ -2435,8 +2497,8 @@ function updateNoteStats() {
   $('#noteBar').style.width = ladderPct(n) + '%';
   $('#ladderInfo').textContent = n.ladder.done
     ? `Megtanulva · következő ismétlés: ${S.doc ? fmtDue(S.doc.due) : '—'} · ${phaseName(n)}${S.doc && S.doc.lapses ? ' · ' + S.doc.lapses + ' visszaesés' : ''}`
-    : `Tanulás: ${n.ladder.step}/7 · ${STEPS[n.ladder.step]}`;
-  $('#nLearn').textContent = n.mode !== 'tanulas' ? 'Tanulás' : n.ladder.done ? 'Tanulás · kész' : `Tanulás · ${n.ladder.step}/7`;
+    : `Tanulás: ${stTxt(n)} · ${STEPS[n.ladder.step]}`;
+  $('#nLearn').textContent = n.mode !== 'tanulas' ? 'Tanulás' : n.ladder.done ? 'Tanulás · kész' : `Tanulás · ${stTxt(n)}`;
   if (n.mode !== 'tanulas') {
     $('#noteBar').style.width = '0';
     const tc = S.tc;
@@ -2463,7 +2525,7 @@ function setMode(n, mode, quiet) {
 }
 function showBlocks(n) {
   const bl = blocksOf(n);
-  const html = bl.map(b => `<div class="dl" data-blk="${b.id}"><span class="dn">${esc(b.name)}</span><span class="dv b">${b.ladder.done ? 'ismétlésben' : b.ladder.step + '/7'}</span></div>`).join('');
+  const html = bl.map(b => `<div class="dl" data-blk="${b.id}"><span class="dn">${esc(b.name)}</span><span class="dv b">${b.ladder.done ? 'ismétlésben' : stTxt(b)}</span></div>`).join('');
   dialog({title: 'Tanulóblokkok', msg: 'Mindegyik blokk külön tanulási útvonalat kap. Koppints egyre a megnyitásához.', html: `<div style="margin-top:8px">${html}</div>`, actions: [{label: 'Bezárás', key: null}]});
 }
 $('#dlg').addEventListener('click', e => { const b = e.target.closest('[data-blk]'); if (b) { $('#dlg').close(); openPath(b.dataset.blk); } });
@@ -2604,30 +2666,31 @@ function renderPath() {
   const S = db.srs[n.id] || {};
   $('#pathMeta').textContent = !txt.trim() ? 'A dokumentum még üres. Írj bele szöveget a „Szöveg” gombbal.'
     : n.ladder.done ? `Megtanulva. Következő ismétlés: ${S.doc ? fmtDue(S.doc.due) : '—'} (${phaseName(n)}).`
-    : `${words} szó, ${paras} bekezdés · ${n.ladder.step}/7 fokozat`;
-  const cur = n.ladder.done ? 8 : n.ladder.step;
-  const X = [0, -48, 0, 48, 0, -48, 0];
+    : `${words} szó, ${paras} bekezdés · ${stageOf(n)}. lépcső: ${STEPS[n.ladder.step]}`;
+  const cur = n.ladder.done ? NL + 1 : n.ladder.step;
+  const X = [0, -48, 0, 48];
   const a = ui.anim && ui.anim.id === n.id ? ui.anim : null;
   let h = '', k = 0;
   const node = s => {
     const cls = s < cur ? 'done' : s === cur ? 'cur' : 'lock';
     const an = a && a.step === s ? (a.type === 'unlock' ? ' justUnlocked' : ' justLocked') : '';
     const inner = cls === 'done' ? svgI('i-check') : cls === 'lock' ? svgI('i-lock') : s;
-    const under = cls === 'done' ? `<span class="st">${starTxt(starsOf(n, s))}</span>` : cls === 'cur' && s > 1 ? heartsHtml(livesOf(n), 3) : '<span class="st"></span>';
-    return `<button class="pnode ${cls}${an}" data-step="${s}" style="--x:${X[k++]}px"><span class="disc">${inner}</span><span class="nl">${SHORT[s]}</span>${under}</button>`;
+    const gb = ((n.gs || {})['g' + s] || {}).best;
+    const under = cls === 'done' ? `<span class="st">${starTxt(starsOf(n, s))}${gb != null && s > 1 ? ` <small>${gb}%</small>` : ''}</span>` : cls === 'cur' && s > 1 ? heartsHtml(livesOf(n), 3) : '<span class="st"></span>';
+    return `<button class="pnode ${cls}${an}" data-step="${s}" style="--x:${X[k++ % 4]}px"><span class="disc">${inner}</span><span class="nl">${SHORT[s]}</span>${under}</button>`;
   };
   PHASES.forEach(([name, steps], pi) => {
-    h += `<div class="phase"><span>${['I', 'II', 'III'][pi]}</span><b>${name}</b><i></i></div>`;
+    h += `<div class="phase"><span>${['I', 'II', 'III', 'IV', 'V', 'VI'][pi]}</span><b>${name}</b><i></i></div>`;
     steps.forEach(s => { h += node(s); });
   });
   h += `<div class="phase"><span>✦</span><b>Ismétlés</b><i></i></div>`;
-  h += `<button class="pnode trophy ${n.ladder.done ? 'done' : 'lock'}${a && a.step === 8 ? ' justUnlocked' : ''}" data-step="8"><span class="disc">${svgI('i-trophy')}</span><span class="nl">${n.ladder.done ? 'Az ismétlésben' : 'Cél: az ismétlés'}</span></button>`;
+  h += `<button class="pnode trophy ${n.ladder.done ? 'done' : 'lock'}${a && a.step === NL + 1 ? ' justUnlocked' : ''}" data-step="${NL + 1}"><span class="disc">${svgI('i-trophy')}</span><span class="nl">${n.ladder.done ? 'Az ismétlésben' : 'Cél: az ismétlés'}</span></button>`;
   $('#pathMap').innerHTML = h;
   ui.anim = null;
   setTimeout(() => {
     const el = $(`#pathMap [data-step="${a ? a.step : cur}"]`);
     if (el) el.scrollIntoView({block: 'center', behavior: a ? 'smooth' : 'auto'});
-    if (a && a.type === 'unlock') confetti(a.step === 8 ? 70 : 26);
+    if (a && a.type === 'unlock') confetti(a.step === NL + 1 ? 70 : 26);
   }, a ? 250 : 30);
 }
 
@@ -2839,9 +2902,17 @@ function renderDone() {
 })();
 
 /* ===== tanulás: 3 szint, 7 fokozat, szívek ===== */
-const STEPS = ['', 'Felfedés', 'Kezdőbetű – könnyű', 'Kezdőbetű – közepes', 'Kezdőbetű – nehéz', 'Gépelés – könnyű', 'Gépelés – közepes', 'Gépelés – nehéz'];
-const SHORT = ['', 'Felfedés', 'Könnyű', 'Közepes', 'Nehéz', 'Könnyű', 'Közepes', 'Nehéz'];
-const PHASES = [['Felfedés', [1]], ['Kezdőbetű', [2, 3, 4]], ['Gépelés', [5, 6, 7]]];
+const LV = [null,
+  {g: 'read', st: 1, d: 0, nm: 'Értő olvasás', sh: 'Értő olvasás'},
+  {g: 'scr', st: 2, d: 0, nm: 'Sorbarendezés – könnyű', sh: 'Könnyű'}, {g: 'scr', st: 2, d: 1, nm: 'Sorbarendezés – közepes', sh: 'Közepes'}, {g: 'scr', st: 2, d: 2, nm: 'Sorbarendezés – nehéz', sh: 'Nehéz'},
+  {g: 'blk', st: 3, d: 0, nm: 'Kitöltés – könnyű', sh: 'Könnyű'}, {g: 'blk', st: 3, d: 1, nm: 'Kitöltés – közepes', sh: 'Közepes'}, {g: 'blk', st: 3, d: 2, nm: 'Kitöltés – nehéz', sh: 'Nehéz'},
+  {g: 'mc', st: 4, d: 0, nm: 'Szóválasztás – könnyű', sh: 'Könnyű'}, {g: 'mc', st: 4, d: 1, nm: 'Szóválasztás – közepes', sh: 'Közepes'}, {g: 'mc', st: 4, d: 2, nm: 'Szóválasztás – nehéz', sh: 'Nehéz'},
+  {g: 'tap', st: 5, d: 0, nm: 'Felidézés – szó', sh: 'Szó'}, {g: 'tap', st: 5, d: 1, nm: 'Felidézés – kifejezés', sh: 'Kifejezés'}, {g: 'tap', st: 5, d: 2, nm: 'Felidézés – mondat', sh: 'Mondat'},
+  {g: 'type', st: 6, d: 1, nm: 'Gépelés – közepes', sh: 'Közepes'}, {g: 'type', st: 6, d: 2, nm: 'Gépelés – nehéz', sh: 'Nehéz'}];
+const NL = 15;
+const STEPS = LV.map(l => l ? l.nm : ''), SHORT = LV.map(l => l ? l.sh : '');
+const STAGES = [['Értő olvasás', [1]], ['Sorbarendezés', [2, 3, 4]], ['Kitöltés', [5, 6, 7]], ['Szóválasztás', [8, 9, 10]], ['Felidézés', [11, 12, 13]], ['Gépelés', [14, 15]]];
+const PHASES = STAGES;
 const HINTS = ['',
   'Gondold végig a következő szót, aztán fedd fel (szóköz vagy koppintás). Ha tévedtél, a „Hibáztam” elölről kezdi az egészet.',
   'Írd be minden szó kezdőbetűjét. A kezdőbetű szürke, a szó többi része látszik.',
@@ -2880,6 +2951,10 @@ function shakeEl(el, msg) { if (el) { el.classList.remove('shake'); void el.offs
 function startLearn(noteId, step, mode = 'learn') {
   const n = byId(noteId);
   if (!n) return;
+  if (mode !== 'rev') { if (!LV[step]) return; if (LV[step].g !== 'type') return startGame(n, step, mode); }
+  const lvl = mode === 'rev' ? NL : step;
+  step = mode === 'rev' ? 7 : LV[step].d === 1 ? 6 : 7;
+  delete $('#learn').dataset.game; $('#gLvTop').innerHTML = '';
   const toks = [];
   docText(n).split('\n').forEach((line, p) => line.split(/\s+/).filter(Boolean).forEach(w => toks.push({w, k: fold(w), p})));
   if (!toks.some(t => t.k)) return toast('A dokumentum üres, előbb írj bele szöveget');
@@ -2895,7 +2970,7 @@ function startLearn(noteId, step, mode = 'learn') {
   let hearts = max;
   if (mode === 'learn') hearts = livesOf(n);
   if (mode === 'rev' && n.ladder.rl > 0 && n.ladder.rl <= max) hearts = n.ladder.rl;
-  ls = {noteId, step, mode, toks, i: 0, para: 0, pe: 0, marks: [], typed: [], hearts, max, last: Date.now(), consumed: 0, ended: false, busy: false, errs: 0, restarts: 0, lost: 0, words: c};
+  ls = {noteId, step, lvl, mode, toks, i: 0, para: 0, pe: 0, marks: [], typed: [], hearts, max, last: Date.now(), consumed: 0, ended: false, busy: false, errs: 0, restarts: 0, lost: 0, words: c};
   if (mode === 'learn') n.ladder.at = Date.now();
   $('#learn').hidden = false;
   document.body.style.overflow = 'hidden';
@@ -2943,7 +3018,7 @@ function updTok(j) { const e = ls.spans[j]; if (!e) return; e.className = tokCla
 function scrollCur() { const e = ls.spans[Math.min(ls.i, ls.spans.length - 1)]; if (e) e.scrollIntoView({block: 'center', behavior: 'smooth'}); }
 function updLearnInfo() {
   const done = ls.toks.slice(0, ls.i).filter(t => !t.auto).length;
-  const label = ls.mode === 'rev' ? `Ismétlés · vak gépelés · ${ls.max === 1 ? 'mesterfázis' : '2. fázis'}` : `${ls.mode === 'practice' ? 'Gyakorlás · ' : ''}${ls.step}/7 · ${STEPS[ls.step]}`;
+  const label = ls.mode === 'rev' ? `Ismétlés · vak gépelés · ${ls.max === 1 ? 'mesterfázis' : '2. fázis'}` : `${ls.mode === 'practice' ? 'Gyakorlás · ' : ''}${LV[ls.lvl].st}/7 · ${STEPS[ls.lvl]}`;
   $('#lStep').textContent = `${label} · ${done}/${ls.words} szó`;
   $('#lProg i').style.width = (100 * done / Math.max(1, ls.words)) + '%';
 }
@@ -3117,44 +3192,16 @@ function finishRun(pass) {
     } else {
       const st = review(S.doc, 1, now, db.settings.retention, capFor(n, now)); st.k = 'doc';
       if (master) { st.due = now + 60 * 60000; title = 'Elfogyott az életed'; sub = 'Nem esel vissza: a szöveg ma még egyszer előjön.'; }
-      else { L.step = 6; L.done = false; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step: 7}; title = 'Vissza a tanulásba'; sub = 'Mindkét életed elfogyott. A dokumentum a Gépelés – közepes fokozatra került.'; }
+      else { L.step = 14; L.done = false; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step: NL}; title = 'Vissza a tanulásba'; sub = 'Mindkét életed elfogyott. A dokumentum a Gépelés – közepes fokozatra került.'; }
       S.doc = st;
       icon = svgI('i-down');
     }
     markSrs(n.id, 'doc');
     ls.revPass = pass;
     btns = `<button class="primary xl" id="lExit">Tovább</button>`;
-  } else if (pass) {
-    showStars = true;
-    if (stars > (L.stars['s' + step] || 0)) L.stars['s' + step] = stars;
-    if (mode === 'learn' && !L.done && step === L.step) {
-      L.lives = 3;
-      if (step === 7) {
-        const S = srsOf(n.id);
-        const st = firstDoc(S, n, now); markSrs(n.id, 'doc');
-        L.done = true; ui.anim = {id: n.id, type: 'unlock', step: 8};
-        icon = svgI('i-trophy'); title = 'Megtanultad!'; sub = `Holnap kötelező ismétlés, utána jön a felejtési görbe szerinti ütemezés. Első ismétlés: ${fmtDue(st.due)}.`; confetti(80);
-        btns = `<button class="primary xl" id="lExit">Tovább</button>`;
-      } else {
-        L.step = step + 1; ui.anim = {id: n.id, type: 'unlock', step: step + 1};
-        title = 'Fokozat teljesítve'; sub = `Kinyílt: ${STEPS[step + 1]}.`; confetti(30);
-        btns = `<button class="primary xl" id="lNextStep">Tovább: ${STEPS[step + 1]}</button><button id="lExit">Térkép</button>`;
-      }
-    } else {
-      title = 'Gyakorlás kész'; sub = 'A gyakorlás nem változtat a haladáson.'; confetti(16);
-      btns = `<button class="primary xl" id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
-    }
   } else {
-    icon = svgI('i-heartx');
-    if (mode === 'learn' && !L.done && step === L.step && step > 1) {
-      L.step = step - 1; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step};
-      title = 'Visszaestél'; sub = `Most: ${STEPS[step - 1]}. A(z) „${STEPS[step]}” újra zárolva, amíg ezt nem teljesíted.`;
-      ls.again = {step: step - 1, mode: 'learn'};
-    } else {
-      if (mode === 'learn') L.lives = 3;
-      title = 'Nem sikerült'; sub = 'Próbáld újra, három szívvel.';
-    }
-    btns = `<button class="primary xl" id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
+    const R = ladderAfter(n, ls.lvl, mode, pass, stars, !pass);
+    icon = R.icon; title = R.title; sub = R.sub; btns = R.btns; showStars = pass;
   }
   L.at = now;
   n.mod = now; markItem(n.id); persist();
@@ -3164,6 +3211,622 @@ function finishRun(pass) {
   $('#lFootIn').innerHTML = btns;
   $('#lProg i').style.width = '100%';
 }
+/* ===== új létra: értő olvasás + gyakorlójátékok (Sorbarendezés, Kitöltés, Szóválasztás, Felidézés) ===== */
+const G_SW = new Set('a az egy és s vagy de is ha hogy nem meg el be ki fel le már még csak mint sem pedig illetve valamint azonban ez azt ezt aki ami amely mely akkor így úgy van volt lesz kell'.split(' '));
+const G_CONJ = new Set('és vagy de hogy ha mert amely amelyet amelynek aki akit akinek ami amit illetve valamint továbbá azonban vagyis'.split(' '));
+const G_DESC = {
+  read: ['Háromszor mész végig a szövegen. 1. Húzd az ujjad (vagy az egeret lenyomva) a sorokon: ahol jársz, előjönnek a szavak. 2. Koppints sorban a szavakra, ahogy olvasod. 3. Gépeld be a látható szöveget, szóról szóra. Itt nem lehet hibázni.'],
+  scr: ['Legfeljebb 6 darab. Húzd a bal oldali fogantyúval a helyes sorrendbe.', 'Legfeljebb 10 darab.', 'Legfeljebb 30 kisebb darab.'],
+  blk: ['A szavak kb. 20%-a hiányzik. Válaszd ki a hiányzót a 6 lehetőség közül (1–6 billentyű is jó).', 'A szavak kb. 50%-a hiányzik.', 'Minden szó hiányzik: csak az írásjelek és a szóhosszal arányos vonalak látszanak.'],
+  mc: ['Üres lapról építed fel a szöveget, szóról szóra. 2 lehetőség.', '4 lehetőség.', '6 lehetőség, kihagyás nélkül.'],
+  tap: ['A szöveg rejtve van. Írd be fejből a soron következő szót, aztán Enter: felfedi és ellenőrzi.', 'Írd be fejből a következő kifejezést (3–6 szó), aztán Enter.', 'Írd be fejből a következő mondatot, aztán Enter.']
+};
+const G_NAME = {read: 'Értő olvasás', scr: 'Sorbarendezés', blk: 'Kitöltés', mc: 'Szóválasztás', tap: 'Felidézés'};
+
+function gMkTok(w, p) {
+  const k0 = fold(w);
+  const legal = /§/.test(w) || /^\(\d+[a-z]?\)[.,;:]?$/i.test(w) || /^[a-z]{1,2}\)[.,;:]?$/i.test(w);
+  let pre = '', core = w, post = '';
+  if (legal) { const m = w.match(/^(.*?)([,;:]?)$/); core = m[1]; post = m[2]; }
+  else { const m = w.match(/^([^\p{L}\p{N}]*)(.*?)([^\p{L}\p{N}]*)$/su); if (m && m[2]) { pre = m[1]; core = m[2]; post = m[3]; } }
+  const type = !k0 ? 'pun' : legal ? 'leg' : /\d/.test(k0) ? 'num' : 'word';
+  return {w, k: type === 'leg' ? core.toLowerCase().replace(/\s+/g, '') : k0, f: k0, core, pre, post, p, type};
+}
+/* közös darabolás: szavak, a jogszabályi jelölések egy egységben, a gondolatjel külön */
+function gTok(text) {
+  const out = [];
+  String(text || '').split('\n').forEach((line, p) => {
+    const ws = line.split(/\s+/).filter(Boolean);
+    for (let i = 0; i < ws.length; i++) {
+      let w = ws[i];
+      if (/^\d+[a-z]?\.$/i.test(w) && ws[i + 1] && /^§[,;:]?$/.test(ws[i + 1])) { w += ' ' + ws[i + 1]; i++; }
+      else if (/^§$/.test(w) && ws[i + 1] && /^\d/.test(ws[i + 1])) { w += ' ' + ws[i + 1]; i++; }
+      let m;
+      if ((m = w.match(/^(.+?)([–—])$/)) && fold(m[1])) { out.push(gMkTok(m[1], p), gMkTok(m[2], p)); }
+      else if ((m = w.match(/^([–—])(.+)$/)) && fold(m[2])) { out.push(gMkTok(m[1], p), gMkTok(m[2], p)); }
+      else out.push(gMkTok(w, p));
+    }
+  });
+  return out;
+}
+const gShuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const gLow = s => String(s).toLowerCase();
+function gCase(c, t) {
+  if (t.type !== 'word' || !c) return c;
+  const up = t.core[0] !== t.core[0].toLowerCase();
+  return up ? c[0].toUpperCase() + c.slice(1) : (c[0] !== c[0].toLowerCase() && c.slice(1) === c.slice(1).toLowerCase() && t.core[0] === t.core[0].toLowerCase() ? c[0].toLowerCase() + c.slice(1) : c);
+}
+/* téves opciók: a szövegből, hasonló szóeleje / hossz, azonos típus */
+function gDistract(t, pool, n) {
+  const seen = new Set([gLow(t.core)]), res = [];
+  const pref = (a, b) => { let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++; return i; };
+  const sc = x => { const p = pref(x.f, t.f); return (p >= 3 ? 10 + p : p) - Math.abs(x.f.length - t.f.length) * 0.6 + Math.random() * 1.5; };
+  const cand = pool.filter(x => x.type === t.type && x.k !== t.k).map(x => ({x, s: sc(x)})).sort((a, b) => b.s - a.s);
+  for (const {x} of cand) {
+    const c = gCase(x.core, t);
+    if (seen.has(gLow(c))) continue;
+    seen.add(gLow(c)); res.push(c);
+    if (res.length >= n) return res;
+  }
+  let g = 0;
+  const words = pool.filter(x => x.type === 'word');
+  while (res.length < n && g++ < 80) {
+    let c;
+    if (t.type === 'num' || t.type === 'leg') { const d = (t.core.match(/\d+/) || ['1'])[0]; c = t.core.replace(/\d+/, Math.max(1, +d + [-1, 1, 2, -2, 3, 4, 5, 6, 7][g % 9] + (g > 9 ? g : 0))); }
+    else if (words.length > 1 && g < 40) c = gCase(words[Math.floor(Math.random() * words.length)].core, t);
+    else c = t.core + ['ban', 'nak', 'val', 't', 'k', 'ról', 'hoz', 'ig'][g % 8];
+    if (!seen.has(gLow(c))) { seen.add(gLow(c)); res.push(c); }
+  }
+  return res;
+}
+function gOpts(j) {
+  const t = ls.toks[j], n = ls.nOpt;
+  return gShuffle([t.core, ...gDistract(t, ls.pool, n - 1)]);
+}
+const gBio = s => { if (!s) return ''; const L = [...s].filter(c => /\p{L}/u.test(c)).length; const k = L <= 3 ? 1 : L <= 5 ? 2 : Math.ceil(L * 0.45); const a = [...s]; return `<b class="bio">${esc(a.slice(0, k).join(''))}</b>${esc(a.slice(k).join(''))}`; };
+const bioOn = () => lsGet('memo-bionic', '0') === '1';
+const gWord = t => bioOn() && t.type === 'word' ? esc(t.pre) + gBio(t.core) + esc(t.post) : esc(t.w);
+
+/* --- darabolók --- */
+function gChunks(toks, max, minw) {
+  const words = toks.filter(t => t.type !== 'pun').length;
+  const k = clamp(Math.floor(words / minw), 2, max);
+  const ideal = words / k, out = [];
+  let cur = [], c = 0;
+  toks.forEach((t, j) => {
+    cur.push(j); if (t.type !== 'pun') c++;
+    const nx = toks[j + 1];
+    if (!nx) return;
+    if (nx.type === 'pun') return;
+    const left = k - out.length - 1;
+    if (left <= 0) return;
+    const end = /[.;:!?,]$/.test(t.w) && t.type !== 'leg', para = nx.p !== t.p;
+    if ((c >= ideal * 0.7 && (end || para)) || c >= ideal * 1.3 || (para && c >= ideal * 0.45)) { out.push(cur); cur = []; c = 0; }
+  });
+  if (cur.length) out.push(cur);
+  return out;
+}
+function gUnits(toks, d) {
+  const units = [];
+  let cur = [], words = 0;
+  const push = () => { if (cur.some(j => toks[j].type !== 'pun')) units.push(cur); else if (units.length) units[units.length - 1].push(...cur); cur = []; words = 0; };
+  toks.forEach((t, j) => {
+    const nx = toks[j + 1];
+    if (d > 0 && t.type !== 'pun' && cur.length && d === 1 && words >= 3 && G_CONJ.has(t.f)) push();
+    cur.push(j); if (t.type !== 'pun') words++;
+    if (nx && nx.type === 'pun' && nx.p === t.p) return;
+    const sent = (/[.!?;]$/.test(t.w) && t.type !== 'leg' && !/^\d+\.$/.test(t.w)) || t.type === 'leg' && /^\d+\. §$/.test(t.core) && false;
+    const para = !nx || nx.p !== t.p;
+    if (d === 0) { if (t.type !== 'pun') push(); return; }
+    if (para || sent) return push();
+    if (d === 1 && ((/[,:]$/.test(t.w) && words >= 2) || words >= 6)) push();
+  });
+  if (cur.length) push();
+  if (d === 1) for (let i = units.length - 1; i > 0; i--) {
+    const w = units[i].filter(j => toks[j].type !== 'pun').length;
+    if (w < 2 && toks[units[i][0]].p === toks[units[i - 1][0]].p) { units[i - 1].push(...units[i]); units.splice(i, 1); }
+  }
+  return units;
+}
+
+/* --- indítás --- */
+function startGame(n, lvl, mode) {
+  const L = LV[lvl], toks = gTok(docText(n));
+  if (!toks.some(t => t.type !== 'pun')) return toast('A dokumentum üres, előbb írj bele szöveget');
+  const par = n.blk ? byId(n.blk) : null;
+  const pool = par ? gTok(docText(par)) : toks;
+  ls = {noteId: n.id, lvl, step: 0, mode, game: L.g, d: L.d, toks, pool, started: false, ended: false, busy: false,
+    hearts: mode === 'learn' ? livesOf(n) : 3, max: 3, errs: 0, first: 0, steps: 0, lost: 0, pe: 0, para: -1, marks: [], last: Date.now(), t0: 0, words: toks.filter(t => t.type !== 'pun').length};
+  if (mode === 'learn') n.ladder.at = Date.now();
+  $('#learn').hidden = false; document.body.style.overflow = 'hidden';
+  $('#lTitle').textContent = n.name || 'Névtelen';
+  $('#learn').dataset.game = L.g;
+  $('#gLvTop').innerHTML = gLvSeg();
+  hideFlash(); hideWarn();
+  gStartScreen();
+}
+function gUnlocked(n, s) { return n.ladder.done || s <= n.ladder.step; }
+function gLvSeg() {
+  const n = byId(ls.noteId), lv = STAGES.find(s => s[1].includes(ls.lvl))[1];
+  if (lv.length < 2) return '';
+  return `<div class="gLv" role="tablist">${lv.map(s => `<button data-glv="${s}" class="${s === ls.lvl ? 'on' : ''}${gUnlocked(n, s) ? '' : ' lk'}">${gUnlocked(n, s) ? '' : svgI('i-lock')}${LV[s].sh}</button>`).join('')}</div>`;
+}
+function gStartScreen() {
+  const n = byId(ls.noteId), L = LV[ls.lvl], best = ((n.gs || {})['g' + ls.lvl] || {}).best;
+  $('#lStep').textContent = `${ls.mode === 'practice' ? 'Gyakorlás · ' : ''}${L.st}/7 · ${L.nm}`;
+  $('#lProg i').style.width = '0%';
+  gHearts();
+  $('#lText').innerHTML = `<div class="gStart"><div class="lb">${L.st}. lépcső</div><h2>${G_NAME[ls.game]}</h2><p class="gDesc">${G_DESC[ls.game][ls.d]}</p>`
+    + `<div class="gMeta">${ls.words} szó${best != null ? ` · legjobb: ${best}%` : ''}${ls.mode === 'practice' ? ' · gyakorlás: nem változtat a haladáson' : ls.game === 'read' ? '' : ' · 80%-tól nyílik a következő szint'}</div></div>`;
+  $('#lFootIn').innerHTML = `<button class="primary xl" id="gGo">Indítás</button>`;
+}
+function gHearts(lost) {
+  const el = $('#lHearts');
+  if (!ls || ls.game === 'read' || ls.mode === 'practice') { el.innerHTML = ''; return; }
+  let h = '';
+  for (let i = 0; i < ls.max; i++) h += `<svg class="${i < ls.hearts ? '' : 'off'}${i === lost ? ' lost' : ''}"><use href="#i-heart"/></svg>`;
+  el.innerHTML = h;
+}
+function gInfo(done, total, extra) {
+  const L = LV[ls.lvl];
+  $('#lStep').textContent = `${ls.mode === 'practice' ? 'Gyakorlás · ' : ''}${L.st}/7 · ${L.nm}${extra ? ' · ' + extra : ''}`;
+  $('#lProg i').style.width = (100 * done / Math.max(1, total)) + '%';
+}
+function gGo() {
+  ls.started = true; ls.t0 = Date.now(); ls.last = Date.now();
+  const g = ls.game;
+  if (g === 'read') { ls.part = 0; ls.next = 0; gReadPart(); }
+  else if (g === 'scr') gScrStart();
+  else if (g === 'blk' || g === 'mc') gPickStart();
+  else if (g === 'tap') gTapStart();
+}
+
+/* --- hiba és szív (gyakorlásban nincs szívvesztés) --- */
+function gErr(j) {
+  ls.errs++;
+  if (j != null && ls.toks[j]) recordErr(ls.toks[j].f);
+  buzz();
+  if (ls.mode === 'practice') return;
+  const p = j != null && ls.toks[j] ? ls.toks[j].p : -1;
+  if (p !== ls.para) { ls.para = p; ls.pe = 0; }
+  ls.pe++;
+  if (ls.pe === 1) warn(ls.hearts > 1 ? 'Első hiba ebben a bekezdésben. Még egy, és elveszítesz egy szívet.' : 'Első hiba. Még egy, és elfogy az utolsó szíved!');
+  else gLoseHeart();
+}
+function gLoseHeart(msg) {
+  ls.hearts--; ls.lost++; ls.pe = 0;
+  hideWarn();
+  const n = byId(ls.noteId);
+  if (n && ls.mode === 'learn') { n.ladder.lives = ls.hearts > 0 ? ls.hearts : 3; n.mod = Date.now(); markItem(n.id); persist(); }
+  gHearts(ls.hearts);
+  if (ls.hearts <= 0) { ls.busy = true; flash(svgI('i-heartx'), 'Elfogyott minden szív', ls.lvl > 1 ? 'Egy szinttel visszalépsz.' : '', 1500, () => gFinish(false)); return true; }
+  flash(svgI('i-heartx'), '−1 szív', msg || `Maradt: ${ls.hearts}`, 1100);
+  return false;
+}
+
+/* --- Értő olvasás --- */
+function gReadHtml(cls) {
+  let h = '', p = -1;
+  ls.toks.forEach((t, j) => {
+    if (t.p !== p) { if (p >= 0) h += '</div>'; h += '<div class="para">'; p = t.p; }
+    h += `<span class="t ${cls(j)}" data-j="${j}">${gWord(t)}</span> `;
+  });
+  return h + '</div>';
+}
+function gReadPart() {
+  const part = ls.part;
+  ls.next = 0; while (ls.next < ls.toks.length && ls.toks[ls.next].type === 'pun') ls.next++;
+  const P = ['1/3 · Húzd végig az ujjad a sorokon', '2/3 · Koppints sorban a szavakra', '3/3 · Gépeld be a szöveget'];
+  const bio = `<button class="ghost small${bioOn() ? ' on' : ''}" id="gBio" title="Bionic olvasás: a szavak eleje vastag">Bionic</button>`;
+  if (part === 0) {
+    $('#lText').innerHTML = gReadHtml(j => j < ls.next ? 'rv hl' : 'rh');
+    $('#lFootIn').innerHTML = `<div id="lHint">Nyomd le az ujjad (vagy az egeret) a szövegen, és húzd végig a sorokon olvasás közben. Ne siess: ha túl gyors vagy, megáll.</div>${bio}`;
+  } else if (part === 1) {
+    $('#lText').innerHTML = gReadHtml(j => j < ls.next ? 'tp' : '');
+    $('#lFootIn').innerHTML = `<div id="lHint">Olvasd a szöveget, és közben koppints sorban minden szóra. A koppintott szó kiemelődik.</div>${bio}`;
+  } else {
+    $('#lText').innerHTML = gReadHtml(j => j === ls.next ? 'cur' : j < ls.next ? 'ok' : '');
+    $('#lFootIn').innerHTML = `<div id="lHint">Gépeld be a kiemelt szót. Csak akkor lépsz tovább, ha jól írtad (kis- és nagybetű, ékezet nem számít).</div><input id="gIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next" placeholder="Írd a szót…">${bio}`;
+    const inp = $('#gIn');
+    inp.addEventListener('input', gCopyInput);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+    setTimeout(() => inp.focus(), 60);
+  }
+  ls.spans = [...$('#lText').querySelectorAll('[data-j]')];
+  $('#lText').classList.toggle('gDrag', part === 0);
+  gInfo(ls.toks.slice(0, ls.next).filter(t => t.type !== 'pun').length + part * ls.words, ls.words * 3, P[part]);
+  const c = ls.spans[ls.next]; if (c && part === 2) c.scrollIntoView({block: 'center', behavior: 'smooth'});
+  const sc = $('#lBody'); if (sc && part < 2) sc.scrollTop = 0;
+}
+function gReadAdvance(cls) {
+  const j = ls.next, e = ls.spans[j];
+  if (e) { e.className = 't ' + cls; e.classList.add('pop'); }
+  ls.next++;
+  while (ls.next < ls.toks.length && ls.toks[ls.next].type === 'pun') { const s = ls.spans[ls.next]; if (s) s.className = 't ' + cls; ls.next++; }
+  learnTick();
+  const doneW = ls.toks.slice(0, ls.next).filter(t => t.type !== 'pun').length;
+  gInfo(doneW + ls.part * ls.words, ls.words * 3, ['1/3 · Húzd végig az ujjad a sorokon', '2/3 · Koppints sorban a szavakra', '3/3 · Gépeld be a szöveget'][ls.part]);
+  if (ls.next >= ls.toks.length) {
+    ls.busy = true;
+    if (ls.part < 2) { flash(svgI('i-check'), `${ls.part + 1}/3 kész`, ls.part === 0 ? 'Most koppints sorban a szavakra.' : 'Most gépeld be a szöveget.', 1100, () => { ls.busy = false; ls.part++; gReadPart(); }); }
+    else gFinish(true);
+    return true;
+  }
+  return false;
+}
+/* 1. rész: húzás, legfeljebb kb. 350 szó/perc */
+function gDragAt(x, y) {
+  const el = document.elementFromPoint(x, y), t = el && el.closest && el.closest('#lText [data-j]');
+  return t ? +t.dataset.j : null;
+}
+function gDragLoop() {
+  if (!ls || ls.game !== 'read' || ls.part !== 0 || !ls.drag || ls.busy) return;
+  const now = Date.now(), j = ls.dragJ;
+  if (j != null && j >= ls.next && now - (ls.revAt || 0) >= 170) {
+    if (j > ls.next + 8) { if (now - (ls.slowAt || 0) > 2500) { ls.slowAt = now; warn('Lassíts, olvasd is el, amit kiemelsz!'); } }
+    ls.revAt = now;
+    if (gReadAdvance('rv hl')) return;
+    const c = ls.spans[ls.next]; if (c) { const r = c.getBoundingClientRect(), b = $('#lBody').getBoundingClientRect(); if (r.bottom > b.bottom - 60) $('#lBody').scrollBy({top: r.bottom - b.bottom + 140, behavior: 'smooth'}); }
+  }
+  ls.dragT = requestAnimationFrame(gDragLoop);
+}
+function gCopyInput(e) {
+  if (!ls || ls.ended || ls.busy) return;
+  const inp = e.target, t = ls.toks[ls.next];
+  if (!t) return;
+  const v = inp.value.replace(/\s+$/, ''), tgt = foldK(t.core), typed = foldK(v.trim());
+  const span = ls.spans[ls.next];
+  if (fold(v) && (fold(v) === t.f || typed === tgt || (t.type === 'leg' && fold(v) === t.f))) {
+    inp.value = '';
+    gReadAdvance('ok');
+    const c = ls.spans[ls.next]; if (c) { c.classList.add('cur'); c.scrollIntoView({block: 'center', behavior: 'smooth'}); }
+    return;
+  }
+  if (!span) return;
+  const ok = tgt.startsWith(typed.replace(/[^\p{L}\p{N} §().]/gu, ''));
+  let n = 0; const a = [...t.core], lowA = [...tgt];
+  for (const ch of typed) { if (lowA[n] === ch) n++; else break; }
+  span.innerHTML = esc(t.pre) + `<i class="gy">${esc(a.slice(0, n).join(''))}</i>${ok ? '' : `<i class="gr">${esc(a.slice(n, n + 1).join('') || '·')}</i>`}${esc(a.slice(ok ? n : n + 1).join(''))}` + esc(t.post);
+  if (!ok) buzz();
+}
+
+/* --- Sorbarendezés --- */
+function gScrStart() {
+  const max = [6, 10, 30][ls.d], minw = [4, 3, 2][ls.d];
+  const ch = gChunks(ls.toks, max, minw);
+  ls.chunks = ch.map((js, i) => ({i, text: js.map(j => ls.toks[j].w).join(' ')}));
+  let ord = ls.chunks.map(c => c.i), g = 0;
+  if (ord.length > 1) do { ord = gShuffle(ord); } while (ord.every((x, i) => x === i) && g++ < 20);
+  ls.order = ord; ls.steps = ord.length;
+  gScrDraw();
+}
+function gScrDraw() {
+  $('#lText').innerHTML = `<div class="scHint">Húzd a darabokat a bal oldali fogantyúval a helyes sorrendbe.</div><div id="scList">${ls.order.map(i => `<div class="scI" data-i="${i}"><span class="hdl" aria-label="Húzás">${svgI('i-grip')}</span><span class="scT">${esc(ls.chunks[i].text)}</span></div>`).join('')}</div>`;
+  $('#lFootIn').innerHTML = `<div id="lHint">${ls.order.length} darab. Csak egyszer ellenőrizhetsz.</div><button class="primary xl" id="gCheck">Ellenőrzés</button>`;
+  gInfo(0, 1, ls.order.length + ' darab');
+}
+function gScrDragInit() {
+  const box = $('#learn');
+  box.addEventListener('pointerdown', e => {
+    if (!ls || ls.game !== 'scr' || ls.ended || !ls.started) return;
+    const h = e.target.closest('.hdl'); if (!h) return;
+    const it = h.closest('.scI'), list = $('#scList'); if (!it || !list) return;
+    e.preventDefault();
+    const r = it.getBoundingClientRect(), dy = e.clientY - r.top;
+    const ph = document.createElement('div'); ph.className = 'scPh'; ph.style.height = r.height + 'px';
+    list.insertBefore(ph, it);
+    Object.assign(it.style, {position: 'fixed', left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', zIndex: 300});
+    it.classList.add('drag');
+    let lastY = e.clientY, raf = 0;
+    const body = $('#lBody');
+    const place = () => {
+      it.style.top = (lastY - dy) + 'px';
+      const mid = lastY;
+      const sibs = [...list.children].filter(x => x !== it && x !== ph);
+      const before = sibs.find(x => { const b = x.getBoundingClientRect(); return mid < b.top + b.height / 2; });
+      if (before) { if (ph.nextSibling !== before) list.insertBefore(ph, before); } else if (list.lastChild !== ph) list.appendChild(ph);
+      const br = body.getBoundingClientRect();
+      if (lastY < br.top + 60) body.scrollBy(0, -12); else if (lastY > br.bottom - 60) body.scrollBy(0, 12);
+    };
+    const tick = () => { place(); raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+    const move = ev => { lastY = ev.clientY; };
+    const up = () => {
+      cancelAnimationFrame(raf);
+      removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+      it.removeAttribute('style'); it.classList.remove('drag');
+      list.insertBefore(it, ph); ph.remove();
+      ls.order = [...list.children].map(x => +x.dataset.i);
+    };
+    addEventListener('pointermove', move); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  });
+}
+function gScrCheck() {
+  const ord = ls.order;
+  ls.first = ord.filter((x, i) => x === i).length;
+  ls.errs = ord.length - ls.first;
+  learnTick();
+  gFinish(true);
+}
+
+/* --- Kitöltés és Szóválasztás --- */
+function gPickStart() {
+  const idx = ls.toks.map((t, j) => j).filter(j => ls.toks[j].type !== 'pun');
+  if (ls.game === 'mc') { ls.gaps = idx; ls.nOpt = [2, 4, 6][ls.d]; }
+  else {
+    ls.nOpt = 6;
+    if (ls.d === 2) ls.gaps = idx;
+    else {
+      const k = Math.max(1, Math.round(idx.length * [0.2, 0.5][ls.d]));
+      const content = gShuffle(idx.filter(j => !G_SW.has(ls.toks[j].f))), rest = gShuffle(idx.filter(j => G_SW.has(ls.toks[j].f)));
+      ls.gaps = [...content, ...rest].slice(0, k).sort((a, b) => a - b);
+    }
+  }
+  ls.gapSet = new Set(ls.gaps); ls.gi = 0; ls.steps = ls.gaps.length; ls.marks = [];
+  gPickDraw(); gPickOpts();
+}
+function gPickTok(j) {
+  const t = ls.toks[j], cur = ls.gaps[ls.gi];
+  if (ls.game === 'mc' && j > cur) return '';
+  if (t.type === 'pun') return esc(t.w);
+  if (!ls.gapSet.has(j)) return gWord(t);
+  const m = ls.marks[j];
+  if (m) return `${esc(t.pre)}<span class="gw ${m}">${esc(t.core)}</span>${esc(t.post)}`;
+  const len = Math.max(2, [...t.core].length);
+  return `${esc(t.pre)}<span class="gap${j === cur ? ' cur' : ''}" style="width:${(len * 0.62 + 0.6).toFixed(1)}em"></span>${esc(t.post)}`;
+}
+function gPickDraw() {
+  let h = '', p = -1;
+  const cur = ls.gaps[ls.gi];
+  ls.toks.forEach((t, j) => {
+    if (ls.game === 'mc' && cur != null && j > cur) return;
+    if (t.p !== p) { if (p >= 0) h += '</div>'; h += '<div class="para">'; p = t.p; }
+    h += `<span class="t" data-j="${j}">${gPickTok(j)}</span> `;
+  });
+  if (ls.game === 'mc' && cur == null && !ls.toks.length) h += '';
+  $('#lText').innerHTML = h + (p >= 0 ? '</div>' : '');
+  ls.spans = [...$('#lText').querySelectorAll('[data-j]')];
+  gInfo(ls.gi, ls.steps, `${ls.gi}/${ls.steps}`);
+  const c = $('#lText .gap.cur'); if (c) c.scrollIntoView({block: 'center', behavior: 'smooth'});
+}
+function gPickOpts() {
+  const j = ls.gaps[ls.gi];
+  if (j == null) return;
+  ls.opts = gOpts(j); ls.wrongNow = false;
+  const skip = !(ls.game === 'mc' && ls.d === 2);
+  $('#lFootIn').innerHTML = `<div class="gOpts n${ls.opts.length}">${ls.opts.map((o, i) => `<button class="gOpt" data-o="${i}"><kbd>${i + 1}</kbd><span class="gOt"${o.length > 14 ? ` style="font-size:${Math.max(12, 18 - (o.length - 14) * 0.4).toFixed(0)}px"` : ''}>${esc(o)}</span></button>`).join('')}</div>`
+    + `<div class="gRow">${skip ? '<button class="ghost" id="gSkip">Kihagyás</button>' : ''}<button class="ghost" id="gDone">Kész</button></div>`;
+}
+function gFill(j, mark) {
+  ls.marks[j] = mark;
+  ls.gi++;
+  const e = ls.spans[j]; if (e) { e.innerHTML = gPickTok(j); e.classList.add('pop'); }
+  if (ls.gi >= ls.gaps.length) { learnTick(); return gFinish(true); }
+  if (ls.game === 'mc') gPickDraw();
+  else { const c = ls.spans[ls.gaps[ls.gi]]; if (c) { c.innerHTML = gPickTok(ls.gaps[ls.gi]); c.scrollIntoView({block: 'center', behavior: 'smooth'}); } gInfo(ls.gi, ls.steps, `${ls.gi}/${ls.steps}`); }
+  gPickOpts();
+}
+function gAnswer(i) {
+  if (!ls || ls.ended || ls.busy || !ls.opts || ls.opts[i] == null) return;
+  const j = ls.gaps[ls.gi], t = ls.toks[j];
+  learnTick();
+  if (gLow(ls.opts[i]) === gLow(t.core)) { if (!ls.wrongNow) ls.first++; return gFill(j, ls.wrongNow ? 'bad' : 'ok'); }
+  const b = $(`#lFootIn [data-o="${i}"]`); if (b) { b.classList.remove('no'); void b.offsetWidth; b.classList.add('no'); b.disabled = true; }
+  ls.wrongNow = true;
+  gErr(j);
+}
+function gSkip() {
+  if (!ls || ls.ended || ls.busy) return;
+  const j = ls.gaps[ls.gi];
+  if (!ls.wrongNow) gErr(j);
+  if (ls.ended || ls.busy) return;
+  gFill(j, 'bad');
+}
+function gDone() {
+  if (!ls || ls.ended || ls.busy) return;
+  for (let x = ls.gi; x < ls.gaps.length; x++) { ls.marks[ls.gaps[x]] = 'bad'; ls.errs++; }
+  ls.gi = ls.gaps.length; learnTick();
+  gFinish(true);
+}
+
+/* --- Felidézés (Tap to reveal, beírással) --- */
+function gTapStart() {
+  ls.units = gUnits(ls.toks, ls.d); ls.ui = 0; ls.marks = []; ls.okW = 0;
+  ls.steps = ls.words;
+  gTapDraw();
+  $('#lFootIn').innerHTML = `<div id="lHint">Írd be fejből a kiemelt ${['szót', 'kifejezést', 'mondatot'][ls.d]}, aztán Enter. Ékezet, kis- és nagybetű, írásjel nem számít, a számok igen.</div><input id="gIn" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="Írd be…"><button class="primary" id="gTapOk">Ellenőrzés</button><button class="ghost" id="gTapNo">Nem tudom</button>`;
+  const inp = $('#gIn');
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); gTapCheck(); } });
+  setTimeout(() => inp.focus(), 60);
+}
+function gTapDraw() {
+  const curU = new Set(ls.units[ls.ui] || []);
+  let h = '', p = -1;
+  ls.toks.forEach((t, j) => {
+    if (t.p !== p) { if (p >= 0) h += '</div>'; h += '<div class="para">'; p = t.p; }
+    const m = ls.marks[j];
+    let inner;
+    if (m) inner = m === 'pun' ? esc(t.w) : `${esc(t.pre)}<span class="gw ${m}">${esc(t.core)}</span>${esc(t.post)}`;
+    else if (t.type === 'pun') inner = `<span class="bar${curU.has(j) ? ' cur' : ''}" style="width:.5em"></span>`;
+    else inner = `<span class="bar${curU.has(j) ? ' cur' : ''}" style="width:${([...t.w].length * 0.55 + 0.3).toFixed(1)}em"></span>`;
+    h += `<span class="t" data-j="${j}">${inner}</span> `;
+  });
+  $('#lText').innerHTML = h + '</div>';
+  ls.spans = [...$('#lText').querySelectorAll('[data-j]')];
+  const done = ls.toks.filter((t, j) => ls.marks[j] && t.type !== 'pun').length;
+  gInfo(done, ls.words, `${ls.ui}/${ls.units.length} ${['szó', 'kifejezés', 'mondat'][ls.d]}`);
+  const c = $('#lText .bar.cur'); if (c) c.scrollIntoView({block: 'center', behavior: 'smooth'});
+}
+function gTapCheck(giveUp) {
+  if (!ls || ls.ended || ls.busy) return;
+  const inp = $('#gIn'), u = ls.units[ls.ui]; if (!u) return;
+  const typed = giveUp ? [] : (inp.value || '').split(/\s+/).map(w => fold(w)).filter(Boolean);
+  if (!giveUp && !typed.length) return shakeEl(inp);
+  learnTick();
+  const tw = u.filter(j => ls.toks[j].type !== 'pun');
+  const tf = tw.map(j => ls.toks[j].f);
+  /* LCS igazítás, elírás-tűréssel */
+  const eq = (a, b) => a === b || (!/\d/.test(b) && matchWord(a, b, 'med') !== 'bad');
+  const A = tf.length, B = typed.length, D = Array.from({length: A + 1}, () => new Array(B + 1).fill(0));
+  for (let i = A - 1; i >= 0; i--) for (let k = B - 1; k >= 0; k--) D[i][k] = eq(typed[k], tf[i]) ? 1 + D[i + 1][k + 1] : Math.max(D[i + 1][k], D[i][k + 1]);
+  const okSet = new Set();
+  for (let i = 0, k = 0; i < A && k < B;) { if (eq(typed[k], tf[i])) { okSet.add(i); i++; k++; } else if (D[i + 1][k] >= D[i][k + 1]) i++; else k++; }
+  let bad = 0;
+  u.forEach(j => { ls.marks[j] = ls.toks[j].type === 'pun' ? 'pun' : null; });
+  tw.forEach((j, i) => { const ok = okSet.has(i); ls.marks[j] = ok ? 'ok' : 'bad'; if (ok) ls.first++; else { bad++; recordErr(ls.toks[j].f); } });
+  inp.value = '';
+  ls.ui++;
+  gTapDraw();
+  if (bad) { ls.errs += bad - 1; gErr(tw[0]); }
+  if (ls.ended || (ls.busy && ls.hearts <= 0)) return;
+  if (ls.ui >= ls.units.length) return gFinish(true);
+  inp.focus();
+}
+
+/* --- eredmény --- */
+function gFullText() {
+  let h = '', p = -1;
+  ls.toks.forEach((t, j) => {
+    if (t.p !== p) { if (p >= 0) h += '</div>'; h += '<div class="para">'; p = t.p; }
+    const m = ls.marks[j];
+    h += (m === 'ok' || m === 'bad') ? `${esc(t.pre)}<span class="gw ${m}">${esc(t.core)}</span>${esc(t.post)} ` : esc(t.w) + ' ';
+  });
+  return h + '</div>';
+}
+function gFinish(completed) {
+  if (!ls || ls.ended) return;
+  ls.ended = true; ls.busy = false;
+  hideWarn(); learnTick();
+  cancelAnimationFrame(ls.dragT);
+  const n = byId(ls.noteId);
+  if (!n) return closeLearn();
+  const now = Date.now(), lvl = ls.lvl, mode = ls.mode, read = ls.game === 'read';
+  const score = read ? 100 : Math.round(100 * ls.first / Math.max(1, ls.steps));
+  let pass = completed && ls.hearts > 0 && (read || score >= 80);
+  /* 80% alatt egy szív, ha még van */
+  let below = false;
+  if (completed && !read && score < 80 && ls.hearts > 0 && mode === 'learn') {
+    below = true; ls.hearts--; ls.lost++;
+    n.ladder.lives = ls.hearts > 0 ? ls.hearts : 3;
+  }
+  const failHard = mode === 'learn' && ls.hearts <= 0;
+  const stars = score >= 100 ? 3 : score >= 90 ? 2 : 1;
+  /* eredmény mentése játékonként és szintenként */
+  n.gs = n.gs || {};
+  const key = 'g' + lvl, prev = n.gs[key] || null;
+  const rec = !read && completed && (!prev || score > (prev.best || 0));
+  n.gs[key] = {last: score, best: Math.max(score, prev ? prev.best || 0 : 0), at: now};
+  const R = ladderAfter(n, lvl, mode, pass, read ? 3 : stars, failHard);
+  const secs = Math.round((now - ls.t0) / 1000), tm = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+  const label = read ? 'Végigolvastad, háromszor.' : score >= 100 ? 'Hibátlan!' : score >= 90 ? 'Nagyon jó, majdnem hibátlan.' : score >= 80 ? 'Jó, átmentél.' : score >= 50 ? 'Még gyakorolni kell.' : 'Ez most nem ment, de ettől tanulsz.';
+  let recTxt = '';
+  if (rec && prev) recTxt = `<div class="gRec">+${score - (prev.best || 0)}% új rekord</div>`;
+  else if (rec) recTxt = '<div class="gRec">Első eredmény ezen a szinten</div>';
+  let sub = R.sub;
+  if (below && !failHard) sub = `80% alatt maradtál: −1 szív (maradt: ${ls.hearts}). ` + sub;
+  const full = ls.game === 'scr'
+    ? `<ol class="scRes">${ls.order.map((x, i) => `<li class="${x === i ? 'ok' : 'bad'}"><b>${x + 1}.</b> ${esc(ls.chunks[x].text)}</li>`).join('')}</ol>`
+    : read ? '' : `<details class="gFull" open><summary>Teljes szöveg</summary>${gFullText()}</details>`;
+  $('#lText').innerHTML = `<div class="result gRes"><div class="big" style="color:${pass || read ? 'var(--acc)' : 'var(--bad)'}">${R.icon}</div>`
+    + (read ? '' : `<div class="gScore">${score}%</div>`) + `<div class="rt">${R.title}</div><div class="gLabel">${label}</div>`
+    + (pass ? `<div class="stars">${starTxt(read ? 3 : stars)}</div>` : '') + recTxt
+    + `<div style="color:var(--ink2)">${esc(sub)}</div><div class="small" style="color:var(--ink2)">${read ? ls.words + ' szó' : `${ls.errs} hiba`} · ${tm}${ls.lost ? ' · ' + ls.lost + ' szív elveszett' : ''}</div></div>` + full;
+  let btns = R.btns;
+  const nx = LV[lvl + 1];
+  if (mode === 'practice' && score >= 100 && nx && nx.g === LV[lvl].g && gUnlocked(n, lvl + 1)) btns = `<button class="primary xl" id="gHarder">Nehezebb szint</button>` + btns.replace('class="primary xl"', 'class=""');
+  $('#lFootIn').innerHTML = btns.replace('>Térkép<', '>Vissza<');
+  $('#lProg i').style.width = '100%';
+  gHearts();
+  n.ladder.at = now; n.mod = now; markItem(n.id); persist();
+}
+function gClick(e) {
+  const id = e.target.id, b = e.target.closest('button');
+  const lv = e.target.closest('[data-glv]');
+  if (lv) {
+    const n = byId(ls.noteId), s = +lv.dataset.glv;
+    if (!gUnlocked(n, s)) return shakeEl(lv, 'Zárolva: előbb az előző szintet kell teljesíteni');
+    if (s === ls.lvl && !ls.started) return;
+    return startLearn(ls.noteId, s, !n.ladder.done && s === n.ladder.step ? 'learn' : 'practice', !ls.started ? false : true);
+  }
+  if (id === 'gGo') return gGo();
+  if (id === 'gHarder') { const n = byId(ls.noteId), s = ls.lvl + 1; return startLearn(ls.noteId, s, !n.ladder.done && s === n.ladder.step ? 'learn' : 'practice', true); }
+  if (id === 'gBio') { lsSet('memo-bionic', bioOn() ? '0' : '1'); const keep = ls.next, part = ls.part; ls.spans.forEach((s, j) => { const t = ls.toks[j]; if (t && !(part === 2 && j === keep)) s.innerHTML = gWord(t); }); e.target.classList.toggle('on', bioOn()); return; }
+  if (ls.ended || ls.busy || !ls.started) return;
+  if (id === 'gCheck') return gScrCheck();
+  if (id === 'gSkip') return gSkip();
+  if (id === 'gDone') return gDone();
+  if (id === 'gTapOk') return gTapCheck();
+  if (id === 'gTapNo') return gTapCheck(true);
+  const o = e.target.closest('[data-o]');
+  if (o) return gAnswer(+o.dataset.o);
+  if (ls.game === 'read' && ls.part === 1) {
+    const t = e.target.closest('#lText [data-j]');
+    if (!t) return;
+    const j = +t.dataset.j;
+    if (j === ls.next) gReadAdvance('tp');
+    else if (j > ls.next) { shakeEl(t); if (Date.now() - (ls.slowAt || 0) > 3000) { ls.slowAt = Date.now(); warn('Sorban haladj: a következő szóra koppints.'); } }
+    return;
+  }
+  if (ls.game === 'read' && ls.part === 2 || ls.game === 'tap') { const i = $('#gIn'); i && i.focus(); }
+}
+function gKey(e) {
+  if (!ls.started && e.key === 'Enter') { e.preventDefault(); return gGo(); }
+  if (!ls.started || ls.ended || ls.busy) return;
+  if ((ls.game === 'blk' || ls.game === 'mc') && /^[1-6]$/.test(e.key)) { e.preventDefault(); return gAnswer(+e.key - 1); }
+}
+$('#learn').addEventListener('pointerdown', e => {
+  if (!ls || ls.game !== 'read' || ls.part !== 0 || ls.ended || ls.busy || !ls.started) return;
+  if (!e.target.closest('#lText')) return;
+  e.preventDefault();
+  ls.drag = true; ls.dragJ = gDragAt(e.clientX, e.clientY);
+  cancelAnimationFrame(ls.dragT); ls.dragT = requestAnimationFrame(gDragLoop);
+});
+addEventListener('pointermove', e => { if (ls && ls.drag) { const j = gDragAt(e.clientX, e.clientY); if (j != null) ls.dragJ = j; } });
+addEventListener('pointerup', () => { if (ls) { ls.drag = false; cancelAnimationFrame(ls.dragT); } });
+addEventListener('pointercancel', () => { if (ls) { ls.drag = false; cancelAnimationFrame(ls.dragT); } });
+gScrDragInit();
+
+/* közös létra-léptetés (játékok és gépelés) */
+function ladderAfter(n, lvl, mode, pass, stars, failHard) {
+  const L = n.ladder, now = Date.now();
+  L.stars = L.stars || {};
+  const r = {icon: svgI('i-check'), title: '', sub: '', btns: '', again: {step: lvl, mode}};
+  if (pass) {
+    if (stars > (L.stars['s' + lvl] || 0)) L.stars['s' + lvl] = stars;
+    if (mode === 'learn' && !L.done && lvl === L.step) {
+      L.lives = 3;
+      if (lvl === NL) {
+        const S = srsOf(n.id);
+        const st = firstDoc(S, n, now); markSrs(n.id, 'doc');
+        L.done = true; ui.anim = {id: n.id, type: 'unlock', step: NL + 1};
+        r.icon = svgI('i-trophy'); r.title = 'Megtanultad!'; r.sub = `Holnap kötelező ismétlés, utána jön a felejtési görbe szerinti ütemezés. Első ismétlés: ${fmtDue(st.due)}.`; confetti(80);
+        r.btns = `<button class="primary xl" id="lExit">Tovább</button>`;
+      } else {
+        L.step = lvl + 1; ui.anim = {id: n.id, type: 'unlock', step: lvl + 1};
+        r.title = 'Szint teljesítve'; r.sub = `Kinyílt: ${STEPS[lvl + 1]}.`; confetti(30);
+        r.btns = `<button class="primary xl" id="lNextStep">Tovább: ${STEPS[lvl + 1]}</button><button id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
+      }
+    } else {
+      r.title = 'Gyakorlás kész'; r.sub = 'A gyakorlás nem változtat a haladáson.'; confetti(16);
+      r.btns = `<button class="primary xl" id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
+    }
+  } else {
+    r.icon = svgI('i-heartx');
+    if (mode === 'learn' && !L.done && lvl === L.step && failHard && lvl > 1) {
+      L.step = lvl - 1; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step: lvl};
+      r.title = 'Visszaestél'; r.sub = `Most: ${STEPS[lvl - 1]}. A(z) „${STEPS[lvl]}” újra zárolva, amíg ezt nem teljesíted.`;
+      r.again = {step: lvl - 1, mode: 'learn'};
+    } else {
+      if (mode === 'learn' && failHard) L.lives = 3;
+      r.title = 'Nem sikerült'; r.sub = mode === 'practice' ? 'Gyakorlás: a haladásod nem változott.' : 'Próbáld újra.';
+    }
+    r.btns = `<button class="primary xl" id="lAgain">Újra</button><button id="lExit">Térkép</button>`;
+  }
+  if (ls) ls.again = r.again;
+  L.at = now;
+  return r;
+}
+
 function closeLearn() {
   if (!ls) return;
   if (!ls.ended) learnTick();
@@ -3556,8 +4219,8 @@ $('#pathMap').onclick = e => {
   const b = e.target.closest('[data-step]');
   const n = byId(ui.pathId);
   if (!b || !n) return;
-  const s = +b.dataset.step, cur = n.ladder.done ? 8 : n.ladder.step;
-  if (s === 8) {
+  const s = +b.dataset.step, cur = n.ladder.done ? NL + 1 : n.ladder.step;
+  if (s === NL + 1) {
     if (!n.ladder.done) return shakeEl(b.querySelector('.disc'), 'Előbb teljesítsd a Gépelés – nehéz fokozatot');
     const S = db.srs[n.id] || {};
     return toast(S.doc ? `Következő ismétlés: ${fmtDue(S.doc.due)} (${phaseName(n)})` : 'Az ismétlésben');
@@ -3741,14 +4404,14 @@ $('#noteText').onblur = () => {
   blocksOf(n).forEach(b => {
     const was = bsnap[b.id];
     if (was == null || b.ladder.done || (b.ladder.step === 1 && !starsOf(b, 1)) || textChange(docText({text: was}), docText(b)) <= 0.3) return;
-    b.ladder = {step: 1, done: false, lives: 3, stars: {}, at: b.ladder.at || 0}; b.mod = Date.now(); markItem(b.id);
+    b.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 2, at: b.ladder.at || 0}; b.mod = Date.now(); markItem(b.id);
     toast(`A(z) „${b.name}” blokk nagy része megváltozott: a tanulása az 1. fokozattól indul`);
   });
   persist(); updateNoteStats();
   if (n.mode !== 'tanulas') return;
   if (!before.trim() || before === after || n.ladder.done || (n.ladder.step === 1 && !starsOf(n, 1))) return;
   if (textChange(before, after) > 0.3) {
-    n.ladder = {step: 1, done: false, lives: 3, stars: {}, at: n.ladder.at || 0};
+    n.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 2, at: n.ladder.at || 0};
     n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); updateNoteStats();
     toast('A szöveg nagy része megváltozott: a tanulás az 1. fokozattól indul');
   }
@@ -3975,6 +4638,7 @@ $('#learn').addEventListener('click', e => {
   if (id === 'lNextStep') return startLearn(ls.noteId, ls.again.step + 1, 'learn');
   if (id === 'lAgain') { const n = byId(ls.noteId); const a = ls.again; return startLearn(ls.noteId, a.mode === 'learn' && n ? n.ladder.step : a.step, a.mode); }
   if (id === 'lExit') return closeLearn();
+  if (ls.game) return gClick(e);
   if (ls.ended || ls.busy) return;
   if (ls.step === 1 && ls.mode !== 'rev' && e.target.closest('#lBody')) revealNext();
   else if (e.target.closest('#lBody')) { const i = $('#lIn'); i && i.focus(); }
@@ -3983,6 +4647,7 @@ $('#learn').addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (ls) {
     if (e.key === 'Escape') return closeLearn();
+    if (ls.game && !ls.ended) return gKey(e);
     if (ls.ended && e.key === 'Enter') { const b = $('#lFootIn .primary'); if (b) { e.preventDefault(); b.click(); } return; }
     if (ls.step === 1 && ls.mode !== 'rev' && !ls.ended && (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'Enter')) { e.preventDefault(); revealNext(); }
     return;
@@ -4154,7 +4819,7 @@ document.addEventListener('contextmenu', e => {
 $('#noteMore').open = lsGet('memo-notemore', '0') === '1';
 $('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.28 16:29';
+const APP_V = '2026.11.28 17:07';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
@@ -4172,6 +4837,8 @@ setTimeout(verCheck, 3000); setInterval(verCheck, 600000);
 if (AND && AND.setCanBack) { let last = null; setInterval(() => { const c = !!(ui.view !== 'home' || ls || $('#dlg').open || !$('#cmdk').hidden || (rq && !rq.finished && ui.view === 'review')); if (c !== last) { last = c; try { AND.setCanBack(c); } catch (e) {} } }, 400); }
 /* Android-alkalmazásból hívható: a napi tanulási percek (az alkalmazászárhoz) */
 window.memoMillStatus = () => JSON.stringify({day: dayKey(Date.now()), todaySec: dayStat(dayKey(Date.now())).sec, goalMin: db.settings.goalMin, due: buildQueue(Date.now(), null).length});
+window.memoMillLs = () => ls;
+window.memoMillOpenPath = id => openPath(id);
 window.memoMillOpenReview = () => { if (ls) closeLearn(); startReview(null); };
 /* Android Vissza gomb: true, ha az app kezelte */
 window.memoMillBack = () => {
@@ -4288,7 +4955,7 @@ function renderDocBar(n) {
   const now = Date.now(), bl = blocksOf(n);
   let st;
   if (n.prio === 'szunet') st = '<span class="dot szunet"></span>Szünetel';
-  else if (n.mode === 'tanulas') st = n.ladder.done ? '<span class="dot aktiv"></span>Ismétlésben' : `<span class="dot aktiv"></span>Tanulás ${n.ladder.step}/7`;
+  else if (n.mode === 'tanulas') st = n.ladder.done ? '<span class="dot aktiv"></span>Ismétlésben' : `<span class="dot aktiv"></span>Tanulás ${stTxt(n)}`;
   else if (n.mode === 'kartya') st = '<span class="dot aktiv"></span>Kártya';
   else st = '<span class="dot nincs"></span>Jegyzet' + (bl.length ? ` · ${bl.length} blokk` : '');
   $('#dbState').innerHTML = st;
@@ -4335,7 +5002,7 @@ function nextTxt(b, now) {
 }
 function bcardHtml(b, num, now, prim) {
   const S = (db.srs[b.id] || {}).doc, due = b.ladder.done && S && S.due <= now, fresh = !b.ladder.done && b.ladder.step === 1 && !starsOf(b, 1);
-  const st = b.ladder.done ? (due ? 'Ismétlés esedékes' : 'Megtanulva') : fresh ? 'Még nem kezdted' : `${STEPS[b.ladder.step]} · ${b.ladder.step}/7`;
+  const st = b.ladder.done ? (due ? 'Ismétlés esedékes' : 'Megtanulva') : fresh ? 'Még nem kezdted' : `${STEPS[b.ladder.step]} · ${stTxt(b)}`;
   const prev = esc(stripBlk(b.text).split('\n').slice(b.blk ? 1 : 0).join(' ').replace(/\s+/g, ' ').slice(0, 160));
   const lbl = due ? 'Ismétlés' : b.ladder.done ? 'Útvonal' : fresh ? 'Kezdés' : 'Folytatás';
   return `<div class="bcard${b.ladder.done ? ' done' : ''}${due ? ' due' : ''}" data-bopen="${b.id}"><span class="bW">${wheelSvg(b, 42)}</span>`
@@ -4379,7 +5046,7 @@ function edLines(text) {
   }
   const nn = byId(ui.noteId), bl = nn && !nn.blk ? blocksOf(nn).slice().sort((a, b) => (a.bi || 0) - (b.bi || 0)) : [], now = Date.now(), stl = {};
   let kk = 0;
-  L.forEach((l, i) => { if (/\bbt\b/.test(cls[i])) { const b = bl[kk++]; if (b) { const S = (db.srs[b.id] || {}).doc; stl[i] = b.ladder.done ? (S && S.due < dayStart(now) + DAY ? 'Ismétlés esedékes ma' : 'Megtanulva') : b.ladder.step > 1 || starsOf(b, 1) ? `${STEPS[b.ladder.step]} · ${b.ladder.step}/7` : 'Új'; } } });
+  L.forEach((l, i) => { if (/\bbt\b/.test(cls[i])) { const b = bl[kk++]; if (b) { const S = (db.srs[b.id] || {}).doc; stl[i] = b.ladder.done ? (S && S.due < dayStart(now) + DAY ? 'Ismétlés esedékes ma' : 'Megtanulva') : b.ladder.step > 1 || starsOf(b, 1) ? `${STEPS[b.ladder.step]} · ${stTxt(b)}` : 'Új'; } } });
   return L.map((l, i) => `<div class="ln ${cls[i]}"${stl[i] ? ` data-st="${esc(stl[i])}"` : ''}>${l ? esc(l).replace(/\*\*(.+?)\*\*/g, '<mark>**$1**</mark>') : '​'}</div>`).join('');
 }
 function edSync() {

@@ -28,7 +28,15 @@ Egyfájlos tanuló- és jegyzetapp (Memo). GitHub Pages-en fut.
 - Vizsgaterv: napokra bontva mutatja, mikorra mit kell megtanulni és mikor esedékes az ismétlés.
 
 ## Tanulás és ismétlés
-- **Tanulás** (1. fázis): 3 szint, 7 fokozat lakatos útvonalon. Felfedés → Kezdőbetű (könnyű: minden 3. szó rejtett, közepes: minden 2., nehéz: mind) → Gépelés (könnyű, közepes, nehéz).
+- **Tanulás** (1. fázis): 7 lépcsős létra, blokkonként.
+  1. Értő olvasás (nem lehet elrontani): húzós kiemelés → szavak sorban koppintása → a látható szöveg begépelése. Bionic olvasás kapcsolható.
+  2. Sorbarendezés: könnyű ≤6, közepes ≤10, nehéz ≤30 darab, fogantyús húzással, egyszeri ellenőrzés.
+  3. Kitöltés: kb. 20% / 50% / minden szó hiányzik, 6 opció (1–6 billentyű), kihagyás, Kész.
+  4. Szóválasztás: üres lapról, 2 / 4 / 6 opció (nehéz: kihagyás nélkül).
+  5. Felidézés (tap to reveal beírással): szó / kifejezés / mondat fejből beírva, Enterre felfed és ellenőriz.
+  6. Gépelés: közepes (kezdőbetű-súgás), nehéz (súgás nélkül).
+  7. Ismétlés: másnap kötelező, utána FSRS.
+  Szívek: bekezdésenként az első hiba figyelmeztet, a második egy szívbe kerül; 3 szív elfogyása egy szint visszaesés. A következő szint 80%-tól nyílik (Sorbarendezésnél és a 80% alatti köröknél −1 szív). Teljesített szintek gyakorlásként újrajátszhatók; az eredmény (utolsó, legjobb, dátum) szintenként mentődik és szinkronizálódik. A közös darabolás a „2. §”, „(1)”, „a)” jelöléseket egy egységként kezeli, a gondolatjelet külön.
   Bekezdésenként az első hiba figyelmeztet, a második egy szívbe kerül és a bekezdés újraindul. 3 szív fogyása után egy fokozattal vissza, és az a fokozat újra zárolódik.
 - **Szöveg ismétlése** (2. fázis): vak gépelés 2 élettel; ha mindkettő elfogy, vissza a tanulásba (Gépelés – közepes).
 - **Mesterfázis** (3.): ha a szöveg 21 napja stabil, vagy a vizsga 7 napon belül van: 1 élet; bukás után aznap még egyszer előjön.
