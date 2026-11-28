@@ -954,6 +954,24 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
 #revWrap{margin:0 auto}
 #revDone:not([hidden]){display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:620px;min-height:calc(100dvh - 160px);margin:0 auto}
 #revDone .sumGrid{width:100%}
+
+/* ===== középre igazítás, Milly ablak, mappák előre ===== */
+#pathView .wrap,#setWrap{margin-left:auto;margin-right:auto}
+#setWrap{max-width:1100px}
+#pathMap{margin-left:auto;margin-right:auto}
+#pathView .wrap>div:first-child{text-align:center}#pathView .wrap>div:first-child .btns{justify-content:center}
+#foldAcc{margin-bottom:14px}
+#mVeil{display:none}
+body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgba(4,6,16,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadeIn .18s ease}
+#chatPanel:not([hidden]){position:fixed;z-index:81;left:50%;top:50%;transform:translate(-50%,-50%);width:min(720px,calc(100vw - 32px));max-height:min(82vh,820px);overflow:auto;margin:0;background:var(--dlg,#141a2e);box-shadow:0 30px 80px rgba(0,0,0,.55);border-radius:20px;animation:mPop .2s var(--ease,ease)}
+@keyframes mPop{from{opacity:0;transform:translate(-50%,-47%) scale(.98)}to{opacity:1;transform:translate(-50%,-50%)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#chatPanel .mHead{position:sticky;top:-1px;z-index:2;background:inherit;padding-bottom:10px}
+#mClose{font-size:16px;min-width:38px}
+@media (max-width:760px){#chatPanel:not([hidden]){left:0;right:0;bottom:0;top:auto;transform:none;width:auto;max-height:88dvh;border-radius:20px 20px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom));animation:mUp .22s var(--ease,ease)}@keyframes mUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}}
+#noteMore>summary{border:1px solid rgba(var(--a1r),.35);background:linear-gradient(100deg,rgba(var(--a1r),.10),rgba(var(--a2r),.10));border-radius:14px;padding:12px 16px;color:var(--text);font-weight:600;font-size:15px}
+#noteMore>summary:hover{border-color:rgba(var(--a1r),.6)}
+#noteMore>summary .ico{color:var(--a1)}
 </style>
 </head>
 <body>
@@ -1104,8 +1122,8 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
         </div>
       </div>
       <div id="summary"></div>
-      <div id="rows"></div>
       <details class="card acc" id="foldAcc" open hidden><summary><h2 class="h2">Mappák</h2><span class="muted small"></span><svg class="ico chev"><use href="#i-chev"/></svg></summary><div class="accBody" id="foldList"></div></details>
+      <div id="rows"></div>
     </section>
 
     <!-- DOKUMENTUM -->
@@ -1144,9 +1162,10 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
           <div class="legend muted" style="margin:6px 0 12px"><span style="background:rgba(251,191,36,.18)">1 hiba</span><span style="background:rgba(251,113,133,.22)">2–3</span><span style="background:rgba(244,63,94,.45);color:#fff">4+</span> A gyakran elrontott szavakat a tanulás mindig elrejti.</div>
           <div id="errText"></div>
         </div>
+        <div id="mVeil"></div>
         <div class="box" id="chatPanel" hidden>
           <div class="mHead"><span class="mAv"></span><div class="mTt"><b>Milly</b><div class="muted small" id="mScope"></div></div>
-            <span class="mBtns"><button class="primary small" id="chatQuiz">Kikérdezés</button><button class="small" id="mRecite">Felmondás</button><button class="ghost small" id="mType" title="Vizsga típusa, szó szerinti felmondás">Beállítás</button><button class="ghost small" id="chatClear">Törlés</button></span></div>
+            <span class="mBtns"><button class="primary small" id="chatQuiz">Kikérdezés</button><button class="small" id="mRecite">Felmondás</button><button class="ghost small" id="mType" title="Vizsga típusa, szó szerinti felmondás">Beállítás</button><button class="ghost small" id="chatClear">Törlés</button><button class="ghost small mX" id="mClose" aria-label="Bezárás">✕</button></span></div>
           <div id="mKeys"></div>
           <div id="chatLog"></div>
           <div id="mRec" hidden><div class="muted small" id="mRecHint"></div><textarea id="mRecTxt" rows="9" placeholder="Írd le a saját szavaiddal…"></textarea><div class="mRecBtns"><button type="button" class="mic" id="mRecMic" title="Diktálás"><svg class="ico"><use href="#i-mic"/></svg></button><button class="primary" id="mRecGo">Ellenőrzés</button><button class="ghost" id="mRecX">Vissza a beszélgetéshez</button></div></div>
@@ -2026,7 +2045,7 @@ const ui = {view: 'home', cur: null, sel: null, open: new Set(), noteId: null, q
 let rq = null, ls = null, chatOpen = false, chatBusy = false;
 const coarse = matchMedia('(pointer: coarse)').matches;
 const VIEWS = ['home', 'review', 'files', 'note', 'learnlist', 'path', 'trash', 'settings', 'cards'];
-function show(view) { if (view !== 'settings') ui.setDraft = null; else if (ui.view !== 'settings') ui.setBack = ui.view; ui.view = view; render(); const v = $('#' + view + 'View'); if (v) v.scrollTop = 0; }
+function show(view) { if (view !== 'note' && typeof chatOpen !== 'undefined' && chatOpen) closeMilly(); if (view !== 'settings') ui.setDraft = null; else if (ui.view !== 'settings') ui.setBack = ui.view; ui.view = view; render(); const v = $('#' + view + 'View'); if (v) v.scrollTop = 0; }
 const svgI = (id, cls = '') => `<svg class="${cls}"><use href="#${id}"/></svg>`;
 const learningNotes = () => notes().filter(n => learnable(n) && !n.ladder.done && n.prio !== 'szunet' && n.text.trim());
 const starsOf = (n, s) => (n.ladder.stars || {})['s' + s] || 0;
@@ -2310,7 +2329,7 @@ function renderFiles() {
   if (ui.sel && !byId(ui.sel)) ui.sel = null;
   updBar();
   if (fold(ui.q).length >= 2) return renderHits();
-  $('#fSub').textContent = ui.cur ? 'Mappa tartalma. Dupla kattintás: megnyitás, jobbklikk: további műveletek.' : 'Legutóbb szerkesztett elöl. A mappák a bal oldali fában.';
+  $('#fSub').textContent = ui.cur ? 'Mappa tartalma. Dupla kattintás: megnyitás, jobbklikk: további műveletek.' : 'Felül a mappák, alattuk a jegyzetek, a legutóbb szerkesztett elöl.';
   $('#foldAcc').hidden = true;
   $('#filesView').classList.toggle('root', !ui.cur);
   if (!ui.cur) {
@@ -2465,7 +2484,7 @@ function renderNote() {
   renderMode(n);
   renderDocBar(n);
   requestAnimationFrame(edSync);
-  $('#chatPanel').hidden = !chatOpen;
+  $('#chatPanel').hidden = !chatOpen; document.body.classList.toggle('mOpen', chatOpen);
   if (chatOpen) renderChat();
   $('#errPanel').hidden = !ui.errOpen;
   if (ui.errOpen) renderErr(n);
@@ -3298,11 +3317,15 @@ ${srcText(n)}
 }
 let mPend = null;
 function mSay(n, content, chips, extra) { const msgs = loadChat(n.id); msgs.forEach(m => delete m.chips); msgs.push({role: 'milly', content, chips, ...(extra || {})}); saveChat(n.id, msgs); if (ui.noteId === n.id) renderChat(); }
+function closeMilly() { chatOpen = false; $('#chatPanel').hidden = true; document.body.classList.remove('mOpen'); }
+$('#mClose').onclick = closeMilly;
+$('#mVeil').onclick = closeMilly;
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && chatOpen) { e.stopPropagation(); closeMilly(); } }, true);
 function openMilly() {
   const n = byId(ui.noteId); if (!n) return;
   chatOpen = true; $('#chatPanel').hidden = false; renderChat();
   $('#chatMic').hidden = !canDictate(); $('#mRecMic').hidden = !canDictate();
-  setTimeout(() => $('#chatPanel').scrollIntoView({behavior: 'smooth', block: 'start'}), 30);
+  document.body.classList.add('mOpen');
   ensureKeys(n);
 }
 function millyNeed(n, act) {
@@ -3757,7 +3780,7 @@ $('#nReview').onclick = () => { const n = byId(ui.noteId); if (!learnDone(n)) re
 $('#nErr').onclick = () => { ui.errOpen = !ui.errOpen; renderNote(); };
 $('#errReset').onclick = () => { const n = byId(ui.noteId); if (!n || !db.srs[n.id]) return; delete db.srs[n.id].map; markSrs(n.id, 'map'); persist(); renderNote(); toast('Hibatérkép nullázva'); };
 $('#nAiCards').onclick = aiCards;
-$('#nChat').onclick = () => { if (chatOpen) { chatOpen = false; $('#chatPanel').hidden = true; } else openMilly(); };
+$('#nChat').onclick = () => { if (chatOpen) closeMilly(); else openMilly(); };
 $('#chatClear').onclick = () => { if (ui.noteId) { saveChat(ui.noteId, []); renderChat(); } };
 $('#chatQuiz').onclick = () => millyGo('quiz');
 $('#chatForm').onsubmit = e => { e.preventDefault(); const t = $('#chatInput').value.trim(); if (!t) return; $('#chatInput').value = ''; $('#chatInput').style.height = ''; sendChat(t); };
@@ -4131,7 +4154,7 @@ document.addEventListener('contextmenu', e => {
 $('#noteMore').open = lsGet('memo-notemore', '0') === '1';
 $('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.28 15:28';
+const APP_V = '2026.11.28 16:29';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
@@ -4334,7 +4357,7 @@ function blkClicks(e) {
   if (o) openItem(o.dataset.bopen);
 }
 $('#blkStrip').addEventListener('click', blkClicks);
-$('#dbMilly').onclick = () => { if (chatOpen) { chatOpen = false; $('#chatPanel').hidden = true; } else openMilly(); };
+$('#dbMilly').onclick = () => { if (chatOpen) closeMilly(); else openMilly(); };
 $('#dbExam').onclick = () => $('#nExam').click();
 $('#dbLearn').onclick = () => $('#nLearn').click();
 $('#dbPractice').onclick = () => { const n = byId(ui.noteId); if (!n) return; if (!learnDone(n)) return toast('Előbb fejezd be a tanulást'); migrateCards(n); const q = buildQueue(Date.now(), n.id); if (q.length) startReview(n.id); else startReview(n.id, 'all'); };
