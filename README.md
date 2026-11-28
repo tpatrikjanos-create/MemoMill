@@ -29,11 +29,11 @@ Egyfájlos tanuló- és jegyzetapp (Memo). GitHub Pages-en fut.
 
 ## Tanulás és ismétlés
 - **Tanulás** (1. fázis): 7 lépcsős létra, blokkonként.
-  1. Értő olvasás (nem lehet elrontani): húzós kiemelés → szavak sorban koppintása → a látható szöveg begépelése. Bionic olvasás kapcsolható.
-  2. Sorbarendezés: könnyű ≤6, közepes ≤10, nehéz ≤30 darab, fogantyús húzással, egyszeri ellenőrzés.
-  3. Kitöltés: kb. 20% / 50% / minden szó hiányzik, 6 opció (1–6 billentyű), kihagyás, Kész.
-  4. Szóválasztás: üres lapról, 2 / 4 / 6 opció (nehéz: kihagyás nélkül).
-  5. Felidézés (tap to reveal beírással): szó / kifejezés / mondat fejből beírva, Enterre felfed és ellenőriz.
+  1. Értő olvasás (nem lehet elrontani): húzós kiemelés → szavak sorban koppintása → a látható szöveg begépelése. Bionic olvasás kapcsolható; az 1 betűs szavak a mellettük lévővel együtt jelölődnek. Hangeffektek (kapcsolható).
+  2. Sorbarendezés: könnyű ≤6, közepes ≤10 darab, a sor bárhol megfogható, egyszeri ellenőrzés.
+  3. Kitöltés: kb. 20% / 50% hiányzik, 6 opció (1–6 billentyű), kihagyás, Kész.
+  4. Szóválasztás: üres lapról, 2 / 4 opció, kihagyás.
+  5. Felidézés (tap to reveal beírással): szó / kifejezés / mondat fejből beírva; jó válasznál magától továbblép, szónál a szóköz, egyébként Enter ellenőriz. Írásjel nem hiba.
   6. Gépelés: közepes (kezdőbetű-súgás), nehéz (súgás nélkül).
   7. Ismétlés: másnap kötelező, utána FSRS.
   Szívek: bekezdésenként az első hiba figyelmeztet, a második egy szívbe kerül; 3 szív elfogyása egy szint visszaesés. A következő szint 80%-tól nyílik (Sorbarendezésnél és a 80% alatti köröknél −1 szív). Teljesített szintek gyakorlásként újrajátszhatók; az eredmény (utolsó, legjobb, dátum) szintenként mentődik és szinkronizálódik. A közös darabolás a „2. §”, „(1)”, „a)” jelöléseket egy egységként kezeli, a gondolatjelet külön.
