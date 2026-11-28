@@ -951,6 +951,9 @@ body.glass #rows{backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filt
 #edBack .ln.bt[data-st]::after{content:attr(data-st);position:absolute;right:12px;top:0;font-family:var(--sans);font-size:12.5px;color:var(--muted)}
 #blkStrip .bSt{display:none!important}
 #blkStrip .bcard{padding:6px 8px}
+#revWrap{margin:0 auto}
+#revDone:not([hidden]){display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:620px;min-height:calc(100dvh - 160px);margin:0 auto}
+#revDone .sumGrid{width:100%}
 </style>
 </head>
 <body>
@@ -4128,7 +4131,7 @@ document.addEventListener('contextmenu', e => {
 $('#noteMore').open = lsGet('memo-notemore', '0') === '1';
 $('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.26 16:42';
+const APP_V = '2026.11.28 15:28';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
