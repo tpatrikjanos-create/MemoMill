@@ -12,6 +12,10 @@ import android.window.OnBackInvokedDispatcher
 import android.os.Environment
 import android.provider.MediaStore
 import android.speech.RecognizerIntent
+import android.speech.RecognitionListener
+import android.speech.SpeechRecognizer
+import android.Manifest
+import android.content.pm.PackageManager
 import android.speech.tts.TextToSpeech
 import org.json.JSONObject
 import java.util.Locale
@@ -37,6 +41,7 @@ class MainActivity : Activity() {
         const val BASE = "https://appassets.androidplatform.net/assets/www/index.html"
         const val PICK = 41
         const val DICTATE = 42
+        const val MIC = 43
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -137,7 +142,58 @@ class MainActivity : Activity() {
         }
     }
 
+    /* folyamatos beszédfelismerés a Hangos olvasás szinthez: részeredmények a webes részbe */
+    private var sr: SpeechRecognizer? = null
+    private var listening = false
+    private var listenLang = "hu-HU"
+    private fun js(kind: String, text: String) {
+        web.evaluateJavascript("window.memoSpeech && window.memoSpeech(" + JSONObject.quote(kind) + "," + JSONObject.quote(text) + ")", null)
+    }
+    private fun startRec() {
+        if (!listening) return
+        if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), MIC); return
+        }
+        val r = sr ?: SpeechRecognizer.createSpeechRecognizer(this).also { rec ->
+            rec.setRecognitionListener(object : RecognitionListener {
+                override fun onReadyForSpeech(params: Bundle?) {}
+                override fun onBeginningOfSpeech() {}
+                override fun onRmsChanged(rmsdB: Float) {}
+                override fun onBufferReceived(buffer: ByteArray?) {}
+                override fun onEndOfSpeech() {}
+                override fun onEvent(eventType: Int, params: Bundle?) {}
+                override fun onPartialResults(b: Bundle?) {
+                    val t = b?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull() ?: return
+                    js("partial", t)
+                }
+                override fun onResults(b: Bundle?) {
+                    js("final", b?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull() ?: "")
+                    web.postDelayed({ startRec() }, 120)
+                }
+                override fun onError(error: Int) {
+                    if (error == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS) { listening = false; js("error", "perm"); return }
+                    if (listening) web.postDelayed({ startRec() }, if (error == SpeechRecognizer.ERROR_RECOGNIZER_BUSY) 600L else 200L)
+                }
+            })
+            sr = rec
+        }
+        val i = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, listenLang)
+            putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 2500L)
+        }
+        try { r.startListening(i) } catch (_: Exception) { js("error", "start") }
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == MIC) {
+            if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) startRec() else { listening = false; js("error", "perm") }
+        }
+    }
+
     override fun onDestroy() {
+        sr?.destroy()
         tts?.shutdown()
         super.onDestroy()
     }
@@ -211,6 +267,19 @@ class MainActivity : Activity() {
                     web.evaluateJavascript("window.memoMillDictation && window.memoMillDictation('')", null)
                 }
             }
+        }
+
+        @JavascriptInterface
+        fun canListen(): Boolean = SpeechRecognizer.isRecognitionAvailable(this@MainActivity)
+
+        @JavascriptInterface
+        fun startListen(lang: String) {
+            runOnUiThread { listenLang = lang; listening = true; startRec() }
+        }
+
+        @JavascriptInterface
+        fun stopListen() {
+            runOnUiThread { listening = false; try { sr?.cancel() } catch (_: Exception) {} }
         }
 
         @JavascriptInterface

@@ -984,7 +984,7 @@ body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgb
 .gLv button.lk{opacity:.45}.gLv .ico,.gLv svg{width:14px;height:14px}
 #lText .t.rh{color:transparent;background:rgba(var(--fg),.06)}
 #lText .t.rh b.bio{color:transparent}
-#lText .t.rv.hl,#lText .t.tp{background:rgba(var(--a1r),.30);border-radius:0;color:var(--text)}
+#lText .t.rv.hl,#lText .t.tp{background:rgba(52,211,153,.30);border-radius:0;color:var(--text)}
 #lText.gDrag{touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair}
 #lText b.bio{font-weight:800}
 #learn[data-game] #lText{font-weight:500}
@@ -1030,6 +1030,12 @@ body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgb
 @media (max-width:760px){.gOpts{grid-template-columns:repeat(2,minmax(0,1fr))}.gOpt{font-size:16px;min-height:54px}.gStart{margin-top:2vh}}
 #gLvTop{display:flex;justify-content:center}#gLvTop .gLv{padding:3px}#gLvTop .gLv button{min-height:34px;padding:5px 12px;font-size:13px}
 @media (max-width:760px){#learnTop{flex-wrap:wrap}#gLvTop{order:10;flex-basis:100%}#gLvTop:empty{display:none}#gLvTop .gLv button{padding:5px 12px;font-size:13px}}
+.vStat{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--muted);flex-basis:100%;justify-content:center}
+.vDot{width:14px;height:14px;border-radius:50%;background:var(--muted)}
+.vStat.on{color:var(--text)}.vStat.on .vDot{background:var(--bad);box-shadow:0 0 0 0 rgba(251,113,133,.6);animation:vPulse 1.4s ease-out infinite}
+@keyframes vPulse{to{box-shadow:0 0 0 14px rgba(251,113,133,0)}}
+.gDesc small{display:block;margin-top:8px;font-size:14px;color:var(--muted)}
+.autoV b{color:var(--a1)}
 </style>
 </head>
 <body>
@@ -1411,7 +1417,7 @@ function review(st, g, now, ret, cap = Infinity) {
 const fmtIvl = ms => ms < 3600000 ? Math.max(1, Math.round(ms / 60000)) + ' p' : ms < DAY ? Math.round(ms / 3600000) + ' ó' : Math.round(ms / DAY) + ' nap';
 
 /* ===== adatok ===== */
-const DEF = {name: '', newPerDay: 15, typing: false, retention: 0.9, goalMin: 5, capMin: 0, typoHard: 1, masterDays: 21, examNear: 7, leech: 6, pomoWork: 25, pomoBreak: 5, staleMax: 20, newOrder: 'elol', groupDoc: true, cardStyle: 'focus', cardColor: 'aurora'};
+const DEF = {name: '', autoDaily: true, newPerDay: 15, typing: false, retention: 0.9, goalMin: 5, capMin: 0, typoHard: 1, masterDays: 21, examNear: 7, leech: 6, pomoWork: 25, pomoBreak: 5, staleMax: 20, newOrder: 'elol', groupDoc: true, cardStyle: 'focus', cardColor: 'aurora'};
 const SAMPLE = `A Duna Magyarország második leghosszabb folyója.
 Magyarország fővárosa >> Budapest
 Budapest a {{Duna}} partján fekszik.
@@ -1424,7 +1430,7 @@ function load() {
     const fid = uid(), now = Date.now();
     d = {items: [
       {id: fid, type: 'folder', name: 'Példa', parentId: null, mod: now, sample: now},
-      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, mode: 'tanulas', exam: null, prio: 'aktiv', ladder: {step: 1, done: false, v: 3}, mod: now, sample: now}
+      {id: uid(), type: 'note', name: 'Példa jegyzet', parentId: fid, text: SAMPLE, mode: 'tanulas', exam: null, prio: 'aktiv', ladder: {step: 1, done: false, v: 4}, mod: now, sample: now}
     ]};
   }
   d.items = Array.isArray(d.items) ? d.items : Object.values(d.items);
@@ -1465,14 +1471,22 @@ function fixItem(i) {
       i.ladder.step = M[st] || D[st] || 1;
       const ns = {}; Object.entries(i.ladder.stars || {}).forEach(([k, v]) => { const m = M[+k.slice(1)]; if (m) ns['s' + m] = v; }); i.ladder.stars = ns;
       if (i.gs) { const ng = {}; Object.entries(i.gs).forEach(([k, v]) => { const m = M[+k.slice(1)]; if (m) ng['g' + m] = v; }); i.gs = ng; }
-      i.ladder.v = 3; i._mig = 1;
+      i.ladder.v = 3;
     }
-    if (i.ladder.v !== 3) { i.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 3}; i._rst = 1; }
-    i.ladder.step = clamp(+i.ladder.step || 1, 1, 12);
+    if (i.ladder.v === 3) {
+      /* a Gépelés elé bekerült a (nem kötelező) Hangos olvasás */
+      const sh = k => k >= 11 ? k + 1 : k;
+      i.ladder.step = sh(+i.ladder.step || 1);
+      const ns = {}; Object.entries(i.ladder.stars || {}).forEach(([k, v]) => { ns['s' + sh(+k.slice(1))] = v; }); i.ladder.stars = ns;
+      if (i.gs) { const ng = {}; Object.entries(i.gs).forEach(([k, v]) => { ng['g' + sh(+k.slice(1))] = v; }); i.gs = ng; }
+      i.ladder.v = 4; i._mig = 1;
+    }
+    if (i.ladder.v !== 4) { i.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 4}; i._rst = 1; }
+    i.ladder.step = clamp(+i.ladder.step || 1, 1, 13);
     i.ladder.done = !!i.ladder.done;
     i.ladder.lives = clamp(+i.ladder.lives || 3, 1, 3);
     const st = {};
-    Object.entries(i.ladder.stars && typeof i.ladder.stars === 'object' ? i.ladder.stars : {}).forEach(([k, v]) => { if (/^s([1-9]|1[0-2])$/.test(k) && +v) st[k] = clamp(+v, 1, 3); });
+    Object.entries(i.ladder.stars && typeof i.ladder.stars === 'object' ? i.ladder.stars : {}).forEach(([k, v]) => { if (/^s([1-9]|1[0-3])$/.test(k) && +v) st[k] = clamp(+v, 1, 3); });
     i.ladder.stars = st;
     if (i.exam && !i.exam.date) i.exam = null;
     /* a módok előtti dokumentumok: ami eddig is tanulásban volt (nem üres), az maradjon ott */
@@ -1515,7 +1529,7 @@ const rawKids = pid => db.items.filter(i => i.parentId === pid);
 const kids = pid => rawKids(pid).filter(i => !i.deleted).sort((a, b) => ((a.type === 'folder' ? 0 : 1) - (b.type === 'folder' ? 0 : 1)) || a.name.localeCompare(b.name, 'hu', {numeric: true}));
 function allIds(id) { const out = [id]; rawKids(id).forEach(k => out.push(...allIds(k.id))); return out; }
 function crumbs(id) { const p = []; let c = id ? byId(id) : null; while (c) { p.unshift(c); c = c.parentId ? byId(c.parentId) : null; } return p; }
-const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}, v: 3}, mod: Date.now(), cr: Date.now()});
+const makeNote = (name, parentId, mode = 'jegyzet') => ({id: uid(), type: 'note', name, parentId, text: '', mode, exam: null, prio: 'aktiv', ladder: {step: 1, done: false, lives: 3, stars: {}, v: 4}, mod: Date.now(), cr: Date.now()});
 const makeFolder = (name, parentId) => ({id: uid(), type: 'folder', name, parentId, mod: Date.now()});
 const srsOf = id => db.srs[id] || (db.srs[id] = {});
 const notes = () => db.items.filter(i => i.type === 'note' && live(i));
@@ -1662,12 +1676,36 @@ function syncBlocks(n) {
   return changed;
 }
 
+
+/* napi adag a vizsgák alapján: hátralévő szintek + új kártyák a munkanapokra osztva, plusz a várható ismétlések */
+function autoDaily(now = Date.now()) {
+  if (autoDaily.t && now - autoDaily.t < 60000) return autoDaily.c;
+  autoDaily.t = now; autoDaily.c = null;
+  const plans = examGroups(now);
+  if (!plans.length) return null;
+  let learn = 0, nw = 0, rev = 0;
+  const wc = u => docText(u).split(/\s+/).filter(x => fold(x)).length;
+  plans.forEach(p => {
+    const wd = Math.max(1, p.daysLeft - p.buffer);
+    p.units.forEach(u => { if (!u.ladder.done) learn += (NL - u.ladder.step + 1) * Math.max(1.5, wc(u) / 25) / wd; });
+    nw += p.todayNew || 0;
+  });
+  const lim = now + 7 * DAY;
+  notes().forEach(n => { const S = db.srs[n.id] || {}; Object.entries(S).forEach(([k, st]) => { if (k === 'map' || k === 'flags' || !st || !st.due || st.due > lim) return; rev += k === 'doc' ? Math.max(1, wc(n) / 30) : 0.25; }); });
+  rev /= 7;
+  /* az új kártyák száma nem megy a kézi érték alá, hogy a vizsga nélküli anyag se álljon le */
+  const newPerDay = clamp(Math.max(Math.ceil(nw), db.settings.newPerDay || 0), 0, 200);
+  autoDaily.c = {goalMin: clamp(Math.ceil(learn + newPerDay * 0.4 + rev), 10, 240), newPerDay, capMin: clamp(Math.ceil(rev * 1.3 + 3), 5, 240)};
+  return autoDaily.c;
+}
+const dailyOf = k => { const a = db.settings.autoDaily !== false ? autoDaily() : null; return a ? a[k] : db.settings[k]; };
+
 /* ===== statisztika ===== */
 function dayStat(day) { let sec = 0, rev = 0, ok = 0; Object.values(db.stats[day] || {}).forEach(v => { sec += v.sec || 0; rev += v.rev || 0; ok += v.ok || 0; }); return {sec, rev, ok}; }
 function myStat() { const day = dayKey(Date.now()); const d = db.stats[day] || (db.stats[day] = {}); markStats(day); return d[DEVICE] || (d[DEVICE] = {sec: 0, rev: 0, ok: 0}); }
 function addTime(ms) { ms = clamp(ms || 0, 0, 90000); if (ms < 200) return; const v = myStat(); v.sec = Math.round((v.sec + ms / 1000) * 10) / 10; }
 function streak() {
-  const goal = db.settings.goalMin * 60;
+  const goal = dailyOf('goalMin') * 60;
   let n = 0, t = Date.now();
   if (dayStat(dayKey(t)).sec < goal) t -= DAY;
   while (n < 3650 && dayStat(dayKey(t)).sec >= goal) { n++; t -= DAY; }
@@ -1715,7 +1753,7 @@ function buildQueue(now, noteId) {
   const list = notes().filter(n => noteId ? n.id === noteId : n.prio !== 'szunet').sort((a, b) => (a.prio === 'aktiv' ? 0 : 1) - (b.prio === 'aktiv' ? 0 : 1));
   let used = 0;
   notes().forEach(n => { if (!isKvota(n, now)) used += introducedToday(n.id, today); });
-  let room = Math.max(0, db.settings.newPerDay - used);
+  let room = Math.max(0, dailyOf('newPerDay') - used);
   list.forEach(note => {
     const S = db.srs[note.id] || {}, F = flagsOf(note.id);
     const kv = isKvota(note, now);
@@ -2307,7 +2345,7 @@ function renderHome() {
   const now = Date.now(), today = dayKey(now);
   const q = buildQueue(now, null);
   const nNew = q.filter(c => c.isNew).length;
-  const st = dayStat(today), goal = db.settings.goalMin, min = st.sec / 60;
+  const st = dayStat(today), goal = dailyOf('goalMin'), min = st.sec / 60;
   const d = new Date(), h = d.getHours();
   $('#todayDate').textContent = d.toLocaleDateString('hu-HU', {weekday: 'long', month: 'long', day: 'numeric'});
   $('#heroTitle').textContent = db.settings.name ? `Szia, ${db.settings.name}!` : (h < 9 ? 'Jó reggelt!' : h < 18 ? 'Jó napot!' : 'Jó estét!');
@@ -2695,11 +2733,11 @@ function renderPath() {
     const an = a && a.step === s ? (a.type === 'unlock' ? ' justUnlocked' : ' justLocked') : '';
     const inner = cls === 'done' ? svgI('i-check') : cls === 'lock' ? svgI('i-lock') : s;
     const gb = ((n.gs || {})['g' + s] || {}).best;
-    const under = cls === 'done' ? `<span class="st">${starTxt(starsOf(n, s))}${gb != null && s > 1 ? ` <small>${gb}%</small>` : ''}</span>` : cls === 'cur' && s > 1 ? heartsHtml(livesOf(n), 3) : '<span class="st"></span>';
+    const under = cls === 'done' ? `<span class="st">${starTxt(starsOf(n, s))}${gb != null && s > 1 ? ` <small>${gb}%</small>` : ''}</span>` : cls === 'cur' && s > 1 && LV[s].g !== 'voice' ? heartsHtml(livesOf(n), 3) : '<span class="st"></span>';
     return `<button class="pnode ${cls}${an}" data-step="${s}" style="--x:${X[k++ % 4]}px"><span class="disc">${inner}</span><span class="nl">${SHORT[s]}</span>${under}</button>`;
   };
   PHASES.forEach(([name, steps], pi) => {
-    h += `<div class="phase"><span>${['I', 'II', 'III', 'IV', 'V', 'VI'][pi]}</span><b>${name}</b><i></i></div>`;
+    h += `<div class="phase"><span>${['I', 'II', 'III', 'IV', 'V', '+', 'VI'][pi]}</span><b>${name}</b><i></i></div>`;
     steps.forEach(s => { h += node(s); });
   });
   h += `<div class="phase"><span>✦</span><b>Ismétlés</b><i></i></div>`;
@@ -2862,8 +2900,8 @@ function grade(g) {
   if (g === 1) { if (!again) rq.hist[rq.hist.length - 1].addFail = true; rq.failed.add(key); rq.items.push(c); } else rq.done++;
   rq.shown = false; rq.typed = '';
   if (!rq.half && rq.total >= 6 && rq.done >= rq.total / 2 && rq.items.length) { rq.half = true; milly('Félúton vagy!', 'Milly szerint jól haladsz. Még ' + rq.items.length + ' kártya.'); }
-  if (!rq.practice && db.settings.capMin && dayStat(dayKey(now)).sec >= db.settings.capMin * 60 && rq.items.length) {
-    toast(`Elérted a mai ${db.settings.capMin} perces időkeretet`);
+  if (!rq.practice && dailyOf('capMin') && dayStat(dayKey(now)).sec >= dailyOf('capMin') * 60 && rq.items.length) {
+    toast(`Elérted a mai ${dailyOf('capMin')} perces időkeretet`);
     return finishSession();
   }
   if (!rq.items.length) return finishSession();
@@ -2881,7 +2919,7 @@ function renderDone() {
   $('#revDone').innerHTML = `<p class="lb" style="text-align:center">Kész</p><div class="sumBig">Megőrölve.</div>
     <div class="doneMilly">${MILLY_SVG}</div>
     <div class="sumGrid"><div><b>${rq.done}</b><span class="muted small">kártya</span></div><div><b>${mins}′</b><span class="muted small">idő</span></div><div><b>${acc}%</b><span class="muted small">elsőre sikerült</span></div></div>
-    <p style="text-align:center" class="muted">Sorozat: <b style="color:var(--text)">${streak()} nap</b> · mai idő: ${Math.round(dayStat(dayKey(Date.now())).sec / 60)} / ${db.settings.goalMin} perc</p>
+    <p style="text-align:center" class="muted">Sorozat: <b style="color:var(--text)">${streak()} nap</b> · mai idő: ${Math.round(dayStat(dayKey(Date.now())).sec / 60)} / ${dailyOf('goalMin')} perc</p>
     <div style="text-align:center"><button class="primary xl" id="doneHome">Vissza a kezdőoldalra</button></div>`;
 }
 
@@ -2927,10 +2965,11 @@ const LV = [null,
   {g: 'blk', st: 3, d: 0, nm: 'Kitöltés – könnyű', sh: 'Könnyű'}, {g: 'blk', st: 3, d: 1, nm: 'Kitöltés – közepes', sh: 'Közepes'},
   {g: 'mc', st: 4, d: 0, nm: 'Szóválasztás – könnyű', sh: 'Könnyű'}, {g: 'mc', st: 4, d: 1, nm: 'Szóválasztás – közepes', sh: 'Közepes'},
   {g: 'tap', st: 5, d: 0, nm: 'Felidézés – szó', sh: 'Szó'}, {g: 'tap', st: 5, d: 1, nm: 'Felidézés – kifejezés', sh: 'Kifejezés'}, {g: 'tap', st: 5, d: 2, nm: 'Felidézés – mondat', sh: 'Mondat'},
+  {g: 'voice', st: 6, d: 0, nm: 'Hangos olvasás', sh: 'Hangos olvasás'},
   {g: 'type', st: 6, d: 1, nm: 'Gépelés – közepes', sh: 'Közepes'}, {g: 'type', st: 6, d: 2, nm: 'Gépelés – nehéz', sh: 'Nehéz'}];
-const NL = 12;
+const NL = 13;
 const STEPS = LV.map(l => l ? l.nm : ''), SHORT = LV.map(l => l ? l.sh : '');
-const STAGES = [['Értő olvasás', [1]], ['Sorbarendezés', [2, 3]], ['Kitöltés', [4, 5]], ['Szóválasztás', [6, 7]], ['Felidézés', [8, 9, 10]], ['Gépelés', [11, 12]]];
+const STAGES = [['Értő olvasás', [1]], ['Sorbarendezés', [2, 3]], ['Kitöltés', [4, 5]], ['Szóválasztás', [6, 7]], ['Felidézés', [8, 9, 10]], ['Hangos olvasás · nem kötelező', [11]], ['Gépelés', [12, 13]]];
 const PHASES = STAGES;
 const HINTS = ['',
   'Gondold végig a következő szót, aztán fedd fel (szóköz vagy koppintás). Ha tévedtél, a „Hibáztam” elölről kezdi az egészet.',
@@ -3213,7 +3252,7 @@ function finishRun(pass) {
     } else {
       const st = review(S.doc, 1, now, db.settings.retention, capFor(n, now)); st.k = 'doc';
       if (master) { st.due = now + 60 * 60000; title = 'Elfogyott az életed'; sub = 'Nem esel vissza: a szöveg ma még egyszer előjön.'; }
-      else { L.step = 11; L.done = false; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step: NL}; title = 'Vissza a tanulásba'; sub = 'Mindkét életed elfogyott. A dokumentum a Gépelés – közepes fokozatra került.'; }
+      else { L.step = 12; L.done = false; L.lives = 3; ui.anim = {id: n.id, type: 'lock', step: NL}; title = 'Vissza a tanulásba'; sub = 'Mindkét életed elfogyott. A dokumentum a Gépelés – közepes fokozatra került.'; }
       S.doc = st;
       icon = svgI('i-down');
     }
@@ -3265,9 +3304,10 @@ const G_DESC = {
   scr: ['A szöveg darabokra esett szét. Húzd őket a helyes sorrendbe.', 'Több, kisebb darab. Húzd őket a helyes sorrendbe.'],
   blk: ['Néhány szó hiányzik a szövegből. Válaszd ki, melyik illik a helyére.', 'A szavak fele hiányzik. Válaszd ki, melyik illik a helyére.'],
   mc: ['Szóról szóra építed fel a szöveget: mindig válaszd ki a következő szót.', 'Szóról szóra építed fel a szöveget, de most több lehetőség közül választasz.'],
+  voice: ['Olvasd fel hangosan a szöveget. Az app hallja, hol tartasz, és követi a kiemeléssel.'],
   tap: ['A szöveg rejtve van. Írd be fejből a következő szót.', 'Írd be fejből a következő néhány szót.', 'Írd be fejből a következő mondatot.']
 };
-const G_NAME = {read: 'Értő olvasás', scr: 'Sorbarendezés', blk: 'Kitöltés', mc: 'Szóválasztás', tap: 'Felidézés'};
+const G_NAME = {voice: 'Hangos olvasás', read: 'Értő olvasás', scr: 'Sorbarendezés', blk: 'Kitöltés', mc: 'Szóválasztás', tap: 'Felidézés'};
 
 function gMkTok(w, p) {
   const k0 = fold(w);
@@ -3403,13 +3443,18 @@ function gStartScreen() {
   $('#lStep').textContent = `${ls.mode === 'practice' ? 'Gyakorlás · ' : ''}${L.st}/7 · ${L.nm}`;
   $('#lProg i').style.width = '0%';
   gHearts();
-  $('#lText').innerHTML = `<div class="gStart"><div class="lb">${L.st}. lépcső</div><h2>${G_NAME[ls.game]}</h2><p class="gDesc">${G_DESC[ls.game][ls.d]}</p>`
+  $('#lText').innerHTML = `<div class="gStart"><div class="lb">${L.g === 'voice' ? 'Nem kötelező' : L.st + '. lépcső'}</div><h2>${G_NAME[ls.game]}</h2><p class="gDesc">${G_DESC[ls.game][ls.d]}</p>`
     + `<div class="gMeta">${best != null ? `Eddigi legjobb: ${best}%` : ''}${ls.mode === 'practice' ? `${best != null ? ' · ' : ''}Gyakorlás` : ''}</div></div>`;
   $('#lFootIn').innerHTML = `<button class="primary xl" id="gGo">Indítás</button>`;
+  if (ls.game === 'voice') {
+    const okv = voiceOk();
+    $('#lText').querySelector('.gDesc').innerHTML = okv ? 'Most tudsz hangosan olvasni?<br><small>Felolvasod a szöveget, és az app hallja, hol tartasz. Ha most nem alkalmas, ugorj a gépelésre.</small>' : 'Ezen az eszközön nem érhető el a beszédfelismerés, ezért ezt a részt most kihagyjuk.';
+    $('#lFootIn').innerHTML = (okv ? `<button class="primary xl" id="gGo">Igen, olvasom</button>` : '') + `<button class="${okv ? '' : 'primary xl'}" id="gVSkip">${okv ? 'Most nem, tovább a gépelésre' : 'Tovább a gépelésre'}</button>`;
+  }
 }
 function gHearts(lost) {
   const el = $('#lHearts');
-  if (!ls || ls.game === 'read' || ls.mode === 'practice') { el.innerHTML = ''; return; }
+  if (!ls || ls.game === 'read' || ls.game === 'voice' || ls.mode === 'practice') { el.innerHTML = ''; return; }
   let h = '';
   for (let i = 0; i < ls.max; i++) h += `<svg class="${i < ls.hearts ? '' : 'off'}${i === lost ? ' lost' : ''}"><use href="#i-heart"/></svg>`;
   el.innerHTML = h;
@@ -3426,6 +3471,7 @@ function gGo() {
   else if (g === 'scr') gScrStart();
   else if (g === 'blk' || g === 'mc') gPickStart();
   else if (g === 'tap') gTapStart();
+  else if (g === 'voice') gVoiceStart();
 }
 
 /* --- hiba és szív (gyakorlásban nincs szívvesztés) --- */
@@ -3753,7 +3799,8 @@ function gFinish(completed) {
   cancelAnimationFrame(ls.dragT);
   const n = byId(ls.noteId);
   if (!n) return closeLearn();
-  const now = Date.now(), lvl = ls.lvl, mode = ls.mode, read = ls.game === 'read';
+  const now = Date.now(), lvl = ls.lvl, mode = ls.mode, read = ls.game === 'read' || ls.game === 'voice';
+  if (ls.game === 'voice') voiceListen(false);
   const score = read ? 100 : Math.round(100 * ls.first / Math.max(1, ls.steps));
   let pass = completed && ls.hearts > 0 && (read || score >= 80);
   /* 80% alatt egy szív, ha még van */
@@ -3772,7 +3819,7 @@ function gFinish(completed) {
   const R = ladderAfter(n, lvl, mode, pass, read ? 3 : stars, failHard);
   sfx(pass ? 'win' : 'lose');
   const secs = Math.round((now - ls.t0) / 1000), tm = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
-  const label = read ? 'Végigolvastad, háromszor.' : score >= 100 ? 'Hibátlan!' : score >= 90 ? 'Nagyon jó, majdnem hibátlan.' : score >= 80 ? 'Jó, átmentél.' : score >= 50 ? 'Még gyakorolni kell.' : 'Ez most nem ment, de ettől tanulsz.';
+  const label = ls.game === 'voice' ? 'Végigolvastad hangosan.' : read ? 'Végigolvastad, háromszor.' : score >= 100 ? 'Hibátlan!' : score >= 90 ? 'Nagyon jó, majdnem hibátlan.' : score >= 80 ? 'Jó, átmentél.' : score >= 50 ? 'Még gyakorolni kell.' : 'Ez most nem ment, de ettől tanulsz.';
   let recTxt = '';
   if (rec && prev) recTxt = `<div class="gRec">+${score - (prev.best || 0)}% új rekord</div>`;
   else if (rec) recTxt = '<div class="gRec">Első eredmény ezen a szinten</div>';
@@ -3803,10 +3850,13 @@ function gClick(e) {
     return startLearn(ls.noteId, s, !n.ladder.done && s === n.ladder.step ? 'learn' : 'practice', !ls.started ? false : true);
   }
   if (id === 'gGo') return gGo();
+  if (id === 'gVSkip') return gVoiceSkip();
   if (id === 'gHarder') { const n = byId(ls.noteId), s = ls.lvl + 1; return startLearn(ls.noteId, s, !n.ladder.done && s === n.ladder.step ? 'learn' : 'practice', true); }
   if (id === 'gBio') { lsSet('memo-bionic', bioOn() ? '0' : '1'); const keep = ls.next, part = ls.part; ls.spans.forEach((s, j) => { const t = ls.toks[j]; if (t && !(part === 2 && j === keep)) s.innerHTML = gWord(t) + ' '; }); e.target.classList.toggle('on', bioOn()); return; }
   if (ls.ended || ls.busy || !ls.started) return;
   if (id === 'gCheck') return gScrCheck();
+  if (id === 'vDone') { voiceListen(false); return gFinish(true); }
+  if (id === 'vPause') { const on = !VOICE.on; voiceListen(on); e.target.textContent = on ? 'Szünet' : 'Folytatás'; const t = $('#vTxt'); if (t) t.textContent = on ? 'Hallgatlak…' : 'Szünetel'; return; }
   if (id === 'gSkip') return gSkip();
   if (id === 'gDone') return gDone();
   if (id === 'gTapOk') return gTapCheck();
@@ -3842,6 +3892,86 @@ addEventListener('pointermove', e => { if (ls && ls.drag) { const j = gDragAt(e.
 addEventListener('pointerup', () => { if (ls) { ls.drag = false; cancelAnimationFrame(ls.dragT); } });
 addEventListener('pointercancel', () => { if (ls) { ls.drag = false; cancelAnimationFrame(ls.dragT); } });
 gScrDragInit();
+
+/* --- Hangos olvasás (opcionális): beszédfelismerés követi, hol tartasz --- */
+const voiceOk = () => { try { return !!(AND && AND.canListen && AND.canListen()) || !!SR; } catch (e) { return !!SR; } };
+const VOICE = {r: null, on: false};
+function gVoiceStart() {
+  ls.vw = ls.toks.map((t, j) => j).filter(j => ls.toks[j].type !== 'pun');
+  ls.vp = 0; ls.vbase = 0; ls.steps = ls.vw.length;
+  $('#lText').innerHTML = gReadHtml(() => '');
+  ls.spans = [...$('#lText').querySelectorAll('[data-j]')];
+  $('#lFootIn').innerHTML = `<div id="vStat" class="vStat"><span class="vDot"></span><span id="vTxt">Indítom a mikrofont…</span></div><button class="ghost" id="vPause">Szünet</button><button class="primary" id="vDone">Befejeztem</button>`;
+  gVoiceDraw();
+  voiceListen(true);
+}
+function gVoiceDraw() {
+  const upto = ls.vp > 0 ? ls.vw[ls.vp - 1] : -1, nxt = ls.vw[ls.vp];
+  ls.spans.forEach((s, j) => { s.className = 't' + (j <= upto ? ' rv hl' : j === nxt ? ' cur' : ''); });
+  gInfo(ls.vp, ls.vw.length, 'Olvasd fel hangosan');
+  const c = ls.spans[nxt]; if (c) { const r = c.getBoundingClientRect(), b = $('#lBody').getBoundingClientRect(); if (r.bottom > b.bottom - 80 || r.top < b.top) c.scrollIntoView({block: 'center', behavior: 'smooth'}); }
+}
+/* a hallott szavak illesztése a szöveghez: mindig a következő néhány szón belül keres, így a kihagyást utoléri */
+function gVoiceAlign(base, words) {
+  let p = base;
+  const N = ls.vw.length;
+  for (const w of words) {
+    const f = fold(w); if (!f) continue;
+    for (let q = p; q < Math.min(N, p + 7); q++) {
+      const k = ls.toks[ls.vw[q]].f;
+      if (k === f || (k.length > 3 && f.length > 3 && osa(f, k) <= (k.length >= 9 ? 2 : 1)) || (k.length >= 5 && (f.startsWith(k.slice(0, 5)) && Math.abs(f.length - k.length) <= 3))) { p = q + 1; break; }
+    }
+  }
+  return p;
+}
+function gVoiceHeard(text, final) {
+  if (!ls || ls.game !== 'voice' || ls.ended) return;
+  const p = gVoiceAlign(ls.vbase, String(text || '').split(/\s+/));
+  if (p > ls.vp) { ls.vp = p; learnTick(); gVoiceDraw(); }
+  if (final) ls.vbase = ls.vp;
+  const t = $('#vTxt'); if (t) t.textContent = 'Hallgatlak…';
+  if (ls.vp >= ls.vw.length) { voiceListen(false); sfx('part'); setTimeout(() => gFinish(true), 400); }
+}
+function voiceListen(on) {
+  VOICE.on = on;
+  const st = $('#vStat');
+  if (st) st.classList.toggle('on', on);
+  if (!on) {
+    try { if (AND && AND.stopListen) AND.stopListen(); } catch (e) {}
+    try { VOICE.r && VOICE.r.abort(); } catch (e) {}
+    VOICE.r = null;
+    return;
+  }
+  try { if (AND && AND.canListen && AND.canListen()) { AND.startListen('hu-HU'); return; } } catch (e) {}
+  if (!SR) return gVoiceErr('nosupport');
+  const r = new SR(); r.lang = 'hu-HU'; r.continuous = true; r.interimResults = true;
+  r.onresult = e => { let txt = '', fin = true; for (let i = 0; i < e.results.length; i++) { txt += ' ' + e.results[i][0].transcript; if (!e.results[i].isFinal) fin = false; } gVoiceHeard(txt, false); r._last = txt; };
+  r.onerror = e => { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') gVoiceErr('perm'); };
+  r.onend = () => { if (ls && ls.game === 'voice') ls.vbase = ls.vp; if (VOICE.on && VOICE.r === r && ls && !ls.ended) { try { r.start(); } catch (err) {} } };
+  VOICE.r = r;
+  try { r.start(); } catch (e) { gVoiceErr('start'); }
+}
+function gVoiceErr(code) {
+  VOICE.on = false;
+  const t = $('#vTxt'); if (!t) return;
+  t.textContent = code === 'perm' ? 'Nincs engedély a mikrofonhoz. Engedélyezd, vagy lépj tovább a gépelésre.' : code === 'nosupport' ? 'Ezen az eszközön nem érhető el a beszédfelismerés.' : 'A beszédfelismerés nem indult el. Próbáld újra, vagy lépj tovább.';
+  $('#vStat').classList.remove('on');
+  const p = $('#vPause'); if (p) p.textContent = 'Újra';
+}
+/* az Android app natív felismerője ide küldi az eredményt */
+window.memoSpeech = (kind, text) => {
+  if (kind === 'partial') gVoiceHeard(text, false);
+  else if (kind === 'final') gVoiceHeard(text, true);
+  else if (kind === 'error') gVoiceErr(text === 'perm' ? 'perm' : 'start');
+};
+function gVoiceSkip() {
+  const n = byId(ls.noteId); if (!n) return;
+  const L = n.ladder;
+  voiceListen(false);
+  if (ls.mode === 'learn' && !L.done && L.step === ls.lvl) { L.step = ls.lvl + 1; L.lives = 3; L.at = Date.now(); n.mod = Date.now(); markItem(n.id); persist(); }
+  const next = ls.lvl + 1;
+  startLearn(n.id, next, !L.done && L.step === next ? 'learn' : 'practice');
+}
 
 /* közös létra-léptetés (játékok és gépelés) */
 function ladderAfter(n, lvl, mode, pass, stars, failHard) {
@@ -3886,6 +4016,7 @@ function ladderAfter(n, lvl, mode, pass, stars, failHard) {
 
 function closeLearn() {
   if (!ls) return;
+  if (ls.game === 'voice') voiceListen(false);
   if (!ls.ended) learnTick();
   const wasRev = ls.mode === 'rev', ended = ls.ended, pass = ls.revPass, nid = ls.noteId;
   ls = null;
@@ -4462,14 +4593,14 @@ $('#noteText').onblur = () => {
   blocksOf(n).forEach(b => {
     const was = bsnap[b.id];
     if (was == null || b.ladder.done || (b.ladder.step === 1 && !starsOf(b, 1)) || textChange(docText({text: was}), docText(b)) <= 0.3) return;
-    b.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 3, at: b.ladder.at || 0}; b.mod = Date.now(); markItem(b.id);
+    b.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 4, at: b.ladder.at || 0}; b.mod = Date.now(); markItem(b.id);
     toast(`A(z) „${b.name}” blokk nagy része megváltozott: a tanulása az 1. fokozattól indul`);
   });
   persist(); updateNoteStats();
   if (n.mode !== 'tanulas') return;
   if (!before.trim() || before === after || n.ladder.done || (n.ladder.step === 1 && !starsOf(n, 1))) return;
   if (textChange(before, after) > 0.3) {
-    n.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 3, at: n.ladder.at || 0};
+    n.ladder = {step: 1, done: false, lives: 3, stars: {}, v: 4, at: n.ladder.at || 0};
     n.mod = Date.now(); markItem(n.id); syncBlocks(n); persist(); updateNoteStats();
     toast('A szöveg nagy része megváltozott: a tanulás az 1. fokozattól indul');
   }
@@ -4577,6 +4708,7 @@ const SETS = [
   {t: 'Profil', i: 'i-home', d: 'Hogyan szólítson az app.', f: [
     {k: 'name', type: 'text', l: 'Megszólítás', h: 'Megjelenik a kezdőoldal köszönésében. Üresen is hagyhatod.', ph: 'pl. Patrik'}]},
   {t: 'Napi adag', i: 'i-cal', d: 'Mennyi időt és új anyagot szánj egy napra.', f: [
+    {k: 'autoDaily', type: 'cb', l: 'Automatikus, a vizsgáid alapján', h: 'A vizsgadátumokból és a hátralévő anyagból számolja ki minden nap. Ha nincs vizsgád, az alábbi értékek érvényesek.'},
     {k: 'goalMin', type: 'num', l: 'Napi cél', u: 'perc', min: 1, max: 240, h: 'Ennyi tanulás tölti meg a kezdőoldal gyűrűjét.'},
     {k: 'newPerDay', type: 'num', l: 'Új kártya naponta', u: 'db', min: 0, max: 200, h: 'Ennyi új kártya kerülhet be egy nap az összes dokumentumból.'},
     {k: 'capMin', type: 'num', l: 'Időkeret az ismétlésre', u: 'perc', min: 0, max: 240, h: '0 = nincs keret. Ha van, a sürgősebb kártyák jönnek előbb.'}]},
@@ -4604,7 +4736,7 @@ const SETS = [
 ];
 function setInit() {
   const s = db.settings;
-  ui.setDraft = {...s, retention: String(s.retention), typoHard: String(s.typoHard), apiKey: localStorage.getItem(API_KEY) || ''};
+  ui.setDraft = {...s, autoDaily: s.autoDaily !== false, retention: String(s.retention), typoHard: String(s.typoHard), apiKey: localStorage.getItem(API_KEY) || ''};
   ui.setOrig = JSON.stringify(ui.setDraft);
 }
 function renderSettings() {
@@ -4612,7 +4744,8 @@ function renderSettings() {
   setInit();
   const D = ui.setDraft;
   const fld = f => {
-    const v = D[f.k], h = f.h ? `<small>${f.h}</small>` : '';
+    const av = D.autoDaily && ['goalMin', 'newPerDay', 'capMin'].includes(f.k) ? autoDaily() : null;
+    const v = D[f.k], h = av ? `<small class="autoV">Most automatikusan: <b>${av[f.k]} ${f.u}</b>${f.h ? ' · ' + f.h : ''}</small>` : f.h ? `<small>${f.h}</small>` : '';
     if (f.type === 'cb') return `<label class="sf cb"><input type="checkbox" data-k="${f.k}" ${v ? 'checked' : ''}><span><span style="font-size:13px;font-weight:500">${f.l}</span><br>${h}</span></label>`;
     if (f.type === 'seg') return `<div class="sf"><span>${f.l}</span><div class="seg" data-seg="${f.k}">${f.o.map(([a, b]) => `<button type="button" data-v="${a}" class="${String(v) === a ? 'on' : ''}">${b}</button>`).join('')}</div>${h}</div>`;
     if (f.type === 'num') return `<div class="sf"><span>${f.l}</span><div class="stepper"><button type="button" data-step="${f.k}" data-d="-1">−</button><input type="number" inputmode="numeric" data-k="${f.k}" min="${f.min}" max="${f.max}" value="${v}"><button type="button" data-step="${f.k}" data-d="1">+</button><span class="muted small" style="min-width:56px">${f.u}</span></div>${h}</div>`;
@@ -4664,7 +4797,7 @@ $('#setUndo').onclick = () => { ui.setDraft = null; renderSettings(); };
 $('#setSave').onclick = () => {
   const D = ui.setDraft; if (!D) return;
   const s = db.settings;
-  Object.assign(s, {name: String(D.name || '').slice(0, 40), goalMin: setRange('goalMin', D.goalMin), newPerDay: setRange('newPerDay', D.newPerDay), capMin: setRange('capMin', D.capMin),
+  Object.assign(s, {name: String(D.name || '').slice(0, 40), autoDaily: !!D.autoDaily, goalMin: setRange('goalMin', D.goalMin), newPerDay: setRange('newPerDay', D.newPerDay), capMin: setRange('capMin', D.capMin),
     retention: parseFloat(D.retention) || 0.9, typing: !!D.typing, typoHard: clamp(parseInt(D.typoHard, 10) || 0, 0, 2), masterDays: setRange('masterDays', D.masterDays),
     examNear: setRange('examNear', D.examNear), leech: setRange('leech', D.leech), staleMax: setRange('staleMax', D.staleMax), newOrder: ['elol', 'kevert', 'hatul'].includes(D.newOrder) ? D.newOrder : 'elol', groupDoc: !!D.groupDoc, cardStyle: D.cardStyle === 'note' ? 'note' : 'focus', cardColor: ['aurora', 'ejkek', 'grafit', 'papir'].includes(D.cardColor) ? D.cardColor : 'aurora', pomoWork: setRange('pomoWork', D.pomoWork), pomoBreak: setRange('pomoBreak', D.pomoBreak)});
   localStorage.setItem(API_KEY, (D.apiKey || '').trim());
@@ -4880,7 +5013,7 @@ document.addEventListener('contextmenu', e => {
 $('#noteMore').open = lsGet('memo-notemore', '0') === '1';
 $('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.28 18:09';
+const APP_V = '2026.11.28 18:32';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
@@ -4897,7 +5030,7 @@ setTimeout(verCheck, 3000); setInterval(verCheck, 600000);
 /* prediktív vissza: a natív app tudja, kell-e saját vissza-kezelés (a kezdőoldalon a rendszer előnézete jön) */
 if (AND && AND.setCanBack) { let last = null; setInterval(() => { const c = !!(ui.view !== 'home' || ls || $('#dlg').open || !$('#cmdk').hidden || (rq && !rq.finished && ui.view === 'review')); if (c !== last) { last = c; try { AND.setCanBack(c); } catch (e) {} } }, 400); }
 /* Android-alkalmazásból hívható: a napi tanulási percek (az alkalmazászárhoz) */
-window.memoMillStatus = () => JSON.stringify({day: dayKey(Date.now()), todaySec: dayStat(dayKey(Date.now())).sec, goalMin: db.settings.goalMin, due: buildQueue(Date.now(), null).length});
+window.memoMillStatus = () => JSON.stringify({day: dayKey(Date.now()), todaySec: dayStat(dayKey(Date.now())).sec, goalMin: dailyOf('goalMin'), due: buildQueue(Date.now(), null).length});
 window.memoMillLs = () => ls;
 window.memoMillOpenPath = id => openPath(id);
 window.memoMillOpenReview = () => { if (ls) closeLearn(); startReview(null); };
