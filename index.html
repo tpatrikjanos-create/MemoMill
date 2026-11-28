@@ -984,7 +984,7 @@ body.mOpen #mVeil{display:block;position:fixed;inset:0;z-index:80;background:rgb
 .gLv button.lk{opacity:.45}.gLv .ico,.gLv svg{width:14px;height:14px}
 #lText .t.rh{color:transparent;background:rgba(var(--fg),.06)}
 #lText .t.rh b.bio{color:transparent}
-#lText .t.rv.hl,#lText .t.tp{background:linear-gradient(100deg,rgba(var(--a1r),.32),rgba(var(--a2r),.28));color:var(--text)}
+#lText .t.rv.hl,#lText .t.tp{background:rgba(var(--a1r),.30);border-radius:0;color:var(--text)}
 #lText.gDrag{touch-action:none;user-select:none;-webkit-user-select:none;cursor:crosshair}
 #lText b.bio{font-weight:800}
 #learn[data-game] #lText{font-weight:500}
@@ -3215,7 +3215,7 @@ function finishRun(pass) {
 const G_SW = new Set('a az egy és s vagy de is ha hogy nem meg el be ki fel le már még csak mint sem pedig illetve valamint azonban ez azt ezt aki ami amely mely akkor így úgy van volt lesz kell'.split(' '));
 const G_CONJ = new Set('és vagy de hogy ha mert amely amelyet amelynek aki akit akinek ami amit illetve valamint továbbá azonban vagyis'.split(' '));
 const G_DESC = {
-  read: ['Háromszor mész végig a szövegen. 1. Húzd az ujjad (vagy az egeret lenyomva) a sorokon: ahol jársz, előjönnek a szavak. 2. Koppints sorban a szavakra, ahogy olvasod. 3. Gépeld be a látható szöveget, szóról szóra. Itt nem lehet hibázni.'],
+  read: ['Háromszor olvasod végig a szöveget, figyelmesen.<br>1. Húzd az ujjad (vagy a lenyomott egeret) a sorokon olvasás közben: ahol jársz, kiemelődik a szöveg, mint egy szövegkiemelővel.<br>2. Olvasd újra, és koppints sorban a szavakra.<br>3. Gépeld be a látható szöveget, szóról szóra.<br>Ezen a szinten nincs szív és nincs pontszám: csak az számít, hogy tényleg elolvasd.'],
   scr: ['Legfeljebb 6 darab. Húzd a bal oldali fogantyúval a helyes sorrendbe.', 'Legfeljebb 10 darab.', 'Legfeljebb 30 kisebb darab.'],
   blk: ['A szavak kb. 20%-a hiányzik. Válaszd ki a hiányzót a 6 lehetőség közül (1–6 billentyű is jó).', 'A szavak kb. 50%-a hiányzik.', 'Minden szó hiányzik: csak az írásjelek és a szóhosszal arányos vonalak látszanak.'],
   mc: ['Üres lapról építed fel a szöveget, szóról szóra. 2 lehetőség.', '4 lehetőség.', '6 lehetőség, kihagyás nélkül.'],
@@ -3409,18 +3409,18 @@ function gReadHtml(cls) {
   let h = '', p = -1;
   ls.toks.forEach((t, j) => {
     if (t.p !== p) { if (p >= 0) h += '</div>'; h += '<div class="para">'; p = t.p; }
-    h += `<span class="t ${cls(j)}" data-j="${j}">${gWord(t)}</span> `;
+    h += `<span class="t ${cls(j)}" data-j="${j}">${gWord(t)} </span>`;
   });
   return h + '</div>';
 }
 function gReadPart() {
   const part = ls.part;
   ls.next = 0; while (ls.next < ls.toks.length && ls.toks[ls.next].type === 'pun') ls.next++;
-  const P = ['1/3 · Húzd végig az ujjad a sorokon', '2/3 · Koppints sorban a szavakra', '3/3 · Gépeld be a szöveget'];
+  const P = ['1/3 · Jelöld ki olvasás közben', '2/3 · Koppints sorban a szavakra', '3/3 · Gépeld be a szöveget'];
   const bio = `<button class="ghost small${bioOn() ? ' on' : ''}" id="gBio" title="Bionic olvasás: a szavak eleje vastag">Bionic</button>`;
   if (part === 0) {
-    $('#lText').innerHTML = gReadHtml(j => j < ls.next ? 'rv hl' : 'rh');
-    $('#lFootIn').innerHTML = `<div id="lHint">Nyomd le az ujjad (vagy az egeret) a szövegen, és húzd végig a sorokon olvasás közben. Ne siess: ha túl gyors vagy, megáll.</div>${bio}`;
+    $('#lText').innerHTML = gReadHtml(j => j < ls.next ? 'rv hl' : '');
+    $('#lFootIn').innerHTML = `<div id="lHint">Húzd végig az ujjad (vagy a lenyomott egeret) a sorokon, ahogy olvasol: a szöveg kiemelődik. Ne siess, ha túl gyors vagy, a kiemelés megáll.</div>${bio}`;
   } else if (part === 1) {
     $('#lText').innerHTML = gReadHtml(j => j < ls.next ? 'tp' : '');
     $('#lFootIn').innerHTML = `<div id="lHint">Olvasd a szöveget, és közben koppints sorban minden szóra. A koppintott szó kiemelődik.</div>${bio}`;
@@ -3445,7 +3445,7 @@ function gReadAdvance(cls) {
   while (ls.next < ls.toks.length && ls.toks[ls.next].type === 'pun') { const s = ls.spans[ls.next]; if (s) s.className = 't ' + cls; ls.next++; }
   learnTick();
   const doneW = ls.toks.slice(0, ls.next).filter(t => t.type !== 'pun').length;
-  gInfo(doneW + ls.part * ls.words, ls.words * 3, ['1/3 · Húzd végig az ujjad a sorokon', '2/3 · Koppints sorban a szavakra', '3/3 · Gépeld be a szöveget'][ls.part]);
+  gInfo(doneW + ls.part * ls.words, ls.words * 3, ['1/3 · Jelöld ki olvasás közben', '2/3 · Koppints sorban a szavakra', '3/3 · Gépeld be a szöveget'][ls.part]);
   if (ls.next >= ls.toks.length) {
     ls.busy = true;
     if (ls.part < 2) { flash(svgI('i-check'), `${ls.part + 1}/3 kész`, ls.part === 0 ? 'Most koppints sorban a szavakra.' : 'Most gépeld be a szöveget.', 1100, () => { ls.busy = false; ls.part++; gReadPart(); }); }
@@ -3486,7 +3486,7 @@ function gCopyInput(e) {
   const ok = tgt.startsWith(typed.replace(/[^\p{L}\p{N} §().]/gu, ''));
   let n = 0; const a = [...t.core], lowA = [...tgt];
   for (const ch of typed) { if (lowA[n] === ch) n++; else break; }
-  span.innerHTML = esc(t.pre) + `<i class="gy">${esc(a.slice(0, n).join(''))}</i>${ok ? '' : `<i class="gr">${esc(a.slice(n, n + 1).join('') || '·')}</i>`}${esc(a.slice(ok ? n : n + 1).join(''))}` + esc(t.post);
+  span.innerHTML = esc(t.pre) + `<i class="gy">${esc(a.slice(0, n).join(''))}</i>${ok ? '' : `<i class="gr">${esc(a.slice(n, n + 1).join('') || '·')}</i>`}${esc(a.slice(ok ? n : n + 1).join(''))}` + esc(t.post) + ' ';
   if (!ok) buzz();
 }
 
@@ -3750,7 +3750,7 @@ function gClick(e) {
   }
   if (id === 'gGo') return gGo();
   if (id === 'gHarder') { const n = byId(ls.noteId), s = ls.lvl + 1; return startLearn(ls.noteId, s, !n.ladder.done && s === n.ladder.step ? 'learn' : 'practice', true); }
-  if (id === 'gBio') { lsSet('memo-bionic', bioOn() ? '0' : '1'); const keep = ls.next, part = ls.part; ls.spans.forEach((s, j) => { const t = ls.toks[j]; if (t && !(part === 2 && j === keep)) s.innerHTML = gWord(t); }); e.target.classList.toggle('on', bioOn()); return; }
+  if (id === 'gBio') { lsSet('memo-bionic', bioOn() ? '0' : '1'); const keep = ls.next, part = ls.part; ls.spans.forEach((s, j) => { const t = ls.toks[j]; if (t && !(part === 2 && j === keep)) s.innerHTML = gWord(t) + ' '; }); e.target.classList.toggle('on', bioOn()); return; }
   if (ls.ended || ls.busy || !ls.started) return;
   if (id === 'gCheck') return gScrCheck();
   if (id === 'gSkip') return gSkip();
@@ -4819,7 +4819,7 @@ document.addEventListener('contextmenu', e => {
 $('#noteMore').open = lsGet('memo-notemore', '0') === '1';
 $('#noteMore').addEventListener('toggle', () => lsSet('memo-notemore', $('#noteMore').open ? '1' : '0'));
 /* verzió: látszik az oldalsávban; a weben 10 percenként megnézi, van-e újabb, és felajánlja a frissítést */
-const APP_V = '2026.11.28 17:07';
+const APP_V = '2026.11.28 17:25';
 $('#appVer').textContent = 'Verzió: ' + APP_V;
 async function verCheck() {
   if (location.protocol !== 'https:' || /appassets/.test(location.host)) return;
